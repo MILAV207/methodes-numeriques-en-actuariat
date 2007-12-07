@@ -1,0 +1,168 @@
+\documentclass[letterpaper,10pt]{memoir}
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage[english,francais]{babel}
+  \usepackage{vgmath,vgsets,amsmath,actu,icomma,url,natbib}
+  \usepackage{lucidabr,palatino,mathpazo}
+  \usepackage{fourier-orns,upgreek}
+  \usepackage[noae]{Sweave}
+  \usepackage{graphicx,color}
+  \usepackage[absolute]{textpos}
+  \usepackage{answers,listings}
+  \usepackage[alwaysadjust]{paralist}
+  \usepackage{multicol,xr}
+
+  %%% Références externes
+  %\externaldocument[intro_S-]{../intro_S/fr/bases}
+
+  %%% Page titre
+  \title{\HUGE Exercices de \\ méthodes numériques}
+  \author{\LARGE Vincent Goulet \\[3mm]
+    \large École d'actuariat, Université Laval}
+  \date{\large Version 1.0}
+  \newcommand{\ISBN}{2-9809136-8-6}
+
+  %%% Style des entêtes de chapitres
+  \chapterstyle{hangnum}
+
+  %%% Styles des entêtes et pieds de page
+  \setlength{\marginparsep}{7mm}
+  \setlength{\marginparwidth}{13mm}
+  \setlength{\headwidth}{\textwidth}
+  \addtolength{\headwidth}{\marginparsep}
+  \addtolength{\headwidth}{\marginparwidth}
+
+  %%% Associations entre les environnements et les fichiers
+  \Newassociation{sol}{solution}{solutions}
+  \Newassociation{rep}{reponse}{reponses}
+
+  %%% Environnement pour les exercices
+  \newcounter{exercice}[chapter]
+  \newenvironment{exercice}{%
+     \begin{list}{\bfseries \arabic{chapter}.\arabic{exercice}}{%
+         \refstepcounter{exercice}
+         \settowidth{\labelwidth}{\bfseries \arabic{chapter}.\arabic{exercice}}
+         \setlength{\leftmargin}{\labelwidth}
+         \addtolength{\leftmargin}{\labelsep}
+         \setdefaultenum{a)}{i)}{}{}}\item}
+     {\end{list}}
+
+  %%% Environnement pour les réponses
+  \renewenvironment{reponse}[1]{%
+    \begin{list}{\bfseries #1}{%
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+  \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
+
+  %%% Numérotation des solutions
+  \renewenvironment{solution}[1]{%
+    \begin{list}{\bfseries #1}{%
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+  \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
+
+  %%% Nouvelles commandes
+  \newcommand{\ieee}[3]{%
+    \fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
+  \newcommand{\tr}{\mathrm{tr}}
+
+  %%% Paramètres pour les sections de code source
+  \lstloadlanguages{R}
+  \lstdefinelanguage{Renhanced}[]{R}{%
+    morekeywords={acf,ar,arima,arima.sim,colMeans,colSums,is.na,is.null,%
+      mapply,ms,na.rm,nlmin,replicate,row.names,rowMeans,rowSums,seasonal,%
+      sys.time,system.time,ts.plot,which.max,which.min},
+    deletekeywords={c},
+    alsoletter={.\%},%
+    alsoother={:_\$}}
+  \lstset{language=Renhanced,extendedchars=true,
+    basicstyle=\small\ttfamily,
+    commentstyle=\textsl,
+    keywordstyle=\mdseries,
+    showstringspaces=false,
+    index=[1][keywords],
+    indexstyle=\indexfonction}
+
+  %%% Environnements pour le code S: police plus petite
+  \RecustomVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl,fontsize=\small}
+  \RecustomVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\small}
+  \RecustomVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl,fontsize=\small}
+
+%\includeonly{pagetitre}
+
+\begin{document}
+
+\shortcites{Rintro}
+
+\frontmatter
+
+\pagestyle{empty}
+\include{pagetitre}
+
+\pagestyle{companion}
+
+\include{preface}
+
+\cleardoublepage
+\tableofcontents*
+
+\mainmatter
+
+\stepcounter{part}
+\stepcounter{chapter}
+
+\part{Simulation stochastique}
+\label{part:simulation}
+
+\include{generateurs}
+\include{simulation_va}
+
+\part{Analyse numérique}
+\label{part:analysenumerique}
+
+\include{arithmetique_ordinateurs}
+\include{resolution_equations}
+
+\part{Algèbre linéaire}
+\label{part:algebrelineaire}
+
+\include{revision_algebre_lineaire}
+\include{valeurs_propres}
+\include{decomposition_lu}
+
+\appendix
+\include{reponses}
+
+\nocite{Gentle_98,Monahan_01,Rubinstein_81,Ripley_87,BurdenFaires,Anton8e}
+
+\bibliographystyle{francais}
+\bibliography{stat,math,vg}
+
+\cleardoublepage
+\printindex
+
+\cleardoublepage
+\cleartoverso
+
+\pagestyle{empty}
+\renewcommand{\ttdefault}{hlst}
+
+\bandeverso
+\begin{textblock*}{71mm}(145mm, -40mm)
+  \large\ttfamily\raggedright
+  \textblockcolor{}
+  ISBN \\ \ISBN
+\end{textblock*}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

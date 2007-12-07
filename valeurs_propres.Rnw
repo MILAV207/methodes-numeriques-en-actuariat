@@ -1,0 +1,879 @@
+\chapter{Valeurs propres, vecteurs propres et diagonalisation}
+\label{chap:valeurspropres}
+
+%%%
+%%% Fichers de solutions et de réponses
+%%%
+
+\Opensolutionfile{reponses}[reponses-valeurs_propres]
+\Opensolutionfile{solutions}[solutions-valeurs_propres]
+
+\begin{Filesave}{reponses}
+\section*{Chapitre \ref{chap:valeurspropres}}
+\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:valeurspropres}}
+
+\end{Filesave}
+
+\begin{Filesave}{solutions}
+\chapter{Valeurs propres, vecteurs propres et diagonalisation}
+
+\end{Filesave}
+
+%%%
+%%% Début des exercices
+%%%
+
+<<echo=FALSE>>=
+options(width = 50)
+@
+
+\begin{exercice}
+  \label{ex:valeurspropres:base}
+  Trouver l'équation caractéristique, les valeurs propres et les bases
+  de vecteurs propres des matrices suivantes.  Vérifier les réponses
+  obtenues à l'aide de la fonction \texttt{eigen} de \textsf{R} ou
+  S-Plus.
+  \begin{enumerate}
+    \begin{multicols}{2}
+    \item $\begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix}$
+    \item $\begin{bmatrix} 10 & -9 \\ 4 & -2 \end{bmatrix}$
+    \end{multicols}
+    \begin{multicols}{2}
+    \item $\begin{bmatrix}
+        4 & 0 & 1 \\
+        -2 & 1 & 0 \\
+        -2 & 0 & 1
+      \end{bmatrix}$
+    \item $\begin{bmatrix}
+        5 &  6 &  2 \\
+        0 & -1 & -8 \\
+        1 &  0 & -2
+      \end{bmatrix}$
+    \end{multicols}
+    \begin{multicols}{2}
+    \item $\begin{bmatrix}
+        0 & 0 &  2 & 0 \\
+        1 & 0 &  1 & 0 \\
+        0 & 1 & -2 & 0 \\
+        0 & 0 &  0 & 1
+      \end{bmatrix}$
+    \end{multicols}
+  \end{enumerate}
+  \begin{sol}
+    Dans tous les cas, la matrice mentionnée dans l'énoncé est notée
+    $\mat{A}$.
+    \begin{enumerate}
+    \item On a
+      \begin{align*}
+        \det(\lambda \mat{I} - \mat{A})
+        &=
+        \begin{vmatrix}
+          \lambda - 3 & 0 \\
+          -8 & \lambda + 1
+        \end{vmatrix} \\
+        &= (\lambda - 3)(\lambda + 1).
+      \end{align*}
+      Les valeurs propres sont donc $\lambda_1 = 3$ et $\lambda_2 =
+      -1$. D'une part, la forme échelonnée du système d'équations $(3
+      \mat{I} - \mat{A}) \mat{x} = \mat{0}$ est
+      \begin{displaymath}
+        \begin{bmatrix} 0 & 0 \\ 1 & -\frac{1}{2} \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = s/2$ et $x_2 = s$. Une base de vecteurs propres
+      correspondant à $\lambda = 3$ est donc $(\frac{1}{2}, 1)$.
+      D'autre part, le système d'équations $(-\mat{I} - \mat{A})
+      \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = 0$ et $x_2 = s$. Une base de vecteurs propres
+      correspondant à $\lambda = -1$ est donc $(0, 1)$. Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(3, 8, 0, -1), nrow = 2)
+eigen(m)
+@
+      On remarque que les vecteurs propres obtenus avec \texttt{eigen}
+      sont normalisés de sorte que leur norme soit toujours égale à 1.
+    \item On a
+      \begin{align*}
+        \det(\lambda \mat{I} - \mat{A})
+        &= \begin{vmatrix}
+          \lambda - 10 & 9 \\
+          -4 & \lambda + 2
+        \end{vmatrix} \\
+        &= (\lambda - 10)(\lambda + 2) + 36 \\
+        &= (\lambda - 4)^2.
+      \end{align*}
+      On a donc une seule valeur propre: $\lambda = 4$.  Le système
+      d'équations $(4 \mat{I} - \mat{A}) \mat{x} = \mat{0}$ se réduit
+      à
+      \begin{displaymath}
+        \begin{bmatrix} 1 & -\frac{3}{2} \\ 0 & 0 \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = 3s/2$ et $x_2 = s$. Une base de vecteurs propres
+      correspondant à $\lambda = 4$ est donc $(\frac{3}{2}, 1)$.
+      Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(10, 4, -9, -2), nrow = 2)
+eigen(m)
+@
+    \item On a
+      \begin{align*}
+        \det(\lambda \mat{I} - \mat{A})
+        &= \begin{vmatrix}
+          \lambda - 4 & 0 & -1 \\
+          2 & \lambda - 1 & 0 \\
+          2 & 0 & \lambda - 1
+        \end{vmatrix} \\
+        &= (\lambda - 3)(\lambda - 1)^2 + 2(\lambda - 1) \\
+        &= (\lambda - 1)(\lambda - 2)(\lambda - 3).
+      \end{align*}
+      Les valeurs propres sont donc $\lambda_1 = 1$, $\lambda_2 = 2$
+      et $\lambda_3 = 3$.  En premier lieu, le système d'équations
+      $(\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 & 0 \\
+          0 & 0 & 1 \\
+          0 & 0 & 0
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = x_3 = 0$ et $x_2 = s$. Une base de vecteurs propres
+      correspondant à $\lambda = 1$ est donc $(0, 1, 0)$.
+      Deuxièmement, le système d'équations $(2\mat{I} - \mat{A})
+      \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  0 & \frac{1}{2} \\
+          0 &  1 & -1 \\
+          0 &  0 &  0
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = -s/2$, $x_2 = s$ et $x_3 = s$. Une base de vecteurs
+      propres correspondant à $\lambda = 2$ est donc $(-\frac{1}{2},
+      1, 1)$.  Finalement, le système d'équations $(3\mat{I} -
+      \mat{A}) \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  0 &  1 \\
+          0 &  1 & -1 \\
+          0 &  0 &  0
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = -s$, $x_2 = s$ et $x_3 = s$. Une base de vecteurs
+      propres correspondant à $\lambda = 2$ est donc $(-1, 1, 1)$.
+      Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(4, -2, -2, 0, 1, 0, 1, 0, 1), nrow = 3)
+eigen(m)
+@
+    \item On a
+      \begin{align*}
+        \det(\lambda \mat{I} - \mat{A})
+        &= \begin{vmatrix}
+          \lambda - 5 &  -6 &  -2 \\
+          0 & \lambda + 1 & 8 \\
+          -1 &  0 & \lambda + 2
+        \end{vmatrix} \\
+        &= (\lambda - 5)(\lambda + 1)(\lambda + 2) - 2(\lambda + 1) + 48 \\
+        &= \lambda^3 - 2 \lambda^2 - 15 \lambda + 36 \\
+        &= (\lambda - 3)^2 (\lambda + 4).
+      \end{align*}
+      Les valeurs propres sont donc $\lambda_1 = 3$ et $\lambda_2 =
+      \lambda_3 = -4$.  En premier lieu, le système d'équations
+      $(3\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 & -5 \\
+          0 & 1 &  2 \\
+          0 & 0 &  0
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = 5 s$, $x_2 = -2s$ et $x_3 = s$. Une base de vecteurs
+      propres correspondant à $\lambda = 3$ est donc $(5, -2, 1)$.
+      Deuxièmement, le système d'équations $(-4\mat{I} - \mat{A})
+      \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 & 2 \\
+          0 & 1 & -\frac{8}{3} \\
+          0 & 0 & 0
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = -2s$, $x_2 = 8s/3$ et $x_3 = s$. Une base de
+      vecteurs propres correspondant à $\lambda = -4$ est donc $(-2,
+      \frac{8}{3}, 1)$.  Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(5, 0, 1, 6, -1, 0, 2, -8, -2), nrow = 3)
+eigen(m)
+@
+    \item On a
+      \begin{align*}
+        \det(\lambda \mat{I} - \mat{A})
+        &= \begin{vmatrix}
+          \lambda & 0 &  -2 & 0 \\
+          -1 & \lambda &  -1 & 0 \\
+          0 & -1 & \lambda + 2 & 0 \\
+          0 & 0 &  0 & \lambda - 1
+        \end{vmatrix} \\
+        &= (\lambda - 1)
+        \begin{vmatrix}
+          \lambda & 0 &  -2 \\
+          -1 & \lambda &  -1 \\
+          0 & -1 & \lambda + 2
+        \end{vmatrix} \\
+        &= (\lambda - 1)(\lambda^3 + 2 \lambda^2 - \lambda - 2) \\
+        &= (\lambda - 1)^2 (\lambda + 1)(\lambda + 2).
+      \end{align*}
+      Les valeurs propres sont donc $\lambda_1 = \lambda_2 = 1$,
+      $\lambda_3 = -1$ et $\lambda_4 = -2$.  En premier lieu, le
+      système d'équations $(\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se
+      réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 & -2 & 0 \\
+          0 & 1 & -3 & 0 \\
+          0 & 0 &  0 & 0 \\
+          0 & 0 &  0 & 0 \\
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = 2s$, $x_2 = 3s$, $x_3 = s$ et $x_4 = t$. Or, $(2s,
+      3s, s, t) = s(2, 3, 1, 0) + t (0, 0, 0, 1)$. Une base de
+      vecteurs propres correspondant à $\lambda = 1$ est donc composée
+      des vecteurs $(2, 3, 1, 0)$ et $(0, 0, 0, 1)$.  Deuxièmement, le
+      système d'équations $(-\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se
+      réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 &  2 & 0 \\
+          0 & 1 & -1 & 0 \\
+          0 & 0 &  0 & 1 \\
+          0 & 0 &  0 & 0 \\
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = -2s$, $x_2 = s$, $x_3 = s$ et $x_4 = 0$. Une base de
+      vecteurs propres correspondant à $\lambda = -1$ est donc $(-2,
+      1, 1, 0)$.  Finalement, le système d'équations $(-2\mat{I} -
+      \mat{A}) \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  0 &  1 &  0 \\
+          0 &  1 &  0 &  0 \\
+          0 &  0 &  0 &  1 \\
+          0 &  0 &  0 &  0 \\
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = -s$, $x_2 = 0$, $x_3 = s$ et $x_4 = 0$. Une base de
+      vecteurs propres correspondant à $\lambda = -2$ est donc $(-1,
+      0, 1, 0)$.  Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(0, 1, 0, 0, 0, 0, 1, 0, 2, 1, -2, 0, 0, 0, 0, 1), nrow = 4)
+eigen(m)
+@
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item $\lambda =  3$ avec base $(\frac{1}{2}, 1)$,
+          $\lambda = -1$ avec base $(0, 1)$
+    \item $\lambda =  4$ avec base $(\frac{3}{2}, 1)$
+    \item $\lambda =  1$ avec base $(0, 1, 0)$,
+          $\lambda =  2$ avec base $(-\frac{1}{2}, 1, 1)$,
+          $\lambda =  3$ avec base $(-1, 1, 1)$
+    \item $\lambda = -4$ avec base $(-2, \frac{8}{3}, 1)$,
+          $\lambda =  3$ avec base $(5, -2, 1)$
+    \item $\lambda =  1$ avec base $(0, 0, 0, 1)$ et $(2, 3, 1, 0)$,
+          $\lambda = -2$ avec base $(-1, 0, 1, 0)$,
+          $\lambda = -1$ avec base $(-2, 1, 1, 0)$
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  \label{ex:valeurspropres:puissance}
+  Démontrer que si $\lambda$ est une valeur propre de la matrice
+  $\mat{A}$, alors $\lambda^k$ est une valeur propre de $\mat{A}^k$.
+  \begin{sol}
+    On procède par induction. Premièrement, l'énoncé est clairement
+    vrai pour $k = 1$. On suppose par la suite qu'il est vrai pour $k
+    = n$, soit que si $\mat{A} \mat{x} = \lambda \mat{x}$, alors
+    $\mat{A}^n \mat{x} = \lambda^n \mat{x}$. Ainsi,
+    \begin{displaymath}
+      \mat{A}^{n + 1} \mat{x} =
+      \mat{A}(\mat{A}^n \mat{x}) =
+      \mat{A}(\lambda^n \mat{x}) =
+      \lambda^n (\mat{A} \mat{x}) =
+      \lambda^n (\lambda \mat{x}) =
+      \lambda^{n + 1} \mat{x},
+    \end{displaymath}
+    d'où l'énoncé est vrai pour $k = n + 1$. Ceci complète la preuve.
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  Trouver les valeurs et vecteurs propres de $\mat{A}^{25}$ si
+  \begin{displaymath}
+    \mat{A} =
+    \begin{bmatrix}
+      -1 & -2 & -2 \\
+       1 &  2 &  1 \\
+      -1 & -1 &  0
+    \end{bmatrix}.
+  \end{displaymath}
+  \begin{sol}
+    On va utiliser les résultats de l'exercice
+    \ref{ex:valeurspropres:puissance}. Tout d'abord,
+    \begin{align*}
+      \det(\lambda \mat{I} - \mat{A})
+      &= \begin{vmatrix}
+        \lambda + 1 & 2 & 2 \\
+        -1 &  \lambda - 2 &  1 \\
+        1 & 1 & \lambda
+      \end{vmatrix} \\
+      &= (\lambda + 1)(\lambda - 1)^2,
+    \end{align*}
+    d'où les valeurs propres de $\mat{A}$ sont $\lambda_1 = \lambda_2
+    = 1$ et $\lambda_3 = -1$. Par conséquent, les valeurs propres de
+    $\mat{A}^{25}$ sont $\lambda_1 = \lambda_2 = 1^{25} = 1$ et
+    $\lambda_3 = (-1)^{25} = -1$.  Toujours par le résultat de
+    l'exercice \ref{ex:valeurspropres:puissance}, les vecteurs propres
+    de $\mat{A}$ correspondant à $\lambda = 1$ et $\lambda = -1$ sont
+    également des vecteurs propres de $\mat{A}^{25}$. Or, le système
+    d'équations $(\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  1 & 1 \\
+          0 &  0 & 0 \\
+          0 &  0 & 0
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = -s - t$, $x_2 = s$ et $x_3 = t$. Puisque $(-s - t,
+      s, t) = s(-1, 1, 0) + t(-1, 0, 1)$, une base de vecteurs propres
+      correspondant à $\lambda = 1$ est composée de $(-1, 1, 0)$ et
+      $(-1, 0, 1)$.  D'autre part, le système d'équations $(-\mat{I} -
+      \mat{A}) \mat{x} = \mat{0}$ se réduit à
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 & -2 \\
+          0 & 1 &  1 \\
+          0 & 0 &  0
+        \end{bmatrix}
+        \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+        \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+      \end{displaymath}
+      soit $x_1 = 2s$, $x_2 = -s$ et $x_3 = s$. Une base de vecteurs
+      propres correspondant à $\lambda = -1$ est donc $(2, -1, 1)$.
+  \end{sol}
+  \begin{rep}
+    $\lambda =  1$ avec base $(-1, 1, 0)$ et $(-1, 0, 1)$,
+    $\lambda = -1$ avec base $(2, -1, 1)$
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  Soit
+  \begin{displaymath}
+    (x - x_1)(x - x_2) \cdots (x - x_n) = x^n + c_1 x^{n - 1} + \dots + c_n.
+  \end{displaymath}
+  Démontrer par induction les identités suivantes.
+  \begin{enumerate}
+  \item $c_1 = - \sum_{i=1}^n x_i$
+  \item $c_n = (-1)^n \prod_{i=1}^n x_i$
+  \end{enumerate}
+  \begin{sol}
+    On peut démontrer les deux résultats simultanément.  Tout d'abord,
+    les résultats sont clairement vrais pour $n = 1$, c'est-à-dire
+    $c_1 = c_n = - x_1$. On suppose ensuite que les résultats sont
+    vrais pour $n = k$, soit
+    \begin{displaymath}
+      \prod_{i = 1}^k (x - x_i) =
+      x^k + \left(- \sum_{i = 1}^k x_i \right) x^{k - 1} + \dots +
+      \prod_{i = 1}^k x_i.
+    \end{displaymath}
+    Si $n = k + 1$, on a
+    \begin{align*}
+      \prod_{i = 1}^{k + 1} (x - x_i)
+      &=
+      \left(
+        \prod_{i = 1}^k x - x_i
+      \right)
+      (x - x_{k + 1}) \\
+      &=
+      \left(
+        x^k + \left(- \sum_{i = 1}^k x_i \right) x^{k - 1} + \dots +
+        \prod_{i = 1}^k x_i
+      \right)
+      (x - x_{k + 1}) \\
+      &= x^{k + 1} + \left( - \sum_{i = 1}^k x_i + x_{k + 1} \right)
+      x^k + \dots + x_{k + 1} \prod_{i = 1}^k x_i \\
+      &= x^{k + 1} + \left( - \sum_{i = 1}^{k + 1} x_i \right) x^k +
+      \dots + \prod_{i = 1}^{k + 1} x_i.
+    \end{align*}
+    Les résultats sont donc vrais pour $n = k + 1$. Ceci complète la
+    preuve.
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  Démontrer que l'équation caractéristique d'une matrice
+  $\mat{A}_{2 \times 2}$ est
+  \begin{displaymath}
+    \lambda^2 - \tr(\mat{A}) \lambda + \det(\mat{A}) = 0.
+  \end{displaymath}
+  \begin{sol}
+    Soit
+    \begin{displaymath}
+      \mat{A} =
+      \begin{bmatrix}
+        a_{11} & a_{12} \\ a_{21} & a_{22}
+      \end{bmatrix}.
+    \end{displaymath}
+    Le polynôme caractéristique de cette matrice est
+    \begin{align*}
+      \det(\lambda \mat{I} - \mat{A})
+      &=
+      \begin{vmatrix}
+        \lambda - a_{11} & -a_{12} \\ -a_{21} & \lambda - a_{22}
+      \end{vmatrix} \\
+      &= (\lambda - a_{11})(\lambda - a_{22}) - a_{12} a_{21} \\
+      &= \lambda^2 - (a_{11} + a_{22}) \lambda +
+      (a_{11} a_{22} - a_{12} a_{21}) \\
+      &= \lambda^2 - \tr(\mat{A}) \lambda + \det(\mat{A}),
+    \end{align*}
+    d'où l'équation caractéristique est $\lambda^2 - \tr(\mat{A})
+    \lambda + \det(\mat{A}) = 0$.
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  \label{ex:valeurspropres:inverse}
+  Démontrer que si $\lambda$ est une valeur propre de la matrice
+  inversible $\mat{A}$ et que $\mat{x}$ est un vecteur propre
+  correspondant, alors $\lambda^{-1}$ est une valeur propre de
+  $\mat{A}^{-1}$ et $\mat{x}$ est un vecteur propre correspondant.
+  \begin{sol}
+    On a $\mat{A} \mat{x} = \lambda \mat{x}$. En multipliant de part
+    et d'autre (par la gauche) par $\mat{A}^{-1}$, on obtient $\mat{x}
+    = \lambda \mat{A}^{-1} \mat{x}$, soit $\mat{A}^{-1} \mat{x} =
+    \lambda^{-1} \mat{x}$. Par conséquent, $\lambda^{-1}$ est une
+    valeur propre de $\mat{A}^{-1}$ et $\mat{x}$ est un vecteur propre
+    correspondant.
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  Trouver les valeurs propres et les bases de vecteurs propres de
+  $\mat{A}^{-1}$, où
+  \begin{displaymath}
+    \mat{A} =
+    \begin{bmatrix}
+      -2 & 2 & 3 \\
+      -2 & 3 & 2 \\
+      -4 & 2 & 5
+    \end{bmatrix}
+  \end{displaymath}
+  \begin{sol}
+    On utilise le résultat de l'exercice
+    \ref{ex:valeurspropres:inverse} pour éviter de devoir calculer
+    l'inverse de la matrice. Le polynôme caractéristique de la matrice
+    $\mat{A}$ est
+    \begin{align*}
+      \det(\lambda \mat{I} - \mat{A})
+      &= \begin{vmatrix}
+        \lambda + 2 & -2 & -3 \\
+        2 &  \lambda - 3 & -2 \\
+        4 & -2 & \lambda - 5
+      \end{vmatrix} \\
+      &= \lambda^3 - 6 \lambda^2 + 11 \lambda - 6 \\
+      &= (\lambda - 1)(\lambda - 2)(\lambda - 3),
+    \end{align*}
+    d'où les valeurs propres de $\mat{A}$ sont $\lambda_1 = 1$,
+    $\lambda_2 = 2$ et $\lambda_3 = -1$. Par conséquent, les valeurs
+    propres de $\mat{A}^{-1}$ sont $\lambda_1 = 1$, $\lambda_2 =
+    \frac{1}{2}$ et $\lambda_3 = \frac{1}{3}$.  Toujours par le
+    résultat de l'exercice \ref{ex:valeurspropres:inverse}, les
+    vecteurs propres de $\mat{A}$ correspondant à $\lambda = 1$,
+    $\lambda = 2$ et $\lambda = 3$ sont également des vecteurs propres
+    de $\mat{A}^{-1}$ correspondant à $\lambda_1 = 1$, $\lambda_2 =
+    \frac{1}{2}$ et $\lambda_3 = \frac{1}{3}$. Or, le système
+    d'équations $(\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se réduit à
+    \begin{displaymath}
+      \begin{bmatrix}
+        1 & 0 & -1 \\
+        0 & 1 &  0 \\
+        0 & 0 &  0
+      \end{bmatrix}
+      \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+      \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+    \end{displaymath}
+    soit $x_1 = s$, $x_2 = 0$ et $x_3 = s$. Une base de vecteurs
+    propres correspondant à $\lambda = 1$ est donc $(1, 0, 1)$.
+    D'autre part, le système d'équations $(2\mat{I} - \mat{A}) \mat{x}
+    = \mat{0}$ se réduit à
+    \begin{displaymath}
+      \begin{bmatrix}
+        1 & -\frac{1}{2} & 0 \\
+        0 &  0 & 1 \\
+        0 &  0 & 0
+      \end{bmatrix}
+      \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+      \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+    \end{displaymath}
+    soit $x_1 = s/2$, $x_2 = s$ et $x_3 = 0$. Une base de vecteurs
+    propres correspondant à $\lambda = 2$ (ou $\lambda = \frac{1}{2}$)
+    est donc $(\frac{1}{2}, 1, 0)$.  Finalement, le système
+    d'équations $(3\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se réduit à
+    \begin{displaymath}
+      \begin{bmatrix}
+        1 &  0 & -1 \\
+        0 &  1 & -1 \\
+        0 &  0 &  0
+      \end{bmatrix}
+      \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} =
+      \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix},
+    \end{displaymath}
+    soit $x_1 = s$, $x_2 = s$ et $x_3 = s$. Une base de vecteurs
+    propres correspondant à $\lambda = 3$ (ou $\lambda = \frac{1}{3}$)
+    est donc $(1, 1, 1)$.
+  \end{sol}
+  \begin{rep}
+    $\lambda = 1$ avec base $(1, 0, 1)$,
+    $\lambda = \frac{1}{2}$ avec base $(\frac{1}{2}, 1, 0)$,
+    $\lambda = \frac{1}{3}$ avec base $(1, 1, 1)$
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  Démontrer que tout vecteur est un vecteur propre de la matrice
+  identité correspondant à la valeur propre $\lambda = 1$.
+  \begin{sol}
+    Le résultat découle simplement du fait que l'équation $\mat{I}
+    \mat{x} = \mat{x}$ est vraie pour tout vecteur $\mat{x}$.
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  Pour chacune des matrices $\mat{A}$ ci-dessous:
+  \begin{enumerate}[i)]
+  \item trouver les valeurs propres de la matrice;
+  \item trouver le rang de la matrice $\lambda \mat{I} - \mat{A}$ pour
+    chaque valeur propre $\lambda$;
+  \item déterminer si la matrice est diagonalisable;
+  \item si la matrice est diagonalisable, trouver la matrice $\mat{P}$
+    qui diagonalise $\mat{A}$ et $\mat{P}^{-1} \mat{AP}$;
+  \item vérifier les réponses en iv) avec la fonction \texttt{eigen}
+    de \textsf{R} ou S-Plus.
+  \end{enumerate}
+  \begin{enumerate}
+    \begin{multicols}{2}
+    \item $\begin{bmatrix} 2 & 0 \\ 1 & 2 \end{bmatrix}$
+    \item $\begin{bmatrix}
+        4 &  0 &  1 \\
+        2 &  3 &  2 \\
+        1 & 0 & 4
+      \end{bmatrix}$
+    \end{multicols}
+    \begin{multicols}{2}
+    \item $\begin{bmatrix}
+        3 &  0 &  0 \\
+        0 &  2 &  0 \\
+        0 & 1 & 2
+      \end{bmatrix}$
+    \item $\begin{bmatrix}
+        -1 &  4 & -2 \\
+        -3 &  4 &  0 \\
+        -3 & 1 & 3
+      \end{bmatrix}$
+    \end{multicols}
+    \begin{multicols}{2}
+    \item $\begin{bmatrix}
+        -2 &  0 &  0 &  0 \\
+        0 & -2 &  5 & -5 \\
+        0 &  0 &  3 &  0 \\
+        0 & 0 & 0 & 3
+      \end{bmatrix}$
+    \end{multicols}
+  \end{enumerate}
+  \begin{sol}
+    \begin{enumerate}
+    \item Le polynôme caractéristique est $\lambda^2 - 4 \lambda + 4 =
+      (\lambda - 2)^2$, donc les valeurs propres sont $\lambda_1 =
+      \lambda_2 = 2$. On a donc
+      \begin{displaymath}
+        2 \mat{I} - \mat{A} =
+        \begin{bmatrix}
+          0 & 0 \\ -1 & 0
+        \end{bmatrix},
+      \end{displaymath}
+      d'où $\mathrm{rang}(2 \mat{I} - \mat{A}) = 1$. Puisque la
+      matrice $\mat{A}$ ne possède qu'un seul vecteur propre, elle
+      n'est pas diagonalisable.  Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(2, 1, 0, 2), nrow = 2)
+eigen(m)
+@
+    \item Le polynôme caractéristique est $(\lambda - 3)(\lambda^2 - 8
+      \lambda + 15) = (\lambda - 3)^2 (\lambda - 5)$, donc les valeurs
+      propres sont $\lambda_1 = \lambda_2 = 3$ et $\lambda_3 = 5$.  La
+      forme échelonnée de la matrice $3 \mat{I} - \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 & 1 \\
+          0 & 0 & 0 \\
+          0 & 0 & 0
+        \end{bmatrix},
+      \end{displaymath}
+      d'où $\mathrm{rang}(3 \mat{I} - \mat{A}) = 1$. La base de
+      vecteurs propres correspondant à $\lambda = 3$ est composée des
+      vecteurs $(-1, 0, 1)$ et $(0, 1, 0)$.  D'autre part, la forme
+      échelonnée de la matrice $5 \mat{I} - \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  0 & -1 \\
+          0 &  1 & -2 \\
+          0 &  0 &  0
+        \end{bmatrix}
+      \end{displaymath}
+      d'où $\mathrm{rang}(5 \mat{I} - \mat{A}) = 2$. La base de
+      vecteurs propres correspondant à $\lambda = 5$ est $(1, 2, 1)$.
+      Bien que les valeurs propres de la matrice $\mat{A}$ ne sont pas
+      toutes distinctes, les vecteurs propres $(1, 0, -1)$, $(0, 1,
+      0)$ et $(1, 2, 1)$ sont linéairement indépendants. Par
+      conséquent, la matrice
+      \begin{align*}
+        \mat{P}
+        &=
+        \begin{bmatrix}
+          -1 & 0 & 1 \\ 0 & 1 & 2 \\ 1 & 0 & 1
+        \end{bmatrix} \\
+        \intertext{diagonalise $\mat{A}$ et}
+        \mat{P}^{-1} \mat{AP}
+        &=
+        \begin{bmatrix}
+          3 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 5
+        \end{bmatrix}.
+      \end{align*}
+      Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(4, 2, 1, 0, 3, 0, 1, 2, 4), nrow = 3)
+eigen(m)
+@
+    \item La matrice étant triangulaire, on sait immédiatement que les
+      valeurs propres sont $\lambda_1 = 3$ et $\lambda_2 = \lambda_3 =
+      2$. La forme échelonnée de la matrice $3 \mat{I} - \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          0 & 1 & 0 \\
+          0 & 0 & 1 \\
+          0 & 0 & 0
+        \end{bmatrix},
+      \end{displaymath}
+      d'où $\mathrm{rang}(3 \mat{I} - \mat{A}) = 2$. La base de
+      vecteurs propres correspondant à $\lambda = 3$ est $(1, 0, 0)$.
+      D'autre part, la forme échelonnée de la matrice $2 \mat{I} -
+      \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  0 &  0 \\
+          0 &  1 &  0 \\
+          0 &  0 &  0
+        \end{bmatrix}
+      \end{displaymath}
+      d'où $\mathrm{rang}(2 \mat{I} - \mat{A}) = 2$. La base de
+      vecteurs propres correspondant à $\lambda = 2$ est $(0, 0, 1)$.
+      Par conséquent, la matrice $\mat{A}$ n'a pas trois vecteurs
+      linéairement indépendants, donc elle n'est pas diagonalisable.
+      Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(3, 0, 0, 0, 2, 1, 0, 0, 2), nrow = 3)
+eigen(m)
+@
+    \item Le polynôme caractéristique est $\lambda^3 - 6 \lambda^2 +
+      11 \lambda - 6 = (\lambda - 1)(\lambda - 2)(\lambda - 3)$, donc
+      les valeurs propres sont $\lambda_1 = 1$, $\lambda_2 = 2$ et
+      $\lambda_3 = 3$. Les valeurs propres étant distinctes, la
+      matrice est diagonalisable. Or, la forme échelonnée de la
+      matrice $\mat{I} - \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 & -1 \\
+          0 & 1 & -1 \\
+          0 & 0 &  0
+        \end{bmatrix},
+      \end{displaymath}
+      d'où $\mathrm{rang}(\mat{I} - \mat{A}) = 2$. La base de vecteurs
+      propres correspondant à $\lambda = 1$ est $(1, 1, 1)$.
+      Deuxièmement, la forme échelonnée de la matrice $2 \mat{I} -
+      \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  0 & -\frac{2}{3} \\
+          0 &  1 &  -1 \\
+          0 &  0 &  0
+        \end{bmatrix}
+      \end{displaymath}
+      d'où $\mathrm{rang}(2 \mat{I} - \mat{A}) = 2$ et la base de
+      vecteurs propres correspondant à $\lambda = 2$ est $(2, 3, 3)$.
+      Enfin, la forme échelonnée de la matrice $3 \mat{I} - \mat{A}$
+      est
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 &  0 & -\frac{1}{4} \\
+          0 &  1 & -\frac{3}{4} \\
+          0 &  0 & 0
+        \end{bmatrix}
+      \end{displaymath}
+      d'où $\mathrm{rang}(3 \mat{I} - \mat{A}) = 2$ et la base de
+      vecteurs propres correspondant à $\lambda = 3$ est $(1, 3, 4)$.
+      Par conséquent,
+      \begin{align*}
+        \mat{P}
+        &=
+        \begin{bmatrix}
+          1 & 2 & 1 \\ 1 & 3 & 3 \\ 1 & 3 & 4
+        \end{bmatrix} \\
+        \intertext{diagonalise $\mat{A}$ et}
+        \mat{P}^{-1} \mat{AP}
+        &=
+        \begin{bmatrix}
+          1 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 3 & 0
+        \end{bmatrix}.
+      \end{align*}
+      Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(-1, -3, -3, 4, 4, 1, -2, 0, 3), nrow = 3)
+eigen(m)
+@
+    \item La matrice est triangulaire: les valeurs propres sont donc
+      $\lambda_1 = \lambda_2 = -2$ et $\lambda_3 = \lambda_4 = 3$. La
+      forme échelonnée de la matrice $-2 \mat{I} - \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          0 & 0 & 1 & 0 \\
+          0 & 0 & 0 & 1 \\
+          0 & 0 & 0 & 0 \\
+          0 & 0 & 0 & 0 \\
+        \end{bmatrix},
+      \end{displaymath}
+      d'où $\mathrm{rang}(-2 \mat{I} - \mat{A}) = 2$ et la base de
+      vecteurs propres correspondant à $\lambda = -2$ est composée des
+      vecteurs $(1, 0, 0, 0)$ et $(0, 1, 0, 0)$.  D'autre part, la
+      forme échelonnée de la matrice $3 \mat{I} - \mat{A}$ est
+      \begin{displaymath}
+        \begin{bmatrix}
+          1 & 0 &  0 & 0 \\
+          0 & 1 & -1 & 1 \\
+          0 & 0 &  0 & 0 \\
+          0 & 0 &  0 & 0 \\
+        \end{bmatrix}
+      \end{displaymath}
+      d'où $\mathrm{rang}(2 \mat{I} - \mat{A}) = 2$ et la base de
+      vecteurs propres correspondant à $\lambda = 3$ est composée des
+      vecteurs $(0, 1, 1, 0)$ et $(0, -1, 0, 1)$.  Les valeurs propres
+      de la matrice $\mat{A}$ ne sont pas toutes distinctes, mais les
+      vecteurs propres $(1, 0, 0, 0)$, $(0, 1, 0, 0)$, $(0, 1, 1, 0)$
+      et $(0, -1, 0, 1)$ sont linéairement indépendants. Par
+      conséquent, la matrice
+      \begin{align*}
+        \mat{P}
+        &=
+        \begin{bmatrix}
+          1 & 0 & 0 &  0 \\
+          0 & 1 & 1 & -1 \\
+          0 & 0 & 1 &  0 \\
+          0 & 0 & 0 &  1 \\
+        \end{bmatrix} \\
+        \intertext{diagonalise $\mat{A}$ et}
+        \mat{P}^{-1} \mat{AP}
+        &=
+        \begin{bmatrix}
+          -2 &  0 & 0 & 0 \\
+           0 & -2 & 0 & 0 \\
+           0 &  0 & 3 & 0 \\
+           0 &  0 & 0 & 3 \\
+        \end{bmatrix}.
+      \end{align*}
+      Vérification:
+<<echo=TRUE>>=
+m <- matrix(c(-2, 0, 0, 0, 0, -2, 0, 0, 0, 5, 3, 0, 0, -5, 0, 3), nrow = 4)
+eigen(m)
+@
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item pas diagonalisable
+    \item $\mat{P} =
+      \begin{bmatrix}
+         1 & 0 & 1 \\
+         0 & 1 & 2 \\
+        -1 & 0 & 1
+      \end{bmatrix}$,
+      $\mat{P}^{-1} \mat{AP} =
+      \begin{bmatrix}
+        3 & 0 & 0 \\
+        0 & 3 & 0 \\
+        0 & 0 & 5
+      \end{bmatrix}$
+    \item pas diagonalisable
+    \item $\mat{P} =
+      \begin{bmatrix}
+        1 & 2 & 1 \\
+        1 & 3 & 3 \\
+        1 & 3 & 4
+      \end{bmatrix}$,
+      $\mat{P}^{-1} \mat{AP} =
+      \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 2 & 0 \\
+        0 & 0 & 3
+      \end{bmatrix}$
+    \item $\mat{P} =
+      \begin{bmatrix}
+          1 & 0 & 0 &  0 \\
+          0 & 1 & 1 & -1 \\
+          0 & 0 & 1 &  0 \\
+          0 & 0 & 0 &  1 \\
+      \end{bmatrix}$,
+      $\mat{P}^{-1} \mat{AP} =
+      \begin{bmatrix}
+         -2 &  0 & 0 & 0 \\
+          0 & -2 & 0 & 0 \\
+          0 &  0 & 3 & 0 \\
+          0 &  0 & 0 & 3
+       \end{bmatrix}$
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\Closesolutionfile{reponses}
+\Closesolutionfile{solutions}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: exercices_methodes_numeriques
+%%% End:

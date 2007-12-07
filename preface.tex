@@ -1,0 +1,83 @@
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\markboth{Introduction}{Introduction}
+
+
+Ce document est une collection des exercices distribués par l'auteur
+dans ses cours de Méthodes statistiques en actuariat entre 2003 et
+2005, cours donnés à l'École d'actuariat de l'Université Laval.
+Certains exercices sont le fruit de l'imagination de l'auteur, alors
+que plusieurs autres sont des adaptations d'exercices tirés des
+ouvrages cités dans la bibliographie.
+
+C'est d'ailleurs afin de ne pas usurper de droits d'auteur que ce
+document est publié selon les termes du contrat Paternité-ShareAlike
+2.5 Canada de Creative Commons. Il s'agit donc d'un document «libre»
+que quiconque peut réutiliser et modifier à sa guise, à condition que
+le nouveau document soit publié avec le même contrat.
+
+Le document est separé en deux parties correspondant aux deux sujets
+faisant l'objet d'exercices: d'abord la régression linéaire (simple et
+multiple), puis les séries chronologiques (lissage, modèles ARMA,
+ARIMA et SARIMA). Nous invitons le lecteur à consulter, entre autres,
+\citet{AbrahamLedolter}, \citet{DraperSmith} et \citet{BrockwellDavis}
+pour d'excellents exposés sur la théorie des modèles de régression et
+sur les modèles de séries chronologiques.
+
+L'estimation des paramètres, le calcul de prévisions et l'analyse des
+résultats --- aussi bien en régression qu'en analyse de séries
+chronologiques --- sont toutes des procédures à forte composante
+numérique. Il serait tout à fait artificiel de se restreindre, dans
+les exercices, à de petits ensembles de données se prêtant au calcul
+manuel. Dans cette optique, plusieurs des exercices de ce recueil
+requièrent l'utilisation du système statistique S, soit dans son
+incarnation commerciale S-Plus, soit dans sa version libre \textsf{R}.
+D'ailleurs, les annexes \ref{chap:regression} et \ref{chap:ts}
+présentent les principales fonctions utilisées dans le langage S pour
+la régression et l'analyse de séries chronologiques, respectivement.
+
+Le format de ces deux annexes est inspiré de \citet{Goulet_intro_S}:
+la présentation des fonctions compte peu d'exemples. Par contre, le
+lecteur est invité à lire et exécuter le code informatique des
+sections d'exemples \ref{chap:regression:exemples} et
+\ref{chap:ts:exemples}.  Le texte des sections d'exemples est
+disponible en format électronique dans le site Internet
+\begin{center}
+  \url{http://vgoulet.act.ulaval.ca/pub/methodes_statistiques/}
+\end{center}
+
+L'annexe \ref{chap:elements} contient quelques résultats d'algèbre
+matricielle utiles pour résoudre certains exercices.
+
+Tous les jeux de données mentionnés dans ce document sont disponibles
+en format électronique à l'adresse
+\begin{quote}
+  \url{http://vgoulet.act.ulaval.ca/pub/data/}
+\end{quote}
+Ces jeux de données sont importés dans S-Plus ou \textsf{R} avec l'une
+ou l'autre des commandes \texttt{scan} ou
+\texttt{read.table}. Certains jeux de données sont également fournis
+avec \textsf{R}; la commande
+\begin{Sinput}
+> data()
+\end{Sinput}
+en fournit une liste complète.
+
+Nous remercions d'avance les lecteurs qui voudront bien nous faire
+part de toute erreur ou omission dans les exercices ou leurs réponses.
+
+Enfin, nous tenons à remercier M.~Michaël Garneau pour sa précieuse
+collaboration lors de la préparation de ce document, ainsi que tous
+les auxiliaires d'enseignement ayant, au cours des années, contribué à
+la rédaction d'exercices et de solutions.
+
+\begin{flushright}
+  \itshape
+  Vincent Goulet \url{<vincent.goulet@act.ulaval.ca>} \\
+  Québec, septembre 2006
+\end{flushright}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "exercices_methodes_statistiques"
+%%% End:

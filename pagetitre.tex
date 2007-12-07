@@ -1,0 +1,56 @@
+%%% Marge de gauche (1/3 de la page)
+\newlength{\gauche}
+\addtolength{\gauche}{72mm}
+\addtolength{\gauche}{-\spinemargin}
+
+%%% Épaisseur de la bande sur la page titre
+\newlength{\ruleheight}
+\setlength{\ruleheight}{7.75mm}
+
+%%% Définition de la bande
+\definecolor{gray}{gray}{0.4}
+\textblockorigin{0mm}{279mm}
+\newcommand{\banderecto}{%
+  \begin{textblock*}{71.5mm}[0,1](0mm,-46.5mm)
+    \textblockcolor{black} \rule{0mm}{\ruleheight}
+  \end{textblock*}
+  \begin{textblock*}{144mm}[0,1](72mm,-46.5mm)
+    \textblockcolor{gray} \rule{0mm}{\ruleheight}
+  \end{textblock*}}
+\newcommand{\bandeverso}{%
+  \begin{textblock*}{144mm}[0,1](0mm,-46.5mm)
+    \textblockcolor{gray} \rule{0mm}{\ruleheight}
+  \end{textblock*}
+  \begin{textblock*}{71.5mm}[0,1](144.5mm,-46.5mm)
+    \textblockcolor{black} \rule{0mm}{\ruleheight}
+  \end{textblock*}}
+
+%%% Titre
+\begin{adjustwidth*}{\gauche}{-15mm}
+  \sffamily\fontseries{ub}\selectfont
+  \vspace*{2cm}
+  \thetitle
+\end{adjustwidth*}
+
+%%% Affichage de la bande
+\banderecto
+\cleardoublepage
+
+%%% Page de garde
+\begin{adjustwidth*}{\gauche}{-15mm}
+  \sffamily\fontseries{ub}\selectfont
+  \raggedright
+  \vspace*{2cm}
+  \thetitle \\
+  \bfseries
+  \vspace*{3cm}
+  \theauthor \\
+  \vspace*{\fill}
+  \thedate
+\end{adjustwidth*}
+\cleardoublepage
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "credibilite"
+%%% End:

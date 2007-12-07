@@ -1,0 +1,127 @@
+\documentclass[letterpaper,10pt]{memoir}
+  \usepackage[T1]{fontenc}
+  \usepackage[latin1]{inputenc}
+  \usepackage[english,francais]{babel}
+  \usepackage{vgmath,amsmath,icomma,url,natbib}
+  \usepackage{lucidabr,palatino,mathpazo}
+  \usepackage{upgreek}
+  \usepackage[noae]{Sweave}
+  \usepackage{graphicx,color,subfigure}
+  \usepackage[absolute]{textpos}
+  \usepackage[alwaysadjust]{paralist}
+  \usepackage{multicol,xr}
+
+  %%% Configuration de hyperref
+  % \hypersetup{%
+  %   pdftex=true,
+  %   plainpages=false,
+  %   pdfpagelabels=true,
+  %   pdfborder={0 0 0},
+  %   bookmarks=true}
+
+  %%% Charger les références du document principal
+  \externaldocument{simple}
+  \externaldocument{multiple}
+  \externaldocument{lissage}
+  \externaldocument{stationnarite}
+  \externaldocument{estimation}
+  \externaldocument{prevision}
+  \externaldocument{elements}
+
+  %%% Page titre
+  \title{\HUGE Exercices de \\ méthodes  numériques \\[10mm]
+    \huge Recueil de solutions}
+  \author{\LARGE Vincent Goulet \\[3mm]
+    \large \textit{École d'actuariat, Université Laval}}
+  \date{\large Version 1.0}
+  \newcommand{\ISBN}{2-9809136-9-3}
+
+  %%% Style des entêtes de chapitres
+  \chapterstyle{hangnum}
+
+  %%% Styles des entêtes et pieds de page
+  \setlength{\marginparsep}{7mm}
+  \setlength{\marginparwidth}{13mm}
+  \setlength{\headwidth}{\textwidth}
+  \addtolength{\headwidth}{\marginparsep}
+  \addtolength{\headwidth}{\marginparwidth}
+
+  %%% Numéroter les sous-sections
+  \maxsecnumdepth{subsection}
+
+  %%% Environnement pour les solutions
+  \newenvironment{solution}[1]{%
+    \begin{list}{\bfseries #1}{%
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+
+  %%% Nouvelles commandes
+  \newcommand{\betab}{\boldsymbol{\upbeta}}
+  \newcommand{\betabh}{\boldsymbol{\hat{\upbeta}}}
+  \newcommand{\vepsb}{\boldsymbol{\upvarepsilon}}
+  \newcommand{\SST}{\mathrm{SST}}
+  \newcommand{\SSR}{\mathrm{SSR}}
+  \newcommand{\SSE}{\mathrm{SSE}}
+  \newcommand{\MSE}{\mathrm{MSE}}
+  \newcommand{\MSR}{\mathrm{MSR}}
+  \newcommand{\tr}{\mathrm{tr}}
+
+  %%% Environnements pour le code S: police plus petite
+  \RecustomVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl,fontsize=\small}
+  \RecustomVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\small}
+  \RecustomVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl,fontsize=\small}
+
+\begin{document}
+
+\frontmatter
+
+\pagestyle{empty}
+\include{pagetitre}
+
+\pagestyle{companion}
+
+\include{preface_solutions}
+
+\cleardoublepage
+\tableofcontents*
+
+\mainmatter
+
+\part{Régression linéaire}
+
+\stepcounter{chapter}
+\include{solutions-simple}
+\include{solutions-multiple}
+
+\part{Séries chronologiques}
+
+\include{solutions-lissage}
+\include{solutions-stationnarite}
+\include{solutions-estimation}
+\include{solutions-prevision}
+
+\bibliographystyle{francais}
+\bibliography{stat,vg}
+
+\cleardoublepage
+\cleartoverso
+
+\pagestyle{empty}
+\renewcommand{\ttdefault}{hlst}
+
+\bandeverso
+\begin{textblock*}{71mm}(145mm, -40mm)
+  \large\ttfamily\raggedright
+  \textblockcolor{}
+  ISBN \\ \ISBN
+\end{textblock*}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
