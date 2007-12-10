@@ -8,7 +8,8 @@
 \Opensolutionfile{solutions}[solutions-generateurs]
 
 \begin{Filesave}{solutions}
-\chapter{Génération de nombres aléatoires}
+\section*{Chapitre \ref{chap:generation}}
+\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:generation}}
 
 \end{Filesave}
 
@@ -20,9 +21,9 @@
 options(width = 50)
 @
 
-L'exercice \ref{rgl} requiert d'installer le package \textsf{R}
-\texttt{rgl}, disponible sur CRAN%
-  \footnote{\url{http://cran.r-project.org}}. %
+L'exercice \ref{chap:generation}.\ref{ex:generation:rgl} requiert d'installer le package
+\textsf{R} \texttt{rgl}, disponible sur CRAN%
+\footnote{\url{http://cran.r-project.org}}. %
 Pour un utilisateur ayant les privilèges d'administrateur, entrer
 simplement à la ligne de commande
 <<echo=TRUE, eval=FALSE>>=
@@ -66,11 +67,11 @@ library(rgl, lib.loc = "R:/R/library")
       \right\rfloor m
     \end{align*}
     où $m = 64$ et $x_{0} = 19$. Les suites ont été générées avec la
-    fonction \texttt{rand} de la figure \ref{fig:rand}.
+    fonction \texttt{rand} de la figure \ref{fig:generation:rand}.
     \begin{figure}
       \centering
       \begin{framed}
-\begin{verbatim}
+\begin{Scode}
 rand <- function(n, a, c, m, seed)
 {
     x <- numeric(n + 1)
@@ -79,10 +80,10 @@ rand <- function(n, a, c, m, seed)
         x[i + 1] <- (a * x[i] + c) %% m
     x[-1]
 }
-\end{verbatim}
+\end{Scode}
       \end{framed}
-      \caption{Code de la fonction \texttt{rand}}
-      \label{fig:rand}
+      \caption{Code de la fonction \texttt{rand}.}
+      \label{fig:generation:rand}
     \end{figure}
 <<echo=FALSE>>=
 rand <- function(n, a, c, m, seed)
@@ -128,24 +129,24 @@ rand(n = 5, a = 11, c = 0, m = 64, seed = 19)
   \begin{sol}
     \begin{enumerate}
     \item On utilise de nouveau la fonction \texttt{rand} de
-      la figure \ref{fig:rand}. Le graphique de la figure
-      \ref{fig:a=17} a été créé avec les commandes
+      la figure \ref{fig:generation:rand}. Le graphique de la figure
+      \ref{fig:generation:a=17} a été créé avec les commandes
 <<echo=TRUE, eval=FALSE>>=
 x <- rand(n = 500, a = 17, c = 0, m = 2^13-1, seed = 19)
 plot(x[-length(x)], x[-1],
      xlab = expression(x[i]), ylab = expression(x[i+1]), pch = 19)
 @
       On compte 17 lignes dans le graphique.
-      \begin{figure}[tp]
+      \begin{figure}
         \centering
 <<echo=FALSE,fig=TRUE>>=
 x <- rand(n = 500, a = 17, c = 0, m = 2^13-1, seed = 19)
 plot(x[-length(x)], x[-1],
      xlab = expression(x[i]), ylab = expression(x[i+1]), pch = 19)
 @
-        \caption{Graphique de paires de valeurs du générateur congruentiel
-          multiplicatif avec $m = 2^{31} - 1$ et $a = 17$}
-        \label{fig:a=17}
+        \caption{Paires de valeurs du générateur congruentiel
+          multiplicatif avec $m = 2^{31} - 1$ et $a = 17$.}
+        \label{fig:generation:a=17}
       \end{figure}
     \item Similaire à la partie a), sauf que les nombres sont générés
       avec
@@ -153,7 +154,8 @@ plot(x[-length(x)], x[-1],
 x <- rand(n = 500, a = 85, c = 0, m = 2^13-1, seed = 19)
 @
       Ce générateur semble préférable à celui en a) puisque les
-      points sont plus uniformément disposés sur le graphique.
+      points sont plus uniformément disposés sur le graphique (voir
+      figure \ref{fig:generation:a=85}.
       \begin{figure}[btp]
         \centering
 <<echo=FALSE,fig=TRUE>>=
@@ -161,16 +163,16 @@ x <- rand(n = 500, a = 85, c = 0, m = 2^13-1, seed = 19)
 plot(x[-length(x)],
      xlab = expression(x[i]), ylab = expression(x[i+1]), pch = 19)
 @
-        \caption{Graphique de paires de valeurs du générateur congruentiel
-          multiplicatif avec $m = 2^{31} - 1$ et $a = 85$}
-        \label{fig:a=17}
+        \caption{Paires de valeurs du générateur congruentiel
+          multiplicatif avec $m = 2^{31} - 1$ et $a = 85$.}
+        \label{fig:generation:a=85}
       \end{figure}
     \end{enumerate}
   \end{sol}
 \end{exercice}
 
 \begin{exercice}
-  \label{rgl}
+  \label{ex:generation:rgl}
   Le générateur RANDU, qui a longtemps été le plus populaire
   générateur de nombres pseudo-aléatoires, est défini ainsi:
   \begin{displaymath}

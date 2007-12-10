@@ -4,23 +4,19 @@
   \usepackage[english,francais]{babel}
   \usepackage{vgmath,vgsets,amsmath,actu,icomma,url,natbib}
   \usepackage{lucidabr,palatino,mathpazo}
-  \usepackage{fourier-orns,upgreek}
   \usepackage[noae]{Sweave}
-  \usepackage{graphicx,color}
+  \usepackage{graphicx,color,multicol}
   \usepackage[absolute]{textpos}
   \usepackage{answers,listings}
   \usepackage[alwaysadjust]{paralist}
-  \usepackage{multicol,xr}
-
-  %%% Références externes
-  %\externaldocument[intro_S-]{../intro_S/fr/bases}
 
   %%% Page titre
-  \title{\HUGE Exercices de \\ méthodes numériques}
+  \title{\HUGE Exercices de \\ méthodes numériques
+    \huge Avec solutions}
   \author{\LARGE Vincent Goulet \\[3mm]
     \large École d'actuariat, Université Laval}
   \date{\large Version 1.0}
-  \newcommand{\ISBN}{2-9809136-8-6}
+  \newcommand{\ISBN}{978-2-9809136-8-6}
 
   %%% Style des entêtes de chapitres
   \chapterstyle{hangnum}
@@ -31,6 +27,9 @@
   \setlength{\headwidth}{\textwidth}
   \addtolength{\headwidth}{\marginparsep}
   \addtolength{\headwidth}{\marginparwidth}
+
+  %%% Légendes des figures en italique
+  \captiontitlefont{\itshape}
 
   %%% Associations entre les environnements et les fichiers
   \Newassociation{sol}{solution}{solutions}
@@ -57,7 +56,7 @@
     {\end{list}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
 
-  %%% Numérotation des solutions
+  %%% Environnement pour les solutions
   \renewenvironment{solution}[1]{%
     \begin{list}{\bfseries #1}{%
         \settowidth{\labelwidth}{#1}
@@ -92,7 +91,15 @@
   %%% Environnements pour le code S: police plus petite
   \RecustomVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl,fontsize=\small}
   \RecustomVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\small}
-  \RecustomVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl,fontsize=\small}
+  \RecustomVerbatimEnvironment{Scode}{Verbatim}{fontsize=\small}
+
+  %%% Support pour sous-figures
+  \newsubfloat{figure}
+
+  %%% Nouvelle longueur utilisée dans les solutions d'algèbre
+  %%% linéaire.
+  \newlength{\ocolumnsep}
+
 
 %\includeonly{pagetitre}
 
@@ -137,7 +144,7 @@
 \include{decomposition_lu}
 
 \appendix
-\include{reponses}
+\include{solutions}
 
 \nocite{Gentle_98,Monahan_01,Rubinstein_81,Ripley_87,BurdenFaires,Anton8e}
 

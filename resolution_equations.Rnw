@@ -9,13 +9,14 @@
 \Opensolutionfile{solutions}[solutions-resolution_equations]
 
 \begin{Filesave}{reponses}
-\section*{Chapitre \ref{chap:resolution}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:resolution}}
+\bigskip
+\section*{Réponses}
 
 \end{Filesave}
 
 \begin{Filesave}{solutions}
-\chapter{Résolution d'équations à une variable}
+\section*{Chapitre \ref{chap:resolution}}
+\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:resolution}}
 
 \end{Filesave}
 
@@ -56,7 +57,7 @@ options(width = 55)
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:toutes}
+  \label{ex:resolution:toutes}
   Trouver la solution des équations suivantes par les méthodes de
   bissection, de Newton-Raphson et de la sécante.
   \begin{enumerate}
@@ -70,7 +71,7 @@ options(width = 55)
     Les solutions suivantes ont été obtenues à l'aide de nos fonctions
     de résolution d'équations à une variable. Les valeurs
     intermédiaires sont affichées pour montrer la convergence. La
-    figure \ref{fig:toutes} contient les graphiques des cinq
+    figure \ref{fig:resolution:toutes} contient les graphiques des cinq
     fonctions pour les intervalles mentionnés dans l'énoncé.
     \begin{figure}
       \centering
@@ -121,8 +122,9 @@ abline(h = 0)
 @
         \subcaption{$f(x) = e^x - x^2 + 3x - 2$}
       \end{minipage}
-      \caption{Graphiques des fonctions de l'exercice \ref{ex:toutes}}
-      \label{fig:toutes}
+      \caption{Fonctions de l'exercice
+        \ref{chap:resolution}.\ref{ex:resolution:toutes}.}
+      \label{fig:resolution:toutes}
     \end{figure}
 <<echo=FALSE>>=
 source("bissection.R")
@@ -192,17 +194,21 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:sqrt(2)}
+  \label{ex:resolution:sqrt(2)}
   Trouver la valeur numérique de $\sqrt{2}$ à l'aide de la méthode de
   bissection dans l'intervalle $[0, 2] $ avec 10 itérations.  Comparer
   avec la vraie valeur.
   \begin{sol}
     On trouve la racine de $f(x) = x^2 - 2$ dans l'intervalle $[0, 2]$
     par la méthode de bissection avec un maximum de 10 itérations. Le
-    tableau \ref{tab:sqrt(2)} contient les valeurs successives de $a$,
-    $b$, $x = (a + b)/2$ et $f(x)$.
+    tableau \ref{tab:resolution:sqrt(2)} contient les valeurs
+    successives de $a$, $b$, $x = (a + b)/2$ et $f(x)$.
     \begin{table}[t]
       \centering
+      \caption{\normalfont Valeurs successives de la méthode de
+        bissection pour l'exercice
+        \ref{chap:resolution}.\ref{ex:resolution:sqrt(2)}.}
+      \label{tab:resolution:sqrt(2)}
       \begin{tabular}{rllll}
         \toprule
         \multicolumn{1}{c}{$n$} &
@@ -223,9 +229,6 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
         10 & 1,41406250 & 1,41796875 & 1,41601562 & 0,00510025 \\
         \bottomrule
       \end{tabular}
-      \caption{Valeurs successives de la méthode de bissection pour
-        l'exercice \ref{ex:sqrt(2)}}
-      \label{tab:sqrt(2)}
     \end{table}
     On obtient donc une réponse de $1,41601562$, alors que la vraie
     réponse est le nombre irrationnel $\sqrt{2} = 1,414214$.
@@ -267,10 +270,9 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
   Considérer la fonction $g(x) = 3^{-x}$ sur l'intervalle $[0,
   1]$.
   \begin{enumerate}
-  \item Vérifier si les hypothèses du théorème
-    \ref{thm:resolution:pointfixe} des notes de cours quant à
-    l'existence et l'unicité d'un point fixe dans $[0, 1]$ sont
-    satisfaites.
+  \item Vérifier si les hypothèses du théorème 5.1 des notes de cours
+    quant à l'existence et l'unicité d'un point fixe dans $[0, 1]$
+    sont satisfaites.
   \item Déterminer graphiquement l'existence et l'unicité d'un point
     fixe de $g(x)$ dans $[0, 1]$ puis, le cas échéant, calculer ce
     point fixe.
@@ -285,11 +287,10 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
         |g^\prime(x)| = \frac{\ln 3}{3^{x + 1}} \leq \ln 3 < 1, \quad
         0 \leq x \leq 1.
       \end{displaymath}
-      Par le théorème \ref{thm:resolution:pointfixe} des notes de
-      cours, la fonction $g$ possède un point fixe unique dans
-      l'intervalle $[0, 1]$.
+      Par le théorème 5.1 des notes de cours, la fonction $g$ possède
+      un point fixe unique dans l'intervalle $[0, 1]$.
     \item Le graphique de la fonction $g$ se trouve à la figure
-      \ref{fig:3^-x}. On constate que la fonction a effectivement un
+      \ref{fig:resolution:3^-x}. On constate que la fonction a effectivement un
       point fixe unique dans l'intervalle $[0, 1]$ et que celui-ci se
       trouve près de $x = \frac{1}{2}$. On peut donc utiliser cette
       valeur comme point de départ de l'algorithme du point fixe:
@@ -315,18 +316,17 @@ curve(g, xlim = c(-0.05, 1.05), ylim = c(-0.05, 1.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
 @
-        \caption{Graphique de la fonction $g(x) = 3^{-x}$ dans $[0, 1]$}
-        \label{fig:3^-x}
+        \caption{Fonction $g(x) = 3^{-x}$ dans $[0, 1]$.}
+        \label{fig:resolution:3^-x}
       \end{figure}
     \end{enumerate}
   \end{sol}
 \end{exercice}
 
 \begin{exercice}
-  Vérifier que les cinq fonctions $g_1, \dots, g_5$ de l'exemple
-  \ref{ex:resolution:pointfixe_2} des notes de cours ont toutes un
-  point fixe en $x^*$ lorsque $f(x^*) = 0$, où $f(x) = x^3 + 4x^2 -
-  10$.
+  Vérifier que les cinq fonctions $g_1, \dots, g_5$ de l'exemple 5.4
+  des notes de cours ont toutes un point fixe en $x^*$ lorsque $f(x^*)
+  = 0$, où $f(x) = x^3 + 4x^2 - 10$.
   \begin{sol}
     Les cinq fonctions sont les suivantes:
     \begin{align*}
@@ -356,10 +356,8 @@ polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
 \end{exercice}
 
 \begin{exercice}
-  Soit $g(x) = 4x^2 - 14x + 14$ (exemple
-  \ref{ex:resolution:newtonraphson_3}). Pour quels intervalles de
-  valeurs de départ la procédure de point fixe converge-t-elle et
-  diverge-t-elle?
+  Soit $g(x) = 4x^2 - 14x + 14$. Pour quels intervalles de valeurs de
+  départ la procédure de point fixe converge-t-elle et diverge-t-elle?
   \begin{sol}
     La fonction $g(x) = 4x^2 - 14x + 14$ est une parabole ayant deux
     points fixes. On observe graphiquement que l'un se trouve en $x =
@@ -380,7 +378,7 @@ polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:racinecubique}
+  \label{ex:resolution:racinecubique}
   Les trois fonctions ci-dessous sont toutes des candidates pour faire
   l'approximation, par la méthode du point fixe, de $\sqrt[3]{21}$:
   \begin{align*}
@@ -395,7 +393,7 @@ polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
     En premier lieu, on remarque que les fonctions $g_1$, $g_2$ et
     $g_3$ sont développées à partir de l'équation $x^3 = 21$ pour
     calculer $\sqrt[3]{21}$ par la méthode du point fixe. La figure
-    \ref{fig:racinecubique} présente ces trois fonctions.
+    \ref{fig:resolution:racinecubique} présente ces trois fonctions.
     \begin{figure}
       \centering
       \begin{minipage}[t]{0.32\linewidth}
@@ -407,7 +405,7 @@ curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_1(x)$}
+        \subcaption{\itshape Fonction $g_1(x)$}
       \end{minipage}
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
@@ -419,7 +417,7 @@ curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_2(x)$}
+        \subcaption{\itshape Fonction $g_2(x)$}
       \end{minipage}
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
@@ -431,10 +429,11 @@ curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_3(x)$}
+        \subcaption{\itshape Fonction $g_3(x)$}
       \end{minipage}
-      \caption{Graphiques des fonctions de l'exercice \ref{ex:racinecubique}}
-      \label{fig:racinecubique}
+      \caption{Fonctions de l'exercice
+        \ref{chap:resolution}.\ref{ex:resolution:racinecubique}.}
+      \label{fig:resolution:racinecubique}
     \end{figure}
     On a
     \begin{align*}
@@ -450,8 +449,8 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
     intervalle, donc la procédure du point fixe converge plus
     rapidement pour $g_2$ (la fonction de la méthode de
     Newton--Raphson). Cela se vérifie aisément sur les graphiques de
-    la figure \ref{fig:racinecubique}. Toujours à l'aide des
-    graphiques, on voit que la procédure diverge avec la fonction
+    la figure \ref{fig:resolution:racinecubique}. Toujours à l'aide
+    des graphiques, on voit que la procédure diverge avec la fonction
     $g_3$.
   \end{sol}
   \begin{rep}
@@ -460,10 +459,10 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
 \end{exercice}
 
 \begin{exercice}
-  Démontrer, à l'aide du théorème \ref{thm:resolution:pointfixe} des
-  notes de cours, que la fonction $g(x) = 2^{-x}$ possède un point
-  fixe unique dans l'intervalle $[\frac{1}{3}, 1]$. Calculer par la
-  suite ce point fixe à l'aide de votre fonction S.
+  Démontrer, à l'aide du théorème 5.1 des notes de cours, que la
+  fonction $g(x) = 2^{-x}$ possède un point fixe unique dans
+  l'intervalle $[\frac{1}{3}, 1]$. Calculer par la suite ce point fixe
+  à l'aide de votre fonction S.
   \begin{sol}
     On considère la fonction $g(x) = 2^{-x}$ dans l'intervalle
     $[\frac{1}{3}, 1]$. En premier lieu, $g(x) \in [\frac{1}{2},
@@ -473,9 +472,9 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
       |g^\prime(x)| = \frac{\ln 2}{2^{x + 1}} \leq \ln 2 < 1, \quad
       \frac{1}{3} \leq x \leq 1.
     \end{displaymath}
-    Par le théorème \ref{thm:resolution:pointfixe} des notes de cours,
-    la fonction $g$ possède donc un point fixe unique dans
-    l'intervalle $[\frac{1}{3}, 1]$. La valeur de ce point fixe est
+    Par le théorème 5.1 des notes de cours, la fonction $g$ possède
+    donc un point fixe unique dans l'intervalle $[\frac{1}{3}, 1]$. La
+    valeur de ce point fixe est
 <<echo=TRUE>>=
 pointfixe(function(x) 2^(-x), start = 2/3)
 @
@@ -483,23 +482,21 @@ pointfixe(function(x) 2^(-x), start = 2/3)
 \end{exercice}
 
 \begin{exercice}
-  Vérifier graphiquement que le théorème
-  \ref{thm:resolution:pointfixe} des notes de cours demeure valide si
-  la condition $|g^\prime(x)| \leq k < 1$ est remplacée par
-  $g^\prime(x) \leq k < 1$.
+  Vérifier graphiquement que le théorème 5.1 des notes de cours
+  demeure valide si la condition $|g^\prime(x)| \leq k < 1$ est
+  remplacée par $g^\prime(x) \leq k < 1$.
   \begin{sol}
-    La condition $|g^\prime(x)| \leq k < 1$ du théorème
-    \ref{thm:resolution:pointfixe} assure l'unicité d'un point fixe.
-    Cette condition est nécessaire pour que la fonction $g(x)$ ne
-    puisse repasser au-dessus de la droite $y = x$ après l'avoir déjà
-    croisée une première fois pour créer un point fixe. Or, il est
-    seulement nécessaire de limiter la croissance de la fonction ---
-    soit les valeurs positives de sa pente. Peu importe la vitesse de
-    décroissance de la fonction dans l'intervalle $[a, b]$ (mais
-    toujours sujet à ce que $g(x) \in [a, b]$), la fonction ne peut
-    croiser la droite $y = x$ qu'une seule fois. La condition
-    $g^\prime(x) \leq k < 1$ est donc suffisante pour assurer
-    l'unicité du point fixe dans $[a, b]$.
+    La condition $|g^\prime(x)| \leq k < 1$ du théorème 5.1 assure
+    l'unicité d'un point fixe. Cette condition est nécessaire pour que
+    la fonction $g(x)$ ne puisse repasser au-dessus de la droite $y =
+    x$ après l'avoir déjà croisée une première fois pour créer un
+    point fixe. Or, il est seulement nécessaire de limiter la
+    croissance de la fonction --- soit les valeurs positives de sa
+    pente. Peu importe la vitesse de décroissance de la fonction dans
+    l'intervalle $[a, b]$ (mais toujours sujet à ce que $g(x) \in [a,
+    b]$), la fonction ne peut croiser la droite $y = x$ qu'une seule
+    fois. La condition $g^\prime(x) \leq k < 1$ est donc suffisante
+    pour assurer l'unicité du point fixe dans $[a, b]$.
   \end{sol}
 \end{exercice}
 
@@ -539,7 +536,7 @@ pointfixe(function(x) 2^(-x), start = 2/3)
 nr(function(x) 4 * x^3 + 2 * x - 2, function(x) 12 * x^2 + 2, start = 0.6)
 @
 
-    On voit à la figure \ref{fig:proche} que la solution, disons le
+    On voit à la figure \ref{fig:resolution:proche} que la solution, disons le
     point $(x^*, (x^*)^2)$, est la projection du point $(1, 0)$ sur la
     courbe $y = x^2$; autrement dit, la droite passant par $(x^*,
     (x^*)^2)$ et $(1, 0)$ est perpenticulaire à la tangente de $y =
@@ -552,8 +549,8 @@ curve(x^2, xlim = c(0, 1), lwd = 2)
 segments(xp, xp^2, 1, 0)
 points(c(1, xp), c(0, xp^2), pch = 19)
 @
-      \caption{Point de $y = x^2$ le plus près du point $(1, 0)$}
-      \label{fig:proche}
+      \caption{Point de $y = x^2$ le plus près du point $(1, 0)$.}
+      \label{fig:resolution:proche}
     \end{figure}
   \end{sol}
   \begin{rep}
@@ -562,7 +559,7 @@ points(c(1, xp), c(0, xp^2), pch = 19)
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:tri}
+  \label{ex:resolution:tri}
   Le taux de rendement interne d'une série de flux
   financiers $\{\mathit{CF}_t\}$ est le taux $i$ tel que
   \begin{displaymath}
@@ -585,13 +582,13 @@ points(c(1, xp), c(0, xp^2), pch = 19)
       f^\prime(i)
       &= - \sum_{t=0}^{n} \frac{t \mathit{CF}_{t}}{(1 + i)^{t + 1}}.
     \end{align*}
-    La fonction \texttt{tri} de la figure \ref{fig:tri} calcule le
+    La fonction \texttt{tri} de la figure \ref{fig:resolution:tri} calcule le
     taux de rendement interne d'un vecteur de flux financiers en
     utilisant notre fonction de Newton--Raphson \texttt{nr}.
     \begin{figure}
       \centering
       \begin{framed}
-\begin{verbatim}
+\begin{Scode}
 tri <- function(CF, erreur.max = 1E-6)
 {
     if (!any(CF < 0))
@@ -605,21 +602,21 @@ tri <- function(CF, erreur.max = 1E-6)
 
     nr(f, fp, start = 0.05, TOL = erreur.max)$root
 }
-\end{verbatim}
+\end{Scode}
       \end{framed}
       \caption{Fonction S de calcul du taux de rendement interne d'une
-        série de flux financiers}
-      \label{fig:tri}
+        série de flux financiers.}
+      \label{fig:resolution:tri}
     \end{figure}
   \end{sol}
 \end{exercice}
 
 \begin{exercice}
-  Refaire l'exercice \ref{ex:tri} en VBA en composant une fonction
+  Refaire l'exercice \ref{chap:resolution}.\ref{ex:resolution:tri} en VBA en composant une fonction
   accessible dans une feuille Excel et comparer le résultat avec la
   fonction Excel \texttt{TRI()}.
   \begin{sol}
-    La figure \ref{fig:tri2} contient le code d'une fonction VBA
+    La figure \ref{fig:resolution:tri2} contient le code d'une fonction VBA
     \texttt{tri2} effectuant le calcul du taux de rendement interne
     d'un ensemble de flux financiers. Ceux-ci sont passés en argument
     à la fonction par le bais d'une plage horizontale ou verticale de
@@ -630,7 +627,7 @@ tri <- function(CF, erreur.max = 1E-6)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{verbatim}
+\begin{Scode}
 Function tri2(flux As Range, Optional ErreurMax
               As Double = 0.000000001)
     Dim nrow As Integer, ncol As Integer, n As Integer
@@ -664,17 +661,17 @@ Function tri2(flux As Range, Optional ErreurMax
     Loop Until Abs(i - it) / i < ErreurMax
     tri2 = i
 End Function
-\end{verbatim}
+\end{Scode}
       \end{framed}
       \caption{Fonction VBA de calcul du taux de rendement interne d'une
-        série de flux financiers}
-      \label{fig:tri2}
+        série de flux financiers.}
+      \label{fig:resolution:tri2}
     \end{figure}
   \end{sol}
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:gamma}
+  \label{ex:resolution:gamma}
   \begin{enumerate}
   \item Écrire une fonction S pour estimer par la méthode du maximum
     de vraisemblance le paramètre $\theta$ d'une loi gamma de
@@ -720,7 +717,7 @@ End Function
         l^{\prime\prime}(\theta) = - \frac{2}{\theta^3} \sum_{i =
           1}^n x_i + \frac{3n}{\theta^2}.
       \end{displaymath}
-      La figure \ref{fig:emv.gamma} présente une fonction S pour
+      La figure \ref{fig:resolution:emv.gamma} présente une fonction S pour
       effectuer le calcul à l'aide de notre fonction de
       Newton--Raphson \texttt{nr}.  On remarquera que la somme des
       valeurs de l'échantillon --- qui ne change pas durant la
@@ -730,7 +727,7 @@ End Function
       \begin{figure}
         \centering
         \begin{framed}
-\begin{verbatim}
+\begin{Scode}
 emv.gamma <- function(x, erreur.max = 1E-6)
 {
     n <- length(x)
@@ -741,11 +738,11 @@ emv.gamma <- function(x, erreur.max = 1E-6)
           (3 * n)/theta^2
     nr(f, fp, xsum / n /3, TOL = erreur.max)$root
 }
-\end{verbatim}
+\end{Scode}
         \end{framed}
         \caption{Fonction S d'estimation du paramètre d'échelle d'une
-          loi gamma par le maximum de vraisemblance}
-        \label{fig:emv.gamma}
+          loi gamma par le maximum de vraisemblance.}
+        \label{fig:resolution:emv.gamma}
       \end{figure}
     \item On a, par exemple,
 <<echo=FALSE>>=
@@ -769,11 +766,11 @@ emv.gamma(x)
 \end{exercice}
 
 \begin{exercice}
-  Refaire l'exercice \ref{ex:gamma} à l'aide d'une routine VBA.
-  Comparer votre réponse avec celle obtenue à l'aide du Solveur de
-  Excel.
+  Refaire l'exercice \ref{chap:resolution}.\ref{ex:resolution:gamma} à
+  l'aide d'une routine VBA. Comparer votre réponse avec celle obtenue
+  à l'aide du Solveur de Excel.
   \begin{sol}
-    La figure \ref{fig:emvGamma} présente le code VBA d'une fonction
+    La figure \ref{fig:resolution:emvGamma} présente le code VBA d'une fonction
     \texttt{emvGamma} très similaire à la fonction S de l'exercice
     précédent. Pour l'utiliser dans Excel, il suffit de lui passer en
     argument une plage (verticale) contenant un échantillon aléatoire
@@ -781,7 +778,7 @@ emv.gamma(x)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{verbatim}
+\begin{Scode}
 Function emvGamma(Data As Range, Optional ErreurMax
                   As Double = 0.000000001)
     Dim n As Integer
@@ -800,11 +797,11 @@ Function emvGamma(Data As Range, Optional ErreurMax
     Loop Until Abs(x - xt) / x < ErreurMax
     emvGamma = x
 End Function
-\end{verbatim}
+\end{Scode}
       \end{framed}
       \caption{Fonction VBA d'estimation du paramètre d'échelle d'une
-        loi gamma par le maximum de vraisemblance}
-      \label{fig:emvGamma}
+        loi gamma par le maximum de vraisemblance.}
+      \label{fig:resolution:emvGamma}
     \end{figure}
   \end{sol}
 
@@ -842,7 +839,7 @@ End Function
     \begin{displaymath}
       g_1(i) = i - f(i),
     \end{displaymath}
-    mais, comme le graphique de la figure \ref{fig:a_angle:g1} le
+    mais, comme le graphique de la figure \ref{fig:resolution:a_angle:g1} le
     montre, la procédure itérative divergera. En posant
     \begin{displaymath}
       \frac{1 - (1 + i)^{-10}}{8} = 12[(1 + i)^{1/12} - 1],
@@ -855,7 +852,7 @@ End Function
     Cette fonction satisfait les hypothèses pour l'existence et
     l'unicité d'un point fixe, mais sa pente est toutefois près de 1,
     donc la convergence sera lente; voir la figure
-    \ref{fig:a_angle:g2}. Enfin, on peut considérer la fonction
+    \ref{fig:resolution:a_angle:g2}. Enfin, on peut considérer la fonction
     \begin{align*}
       g_3(i)
       &= i - \frac{f(i)}{f^\prime(i)} \\
@@ -863,8 +860,9 @@ End Function
         i)^{-10}](1 + i)^{-11/12}}{144 [(1 + i)^{1/12} - 1]^2}.
     \end{align*}
     Cette dernière est la fonction utilisée dans la méthode de
-    Newton--Raphson et sa pente est presque nulle, d'où une très
-    rapide convergence; voir la figure \ref{fig:a_angle:g3}.
+    Newton--Raphson et sa pente est presque nulle, d'où une
+    convergence très rapide; voir la figure
+    \ref{fig:resolution:a_angle:g3}.
     \begin{figure}
       \begin{minipage}{0.32\linewidth}
         \centering
@@ -876,7 +874,7 @@ curve(x - f(x), xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
 curve(f0, add = TRUE)
 polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_1(x)$ \label{fig:a_angle:g1}}
+        \subcaption{Fonction $g_1(x)$ \label{fig:resolution:a_angle:g1}}
       \end{minipage}
       \hfill
       \begin{minipage}{0.32\linewidth}
@@ -888,7 +886,7 @@ curve(g2, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
 curve(f0, add = TRUE)
 polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_2(x)$ \label{fig:a_angle:g2}}
+        \subcaption{Fonction $g_2(x)$ \label{fig:resolution:a_angle:g2}}
       \end{minipage}
       \hfill
       \begin{minipage}{0.32\linewidth}
@@ -901,11 +899,11 @@ curve(g3, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
 curve(f0, add = TRUE)
 polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_3(x)$ \label{fig:a_angle:g3}}
+        \subcaption{Fonction $g_3(x)$ \label{fig:resolution:a_angle:g3}}
       \end{minipage}
       \caption{Trois fonctions pour résoudre $a_{\angl{10}\, i}^{(12)}
-        = 8$ par la méthode du point fixe}
-      \label{fig:a_angle}
+        = 8$ par la méthode du point fixe.}
+      \label{fig:resolution:a_angle}
     \end{figure}
     On obtient les résultats suivants:
 <<echo=TRUE>>=
@@ -927,6 +925,12 @@ xp <- pointfixe(g3, start = 0.05)$fixed.point
 
 \Closesolutionfile{reponses}
 \Closesolutionfile{solutions}
+
+%%%
+%%% Insérer les réponses
+%%%
+\input{reponses-resolution_equations}
+
 
 %%% Local Variables:
 %%% mode: latex

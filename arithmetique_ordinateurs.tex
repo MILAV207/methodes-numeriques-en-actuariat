@@ -9,13 +9,17 @@
 \Opensolutionfile{solutions}[solutions-arithmetique_ordinateurs]
 
 \begin{Filesave}{reponses}
-\section*{Chapitre \ref{chap:ordinateurs}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:ordinateurs}}
+\bigskip
+\section*{Réponses}
+
+\noindent
+La notation $x_{b}$ signifie que le nombre $x$ est en base $b$.
 
 \end{Filesave}
 
 \begin{Filesave}{solutions}
-\chapter{Arithmétique des ordinateurs}
+\section*{Chapitre \ref{chap:ordinateurs}}
+\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:ordinateurs}}
 
 \end{Filesave}
 
@@ -32,9 +36,8 @@
   \item 43
   \end{enumerate}
   \begin{sol}
-    L'algorithme \ref{algo:ordinateurs:10_vers_b} pour convertir des
-    nombres décimaux en une base $b$ se résume essentiellement à ceci
-    pour la partie entière:
+    L'algorithme de conversion des nombres décimaux en une base $b$ se
+    résume essentiellement à ceci pour la partie entière:
     \begin{enumerate}[1.]
     \item les chiffres du nombre en base $b$ sont obtenus de droite à
       gauche en prenant le reste de divisions par $b$;
@@ -165,7 +168,8 @@
   \begin{sol}
     On fait les deux premières conversions à l'aide de la définition
     d'un nombre hexadécimal, puis les deux dernières à l'aide de
-    l'algorithme \ref{algo:ordinateurs:b_vers_10}.
+    l'algorithme de conversion des nombres en base $b$ vers la base
+    10.
     \begin{enumerate}
     \item $\text{A1B}_{16} = 10 \times 16^2 + 1 \times 16 + 11 = \nombre{2587}$
     \item $\text{12A}_{16} = 1 \times 16^2 + 2 \times 16 + 10 = 298$
@@ -186,28 +190,27 @@
 
 \begin{exercice}
   \begin{enumerate}
-  \item Utiliser l'algorithme \ref{algo:ordinateurs:b_vers_10} et les
-    idées de l'exemple \ref{ex:ordinateurs:position_dans_matrice} pour
-    trouver une formule générale donnant la position de l'élément
+  \item Utiliser l'algorithme de conversion des nombres en base $b$
+    vers la base 10 et les idées de l'exemple 4.6 des notes de cours
+    pour trouver une formule générale donnant la position de l'élément
     $a_{ijk}$ d'un tableau de dimensions $I \times J \times K$ dans
     l'ordre de la liste des éléments du tableau. Utiliser l'ordre
     lexicographique, où le tableau est rempli dans l'ordre $a_{111},
     a_{112}, \dots, a_{11K}, a_{121}, a_{122}, \dots$
   \item Répéter la partie a) en utilisant l'ordre S, où le tableau
-    est plutÃ´t rempli dans l'ordre $a_{111}, a_{211}, \dots, a_{I11},
+    est plutôt rempli dans l'ordre $a_{111}, a_{211}, \dots, a_{I11},
     a_{121}, a_{221}, \dots$.  Comparer la réponse avec celle de
     l'exercice 3.7~b) de \cite{Goulet_intro_S}.
   \end{enumerate}
   \begin{sol}
-    La généralisation de l'algorithme \ref{algo:ordinateurs:b_vers_10}
-    à la conversion d'un nombre
+    La généralisation de l'algorithme de conversion des nombres en
+    base $b$ vers la base 10 à la conversion d'un nombre
     \begin{displaymath}
       x = x_{m-1}x_{m-2} \cdots x_1x_0
     \end{displaymath}
     en base $[b_{m-1}\; \dots\; b_0]$ vers la base 10 est la suivante
     (nombre entiers seulement):
-    \begin{enumerate}
-      \pointedenum
+    \begin{enumerate}[1.]
     \item Poser $x = 0$.
     \item Pour $i = m - 1, m - 2, \dots, 0$, faire les étapes suivantes.
       \begin{enumerate}
@@ -218,12 +221,11 @@
     \end{enumerate}
     Cet algorithme permet de trouver les formules demandées.
     \begin{enumerate}
-    \item Tel que présenté à l'exemple
-      \ref{ex:ordinateurs:position_dans_matrice} des notes de cours,
-      on trouve la position de l'élément $a_{ijk}$ dans l'ordre de la
+    \item Tel que présenté à l'exemple 4.6 des notes de cours, on
+      trouve la position de l'élément $a_{ijk}$ dans l'ordre de la
       liste des éléments du tableau en convertissant le nombre $[i -
       1\; j - 1\; k - 1]$ de la base $[I\; J\; K]$ à la base 10, puis
-      à additionnant 1. Ã l'aide de l'algorithme ci-dessus, on obtient
+      à additionnant 1. À l'aide de l'algorithme ci-dessus, on obtient
       \begin{displaymath}
         [((i - 1) \times J + j - 1) \times K + k - 1] + 1
         = k + K (j - 1 + J (i - 1))
@@ -234,7 +236,7 @@
         [((k - 1) \times J + j - 1) \times I + i - 1] + 1
         = i + I (j - 1 + J (k - 1))
       \end{displaymath}
-      soit la mÃªme réponse qu'à l'exercice 3.7~b) de
+      soit la même réponse qu'à l'exercice 3.7~b) de
       \cite{Goulet_intro_S}.
     \end{enumerate}
   \end{sol}
@@ -263,9 +265,8 @@
   nombres en simple précision. Comparer les résultats avec les limites
   du type \texttt{Single} en VBA.
   \begin{sol}
-    Voir les notes de cours de la section
-    \ref{sec:ordinateurs:flottante}. Les calculs sont exactement les
-    mÃªmes que pour les nombres en double précision.
+    Voir les notes de cours de la section 4.4. Les calculs sont
+    exactement les mêmes que pour les nombres en double précision.
   \end{sol}
   \begin{rep}
     $\varepsilon = 2^{-23} = 1,192 \times 10^{-7}$,
@@ -314,7 +315,7 @@
   \item $\frac{1}{100}$
   \end{enumerate}
   \begin{sol}
-    Dans les égalités ci-dessous, le cÃ´té droit est en binaire.
+    Dans les égalités ci-dessous, le côté droit est en binaire.
     \begin{enumerate}
     \item Premièrement, $1234 \equiv 10011010010_2$. On a donc
       \begin{align*}
@@ -389,9 +390,10 @@
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:ieee} Les nombres ci-dessous sont représentés en
-  format binaire selon la norme IEEE~754 pour les nombres en simple
-  précision. Convertir ces nombres en décimal.
+  \label{ex:ordinateurs:ieee}
+  Les nombres ci-dessous sont représentés en format binaire selon la
+  norme IEEE~754 pour les nombres en simple précision. Convertir ces
+  nombres en décimal.
   \begin{enumerate}
   \item \ieee{0}{00111101}{10010000100000000000000}
   \item \ieee{1}{00111101}{10010000100000000000000}
@@ -431,8 +433,8 @@
 
 \begin{exercice}
   Trouver, pour les nombres des parties a) et c) de l'exercice
-  \ref{ex:ieee}, le nombre suivant et le nombre précédent en
-  représentation binaire.
+  \ref{chap:ordinateurs}.\ref{ex:ordinateurs:ieee}, le nombre suivant
+  et le nombre précédent en représentation binaire.
   \begin{sol}
     \begin{enumerate}
     \item Le nombre suivant est
@@ -488,6 +490,12 @@
 
 \Closesolutionfile{reponses}
 \Closesolutionfile{solutions}
+
+%%%
+%%% Insérer les réponses
+%%%
+\input{reponses-arithmetique_ordinateurs}
+
 
 %%% Local Variables:
 %%% mode: latex

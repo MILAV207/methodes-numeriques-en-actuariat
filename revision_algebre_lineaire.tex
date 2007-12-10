@@ -9,13 +9,14 @@
 \Opensolutionfile{solutions}[solutions-revision_algebre_lineaire]
 
 \begin{Filesave}{reponses}
-\section*{Chapitre \ref{chap:revision}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:revision}}
+\bigskip
+\section*{Réponses}
 
 \end{Filesave}
 
 \begin{Filesave}{solutions}
-\chapter{Révision d'algèbre linéaire}
+\section*{Chapitre \ref{chap:revision}}
+\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:revision}}
 
 \end{Filesave}
 
@@ -120,7 +121,7 @@
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:reduction}
+  \label{ex:revision:reduction}
   Résoudre chacun des systèmes d'équations suivants par
   l'élimination gaussienne et l'élimination de Gauss--Jordan.
   \begin{enumerate}
@@ -316,8 +317,8 @@
   \begin{sol}
     La procédure de réduction des matrices augmentées sous forme
     échelonnée est similaire à celle utilisée dans les solutions de
-    l'exercice \ref{ex:reduction}. On ne donne, ici que les résultats
-    de cette procédure.
+    l'exercice \ref{chap:revision}.\ref{ex:revision:reduction}. On ne donne, ici que les
+    résultats de cette procédure.
     \begin{enumerate}
     \item La matrice échelonnée est
       \begin{displaymath}
@@ -961,7 +962,7 @@
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:inverse_diagonale}
+  \label{ex:revision:inverse_diagonale}
   Soit la matrice
   \begin{displaymath}
     \mat{A} =
@@ -1069,12 +1070,11 @@
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:inverse_par_op_elementaires}
-  Utiliser la méthode de l'exemple
-  \ref{ex:revision:inverse_par_op_elementaires} des notes de cours
-  (opérations élémentaires sur les lignes) pour trouver l'inverse des
-  matrices suivantes, si elle existe. Le cas échéant, vérifier votre
-  réponse par multiplication de la matrice et de son inverse.
+  \label{ex:revision:inverse_par_op_elementaires}
+  Utiliser la méthode des opérations élémentaires sur les lignes pour
+  trouver l'inverse des matrices suivantes, si elle existe. Le cas
+  échéant, vérifier votre réponse par multiplication de la matrice et
+  de son inverse.
   \begin{enumerate}
     \begin{multicols}{3}
     \item $%
@@ -1466,7 +1466,8 @@
   \end{multicols}
   \begin{sol}
     \begin{enumerate}
-    \item Tel que démontré à l'exercice \ref{ex:inverse_diagonale},
+    \item Tel que démontré à l'exercice
+      \ref{chap:revision}.\ref{ex:revision:inverse_diagonale},
       l'inverse est
       \begin{displaymath}
         \begin{bmatrix}
@@ -1477,8 +1478,9 @@
         \end{bmatrix}.
       \end{displaymath}
     \item Pour obtenir l'inverse de cette matrice par la méthode
-      utilisée à l'exercice \ref{ex:inverse_par_op_elementaires}, il
-      suffit d'échanger les lignes de bas en haut, puis de diviser
+      utilisée à l'exercice
+      \ref{chap:revision}.\ref{ex:revision:inverse_par_op_elementaires},
+      il suffit d'échanger les lignes de bas en haut, puis de diviser
       celles-ci par $k_4$, $k_3$, $k_2$ et $k_1$, respectivement. On
       trouve alors que l'inverse est
       \begin{displaymath}
@@ -1490,7 +1492,7 @@
         \end{bmatrix}.
       \end{displaymath}
     \item On utilise la méthode de l'exercice
-      \ref{ex:inverse_par_op_elementaires}.
+      \ref{chap:revision}.\ref{ex:revision:inverse_par_op_elementaires}.
       \setlength{\ocolumnsep}{\columnsep}
       \setlength{\columnsep}{-86pt}
       \begin{multicols}{2}
@@ -1620,12 +1622,11 @@
         \mat{A}^{-1} = \mat{E}_2 \mat{E}_1 =
         \begin{bmatrix} 1 & 0 \\ \frac{5}{2} & \frac{1}{2} \end{bmatrix}.
       \end{displaymath}
-    \item Du théorème \ref{thm:revision:matrices_elementaires} des
-      notes de cours, une matrice élémentaire est inversible et son
-      inverse est aussi une matrice élémentaire. Par conséquent, on
-      peut isoler $\mat{A}$ dans l'équation $\mat{E}_2 \mat{E}_1
-      \mat{A} = \mat{I}$ pour obtenir $\mat{A} = \mat{E}_1^{-1}
-      \mat{E}_2^{-1}$. Or,
+    \item Du théorème 6.7 des notes de cours, une matrice élémentaire
+      est inversible et son inverse est aussi une matrice élémentaire.
+      Par conséquent, on peut isoler $\mat{A}$ dans l'équation
+      $\mat{E}_2 \mat{E}_1 \mat{A} = \mat{I}$ pour obtenir $\mat{A} =
+      \mat{E}_1^{-1} \mat{E}_2^{-1}$. Or,
       \begin{displaymath}
         \mat{E}_1^{-1} =
         \begin{bmatrix} 1&0 \\ -5&1 \end{bmatrix} \quad
@@ -1785,11 +1786,11 @@
     \end{enumerate}
   \end{multicols}
   \begin{sol}
-    Tel que vu au théorème \ref{thm:revision:unification} des notes de
-    cours, les concepts d'inversibilité et de solution d'un système
-    d'équations linéaires homogène sont liés: une matrice carrée
-    $\mat{A}$ est inversible si et seulement si $\mat{A} \mat{x} =
-    \mat{0}$ n'admet que la solution triviale.
+    Tel que vu au théorème 6.13 des notes de cours, les concepts
+    d'inversibilité et de solution d'un système d'équations linéaires
+    homogène sont liés: une matrice carrée $\mat{A}$ est inversible si
+    et seulement si $\mat{A} \mat{x} = \mat{0}$ n'admet que la
+    solution triviale.
     \begin{enumerate}
     \item Les quatre équations sont linéairement indépendantes, donc
       la matrice des coefficients est inversible et la seule solution
@@ -1888,7 +1889,7 @@
   \end{enumerate}
   \begin{sol}
     On utilise les propriétés du déterminant énoncées dans le théorème
-    \ref{thm:revision:prop.determinant} des notes de cours.
+    6.11 des notes de cours.
     \begin{enumerate}
     \item $\det(3 \mat{A}) = 3^3 \det(\mat{A}) = -189$
     \item $\det(\mat{A}^{-1}) = 1/\det(\mat{A}) = -\frac{1}{7}$
@@ -2026,6 +2027,12 @@
 
 \Closesolutionfile{reponses}
 \Closesolutionfile{solutions}
+
+%%%
+%%% Insérer les réponses
+%%%
+\input{reponses-revision_algebre_lineaire}
+
 
 %%% Local Variables:
 %%% mode: latex
