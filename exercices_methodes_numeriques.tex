@@ -11,7 +11,7 @@
   \usepackage[alwaysadjust]{paralist}
 
   %%% Page titre
-  \title{\HUGE Exercices de \\ méthodes numériques
+  \title{\HUGE Exercices de \\ méthodes numériques \\[0.5\baselineskip]
     \huge Avec solutions}
   \author{\LARGE Vincent Goulet \\[3mm]
     \large École d'actuariat, Université Laval}
@@ -30,6 +30,7 @@
 
   %%% Légendes des figures en italique
   \captiontitlefont{\itshape}
+  \captiondelim{ --- }
 
   %%% Associations entre les environnements et les fichiers
   \Newassociation{sol}{solution}{solutions}
@@ -100,6 +101,9 @@
   %%% linéaire.
   \newlength{\ocolumnsep}
 
+  %%% Petit coup de pouce pour la césure
+  \hyphenation{con-gruen-tiel}
+  \hyphenation{con-gruen-tiels}
 
 %\includeonly{pagetitre}
 
@@ -146,7 +150,7 @@
 \appendix
 \include{solutions}
 
-\nocite{Gentle_98,Monahan_01,Rubinstein_81,Ripley_87,BurdenFaires,Anton8e}
+\nocite{Monahan_01,Rubinstein_81}
 
 \bibliographystyle{francais}
 \bibliography{stat,math,vg}

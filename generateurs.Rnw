@@ -155,7 +155,7 @@ x <- rand(n = 500, a = 85, c = 0, m = 2^13-1, seed = 19)
 @
       Ce générateur semble préférable à celui en a) puisque les
       points sont plus uniformément disposés sur le graphique (voir
-      figure \ref{fig:generation:a=85}.
+      figure \ref{fig:generation:a=85}).
       \begin{figure}[btp]
         \centering
 <<echo=FALSE,fig=TRUE>>=

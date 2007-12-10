@@ -35,11 +35,11 @@
   Les questions ci-dessous font appel à des notions de transformation
   de variables aléatoires étudiées dans le cours ACT-16384.
   \begin{enumerate}
-  \item Vérifier (de manière heuristique seulement) que la
-    transformation ci-dessus est bijective de $\{(u_1, u_2); 0 < u_1 <
-    1, 0 < u_2 < 1\}$ à $\{(x_1, x_2); -\infty < x_1 < \infty, -\infty
-    < x_2 < \infty\}$, c'est-à-dire qu'elle associe à un point $(u_1,
-    u_2)$ un et un seul point $(x_1, x_2)$.
+  \item Vérifier de manière heuristique que la transformation
+    ci-dessus est bijective de $\{(u_1, u_2); 0 < u_1 < 1, 0 < u_2 <
+    1\}$ à $\{(x_1, x_2); -\infty < x_1 < \infty, -\infty < x_2 <
+    \infty\}$, c'est-à-dire qu'elle associe à un point $(u_1, u_2)$ un
+    et un seul point $(x_1, x_2)$.
   \item Démontrer que la transformation inverse est
     \begin{align*}
       U_1 &= e^{-(X_1^2 + X_2^2)/2} \\
@@ -54,8 +54,8 @@
     \item Simuler deux séries de nombres uniformes sur l'intervalle
       $(0, 1)$ avec la fonction \texttt{runif}.
     \item Transformer les nombres uniformes en nombres normaux sans
-      boucle avec la fonction \texttt{outer} et deux fonctions
-      anonymes.
+      utiliser de boucles grâce à la fonction \texttt{outer} et deux
+      fonctions anonymes.
     \item Tracer un histogramme des résultats avec
 <<echo=TRUE, eval=FALSE>>=
 hist(x, prob = TRUE)
@@ -705,8 +705,8 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
     \end{displaymath}
     \emph{Astuce}: utiliser la loi des probabilités totales en
     conditionnant sur $Y = y$.
-  \item Quelle est la distribution du nombre d'essais avant d'accepter
-    un nombre $y$ dans la méthode d'acceptation-rejet?
+  \item Déterminer la distribution du nombre d'essais avant d'accepter
+    un nombre $y$ dans la méthode d'acceptation-rejet.
   \item Déterminer le nombre moyen d'essais avant d'accepter un nombre
     $y$ dans la méthode d'acceptation-rejet.
   \end{enumerate}
@@ -796,9 +796,17 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
   Bêta$(3, 2)$ à l'aide de la méthode d'acceptation-rejet.
   \begin{enumerate}
   \item Calculer l'efficacité de l'algorithme développé au problème
-    \ref{chap:simulation}.\ref{ex:simulation:mode} pour le cas présent.
-  \item Calculer l'efficacité de l'algorithme développé à l'exemple
-    3.7 des notes de cours.
+    \ref{chap:simulation}.\ref{ex:simulation:mode} lorsque adapté au
+    cas présent.
+  \item Calculer l'efficacité de l'algorithme développé dans l'exemple
+    3.7 des notes de cours, où l'on a déterminé que
+    \begin{displaymath}
+      f_{X}(x) \leq
+      \begin{cases}
+        3x, & 0 < x < 0,8 \\
+        12 - 12 x, & 0,8 \leq x < 1.
+      \end{cases}
+    \end{displaymath}
   \item Faire la mise en oeuvre en S et/ou VBA de l'algorithme le plus
     efficace entre celui de la partie a) et celui de la partie b).
     Vérifier la fonction en superposant l'histogramme d'un grand
@@ -819,8 +827,9 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
         x = \frac{\alpha - 1}{\alpha + \beta - 2}.
       \end{displaymath}
       Par conséquent, l'efficacité de l'algorithme d'acceptation-rejet
-      décrit à l'exercice \ref{chap:simulation}.\ref{ex:simulation:mode} et consistant à borner la
-      densité par un rectangle de hauteur $M$ est
+      décrit à l'exercice
+      \ref{chap:simulation}.\ref{ex:simulation:mode} et consistant à
+      borner la densité par un rectangle de hauteur $M$ est
       \begin{align*}
         \frac{1}{M}
         &= \frac{1}{f((\alpha - 1)/(\alpha + \beta - 2))} \\

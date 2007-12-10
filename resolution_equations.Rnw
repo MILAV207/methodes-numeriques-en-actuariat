@@ -25,7 +25,7 @@
 %%%
 
 <<echo=FALSE>>=
-options(width = 55)
+options(width = 55, digits = 5)
 @
 
 \begin{exercice}
@@ -195,9 +195,9 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
 
 \begin{exercice}
   \label{ex:resolution:sqrt(2)}
-  Trouver la valeur numérique de $\sqrt{2}$ à l'aide de la méthode de
-  bissection dans l'intervalle $[0, 2] $ avec 10 itérations.  Comparer
-  avec la vraie valeur.
+  Déterminer la valeur numérique de $\sqrt{2}$ à l'aide de la méthode
+  de bissection dans l'intervalle $[0, 2] $ avec 10 itérations.
+  Comparer avec la vraie valeur.
   \begin{sol}
     On trouve la racine de $f(x) = x^2 - 2$ dans l'intervalle $[0, 2]$
     par la méthode de bissection avec un maximum de 10 itérations. Le
@@ -465,9 +465,9 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
   à l'aide de votre fonction S.
   \begin{sol}
     On considère la fonction $g(x) = 2^{-x}$ dans l'intervalle
-    $[\frac{1}{3}, 1]$. En premier lieu, $g(x) \in [\frac{1}{2},
+    $[\frac{1}{3}, 1]$. En premier lieu, on a $g(x) \in [\frac{1}{2},
     1/\sqrt[3]{2}] \subset [\frac{1}{3}, 1]$ pour $x \in [\frac{1}{3},
-    1]$. De plus, $g^\prime(x) = -2^{-x - 1} (\ln 2)$, d'où
+    1]$. De plus, on a $g^\prime(x) = -2^{-x - 1} (\ln 2)$, d'où
     \begin{displaymath}
       |g^\prime(x)| = \frac{\ln 2}{2^{x + 1}} \leq \ln 2 < 1, \quad
       \frac{1}{3} \leq x \leq 1.
@@ -859,8 +859,8 @@ End Function
       &= \frac{120(1 + i)^{-11}[(1 + i)^{1/12} - 1] - [1 - (1 +
         i)^{-10}](1 + i)^{-11/12}}{144 [(1 + i)^{1/12} - 1]^2}.
     \end{align*}
-    Cette dernière est la fonction utilisée dans la méthode de
-    Newton--Raphson et sa pente est presque nulle, d'où une
+    On remarquera que cette dernière est la fonction utilisée dans la
+    méthode de Newton--Raphson et sa pente est presque nulle, d'où une
     convergence très rapide; voir la figure
     \ref{fig:resolution:a_angle:g3}.
     \begin{figure}
