@@ -7,15 +7,18 @@
   \usepackage[noae]{Sweave}
   \usepackage{graphicx,color,multicol}
   \usepackage[absolute]{textpos}
-  \usepackage{answers,listings}
+  \usepackage{answers}
   \usepackage[alwaysadjust]{paralist}
 
   %%% Page titre
-  \title{\HUGE Exercices de \\ méthodes numériques \\[0.5\baselineskip]
-    \huge Avec solutions}
+  \title{\HUGE
+    \fontseries{ub}\selectfont Exercices \\
+    \fontseries{m}\selectfont  de \\
+    \fontseries{ub}\selectfont méthodes numériques \\[0.5\baselineskip]
+    \huge\fontseries{m}\selectfont Avec solutions}
   \author{\LARGE Vincent Goulet \\[3mm]
     \large École d'actuariat, Université Laval}
-  \date{\large Version 1.0}
+  \date{}
   \newcommand{\ISBN}{978-2-9809136-8-6}
 
   %%% Style des entêtes de chapitres
@@ -27,6 +30,9 @@
   \setlength{\headwidth}{\textwidth}
   \addtolength{\headwidth}{\marginparsep}
   \addtolength{\headwidth}{\marginparwidth}
+
+  %%% Style de la bibliographie
+  \bibliographystyle{francais}
 
   %%% Légendes des figures en italique
   \captiontitlefont{\itshape}
@@ -71,23 +77,6 @@
   \newcommand{\ieee}[3]{%
     \fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
   \newcommand{\tr}{\mathrm{tr}}
-
-  %%% Paramètres pour les sections de code source
-  \lstloadlanguages{R}
-  \lstdefinelanguage{Renhanced}[]{R}{%
-    morekeywords={acf,ar,arima,arima.sim,colMeans,colSums,is.na,is.null,%
-      mapply,ms,na.rm,nlmin,replicate,row.names,rowMeans,rowSums,seasonal,%
-      sys.time,system.time,ts.plot,which.max,which.min},
-    deletekeywords={c},
-    alsoletter={.\%},%
-    alsoother={:_\$}}
-  \lstset{language=Renhanced,extendedchars=true,
-    basicstyle=\small\ttfamily,
-    commentstyle=\textsl,
-    keywordstyle=\mdseries,
-    showstringspaces=false,
-    index=[1][keywords],
-    indexstyle=\indexfonction}
 
   %%% Environnements pour le code S: police plus petite
   \RecustomVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl,fontsize=\small}
@@ -151,12 +140,7 @@
 \include{solutions}
 
 \nocite{Monahan_01,Rubinstein_81}
-
-\bibliographystyle{francais}
 \bibliography{stat,math,vg}
-
-\cleardoublepage
-\printindex
 
 \cleardoublepage
 \cleartoverso
