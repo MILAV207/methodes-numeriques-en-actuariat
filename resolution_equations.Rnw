@@ -1,938 +1,539 @@
 \chapter{Résolution d'équations à une variable}
 \label{chap:resolution}
 
-%%%
-%%% Fichers de solutions et de réponses
-%%%
+\begin{itemize}
+\item Un investisseur est disposé à payer $k$~\$ aujourd'hui en retour
+  d'une série de $n$ versements de 1~\$, le premier dans un an. Quel
+  taux de rendement exige-t-il?
 
-\Opensolutionfile{reponses}[reponses-resolution_equations]
-\Opensolutionfile{solutions}[solutions-resolution_equations]
-
-\begin{Filesave}{reponses}
-\bigskip
-\section*{Réponses}
-
-\end{Filesave}
-
-\begin{Filesave}{solutions}
-\section*{Chapitre \ref{chap:resolution}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:resolution}}
-
-\end{Filesave}
-
-%%%
-%%% Début des exercices
-%%%
-
-<<echo=FALSE>>=
-options(width = 55, digits = 5)
-@
-
-\begin{exercice}
-  Écrire des fonctions S pour effectuer les calculs des algorithmes de
-  bissection, du point fixe, de Newton--Raphson et de la sécante.
-  Outre les arguments communs à toutes les fonctions que sont le
-  niveau de tolérance $\varepsilon$, le nombre maximal d'itérations
-  $N_{\mathrm{max}}$ et une valeur booléenne spécifiant si les valeurs
-  successives des itérations doivent être affichées à l'écran, les
-  fonctions doivent compter les arguments mentionnés dans le tableau
-  ci-dessous.
-  \begin{center}
-    \begin{tabular}{ll}
-      \toprule
-      Méthode d'approximation & Arguments de la fonction S \\
-      \midrule
-      Bissection & $f(x)$, $a$, $b$ \\
-      Point fixe & $f(x)$, $x_0$ \\
-      Newton--Raphson & $f(x)$, $f^\prime(x)$, $x_0$ \\
-      Sécante & $f(x)$, $x_0$, $x_1$ \\
-      \bottomrule
-    \end{tabular}
-  \end{center}
-  \begin{sol}
-    Se baser sur la fonction de point fixe \texttt{fp} présentée au
-    chapitre 5 de \cite{Goulet_intro_S} pour composer les fonctions de
-    bissection, de Newton--Raphson et de la sécante.
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  \label{ex:resolution:toutes}
-  Trouver la solution des équations suivantes par les méthodes de
-  bissection, de Newton-Raphson et de la sécante.
-  \begin{enumerate}
-  \item $x^3 - 2 x^2 - 5 = 0$ pour $1 \leq x \leq 4$
-  \item $x^3 + 3 x^2 - 1 = 0$ pour $-4 \leq x \leq 0$
-  \item $x - 2^{-x} = 0$ pour $0 \leq x \leq 1$
-  \item $e^x + 2^{-x} + 2 \cos x - 6 = 0$ pour $1 \leq x \leq 2$
-  \item $e^x - x^2 + 3x - 2 = 0$ pour $0 \leq x \leq 1$
-  \end{enumerate}
-  \begin{sol}
-    Les solutions suivantes ont été obtenues à l'aide de nos fonctions
-    de résolution d'équations à une variable. Les valeurs
-    intermédiaires sont affichées pour montrer la convergence. La
-    figure \ref{fig:resolution:toutes} contient les graphiques des cinq
-    fonctions pour les intervalles mentionnés dans l'énoncé.
-    \begin{figure}
-      \centering
-      \begin{minipage}{0.45\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x^3 - 2 * x^2 - 5
-curve(f, xlim = c(1, 4), lwd = 2)
-abline(h = 0)
-@
-        \subcaption{$f(x) = x^3 - 2 x^2 - 5$}
-      \end{minipage}
-      \hfill
-      \begin{minipage}{0.45\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x^3 + 3 * x^2 - 1
-curve(f, xlim = c(-4, 0), lwd = 2)
-abline(h = 0)
-@
-        \subcaption{$f(x) = x^3 + 3 x^2 - 1$}
-      \end{minipage} \\
-      \begin{minipage}{0.45\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x - 2^(-x)
-curve(f, xlim = c(0, 1), lwd = 2)
-abline(h = 0)
-@
-        \subcaption{$f(x) = x - 2^{-x}$}
-      \end{minipage}
-      \hfill
-      \begin{minipage}{0.45\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) exp(x) + 2^(-x) + 2 * cos(x) - 6
-curve(f, xlim = c(1, 2), lwd = 2)
-abline(h = 0)
-@
-        \subcaption{$f(x) = e^x + 2^{-x} + 2 \cos x - 6$}
-      \end{minipage} \\
-      \begin{minipage}{0.45\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) exp(x) - x^2 + 3 * x - 2
-curve(f, xlim = c(0.2, 0.3), lwd = 2)
-abline(h = 0)
-@
-        \subcaption{$f(x) = e^x - x^2 + 3x - 2$}
-      \end{minipage}
-      \caption{Fonctions de l'exercice
-        \ref{chap:resolution}.\ref{ex:resolution:toutes}.}
-      \label{fig:resolution:toutes}
-    \end{figure}
-<<echo=FALSE>>=
-source("bissection.R")
-source("nr.R")
-source("secante.R")
-@
-    \begin{enumerate}
-    \item La fonction n'a qu'une seule racine dans $[1, 4]$.
-<<echo=TRUE>>=
-f1 <- function(x) x^3 - 2 * x^2 - 5
-f1p <- function(x) 3 * x^2 - 4 * x
-bissection(f1, lower = 1, upper = 4, echo = TRUE)
-nr(f1, f1p, start = 2.5, echo = TRUE)
-secante(f1, start0 = 1, start1 = 4, echo = TRUE)
-@
-    \item La fonction possède deux racines dans $[-4, 0]$. La
-      convergence se fera vers l'une ou l'autre selon la position
-      de la ou des valeurs de départ par rapport à l'extremum de la
-      fonction dans l'intervalle. Ici, il s'agit d'un maximum $x =
-      -2$. Ainsi, avec des valeurs de départ inférieures au maximum,
-      on trouve la première racine:
-<<echo=TRUE>>=
-f2 <- function(x) x^3 + 3 * x^2 - 1
-f2p <- function(x) 3 * x^2 + 6 * x
-bissection(f2, lower = -3, upper = -2.8, echo = TRUE)
-nr(f2, f2p, start = -3, echo = TRUE)
-secante(f2, start0 = -3, start1 = -2, echo = TRUE)
-@
-      Pour trouver la seconde racine, on utilise des valeurs de départ
-      supérieures au maximum:
-<<echo=TRUE>>=
-bissection(f2, lower = -1, upper = 0.5, echo = TRUE)
-nr(f2, f2p, start = -1, echo = TRUE)
-secante(f2, start0 = -2, start1 = -1, echo = TRUE)
-@
-      On remarquera que les deux valeurs de départ de la méthode de la
-      sécante n'ont pas à se trouver de part et d'autre de la racine.
-    \item La fonction n'a qu'une seule racine dans $[0, 1]$ et elle
-      est légèrement supérieure à $0,6$.
-<<echo=TRUE>>=
-f3 <- function(x) x - 2^(-x)
-f3p <- function(x) 1 + log(2) * 2^(-x)
-bissection(f3, lower = 0.6, upper = 0.65, echo = TRUE)
-nr(f3, f3p, start = 0.6, echo = TRUE)
-secante(f3, start0 = 0.6, start1 = 0.65, echo = TRUE)
-@
-    \item La fonction n'a qu'une seule racine dans $[1, 2]$ et elle
-      est légèrement supérieure à $1,8$.
-<<echo=TRUE>>=
-f4 <- function(x) exp(x) + 2^(-x) + 2 * cos(x) - 6
-f4p <- function(x) exp(x) - 2^(-x) * log(2) - 2 * sin(x)
-bissection(f4, lower = 1.8, upper = 1.85, echo = TRUE)
-nr(f4, f4p, start = 1.8, echo = TRUE)
-secante(f4, start0 = 1.8, start1 = 1.85, echo = TRUE)
-@
-    \item Encore ici, la fonction n'a qu'une seule racine dans
-      l'intervalle mentionné et elle se situe autour de $0,25$.
-<<echo=TRUE>>=
-f5 <- function(x) exp(x) - x^2 + 3 * x - 2
-f5p <- function(x) exp(x) - 2 * x + 3
-bissection(f5, lower = 0.24, upper = 0.26, echo = TRUE)
-nr(f5, f5p, start = 0.26, echo = TRUE)
-secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
-@
-    \end{enumerate}
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  \label{ex:resolution:sqrt(2)}
-  Déterminer la valeur numérique de $\sqrt{2}$ à l'aide de la méthode
-  de bissection dans l'intervalle $[0, 2] $ avec 10 itérations.
-  Comparer avec la vraie valeur.
-  \begin{sol}
-    On trouve la racine de $f(x) = x^2 - 2$ dans l'intervalle $[0, 2]$
-    par la méthode de bissection avec un maximum de 10 itérations. Le
-    tableau \ref{tab:resolution:sqrt(2)} contient les valeurs
-    successives de $a$, $b$, $x = (a + b)/2$ et $f(x)$.
-    \begin{table}[t]
-      \centering
-      \caption{\normalfont Valeurs successives de la méthode de
-        bissection pour l'exercice
-        \ref{chap:resolution}.\ref{ex:resolution:sqrt(2)}.}
-      \label{tab:resolution:sqrt(2)}
-      \begin{tabular}{rllll}
-        \toprule
-        \multicolumn{1}{c}{$n$} &
-        \multicolumn{1}{c}{$a_n$} &
-        \multicolumn{1}{c}{$b_n$} &
-        \multicolumn{1}{c}{$x_n$} &
-        \multicolumn{1}{c}{$f(x_n)$} \\
-        \midrule
-        1 & 0 & 2 & 1 & $-1$ \\
-        2 & 1,00 & 2,00 & 1,50 & 0,25 \\
-        3 & 1,0000 &  1,5000 &  1,2500 & $-0,4375$ \\
-        4 & 1,250000 &  1,500000 &  1,375000 & $-0,109375$ \\
-        5 & 1,37500000 & 1,50000000 & 1,43750000 & 0,06640625 \\
-        6 & 1,37500000 &  1,43750000 &  1,40625000 & $-0,02246094$ \\
-        7 & 1,40625000 & 1,43750000 & 1,42187500 & 0,02172852 \\
-        8 & 1,4062500000 &  1,4218750000 &  1,4140625000 & $-0,0004272461$ \\
-        9 & 1,41406250 & 1,42187500 & 1,41796875 & 0,01063538 \\
-        10 & 1,41406250 & 1,41796875 & 1,41601562 & 0,00510025 \\
-        \bottomrule
-      \end{tabular}
-    \end{table}
-    On obtient donc une réponse de $1,41601562$, alors que la vraie
-    réponse est le nombre irrationnel $\sqrt{2} = 1,414214$.
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Soit $\{x_n\}$ une suite définie par
+  On doit trouver la valeur de $i$ tel que $a_{\angl{n}\, i} = k$, soit
   \begin{displaymath}
-    x_n = \sum_{k=1}^n \frac{1}{k}.
+    f(i) = \frac{1 - (1 + i)^{-n}}{i} -k = 0.
   \end{displaymath}
-  Démontrer que $\lim_{n \rightarrow \infty} (x_n - x_{n-1}) = 0$,
-  mais que la suite diverge néanmoins. Ceci illustre que l'erreur
-  absolue peut être un mauvais critère d'arrêt dans les méthodes
-  numériques.
-  \begin{sol}
-    On a que
-    \begin{align*}
-      x_n - x_{n - 1}
-      &= \sum_{k=1}^n \frac{1}{k} - \sum_{k=1}^{n - 1} \frac{1}{k} \\
-      &= \frac{1}{n},
-    \end{align*}
-    d'où $\lim_{n \rightarrow \infty} (x_n - x_{n-1}) = \lim_{n
-      \rightarrow \infty} n^{-1} = 0$. Or, $\sum_{k=1}^n k^{-1}$ est
-    la série harmonique qui est connue pour diverger. On peut, par
-    exemple, justifier ceci par le fait que l'intégrale
-    \begin{displaymath}
-      \int_1^\infty \frac{1}{x}\, dx
-    \end{displaymath}
-    diverge elle-même. Cet exercice illustre donc que le critère $|x_n
-    - x_{n - 1}| < \varepsilon$ peut être satisfait même pour une
-    série divergente.
-  \end{sol}
-\end{exercice}
 
-\newpage
+\item On a un échantillon aléatoire $X_1, \dots, X_n$ provenant d'une
+  distribution binomiale négative avec fonction de masse de probabilité
+  \begin{displaymath}
+    \Pr[X = x] = \binom{x + r - 1}{r - 1} p^r (1 - p)^x, \quad x = 0,
+    1, \dots,
+  \end{displaymath}
+  où $p$ est supposé connu. Trouver l'estimateur du maximum de
+  vraisemblance du paramètre $r$.
 
-\begin{exercice}
-  Considérer la fonction $g(x) = 3^{-x}$ sur l'intervalle $[0,
-  1]$.
-  \begin{enumerate}
-  \item Vérifier si les hypothèses du théorème 5.1 des notes de cours
-    quant à l'existence et l'unicité d'un point fixe dans $[0, 1]$
-    sont satisfaites.
-  \item Déterminer graphiquement l'existence et l'unicité d'un point
-    fixe de $g(x)$ dans $[0, 1]$ puis, le cas échéant, calculer ce
-    point fixe.
-  \end{enumerate}
-  \begin{sol}
-    \begin{enumerate}
-    \item On considère la fonction $g(x) = 3^{-x}$ dans l'intervalle
-      $[0, 1]$. En premier lieu, $1/3 \leq 3^{-x} \leq 1$ pour $0 \leq
-      x \leq 1$, donc $g(x) \in [0, 1]$. De plus, $g^\prime(x) = -
-      3^{-x - 1} (\ln 3)$, d'où
-      \begin{displaymath}
-        |g^\prime(x)| = \frac{\ln 3}{3^{x + 1}} \leq \ln 3 < 1, \quad
-        0 \leq x \leq 1.
-      \end{displaymath}
-      Par le théorème 5.1 des notes de cours, la fonction $g$ possède
-      un point fixe unique dans l'intervalle $[0, 1]$.
-    \item Le graphique de la fonction $g$ se trouve à la figure
-      \ref{fig:resolution:3^-x}. On constate que la fonction a effectivement un
-      point fixe unique dans l'intervalle $[0, 1]$ et que celui-ci se
-      trouve près de $x = \frac{1}{2}$. On peut donc utiliser cette
-      valeur comme point de départ de l'algorithme du point fixe:
+  La fonction de vraisemblance est
+  \begin{align*}
+    L(r)
+    &= \prod_{i = 1}^n \Pr[X = x_i] \\
+    &= \prod_{i = 1}^n \binom{x_i + r - 1}{r - 1} p^r (1 - p)^{x_i} \\
+  \end{align*}
+  et la fonction de log-vraisemblance est
+  \begin{align*}
+    l(r)
+    &= \sum_{i = 1}^n
+    [\ln \Gamma(x_i + r) - \ln \Gamma(r) - \ln \Gamma(x_i - 2) \\
+    &\quad\; + r \ln p + x_i \ln (1 - p)].
+  \end{align*}
+  Par conséquent, l'estimateur du maximum de vraisemblance $\hat{r}$
+  est la solution de
+  \begin{displaymath}
+    \frac{d}{dr}\, l(r) = \underbrace{%
+      \sum_{i = 1}^n (\Psi(x_i + r) - \Psi(r) + \ln p)}_{f(r)}
+    = 0,
+  \end{displaymath}
+  où $\Psi(x) = \Gamma(x)^\prime/\Gamma(x)$ est la \emph{fonction
+    digamma}.
+\end{itemize}
+
+Problème de base, mais fréquemment rencontré en analyse numérique:
+trouver la racine d'une fonction $f(x)$, c'est-à-dire la solution de
+$f(x) = 0$.
+
+
+\section{Méthode de bissection}
+\label{sec:resolution:bissection}
+
+La méthode de bissection est la plus simple et intuitive de résolution
+d'une équation à une variable, mais aussi la plus inefficace.
+
+Soit $f$ une fonction continue sur $[a, b]$ et $f(a)$ et $f(b)$ sont
+de signes opposés. Par le théorème de la valeur intermédiaire, il
+existe un point $x^*$ tel que $f(x^*) = 0$.
+
+Idée de la méthode de bissection: trouver le point $x^*$ en utilisant
+le point milieu d'intervalles de plus en plus petits.
+
+\SweaveOpts{height=4, width=6}
+\begin{center}
+<<echo=FALSE,fig=TRUE>>=
+par(mar = c(4, 4, 1, 1))
+f <- function(x) x^3 + x
+curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2, axes = FALSE)
+x <- c(-0.5, 0.75, 0.125, -0.1875, 0)
+#segments(x, -2.08, x, f(x), lty = 2)
+points(x, f(x), pch = c(rep(21, 4), 19), bg = "gray")
+axis(1, at = x,
+     labels = c("a", "b", expression(x[1]), expression(x[2]),
+     expression(x^"*")))
+axis(2)
+abline(h = 0)
+box()
+@
+\end{center}
+
+On peut utiliser différents critères pour arrêter la procédure:
+\begin{enumerate}
+\item $|f(x_n)| < \varepsilon$. Peut être satisfait même si $x_n \gg
+  x^*$ ou $x_n \ll x^*$;
+  \begin{center}
+    \begin{minipage}[c]{0.4\linewidth}
+<<echo=FALSE,fig=TRUE>>=
+par(mar = c(1, 4, 1, 1))
+f <- function(x) x^3 - x^2 - x - 10
+curve(f(x), xlim = c(-10, 10), xlab = "", ylab = "f(x)",
+      lwd = 2, axes = FALSE)
+axis(2)
+abline(h = 0)
+box()
+@
+    \end{minipage}
+    \begin{minipage}[c]{0.4\linewidth}
+<<echo=FALSE,fig=TRUE>>=
+par(mar = c(1, 4, 1, 1))
+f <- function(x) x^3 - x^2 - x - 0.2
+curve(f(x), xlim = c(-1, 2), xlab = "", ylab = "f(x)",
+      lwd = 2, axes = FALSE)
+axis(2)
+abline(h = 0)
+box()
+@
+    \end{minipage}
+  \end{center}
+
+\item $|x_n - x_{n - 1}| < \varepsilon$. Peut être satisfait même si
+  $\{x_n\}$ diverge. Le choix de $\varepsilon$ est donc important;
+
+\item $|x_n - x_{n - 1}|/|x_n| < \varepsilon$ pour $x_n \neq 0$. En
+  général le meilleur choix.
+\end{enumerate}
+
+\begin{commentaire}
+  Présentation de l'algorithme et des deux exemples au projecteur.
+\end{commentaire}
+
+%%% ALGORITHME DE BISSECTION À INSÉRER
+\input{input_algorithme_bissection}
+
+%%% DEUX EXEMPLES À INSÉRER
+\input{input_exemple_bissection_1}
+\input{input_exemple_bissection_2}
+
+
+
+\section{Méthode du point fixe}
+\label{sec:resolution:pointfixe}
+
 <<echo=FALSE>>=
 source("pointfixe.R")
 @
-<<echo=TRUE>>=
-pointfixe(function(x) 3^(-x), start = 0.5)
-@
-      On remarque que la réponse est indépendante de la valeur de
-      départ:
-<<echo=TRUE>>=
-pointfixe(function(x) 3^(-x), start = 0)
-pointfixe(function(x) 3^(-x), start = 1)
-pointfixe(function(x) 3^(-x), start = 2)
-@
-      \begin{figure}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
+
+La solution de l'équation
+\begin{center}
+  \begin{minipage}[c]{0.4\linewidth}
+    \begin{displaymath}
+      g(x) = x
+    \end{displaymath}
+\end{minipage}
+  \begin{minipage}[c]{0.4\linewidth}
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
 f <- function(x) x
-g <- function(x) 3^(-x)
-curve(g, xlim = c(-0.05, 1.05), ylim = c(-0.05, 1.05), lwd = 2)
+g <- function(x) x - (x^3 + 4 * x^2 - 10)/(3 * x^2 + 8 * x)
+x <- pointfixe(g, 1.5)$fixed.point
+curve(g, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25), lwd = 2)
 curve(f, add = TRUE)
-polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
+points(x, x, pch = 19)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1), lty = 2, border = "blue")
 @
-        \caption{Fonction $g(x) = 3^{-x}$ dans $[0, 1]$.}
-        \label{fig:resolution:3^-x}
-      \end{figure}
-    \end{enumerate}
-  \end{sol}
-\end{exercice}
+  \end{minipage}
+\end{center}
+est un \emph{point fixe} de la fonction $g$.
 
-\begin{exercice}
-  Vérifier que les cinq fonctions $g_1, \dots, g_5$ de l'exemple 5.4
-  des notes de cours ont toutes un point fixe en $x^*$ lorsque $f(x^*)
-  = 0$, où $f(x) = x^3 + 4x^2 - 10$.
-  \begin{sol}
-    Les cinq fonctions sont les suivantes:
-    \begin{align*}
-      g_1(x) &= x - x^3 - 4 x^2 + 10  \\
-      g_2(x) &= \left( \frac{10}{x} - 4x \right)^{1/2} \\
-      g_3(x) &= \frac{1}{2} (10 - x^3)^{1/2} \\
-      g_4(x) &= \left( \frac{10}{4 + x} \right)^{1/2} \\
-      g_5(x) &= x - \frac{x^3 + 4 x^2 - 10}{3x^2 + 8x}.
-    \end{align*}
-    Soit $f(x) = x^3 + 4x^2 - 10$. On peut réécrire l'équation $f(x) =
-    0$ de différentes façons:
-    \begin{enumerate}
-    \item $x = x - f(x)$;
-    \item $x^3 = 10 - 4x^2 \Rightarrow x^2 = 10/x - 4x \Rightarrow x =
-      (10/x - 4x)^{1/2}$;
-    \item $4x^2 = 10 - x^3 \Rightarrow x^2 = (10 - x^3)/4 \Rightarrow
-      x = \frac{1}{2}(10 - x^3)^{1/2}$;
-    \item $4x^2 +  x^3 = 10 \Rightarrow x^2 = 10/(4 + x) \Rightarrow x
-      = (10/(4 + x))^{1/2}$;
-    \item $x = x - f(x)/f^\prime(x)$.
-    \end{enumerate}
-    Les fonctions $g_1$ à $g_5$ correspondent, dans l'ordre, au côté
-    droit de chacune des équations ci-dessus. On remarquera que la
-    fonction $g_5$ est celle préconisée par la méthode de
-    Newton--Raphson --- et celle qui converge le plus rapidement.
-  \end{sol}
-\end{exercice}
+Tout problème de recherche de racine peut être exprimé comme un
+problème de point fixe:
+\begin{displaymath}
+  f(x) = 0 \quad\Leftrightarrow\quad \underbrace{x - f(x)}_{\D g(x)} = x.
+\end{displaymath}
 
-\begin{exercice}
-  Soit $g(x) = 4x^2 - 14x + 14$. Pour quels intervalles de valeurs de
-  départ la procédure de point fixe converge-t-elle et diverge-t-elle?
-  \begin{sol}
-    La fonction $g(x) = 4x^2 - 14x + 14$ est une parabole ayant deux
-    points fixes. On observe graphiquement que l'un se trouve en $x =
-    2$ et que $g(1,5) = g(2)$. Or, pour toute valeur de départ $x_0 <
-    1,5$ de l'algorithme du point fixe, on constate que les valeurs de
-    $x_1, x_2, \dots$ se retrouveront de plus en plus loin sur la
-    branche droite de la parabole. Il en va de même pour tout $x_0 >
-    2$. La procédure diverge donc pour de telles valeurs de départ. En
-    revanche, il est facile de vérifier graphiquement que la procédure
-    converge pour toute valeur de départ dans l'intervalle $[1,5,\,
-    2]$. Si $x_0 = 1,5$, on obtient le point fixe $x = 2$ après une
-    seule itération.
-  \end{sol}
-  \begin{rep}
-    Converge pour $x_0 \in [1,5, 2]$; diverge pour $x_0 \leq 1,5$ et
-    $x_0 > 2$
-  \end{rep}
-\end{exercice}
-
-\begin{exercice}
-  \label{ex:resolution:racinecubique}
-  Les trois fonctions ci-dessous sont toutes des candidates pour faire
-  l'approximation, par la méthode du point fixe, de $\sqrt[3]{21}$:
-  \begin{align*}
-    g_1(x) &= \frac{20 x + 21x^{-2}}{21} \\
-    g_2(x) &= x - \frac{x^3 - 21}{3 x^2} \\
-    g_3(x) &= x - \frac{x^4 - 21 x}{x^2 - 21}.
-  \end{align*}
-  Classer ces fonctions en ordre décroissant de vitesse de convergence
-  de l'algorithme du point fixe. \emph{Astuce}: comparer les valeurs
-  des dérivées autour du point fixe.
-  \begin{sol}
-    En premier lieu, on remarque que les fonctions $g_1$, $g_2$ et
-    $g_3$ sont développées à partir de l'équation $x^3 = 21$ pour
-    calculer $\sqrt[3]{21}$ par la méthode du point fixe. La figure
-    \ref{fig:resolution:racinecubique} présente ces trois fonctions.
-    \begin{figure}
-      \centering
-      \begin{minipage}[t]{0.32\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x
-g <- function(x) (20 * x + 21 / x^2)/21
-curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
-curve(f, add = TRUE)
-polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
-@
-        \subcaption{\itshape Fonction $g_1(x)$}
-      \end{minipage}
-      \hfill
-      \begin{minipage}[t]{0.32\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x
-g <- function(x) x - (x^3 - 21)/(3 * x^2)
-curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
-curve(f, add = TRUE)
-polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
-@
-        \subcaption{\itshape Fonction $g_2(x)$}
-      \end{minipage}
-      \hfill
-      \begin{minipage}[t]{0.32\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x
-g <- function(x) x - (x^4 - 21 * x)/(x^2 - 21)
-curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
-curve(f, add = TRUE)
-polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
-@
-        \subcaption{\itshape Fonction $g_3(x)$}
-      \end{minipage}
-      \caption{Fonctions de l'exercice
-        \ref{chap:resolution}.\ref{ex:resolution:racinecubique}.}
-      \label{fig:resolution:racinecubique}
-    \end{figure}
-    On a
-    \begin{align*}
-      g_1^\prime(x)
-      &= \frac{20}{21} - \frac{2}{x^3} \\
-      g_2^\prime(x)
-      &= \frac{2}{3} - \frac{14}{x^3} \\
-      g_3^\prime(x)
-      &= 1 - \frac{2x^5 - 84 x^3 + 21 x^2 + 441}{(x^2 - 21)^2}.
-    \end{align*}
-    Considérons l'intervalle $[2,5,\, 3]$ autour du point fixe. On a
-    que $|g_2^\prime(x)| < |g_1(x)|$ pour tout $x$ dans cet
-    intervalle, donc la procédure du point fixe converge plus
-    rapidement pour $g_2$ (la fonction de la méthode de
-    Newton--Raphson). Cela se vérifie aisément sur les graphiques de
-    la figure \ref{fig:resolution:racinecubique}. Toujours à l'aide
-    des graphiques, on voit que la procédure diverge avec la fonction
-    $g_3$.
-  \end{sol}
-  \begin{rep}
-    $g_2$, $g_1$; $g_3$ ne converge pas
-  \end{rep}
-\end{exercice}
-
-\begin{exercice}
-  Démontrer, à l'aide du théorème 5.1 des notes de cours, que la
-  fonction $g(x) = 2^{-x}$ possède un point fixe unique dans
-  l'intervalle $[\frac{1}{3}, 1]$. Calculer par la suite ce point fixe
-  à l'aide de votre fonction S.
-  \begin{sol}
-    On considère la fonction $g(x) = 2^{-x}$ dans l'intervalle
-    $[\frac{1}{3}, 1]$. En premier lieu, on a $g(x) \in [\frac{1}{2},
-    1/\sqrt[3]{2}] \subset [\frac{1}{3}, 1]$ pour $x \in [\frac{1}{3},
-    1]$. De plus, on a $g^\prime(x) = -2^{-x - 1} (\ln 2)$, d'où
-    \begin{displaymath}
-      |g^\prime(x)| = \frac{\ln 2}{2^{x + 1}} \leq \ln 2 < 1, \quad
-      \frac{1}{3} \leq x \leq 1.
-    \end{displaymath}
-    Par le théorème 5.1 des notes de cours, la fonction $g$ possède
-    donc un point fixe unique dans l'intervalle $[\frac{1}{3}, 1]$. La
-    valeur de ce point fixe est
-<<echo=TRUE>>=
-pointfixe(function(x) 2^(-x), start = 2/3)
-@
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Vérifier graphiquement que le théorème 5.1 des notes de cours
-  demeure valide si la condition $|g^\prime(x)| \leq k < 1$ est
-  remplacée par $g^\prime(x) \leq k < 1$.
-  \begin{sol}
-    La condition $|g^\prime(x)| \leq k < 1$ du théorème 5.1 assure
-    l'unicité d'un point fixe. Cette condition est nécessaire pour que
-    la fonction $g(x)$ ne puisse repasser au-dessus de la droite $y =
-    x$ après l'avoir déjà croisée une première fois pour créer un
-    point fixe. Or, il est seulement nécessaire de limiter la
-    croissance de la fonction --- soit les valeurs positives de sa
-    pente. Peu importe la vitesse de décroissance de la fonction dans
-    l'intervalle $[a, b]$ (mais toujours sujet à ce que $g(x) \in [a,
-    b]$), la fonction ne peut croiser la droite $y = x$ qu'une seule
-    fois. La condition $g^\prime(x) \leq k < 1$ est donc suffisante
-    pour assurer l'unicité du point fixe dans $[a, b]$.
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Utiliser la méthode de Newton--Raphson pour trouver le point sur la
-  courbe $y = x^2$ le plus près du point $(1, 0)$. \emph{Astuce}:
-  minimiser la distance entre le point $(1, 0)$ et le point $(x,
-  x^2)$.
-  \begin{sol}
-    La distance entre deux points $(x_1, y_1)$ et $(x_2, y_2)$ de
-    $\mathbb{R}^2$ est
-    \begin{displaymath}
-      d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}.
-    \end{displaymath}
-    Par conséquent, la distance entre le point $(x, x^2)$ et le point
-    $(1, 0)$ est une fonction de $x$
-    \begin{displaymath}
-      d(x) = \sqrt{(x - 1)^2 + (x^2 - 0)^2} = \sqrt{x^4 + x^2 - 2x + 1}.
-    \end{displaymath}
-    On cherche la valeur de minimisant $d(x)$ ou, de manière
-    équivalente, $d^2(x)$. On doit donc résoudre
-    \begin{displaymath}
-      \frac{d}{dx} d^2(x) = f(x) = 4x^3 + 2x - 2 = 0
-    \end{displaymath}
-    à l'aide de la méthode de Newton-Raphson. Cela requiert également
-    \begin{displaymath}
-      f^\prime(x) = 12 x^2 + 2.
-    \end{displaymath}
-    Le point sur la courbe $y = x^2$ le plus du point $(1, 0)$ est
-    donc la limite de la suite
-    \begin{displaymath}
-      x_n = x_{n - 1} - \frac{4x_{n - 1}^3 + 2x_{n - 1} - 2}{12x_{n -
-          1}^2 + 2}, \quad n = 1, 2, \dots,
-    \end{displaymath}
-    avec $x_0$ une valeur de départ «près» de la solution. On obtient
-<<echo=TRUE>>=
-nr(function(x) 4 * x^3 + 2 * x - 2, function(x) 12 * x^2 + 2, start = 0.6)
-@
-
-    On voit à la figure \ref{fig:resolution:proche} que la solution, disons le
-    point $(x^*, (x^*)^2)$, est la projection du point $(1, 0)$ sur la
-    courbe $y = x^2$; autrement dit, la droite passant par $(x^*,
-    (x^*)^2)$ et $(1, 0)$ est perpenticulaire à la tangente de $y =
-    x^2$ en $x = x^*$.
-    \begin{figure}
-      \centering
-<<echo=FALSE, fig=TRUE>>=
-xp <- nr(function(x) 4 * x^3 + 2 * x - 2, function(x) 12 * x^2 + 2, start = 0.6)$root
-curve(x^2, xlim = c(0, 1), lwd = 2)
-segments(xp, xp^2, 1, 0)
-points(c(1, xp), c(0, xp^2), pch = 19)
-@
-      \caption{Point de $y = x^2$ le plus près du point $(1, 0)$.}
-      \label{fig:resolution:proche}
-    \end{figure}
-  \end{sol}
-  \begin{rep}
-    $0,589755$
-  \end{rep}
-\end{exercice}
-
-\begin{exercice}
-  \label{ex:resolution:tri}
-  Le taux de rendement interne d'une série de flux
-  financiers $\{\mathit{CF}_t\}$ est le taux $i$ tel que
-  \begin{displaymath}
-    \sum_{t=0}^{n} \frac{\mathit{CF}_{t}}{(1 + i)^{t}} = 0.
-  \end{displaymath}
-  Écrire une fonction S permettant de calculer le taux de rendement
-  interne d'une série de flux financiers quelconque à l'aide de la
-  méthode de Newton--Raphson. Les arguments de la fonction sont un
-  vecteur \texttt{CF} et un scalaire \texttt{erreur.max}. Au moins un
-  élément de \texttt{CF} doit être négatif pour représenter une sortie
-  de fonds. Dans tous les cas, utiliser $i = 0,05$ comme valeur de
-  départ.
-  \begin{sol}
-    La fonction devra utiliser la méthode de Newton--Raphson pour
-    trouver la racine de $f(i) = 0$, où
-    \begin{align*}
-      f(i)
-      &= \sum_{t=0}^{n} \frac{\mathit{CF}_{t}}{(1 + i)^{t}} \\
-      \intertext{et}
-      f^\prime(i)
-      &= - \sum_{t=0}^{n} \frac{t \mathit{CF}_{t}}{(1 + i)^{t + 1}}.
-    \end{align*}
-    La fonction \texttt{tri} de la figure \ref{fig:resolution:tri} calcule le
-    taux de rendement interne d'un vecteur de flux financiers en
-    utilisant notre fonction de Newton--Raphson \texttt{nr}.
-    \begin{figure}
-      \centering
-      \begin{framed}
-\begin{Scode}
-tri <- function(CF, erreur.max = 1E-6)
-{
-    if (!any(CF < 0))
-        stop("au moins un flux financier doit être
-              négatif")
-
-    t <- 0:(length(CF) - 1)
-
-    f <- function(i) sum(CF/(1 + i)^t)
-    fp <- function(i) sum((-CF * t)/((1 + i)^(t + 1)))
-
-    nr(f, fp, start = 0.05, TOL = erreur.max)$root
-}
-\end{Scode}
-      \end{framed}
-      \caption{Fonction S de calcul du taux de rendement interne d'une
-        série de flux financiers.}
-      \label{fig:resolution:tri}
-    \end{figure}
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Refaire l'exercice \ref{chap:resolution}.\ref{ex:resolution:tri} en VBA en composant une fonction
-  accessible dans une feuille Excel et comparer le résultat avec la
-  fonction Excel \texttt{TRI()}.
-  \begin{sol}
-    La figure \ref{fig:resolution:tri2} contient le code d'une fonction VBA
-    \texttt{tri2} effectuant le calcul du taux de rendement interne
-    d'un ensemble de flux financiers. Ceux-ci sont passés en argument
-    à la fonction par le bais d'une plage horizontale ou verticale de
-    montants périodiques consécutifs. La procédure de Newton--Raphson
-    est codée à même cette fonction. On peut vérifier facilement que
-    le résultat de cette fonction est identique à celui de la fonction
-    Excel \texttt{TRI()}.
-    \begin{figure}
-      \centering
-      \begin{framed}
-\begin{Scode}
-Function tri2(flux As Range, Optional ErreurMax
-              As Double = 0.000000001)
-    Dim nrow As Integer, ncol As Integer, n As Integer
-    Dim CF() As Double, f As Double, fp As Double,
-        i As Double, it As Double
-
-    nrow = flux.Rows.Count
-    ncol = flux.Columns.Count
-    n = IIf(nrow > 1, nrow, ncol) - 1
-    ReDim CF(0 To n)
-
-    For t = 0 To n
-        CF(t) = flux.Cells(t + 1, 1)
-    Next t
-
-    If CF(0) > 0 Then
-        tri2 = "Erreur"
-        Exit Function
-    End If
-
-    i = 0.05
-    Do
-        f = 0
-        fp = 0
-        it = i
-        For t = 0 To n
-            f = f + CF(t) / (1 + i) ^ t
-            fp = fp - t * CF(t) / (1 + i) ^ (t + 1)
-        Next t
-        i = i - f / fp
-    Loop Until Abs(i - it) / i < ErreurMax
-    tri2 = i
-End Function
-\end{Scode}
-      \end{framed}
-      \caption{Fonction VBA de calcul du taux de rendement interne d'une
-        série de flux financiers.}
-      \label{fig:resolution:tri2}
-    \end{figure}
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  \label{ex:resolution:gamma}
+\begin{thm}
+  \label{thm:resolution:pointfixe}
+  Soit $g$ une fonction continue sur $[a, b]$.
   \begin{enumerate}
-  \item Écrire une fonction S pour estimer par la méthode du maximum
-    de vraisemblance le paramètre $\theta$ d'une loi gamma de
-    paramètre de forme $\alpha = 3$ et de paramètre d'échelle $\theta
-    = 1/\lambda$ --- de moyenne $3 \theta$, donc --- à partir d'un
-    échantillon aléatoire $x_1, \dots, x_n$. \emph{Astuce}: maximiser
-    la fonction de log-vraisemblance plutôt que la fonction de
-    vraisemblance.
-  \item Simuler 20 observations d'une loi gamma avec paramètre de
-    forme $\alpha = 3$ et moyenne $\nombre{3000}$, puis estimer le
-    paramètre d'échelle $\theta$ par le maximum de vraisemblance.
+  \item Si $g(x) \in [a, b]$ pour tout $x \in [a, b]$, alors $g$ a un
+    point fixe dans $[a, b]$.
+  \item Si, de plus, $g^\prime(x)$ existe sur $(a, b)$ et qu'il existe
+    une constante $k$ tel que
+    \begin{displaymath}
+      |g^\prime(x)| \leq k < 1
+    \end{displaymath}
+    pour tout $x \in (a, b)$, alors $g$ a un point fixe \emph{unique}
+    dans $[a, b]$.
   \end{enumerate}
-  \begin{sol}
-    \begin{enumerate}
-    \item On veut estimer par la méthode du maximum de vraisemblance
-      le paramètre $\theta$ d'une loi Gamma$(3, 1/\theta)$, dont la
-      fonction de densité de probabilité est
-      \begin{displaymath}
-        f(x; \theta) = \frac{1}{2 \theta^3}\, x^2 e^{-x/\theta}, \quad
-        x > 0.
-      \end{displaymath}
-      La fonction de log-vraisemblance d'un échantillon aléatoire
-      $x_1, \dots, x_n$ tiré de cette loi est
-      \begin{align*}
-        l(\theta)
-        &= \sum_{i = 1}^n \ln f(x_i; \theta) \\
-        &= \sum_{i = 1}^n
-        \left(
-          2 \ln x_i - \frac{x_i}{\theta} - \ln 2 - 3 \ln \theta
-        \right) \\
-        &= 2 \sum_{i = 1}^n \ln x_i - \frac{1}{\theta} \sum_{i = 1}^n
-        x_i - n \ln 2 - 3n \ln \theta.
-      \end{align*}
-      On cherche le maximum de la fonction $l(\theta)$, soit la valeur
-      de $\theta$ tel que
-      \begin{displaymath}
-        l^\prime(\theta) = \frac{1}{\theta^2} \sum_{i = 1}^n -
-        \frac{3n}{\theta} = 0.
-      \end{displaymath}
-      Résoudre cette équation à l'aide de la méthode de
-      Newton--Raphson requiert également
-      \begin{displaymath}
-        l^{\prime\prime}(\theta) = - \frac{2}{\theta^3} \sum_{i =
-          1}^n x_i + \frac{3n}{\theta^2}.
-      \end{displaymath}
-      La figure \ref{fig:resolution:emv.gamma} présente une fonction S pour
-      effectuer le calcul à l'aide de notre fonction de
-      Newton--Raphson \texttt{nr}.  On remarquera que la somme des
-      valeurs de l'échantillon --- qui ne change pas durant la
-      procédure itérative --- est calculée une fois pour toute dès le
-      début de la fonction.  De plus, on utilise comme valeur de
-      départ l'estimateur des moments de $\theta$, $\bar{x}/3$.
-      \begin{figure}
-        \centering
-        \begin{framed}
-\begin{Scode}
-emv.gamma <- function(x, erreur.max = 1E-6)
-{
-    n <- length(x)
-    xsum <- sum(x)
-    f <- function(theta) xsum/theta^2 -
-         (3 * n)/theta
-    fp <- function(theta) -2 * xsum / theta^3 +
-          (3 * n)/theta^2
-    nr(f, fp, xsum / n /3, TOL = erreur.max)$root
-}
-\end{Scode}
-        \end{framed}
-        \caption{Fonction S d'estimation du paramètre d'échelle d'une
-          loi gamma par le maximum de vraisemblance.}
-        \label{fig:resolution:emv.gamma}
-      \end{figure}
-    \item On a, par exemple,
-<<echo=FALSE>>=
-emv.gamma <- function(x, erreur.max = 1E-6)
-{
-    n <- length(x)
-    xsum <- sum(x)
-    f <- function(theta) xsum/theta^2 -
-         (3 * n)/theta
-    fp <- function(theta) -2 * xsum / theta^3 +
-          (3 * n)/theta^2
-    nr(f, fp, mean(x)/3, TOL = erreur.max)$root
-}
+\end{thm}
+\begin{proof}[Démonstration graphique]
+  \mbox{}
+  \begin{enumerate}
+  \item
+    \begin{minipage}[t]{0.5\linewidth}
+      \mbox{} \\[-\baselineskip]
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+f <- function(x) x
+g <- function(x) x - (x^3 + 4 * x^2 - 10)/(3 * x^2 + 8 * x)
+k <- function(x) g(x - 0.5) + 0.3
+h <- function(x) -2 * x^2 + 7 * x - 4.75
+curve(g, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
+      lwd = 2, axes = FALSE, xlab = "", ylab = "")
+curve(h, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
+      lwd = 2, lty = "dashed", col = "red1", add = TRUE)
+curve(k, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
+      lwd = 2, lty = "dotted", col = "orange1", add = TRUE)
+curve(f, add = TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1), lty = 2, border = "blue")
+axis(1, at = c(1, 2), labels = c("a", "b"))
+axis(2, at = c(1, 2), labels = c("a", "b"))
+text(rep(2.27, 3), c(g(2.25), h(2.25), k(2.25)), c("g", "h", "k"))
+box()
 @
-<<echo=TRUE>>=
-x <- rgamma(20, shape = 3, scale = 1000)
-emv.gamma(x)
+    \end{minipage}
+    \begin{minipage}[t]{0.5\linewidth}
+      \begin{itemize}
+      \item $g(x) \in [a, b]$ pour tout $x \in [a, b]$ $\Rightarrow$
+        point fixe existe;
+      \item $h(x) \not\in [a, b]$ pour tout $x \in [a, b]$ $\Rightarrow$
+        pas nécessairement de point fixe;
+      \item $k(x) \not\in [a, b]$ pour tout $x \in [a, b]$ $\Rightarrow$
+         point fixe néanmoins possible.
+      \end{itemize}
+    \end{minipage}
+  \item
+    \begin{minipage}[t]{0.5\linewidth}
+      \mbox{} \\[-\baselineskip]
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+f <- function(x) x
+g <- function(x) x - (x^3 + 4 * x^2 - 10)/(3 * x^2 + 8 * x)
+
+## Les points ci-dessous ont été obtenus avec la fonction drawPlot()
+## du package Hmisc:
+##
+## drawPlot(Abline(0, 1), Abline(h = 1), Abline(h = 2),
+##          Abline(v = 1), Abline(v = 2),
+##          Curve('smooth', ask = TRUE),
+##          xlim = c(0.75, 2.25), ylim = c(0.75, 2.25))
+x <- c(
+0.7840067, 0.8267755, 0.8668402, 0.9044605, 0.9402250, 0.9748105, 1.0088406,
+1.0428095, 1.0770484, 1.1117217, 1.1468403, 1.1822866, 1.2178442, 1.2532294,
+1.2881214, 1.3221886, 1.3551113, 1.3865996, 1.4164060, 1.4443339, 1.4702415,
+1.4940425, 1.5157034, 1.5352392, 1.5527068, 1.5681983, 1.5818330, 1.5937504,
+1.6041027, 1.6130488, 1.6207487, 1.6273589, 1.6330289, 1.6378987, 1.6420969,
+1.6457396, 1.6489303, 1.6517600, 1.6543073, 1.6566399, 1.6588148, 1.6608796,
+1.6628736, 1.6648288, 1.6667705, 1.6687184, 1.6706870, 1.6726867, 1.6747240,
+1.6768025, 1.6789227, 1.6810837, 1.6832826, 1.6855164, 1.6877815, 1.6900755,
+1.6923975, 1.6947488, 1.6971339, 1.6995611, 1.7020431, 1.7045971, 1.7072455,
+1.7100156, 1.7129394, 1.7160532, 1.7193971, 1.7230142, 1.7269499, 1.7312507,
+1.7359636, 1.7411355, 1.7468125, 1.7530396, 1.7598611, 1.7673205, 1.7754617,
+1.7843296, 1.7939715, 1.8044381, 1.8157853, 1.8280743, 1.8413726, 1.8557528,
+1.8712913, 1.8880650, 1.9061467, 1.9255983, 1.9464634, 1.9687572, 1.9924568,
+2.0174906, 2.0437286, 2.0709745, 2.0989604, 2.1273455, 2.1557203, 2.1836199,
+2.2105525, 2.2360593)
+y <- c(
+1.184281, 1.174952, 1.167810, 1.162311, 1.158103, 1.154966, 1.152779, 1.151487,
+1.151073, 1.151545, 1.152918, 1.155205, 1.158409, 1.162524, 1.167523, 1.173368,
+1.180005, 1.187368, 1.195383, 1.203970, 1.213046, 1.222532, 1.232351, 1.242432,
+1.252714, 1.263146, 1.273686, 1.284303, 1.294978, 1.305699, 1.316463, 1.327275,
+1.338145, 1.349088, 1.360123, 1.371268, 1.382545, 1.393974, 1.405574, 1.417363,
+1.429356, 1.441564, 1.453996, 1.466657, 1.479547, 1.492662, 1.505995, 1.519534,
+1.533262, 1.547157, 1.561196, 1.575350, 1.589585, 1.603868, 1.618160, 1.632420,
+1.646607, 1.660678, 1.674589, 1.688297, 1.701760, 1.714935, 1.727783, 1.740267,
+1.752351, 1.764005, 1.775200, 1.785911, 1.796119, 1.805806, 1.814961, 1.823575,
+1.831645, 1.839169, 1.846153, 1.852601, 1.858524, 1.863933, 1.868844, 1.873273,
+1.877238, 1.880758, 1.883856, 1.886556, 1.888882, 1.890862, 1.892529, 1.893916,
+1.895063, 1.896012, 1.896807, 1.897496, 1.898117, 1.898702, 1.899259, 1.899759,
+1.900124, 1.900207, 1.899779, 1.898530)
+
+curve(g, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
+      lwd = 2, axes = FALSE, xlab = "", ylab = "")
+lines(x, y, lwd = 2, lty = "dashed", col = "red1")
+curve(f, add = TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1), lty = 2, border = "blue")
+axis(1, at = c(1, 2), labels = c("a", "b"))
+axis(2, at = c(1, 2), labels = c("a", "b"))
+text(rep(2.27, 2), c(g(2.25), tail(y, 1)), c("g", "h"))
+box()
 @
-    \end{enumerate}
-  \end{sol}
-\end{exercice}
+    \end{minipage}
+    \begin{minipage}[t]{0.5\linewidth}
+      \begin{itemize}
+      \item $g^\prime(x) < 1$ pour tout $x \in (a, b)$, donc $g(x)$
+        croise $y = x$ en un seul point $\Rightarrow$ point fixe
+        unique;
+      \item $h(x) \not\in [a, b]$ pour tout $x \in [a, b]$
+        $\Rightarrow$, mais $h^\prime(x) > 1$ pour $x \in (a, b)$
+        $\Rightarrow$ possibilité de plusieurs points fixes.
+      \end{itemize}
+    \end{minipage}
+  \end{enumerate}
+\end{proof}
 
-\begin{exercice}
-  Refaire l'exercice \ref{chap:resolution}.\ref{ex:resolution:gamma} à
-  l'aide d'une routine VBA. Comparer votre réponse avec celle obtenue
-  à l'aide du Solveur de Excel.
-  \begin{sol}
-    La figure \ref{fig:resolution:emvGamma} présente le code VBA d'une fonction
-    \texttt{emvGamma} très similaire à la fonction S de l'exercice
-    précédent. Pour l'utiliser dans Excel, il suffit de lui passer en
-    argument une plage (verticale) contenant un échantillon aléatoire
-    d'une loi Gamma$(3, 1/\theta)$.
-    \begin{figure}
-      \centering
-      \begin{framed}
-\begin{Scode}
-Function emvGamma(Data As Range, Optional ErreurMax
-                  As Double = 0.000000001)
-    Dim n As Integer
-    Dim sData As Double, f As Double,
-        fp As Double, x As Double, xt As Double
+Procédure pour trouver le point fixe: choisir une valeur de départ
+$x_0$, puis rechercher le point $x^*$ tel que $g(x^*) = x^*$ par
+essais successifs:
 
-    n = Data.Rows.Count
-    sData = WorksheetFunction.Sum(Data)
+%% Premier graphique: fonction décroissante
+\begin{center}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x
+g <- function(x) -0.035 * x^2 +  10
+lim <- c(7, 8.5)
+curve(g, xlim = lim, ylim = lim,
+      lwd = 2, axes = FALSE, xlab = "", ylab = "")
+curve(f, add = TRUE)
+x <- numeric(6)
+x[1] <- 7.1
+for (i in 2:length(x)) x[i] <- g(x[i - 1])
+arrows(x[1], 0, x[1], x[2],
+       lty = "dashed", col = "blue", length = 0.15)
+arrows(x[-length(x)],
+       x[-1],
+       x[-1],
+       x[-1], lty = "dashed", col = "blue", length = 0.15)
+arrows(x[-length(x)][-1],
+       x[-length(x)][-1],
+       x[-length(x)][-1],
+       x[-1][-1], lty = "dashed", col = "blue", length = 0.15)
+axis(1, at = x,
+     labels = parse(text = paste("x[", -1 + seq(along = x), "]", sep = "")))
+axis(2, at = x[-1],
+     labels = parse(text = paste("y[", -1 + seq(along = x[-1]), "]", sep = "")))
+box()
+@
+\end{center}
 
-    x = sData / n / 3
-    Do
-        f = sData / x ^ 2 - (3 * n) / x
-        fp = -2 * sData / x ^ 3 + 3 * n / x ^ 2
-        xt = x
-        x = x - f / fp
-    Loop Until Abs(x - xt) / x < ErreurMax
-    emvGamma = x
-End Function
-\end{Scode}
-      \end{framed}
-      \caption{Fonction VBA d'estimation du paramètre d'échelle d'une
-        loi gamma par le maximum de vraisemblance.}
-      \label{fig:resolution:emvGamma}
-    \end{figure}
-  \end{sol}
+%% Deuxième graphique: fonction croissante
+\begin{center}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x
+g <- function(x) -0.035 * (x - 15)^2 +  10
+lim <- c(7.5, 8.8)
+curve(g, xlim = lim, ylim = lim,
+      lwd = 2, axes = FALSE, xlab = "", ylab = "")
+curve(f, add = TRUE)
+x <- numeric(5)
+x[1] <- 7.8
+for (i in 2:length(x)) x[i] <- g(x[i - 1])
+arrows(x[1], 0, x[1], x[2],
+       lty = "dashed", col = "blue", length = 0.15)
+arrows(x[-length(x)],
+       x[-1],
+       x[-1],
+       x[-1], lty = "dashed", col = "blue", length = 0.15)
+arrows(x[-length(x)][-1],
+       x[-length(x)][-1],
+       x[-length(x)][-1],
+       x[-1][-1], lty = "dashed", col = "blue", length = 0.15)
+axis(1, at = x,
+     labels = parse(text = paste("x[", -1 + seq(along = x), "]", sep = "")))
+axis(2, at = x,
+     labels = parse(text = paste("y[", -1 + seq(along = x), "]", sep = "")))
+box()
+@
+\end{center}
 
-\end{exercice}
+La rapidité de la convergence est donc fonction de la $g^\prime(x)$:
+plus la pente est \emph{faible}, plus la convergence est \emph{rapide}.
 
-\begin{exercice}
-  À l'aide de la méthode du point fixe, trouver le taux d'intérêt $i$
-  tel que
+\begin{thm}
+  Si les deux conditions du théorème \ref{thm:resolution:pointfixe}
+  sont satisfaites, alors la série $\{x_n\}$ définie par
   \begin{displaymath}
-    a_{\angl{10}\,i}^{(12)} = \frac{1- (1 + i)^{-10}}{i^{(12)}} = 8,
+    x_n = g(x_{n - 1})
   \end{displaymath}
-  où
-  \begin{displaymath}
-    \left( 1 + \frac{i^{(12)}}{12} \right)^{12} = 1 + i.
-  \end{displaymath}
-  Comparer les résultats obtenus avec la méthode de Newton--Raphson.
-%   \emph{Astuce}: Si vous avez une calculatrice TI-30XII, chacune des
-%   itérations d'une méthode du type $x_{n} = g(x_{n-1})$ (point fixe,
-%   Newton--Raphson, etc.) peut être exécutée en appuyant sur
-%   \texttt{=}.  Il suffit de saisir la valeur de départ et d'appuyer
-%   sur \texttt{=}. Ensuite, il faut saisir l'équation où $x$ devient
-%   \texttt{Ans}. Chaque pression sur \texttt{=} exécutera ainsi une
-%   itération de l'algorithme.
-  \begin{sol}
-    On cherche à résoudre l'équation
-    \begin{displaymath}
-      a_{\angl{10}\,i}^{(12)} = \frac{1- (1 + i)^{-10}}{i^{(12)}} = 8
-    \end{displaymath}
-    ou, de manière équivalente,
-    \begin{displaymath}
-      f(i) = \frac{1 - (1 + i)^{-10}}{12 (1 + i)^{1/12} - 1} - 8 = 0.
-    \end{displaymath}
-    Pour résoudre le problème à l'aide de la méthode du point fixe, on
-    peut considérer la fonction
-    \begin{displaymath}
-      g_1(i) = i - f(i),
-    \end{displaymath}
-    mais, comme le graphique de la figure \ref{fig:resolution:a_angle:g1} le
-    montre, la procédure itérative divergera. En posant
-    \begin{displaymath}
-      \frac{1 - (1 + i)^{-10}}{8} = 12[(1 + i)^{1/12} - 1],
-    \end{displaymath}
-    puis en isolant $i$ du côté droit de l'équation, on obtient une
-    alternative
-    \begin{displaymath}
-      g_2(i) = \left( \frac{97 - (1 + i)^{-10}}{96} \right)^{12} - 1.
-    \end{displaymath}
-    Cette fonction satisfait les hypothèses pour l'existence et
-    l'unicité d'un point fixe, mais sa pente est toutefois près de 1,
-    donc la convergence sera lente; voir la figure
-    \ref{fig:resolution:a_angle:g2}. Enfin, on peut considérer la fonction
-    \begin{align*}
-      g_3(i)
-      &= i - \frac{f(i)}{f^\prime(i)} \\
-      &= \frac{120(1 + i)^{-11}[(1 + i)^{1/12} - 1] - [1 - (1 +
-        i)^{-10}](1 + i)^{-11/12}}{144 [(1 + i)^{1/12} - 1]^2}.
-    \end{align*}
-    On remarquera que cette dernière est la fonction utilisée dans la
-    méthode de Newton--Raphson et sa pente est presque nulle, d'où une
-    convergence très rapide; voir la figure
-    \ref{fig:resolution:a_angle:g3}.
-    \begin{figure}
-      \begin{minipage}{0.32\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-f0 <- function(x) x
-f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
-curve(x - f(x), xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
-      xlab = "i", ylab = "g(i)", lwd = 2)
-curve(f0, add = TRUE)
-polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
-@
-        \subcaption{Fonction $g_1(x)$ \label{fig:resolution:a_angle:g1}}
-      \end{minipage}
-      \hfill
-      \begin{minipage}{0.32\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
-curve(g2, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
-      xlab = "i", ylab = "g(i)", lwd = 2)
-curve(f0, add = TRUE)
-polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
-@
-        \subcaption{Fonction $g_2(x)$ \label{fig:resolution:a_angle:g2}}
-      \end{minipage}
-      \hfill
-      \begin{minipage}{0.32\linewidth}
-        \centering
-<<echo=FALSE, fig=TRUE>>=
-fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
-g3 <- function(i) i - f(i)/fp(i)
-curve(g3, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
-      xlab = "i", ylab = "g(i)", lwd = 2)
-curve(f0, add = TRUE)
-polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
-@
-        \subcaption{Fonction $g_3(x)$ \label{fig:resolution:a_angle:g3}}
-      \end{minipage}
-      \caption{Trois fonctions pour résoudre $a_{\angl{10}\, i}^{(12)}
-        = 8$ par la méthode du point fixe.}
-      \label{fig:resolution:a_angle}
-    \end{figure}
-    On obtient les résultats suivants:
-<<echo=TRUE>>=
-f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
-fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
-g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
-g3 <- function(i) i - f(i)/fp(i)
-pointfixe(g2, start = 0.05)
-pointfixe(g3, start = 0.05)
-@
-      \end{sol}
-  \begin{rep}
+  converge vers un point fixe unique dans $[a, b]$.
+\end{thm}
+
+\begin{commentaire}
+  Présentation de l'algorithme et des deux exemples au projecteur.
+\end{commentaire}
+
+%%% ALGORITHME DU POINT FIXE À INSÉRER
+\input{input_algorithme_pointfixe}
+
+%%% DEUX EXEMPLES À INSÉRER
+\input{input_exemple_pointfixe_1}
+\input{input_exemple_pointfixe_2}
+
+
+
+\section{Méthode de Newton--Raphson}
+\label{sec:resolution:newtonraphson}
+
 <<echo=FALSE>>=
-xp <- pointfixe(g3, start = 0.05)$fixed.point
+source("nr.R")
 @
-    $\Sexpr{format(xp, digits = 6, dec = ",")}$
-  \end{rep}
-\end{exercice}
 
-\Closesolutionfile{reponses}
-\Closesolutionfile{solutions}
+Avec la méthode de Newton-Raphson, on revient au problème de trouver
+la racine $x^*$ de la fonction $f(x)$, c'est-à-dire la solution de
+\begin{displaymath}
+  f(x) = 0.
+\end{displaymath}
 
-%%%
-%%% Insérer les réponses
-%%%
-\input{reponses-resolution_equations}
+Soit $\tilde{x}$ un point «près» de $x^*$ tel que $f(\tilde{x}) \neq
+0$. Alors la tengente de $f$ en $\tilde{x}$ croise l'abscisse près de
+$x^*$. Graphiquement:
+
+\begin{center}
+
+<<echo=FALSE, fig=TRUE>>=
+par(mar = c(3, 4, 1, 1))
+f <- function(x) x^3 + x
+fp <- function(x) 3 * x^2 + 1
+tangente <- function(x) fp(0.5) * x + f(0.5) - 0.5 * fp(0.5)
+curve(f(x), xlim = c(-1, 1), ylim = c(-1, 2),
+      ylab = "f(x)", lwd = 2, axes = FALSE)
+curve(tangente(x), xlim = c(-0.25, 1),
+      lwd = 2, lty = "dashed", add = TRUE)
+xh <- -(f(0.5) - 0.5 * fp(0.5))/fp(0.5)
+points(c(0, xh, 0.5),
+       c(0, 0, f(0.5)), pch = 19)
+abline(h = 0)
+axis(1, at = c(0, xh, 0.5),
+     labels = c(expression(x^"*"), expression(hat(x)), expression(tilde(x))))
+axis(2)
+box()
+@
+\end{center}
+
+Le point $\hat{x}$ est tel que
+\begin{displaymath}
+  \frac{f(\tilde{x}) - 0}{\tilde{x} - \hat{x}} = f^\prime(\tilde{x}),
+\end{displaymath}
+d'où
+\begin{align*}
+  x^*
+  &\simeq \hat{x} \\
+  &= \tilde{x} - \frac{f(\tilde{x})}{f^\prime(\tilde{x})}.
+\end{align*}
+
+On peut également justifier la formule précédente à l'aide du
+développement de Taylor de $f(x)$ autour de $\tilde{x}$:
+\begin{align*}
+  f(x)
+  &= f(\tilde{x}) + (x - \tilde{x}) f^\prime(\tilde{x})
+  + \frac{(x - \tilde{x})^2}{2} f^{\prime\prime}(\tilde{x}) + \dots \\
+  \intertext{et donc}
+  f(x^*)
+  &= 0 =
+  f(\tilde{x}) + (x^* - \tilde{x}) f^\prime(\tilde{x})
+  + \underbrace{%
+    \frac{(x^* - \tilde{x})^2}{2} f^{\prime\prime}(\tilde{x}) +
+    \dots}_{\D \text{négligeable}},
+\end{align*}
+d'où
+\begin{displaymath}
+  x^*
+  \simeq \tilde{x} - \frac{f(\tilde{x})}{f^\prime(\tilde{x})}.
+\end{displaymath}
+
+Si le point $\hat{x}$ est trop éloigné de la racine $x^*$, on peut
+répéter la procédure ci-dessus en utilisant $\hat{x}$ comme nouveau
+point où l'on calcule la tengente, et ainsi de suite jusqu'à
+l'obtention d'une «bonne» approximation.
+
+Ainsi, soit $f$ une fonction différentiable sur $[a, b]$ et $x^* \in
+[a, b]$. Alors $x^*$ peut être obtenu comme le point de convergence de
+la série $\{x_n\}$ définie par
+\begin{displaymath}
+  x_n = x_{n - 1} - \frac{f(x_{n - 1})}{f^\prime(x_{n - 1})},
+\end{displaymath}
+avec $x_0$ une valeur de départ quelconque.
+
+\begin{rems}
+  \begin{enumerate}
+  \item La méthode de Newton--Raphson constitue en fait une procédure
+    de point fixe avec
+    \begin{displaymath}
+      g(x) = x - \frac{f(x)}{f^\prime(x)}.
+    \end{displaymath}
+  \item On peut démontrer que si $f$ est doublement différentiable sur
+    $[a, b]$ et que $x^* \in [a, b]$ est tel que
+    \begin{itemize}
+    \item $f(x^*) = 0$
+    \item $f^\prime(x^*) \neq 0$,
+    \end{itemize}
+    alors il existe un $\delta > 0$ tel que la série $\{x_n\}$
+    converge vers $x^*$ pour tout $x_0 \in [x^* - \delta, x^* +
+    \delta]$. Autrement dit:
+    \begin{itemize}
+    \item les hypothèses du théorème \ref{thm:resolution:pointfixe}
+      sont satisfaites;
+    \item la méthode de Newton--Raphson fonctionne toujours avec un
+      «bon» choix de valeur de départ $x_0$.
+    \end{itemize}
+  \item Si $f^\prime(x)$ est difficile à calculer et/ou inefficace à
+    calculer, on peut utiliser la \emph{méthode de la sécante}:
+    \begin{displaymath}
+      x_n = x_{n - 1} - \frac{f(x_{n - 1})(x_{n - 1} - x_{n - 2})}{%
+        f(x_{n - 1}) - f(x_{n - 2})},
+    \end{displaymath}
+    avec $x_0$, $x_1$ des valeurs de départ.
+    \begin{center}
+
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) exp(2 * x) - 20
+curve(f, xlim = c(0, 2),
+      ylab = "f(x)", lwd = 2, axes = FALSE)
+abline(h = 0)
+x <- numeric(7)
+x[1] <- 0
+x[2] <- 2
+for (i in 3:length(x))
+    x[i] <- x[i - 1] - (f(x[i - 1]) * (x[i - 1] - x[i - 2]))/
+    (f(x[i - 1]) - f(x[i - 2]))
+axis(1, at = x, label = parse(text = paste("x[", -1 + seq(along = x), "]", sep = "")))
+axis(2)
+box()
+for (i in 1:(length(x) - 2))
+{
+    xx <- x[i:(i + 2)]
+    fxx <- f(xx)
+    segments(xx[1:2], fxx[1:2], xx[-1], c(fxx[2], 0),
+             lwd = 1, col = "blue")
+}
+x <- x[-(1:2)]
+segments(x, 0, x, f(x),
+         lwd = 1, lty = "dashed", col = "gray")
+@
+    \end{center}
+  \end{enumerate}
+\end{rems}
+
+\begin{commentaire}
+  Présentation de l'algorithme et des trois exemples au projecteur.
+\end{commentaire}
+
+%%% ALGORITHME DE NEWTON-RAPHSON À INSÉRER
+\input{input_algorithme_newtonraphson}
+
+%%% TROIS EXEMPLES À INSÉRER
+%% Les originaux de ces trois fichiers sont des fichiers .Rnw
+\input{input_exemple_newtonraphson_1}
+\input{input_exemple_newtonraphson_2}
+\input{input_exemple_newtonraphson_3}
+
+
+
+%%% SECTION À INSÉRER
+\input{input_fonctions_optimisation}
 
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: exercices_methodes_numeriques
+%%% TeX-master: "methodes_numeriques"
 %%% End:

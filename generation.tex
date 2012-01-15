@@ -1,0 +1,336 @@
+\chapter{Génération de nombres aléatoires}
+\label{chap:generation}
+
+\begin{objectifs}
+\item
+\end{objectifs}
+
+Ce chapitre traite de la simulation de nombres (pseudo) aléatoires
+distribués uniformément sur l'intervalle $(0, 1)$. La transformation
+de ces nombres uniformes en nombres provenant d'autres distributions
+statistiques fera l'objet du prochain chapitre.
+
+
+\section{Pourquoi faire de la simulation?}
+\label{sec:generation:pourquoi}
+
+Les modèles mathématiques et la simulation stochastiques comportent
+plusieurs avantages par rapport à l'expérimentation directe. Entre
+autres, on note:
+\begin{itemize}
+\item la simulation est non destructrice et peu coûteuse;
+\item le système considéré n'a pas besoin d'exister;
+\item la simulation est facile à répéter;
+\item l'évolution dans la simulation peut être plus rapide que dans la
+  réalité;
+\item la simulation permet de considérer des modèles très complexes
+  impossibles à traiter analytiquement.
+\end{itemize}
+En revanche, au rayon des inconvénients:
+\begin{itemize}
+\item le coût (en temps et en argent) de modélisation et de
+  programmation s'avère parfois important;
+\item le temps d'exécution peut devenir excessif;
+\item la simulation ne fournit que des estimations;
+\item l'analyse statistique des résultats peut ne pas toujours être
+  simple.
+\end{itemize}
+
+À la base, toute étude de simulation requiert une source de nombres
+aléatoires. Or, ces nombres aléatoires ne sont pas toujours facile à
+obtenir et la qualité de la source est primodiale pour que l'étude
+soit fiable.
+
+
+
+\section{Générateurs de nombres aléatoires}
+\label{sec:generation:generateurs}
+
+On veut obtenir des nombres issus d'une distribution $U(0, 1)$.
+Ceux-ci peuvent par la suite être transformés en des nombres issus de
+toute autre distribution. Quelques techniques possibles:
+\begin{enumerate}
+\item Utiliser les résultats de processus physiques aléatoires en
+  apparence comme, par exemple,
+  \begin{itemize}
+  \item le lancer d'une pièce de monnaie ou d'un dé;
+  \item des nombres pris au hasard dans des tableaux de rapports ou
+    dans un annuaire;
+  \item la roulette;
+  \item le bruit électronique (tablaux RAND);
+  \item les intervalles de temps dans un processus de décroissance
+    radioactive sont considérés parfaitement aléatoires; voir
+    \url{http://www.fourmilab.ch/hotbits/}.
+  \end{itemize}
+  L'utilisation de listes de nombres aléatoires est toutefois peu
+  pratique avec un ordinateur, surtout si l'on a besoin de milliers ou
+  de millions de nombres aléatoires.
+\item Carrés centraux de von~Neumann: prendre un nombre à quatre
+  chiffres, l'élever au carré puis extraire les quatre chiffres du
+  milieu; recommencer. Par exemple:
+  \begin{align*}
+    8653^2 &= 74\undergroup{8744}09 \\
+    8744^2 &= 76\undergroup{4575}36 \\
+    4575^2 &= 20\undergroup{9306}25 \\
+    &\vdots
+  \end{align*}
+\item Générateurs congruentiels et variations sur le même thème. Ce
+  sont encore les plus utilisés encore aujourd'hui. Ils sont
+  particulièrement utiles parce qu'aisément \emph{reproduisibles}.
+\item Générateurs basés sur la suite de Fibonacci.
+\item Générateurs chaotiques, etc.
+\end{enumerate}
+
+Dans la suite, nous nous concentrerons sur les générateurs de nombres
+pseudo-aléatoires. En général, on exige d'un générateur de ce type
+qu'il:
+\begin{enumerate}
+\item produise des nombres distribués approximativement uniformément;
+\item produise des nombres approximativement indépendants dans un bon
+  nombre de dimensions;
+\item possède une période suffisamment longue (au moins $2^{60}$);
+\item soit facilement reproduisible à partir d'un point de départ
+  donné, mais qu'il soit autrement impossible à prédire.
+\end{enumerate}
+
+
+\subsection{Congruence et modulo}
+
+Les générateurs congruentiels utilisent l'arithmétique modulo. Une
+propriété de base de cette arithmétique est l'équivalence, ou
+congruence, modulo $m$.
+
+\begin{definition}
+  Deux nombres $a$ et $b$ sont dits \emph{équivalents}, ou
+  \emph{congruents}, modulo $m$ si la différence entre $a$ et $b$ est
+  un entier divisible par $m$. Mathématiquement,
+  \begin{displaymath}
+    a \equiv b \bmod m \quad\Leftrightarrow\quad \frac{a - b}{m} = k, \quad
+    k \in \mathbb{Z}.
+  \end{displaymath}
+\end{definition}
+
+En d'autres mots, deux nombres sont équivalents modulo $m$ si la
+distance entre ceux-ci est un multiple de $m$.
+
+\begin{exemple}
+  On a
+  \begin{enumerate}
+  \item $5 \equiv 14 \bmod 3$ car $\D \frac{14 - 5}{3} = 3$;
+  \item $-1 \equiv 5 \bmod 3$ car $\D \frac{5 + 1}{3} = 2$;
+  \item $0,33 \equiv 1,33 \bmod 1$; on notera que le calcul en modulo 1
+    équivaut à retourner la partie fractionnaire d'un nombre;
+  \item la minute dans l'heure est donnée en modulo 60: 00h15, 1h15,
+    2h15,... sont des heures équivalentes modulo 60.
+  \end{enumerate}
+  \qed
+\end{exemple}
+
+De la définition de congruence découle celle de \emph{réduction
+  modulo} ou \emph{résidu modulo}: si
+\begin{itemize}
+\item $a \equiv b \bmod m$ et
+\item $0 \leq a < m$,
+\end{itemize}
+alors $a$ est le résidu de la division de $b$ par $m$, ou le résidu de
+$b$ modulo $m$, c'est-à-dire
+\begin{displaymath}
+  a = b \bmod m \quad\Leftrightarrow\quad a = b - \left\lfloor
+    \frac{b}{m} \right\rfloor m.
+\end{displaymath}
+
+La plupart des langages de programmation et logiciels à connotation
+mathématique comportent un opérateur ou une fonction modulo:
+\begin{itemize}
+\item R: \verb|%%|;
+\item Excel: \code{MOD()};
+\item VBA: \verb|%|.
+\end{itemize}
+
+
+\subsection{Générateurs congruentiels linéaires}
+
+Dans un générateur congruentiel linéaire, tout nombre dans la suite
+générée détermine le nombre suivant par la formule
+\begin{displaymath}
+  x_i = (a x_{i - 1} + c) \bmod m,
+\end{displaymath}
+où $0 \leq x_i < m$ et
+\begin{itemize}
+\item $a$ est appelé le \emph{multiplicateur};
+\item $c$ est appelé l'\emph{incrément};
+\item $m$ est appelé le \emph{module};
+\item $x_0$ (un nombre quelconque) est l'\emph{amorce} («\emph{seed}»).
+\end{itemize}
+De plus,
+\begin{itemize}
+\item $c = 0$ $\Rightarrow$ générateur \emph{multiplicatif};
+\item $c \neq 0$ $\Rightarrow$ générateur \emph{mixte}.
+\end{itemize}
+
+Pour obtenir des nombre uniformes sur $[0, 1]$ ou $(0, 1)$, il suffit
+de définir
+\begin{displaymath}
+  u_i = \frac{x_i}{m}.
+\end{displaymath}
+
+\begin{rems}
+  \begin{enumerate}
+  \item La méthode de génération des nombres est entièrement
+    déterministe $\Rightarrow$ nombres \emph{pseudo}-aléatoires.
+  \item Un générateur congruentiel est forcément périodique puisqu'il
+    ne peut prendre, au mieux, que les valeurs
+    \begin{itemize}
+    \item $0, 1, 2, \dots, m - 1$ pour un générateur mixte;
+    \item $1, 2, \dots, m - 1$ pour un générateur multiplicatif.
+    \end{itemize}
+  \item On cherche donc à avoir la période la plus longue possible
+    tout en obtenant des suites en apparence aléatoires.
+  \item Pour les générateurs multiplicatifs ($c = 0$), on atteint la
+    période maximale $m - 1$ si
+    \begin{itemize}
+    \item $m$ est un nombre premier (on en choisira un grand);
+    \item $a$ est une \emph{racine primitive} de $m$, c'est à dire que
+      le plus petit entier $k$ satisfaisant
+      \begin{displaymath}
+        1 = a^k \bmod m
+      \end{displaymath}
+      est $k = m - 1$.
+    \end{itemize}
+    Valeurs populaires: $m = 2^{31} - 1$ (nombre premier de Mersenne),
+    $a = 7^5$.
+  \end{enumerate}
+\end{rems}
+
+\begin{exemple}
+  Soit un générateur congruentiel multiplicatif avec $a = 7$ et $m =
+  31$. Les cinq premiers nombres pseudo-aléatoires avec l'amorce $x_0
+  = 19$ sont:
+  \begin{align*}
+    (7 \times 19) \bmod 31 &= 133 \bmod 31 = 9 \rightarrow x_1 \\
+    (7 \times 9) \bmod 31 &= 63 \bmod 31 = 1 \rightarrow x_2 \\
+    (7 \times 1) \bmod 31 &= 7 \bmod 31 = 7 \rightarrow x_3 \\
+    (7 \times 7) \bmod 31 &= 49 \bmod 31 = 18 \rightarrow x_4 \\
+    &\vdots
+  \end{align*}
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \mbox{} \normalfont
+  \lstinputlisting{exemple_2.3.R}
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \mbox{} \normalfont
+  \lstinputlisting{exemple_2.4.R}
+  \qed
+\end{exemple}
+
+
+\section{Générateurs utilisés dans Excel, VBA et R}
+
+Avant d'utiliser pour quelque tâche moindrement importante un
+générateur de nombres aléatoires inclus dans un logiciel, il importe
+de s'assurer de la qualité de celui-ci. On trouvera en général
+relativement facilement de l'information dans Internet.
+
+Nous présentons ici, sans entrer dans les détails, les générateurs
+utilisés dans Excel, VBA et R.
+
+\subsection{Générateur de Excel}
+
+La fonction à utiliser dans Microsoft Excel pour obtenir un nombre
+aléatoire dans l'intervalle $(0, 1)$ est \code{ALEA()} (dans la
+version française) ou \code{RAND()} (dans la version anglaise).
+
+Dans les versions 2003 et 2007, Microsoft Excel utilise le générateur
+de nombres aléatoire Whichmann--Hill. Ce générateur a longtemps été
+considéré comme le meilleur disponible, mais a été supplanté ces
+dernières années. Microsoft prétend que la période du générateur
+Whichmann--Hill est $10^{13}$, mais omet alors de tenir compte de
+littérature démontrant qu'elle est plutôt de $6,95 \times 10^{12}
+\approx 2^{43}$, ce qui est aujourd'hui considéré trop court.
+
+\begin{sloppypar}
+  La mise en {\oe}uvre du générateur Whichmann--Hill dans Excel 2003
+  avait le fâcheux défaut de pouvoir générer des nombres négatifs.
+  Selon l'article 834520 de la base de connaissances Microsoft
+  (\url{http://support.microsoft.com/kb/834520}), ce défaut a été
+  corrigé dans le \emph{Service Pack} 1 de Office 2003, mais encore
+  faut-il s'assurer que votre version de Excel est à jour. Sinon, une
+  analyse basée sur des nombres aléatoires obtenus dans Excel pourrait
+  s'avérer complètement erronée. La version 2007 du générateur est
+  identique à la version 2003 corrigée
+  (\url{http://support.microsoft.com/kb/828795}).
+\end{sloppypar}
+
+Consulter \cite{McCullough:Excel2007:2008} pour une discussion
+détaillée de la génération de nombres aléatoires et d'autres
+procédures statistiques dans Excel 2007, ainsi que les références
+mentionnées dans cet article pour les version précédentes de Excel. De
+plus, \citet{McCullough:MENTWH:2008} démontrent que le générateur de
+Excel ne saurait être véritablement celui de Whichmann--Hill. Les
+auteurs écrivent en conclusion:
+
+\begin{quote}
+  Twice Microsoft has attempted to implement the dozen lines of code
+  that define the Wichmann and Hill (1982) RNG, and twice Microsoft
+  has failed, apparently not using standard methods for verifying that
+  an RNG has been correctly implemented. Consequently, users of
+  Excel's "rand" function have been using random numbers from an
+  unknown and undocumented RNG of unknown period that is not known to
+  pass any standard tests of randomness.
+\end{quote}
+
+
+\subsection{Générateur de VBA}
+
+\begin{sloppypar}
+  La fonction \code{RND()} de VBA génère un nombre aléatoire. Selon
+  l'article 231847 de la base de connaissances Microsoft
+  (\url{http://support.microsoft.com/kb/231847}),
+  le générateur de nombres aléatoires utilisé par la fonction
+  \code{RND()} est un simple générateur congruentiel linéaire.
+\end{sloppypar}
+
+Étant donné l'avancement actuel des connaissances dans le domaine des
+générateurs de nombres pseudo-aléatoires, l'utilisation d'un tel
+générateur est tout-à-fait injustifiée et archaïque. De plus, le
+générateur utilise toujours la même amorce et donc les suites de
+nombres aléatoires sont toujours les mêmes. Pour toute
+utilisation moindrement sérieuse de nombres aléatoires, il convient
+donc d'éviter à tout prix la fonction \code{RND()} et de lui
+préférer un appel à la fonction \code{RAND()} de Excel.
+
+
+\subsection{Générateurs de R}
+
+On obtient des nombres uniformes sur un intervalle quelconque avec la
+fonction \code{runif} dans R. De plus, la fonction
+\code{set.seed} permet de déterminer la valeur de l'amorce du
+générateur aléatoire.
+
+% Dans S-Plus, le générateur utilisé est appelé \emph{Super Duper}. Sa
+% période est $2^{30} \times \nombre{4292868097} \approx 4,6 \times
+% 10^{18}$.
+
+R offre la possibilité de choisir entre six générateurs de
+nombres aléatoires différents, ou encore de spécifier son propre
+générateur. Par défaut, R utilise le générateur
+Marsenne--Twister, considéré comme le plus avancé en ce moment.  La
+période de ce générateur est $2^{\nombre{19937}} - 1$ (rien de moins!)
+et la distribution des nombres est uniforme dans 623 dimensions
+consécutives sur toute la période.
+
+Pour de plus amples détails, consulter les rubriques d'aide des
+fonctions \code{.Random.seed} et \code{set.seed}.
+
+\input{exercices-generation}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "methodes_numeriques-partie_2"
+%%% coding: utf-8
+%%% End:
