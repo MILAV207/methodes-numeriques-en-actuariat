@@ -1,0 +1,279 @@
+\documentclass[letterpaper,11pt]{memoir}
+  \usepackage[utf8]{inputenc}
+  \usepackage{fourier}                 % texte en Utopia
+  \usepackage[scaled=0.82]{beramono}   % code en Bera
+  \renewcommand{\sfdefault}{Myriad-LF} % titres en MyriadPro
+  \usepackage{natbib,url}
+  \usepackage[english,francais]{babel}
+  \usepackage[autolanguage]{numprint}
+  \usepackage{vgmath,actu,amsmath,amsthm,icomma}
+  \usepackage[noae]{Sweave}
+  \usepackage[alwaysadjust]{paralist}
+  \usepackage{textpos}
+  \usepackage{graphicx,color}
+  \usepackage{MnSymbol,applekeys}      % symboles spéciaux
+  \usepackage{expdlist}
+  \usepackage{listingsutf8,answers}
+  \usepackage{pdfpages}                % couvertures
+
+  %%%  Couleurs
+  \definecolor{comments}{rgb}{0.7,0,0}
+  \definecolor{shadecolor}{gray}{0}
+  \definecolor{link}{rgb}{0,0,0.3}
+
+  %%% Hyperliens
+  \usepackage{hyperref}
+  \hypersetup{colorlinks,allcolors=link}
+
+  %%% ============
+  %%%  Page titre
+  %%% ============
+  \title{\HUGE
+    \fontseries{b}\selectfont ACT 2002 \\
+    \fontseries{b}\selectfont Méthodes numériques \\
+    \fontseries{m}\selectfont en \\
+    \fontseries{b}\selectfont actuariat \\[10mm]
+    \huge
+    \fontseries{m}\selectfont Partie I \\
+    \fontseries{m}\selectfont Programmation en R}
+  \author{\Large Vincent Goulet \\[3mm]
+    \large École d'actuariat, Université Laval}
+  \date{\large Notes de cours et exercices}
+
+  %%% ===================
+  %%%  STYLE DU DOCUMENT
+  %%% ===================
+
+  %% Titres des chapitres
+  \chapterstyle{hangnum}
+  \renewcommand{\chaptitlefont}{\normalfont\Huge\sffamily\bfseries\raggedright}
+
+  %% Marges, entêtes et pieds de page
+  \setlength{\marginparsep}{7mm}
+  \setlength{\marginparwidth}{13mm}
+  \setlength{\headwidth}{\textwidth}
+  \addtolength{\headwidth}{\marginparsep}
+  \addtolength{\headwidth}{\marginparwidth}
+
+  %% Titres des sections et sous-sections
+  \setsecheadstyle{\normalfont\Large\sffamily\bfseries\raggedright}
+  \setsubsecheadstyle{\normalfont\large\sffamily\bfseries\raggedright}
+  \maxsecnumdepth{subsection}
+  \setsecnumdepth{subsection}
+
+  %% Noms de fonctions, code, etc.
+  \newcommand{\code}[1]{\texttt{#1}}
+
+  %% Environnements d'exemples et al.
+  \theoremstyle{plain}
+  \newtheorem{ex}{Exemple}[chapter]
+  \theoremstyle{remark}
+  \newtheorem*{rem}{Remarque}
+  \newtheorem*{rems}{Remarques}
+  \theoremstyle{definition}
+  \newtheorem*{astuce}{Astuce}
+
+  %% Options de babel
+  \frenchbsetup{CompactItemize=false,%
+    ThinSpaceInFrenchNumbers=true,
+    ItemLabeli=$\filledtriangleright$,
+    ItemLabelii=\textendash}
+  \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
+  \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
+
+  %%% =========================
+  %%%  Nouveaux environnements
+  %%% =========================
+
+  %% Listes d'objectifs au début des chapitres
+  \newenvironment{objectifs}{%
+    \noindent
+    \begin{framed}
+      \vspace{-1.33\baselineskip}
+      \begin{shaded}
+        \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
+      \end{shaded}
+      \vspace{-0.6\baselineskip}
+      \begin{compactitem}
+        \small}
+      {\end{compactitem}
+    \end{framed}}
+
+  %% Environnements de Sweave
+  \DefineVerbatimEnvironment{Sinput}{Verbatim}{xleftmargin=\parindent}
+  \DefineVerbatimEnvironment{Soutput}{Verbatim}{xleftmargin=\parindent}
+  \DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=\parindent}
+  \fvset{listparameters={\setlength{\topsep}{0pt}}}
+  \renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+
+  %% Exercices et réponses
+  \Newassociation{rep}{reponse}{reponses}
+  \newcounter{exercice}[chapter]
+  \newenvironment{exercice}{%
+    \begin{list}{\bfseries \thechapter.\arabic{exercice}}{%
+        \refstepcounter{exercice}
+        \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+  \renewenvironment{reponse}[1]{%
+    \begin{list}{\bfseries #1}{%
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+  \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
+
+  %% Listes de commandes
+  \newenvironment{ttscript}[1]{%
+    \begin{list}{}{%
+        \setlength{\labelsep}{1.5ex}
+        \settowidth{\labelwidth}{\fbox{\code{#1}}}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setlength{\parsep}{0.5ex plus0.2ex minus0.2ex}
+        \setlength{\itemsep}{0.3ex}
+        \renewcommand{\makelabel}[1]{\fbox{##1}\hfill}}}
+    {\end{list}}
+
+  %% Chapitre Opérateurs: environnements pour placer côte à côte des
+  %% définitions de fonctions (utilisant ttscript ci-dessus) et un
+  %% petit exemple.
+  \newenvironment{operateur}[1]{%
+    \noindent
+    \begin{minipage}[t]{0.65\linewidth}
+      \begin{ttscript}{#1}}
+    {\end{ttscript}\end{minipage}\hfill}
+  \newenvironment{miniexemple}{%
+    \begin{minipage}[t]{0.3\linewidth}}
+    {\end{minipage}}
+
+  %%% Listes de structures de contrôle
+  \newenvironment{struclist}{%
+    \begin{description}[\breaklabel\setlabelstyle{\mdseries\ttfamily}%
+      \setleftmargin{\parindent}]}
+    {\end{description}}
+
+  %%% Remarques importantes
+  \newenvironment{important}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.1\linewidth}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\danger}
+      \end{minipage}
+      \begin{minipage}[t]{0.85\linewidth}}
+      {\end{minipage}%
+    \end{framed}}
+
+  %%% =============================================
+  %%%  Paramètres pour les sections de code source
+  %%% =============================================
+  \lstloadlanguages{R}
+  \lstdefinelanguage{Renhanced}[]{R}{%
+    morekeywords={colMeans,colSums,head,is.na,is.null,mapply,ms,na.rm,%
+      nlmin,replicate,row.names,rowMeans,rowSums,sys.time,system.time,%
+      tail,which.max,which.min},
+    deletekeywords={c},
+    alsoletter={.\%},%
+    alsoother={:_\$}}
+  \lstset{language=Renhanced,
+    extendedchars=true,
+    inputencoding=utf8/latin1,
+    basicstyle=\small\ttfamily,
+    commentstyle=\color{comments}\slshape,
+    keywordstyle=\mdseries,
+    showstringspaces=false,
+    index=[1][keywords],
+    indexstyle=\indexfonction}
+
+  %%% =======
+  %%%  Index
+  %%% =======
+  \renewcommand{\preindexhook}{%
+    Les numéros de page en caractères gras indiquent les pages où les
+    concepts sont introduits, définis ou expliqués.\vskip\onelineskip}
+  \newcommand{\Index}[1]{\index{#1|textbf}}
+  \newcommand{\indexargument}[1]{\index{#1@\code{#1}}}
+  \newcommand{\Indexargument}[1]{\Index{#1@\code{#1}}}
+  \newcommand{\indexattribut}[1]{\index{#1@\code{#1} (attribut)}}
+  \newcommand{\Indexattribut}[1]{\Index{#1@\code{#1} (attribut)}}
+  \newcommand{\indexclasse}[1]{\index{#1@\code{#1} (classe)}}
+  \newcommand{\Indexclasse}[1]{\Index{#1@\code{#1} (classe)}}
+  \newcommand{\indexfonction}[1]{\index{#1@\code{#1}}}
+  \newcommand{\Indexfonction}[1]{\Index{#1@\code{#1}}}
+  \newcommand{\indexmode}[1]{\index{#1@\code{#1} (mode)}}
+  \newcommand{\Indexmode}[1]{\Index{#1@\code{#1} (mode)}}
+  \newcommand{\indexobjet}[1]{\index{#1@\code{#1}}}
+  \newcommand{\Indexobjet}[1]{\Index{#1@\code{#1}}}
+  \newcommand{\indexemacs}[1]{\index{Emacs!#1@\texttt{#1}}}
+  \newcommand{\indexess}[1]{\index{ESS!#1@\texttt{#1}}}
+
+  \newcommand{\attribut}[1]{\code{#1}\indexattribut{#1}}
+  \newcommand{\Attribut}[1]{\code{#1}\Indexattribut{#1}}
+  \newcommand{\argument}[1]{\code{#1}\indexargument{#1}}
+  \newcommand{\Argument}[1]{\code{#1}\Indexargument{#1}}
+  \newcommand{\classe}[1]{\code{#1}\indexclasse{#1}}
+  \newcommand{\Classe}[1]{\code{#1}\Indexclasse{#1}}
+  \newcommand{\fonction}[1]{\code{#1}\indexfonction{#1}}
+  \newcommand{\Fonction}[1]{\code{#1}\Indexfonction{#1}}
+  \newcommand{\mode}[1]{\code{#1}\indexmode{#1}}
+  \newcommand{\Mode}[1]{\code{#1}\Indexmode{#1}}
+  \newcommand{\objet}[1]{\code{#1}\indexobjet{#1}}
+  \newcommand{\Objet}[1]{\code{#1}\Indexobjet{#1}}
+  \newcommand{\emacs}[1]{\code{#1}\indexemacs{#1}}
+  \newcommand{\ess}[1]{\code{#1}\indexess{#1}}
+  \makeindex
+
+  %%% Sous-figures
+  \newsubfloat{figure}
+
+  %%% Style de la bibliographie
+  \bibliographystyle{francais}
+
+%  \includeonly{avant-partie_1,introduction-partie_1,arriere-partie_1}
+
+\begin{document}
+
+\frontmatter
+
+\pagestyle{empty}
+\include{avant-partie_1}        % différent de Introduction à la...
+
+\pagestyle{companion}
+
+\include{introduction-partie_1} % différent de Introduction à la...
+\cleartorecto
+\tableofcontents*
+
+\mainmatter
+\include{presentation}
+\include{bases}
+\include{operateurs}
+\include{exemples}
+\include{fonctions}
+\include{avance}
+
+\appendix
+\include{emacs+ess}
+\include{packages}
+\include{reponses-partie_1}     % différent de Introduction à la...
+
+\bibliography{r,stat,informatique}
+
+\cleardoublepage
+\printindex
+
+\cleardoublepage
+\cleartoverso
+
+\include{arriere-partie_1}        % différent de Introduction à la...
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% coding: utf-8
+%%% End:
