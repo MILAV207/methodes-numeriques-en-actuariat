@@ -60,7 +60,7 @@ Cette méthode fonctionne parce qu'il y aura plus de valeurs de $x$
 simulées là où la pente de la fonction de répartition est la plus
 grande. Graphiquement:
 \begin{center}
-  \SweaveOpts{width=6,height=3}
+  %\SweaveOpts{width=6,height=3}
 <<echo=FALSE,fig=TRUE>>=
 par(mfrow = c(1, 2), mar = c(5, 4, 1, 1))
 

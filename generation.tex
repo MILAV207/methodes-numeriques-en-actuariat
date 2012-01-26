@@ -2,7 +2,15 @@
 \label{chap:generation}
 
 \begin{objectifs}
-\item
+\item Connaître les caractéristiques d’un bon générateur de nombre
+  pseudo-aléatoires.
+\item Comprendre l’opérateur mathématique modulo.
+\item Savoir générer des nombres pseudo-aléatoires à l’aide d’un
+  générateur congruentiel linéaire.
+\item Savoir établir les caractéristiques d’un générateur congruentiel
+  linéaire, notamment sa période.
+\item Savoir utiliser les générateurs de nombres aléatoires de Excel,
+  VBA et R.
 \end{objectifs}
 
 Ce chapitre traite de la simulation de nombres (pseudo) aléatoires
@@ -218,13 +226,13 @@ de définir
 
 \begin{exemple}
   \mbox{} \normalfont
-  \lstinputlisting{exemple_2.3.R}
+  %\lstinputlisting{exemple_2.3.R}
   \qed
 \end{exemple}
 
 \begin{exemple}
   \mbox{} \normalfont
-  \lstinputlisting{exemple_2.4.R}
+  %\lstinputlisting{exemple_2.4.R}
   \qed
 \end{exemple}
 
@@ -312,20 +320,22 @@ fonction \code{runif} dans R. De plus, la fonction
 \code{set.seed} permet de déterminer la valeur de l'amorce du
 générateur aléatoire.
 
-% Dans S-Plus, le générateur utilisé est appelé \emph{Super Duper}. Sa
-% période est $2^{30} \times \nombre{4292868097} \approx 4,6 \times
-% 10^{18}$.
-
-R offre la possibilité de choisir entre six générateurs de
+R offre la possibilité de choisir entre plusieurs générateurs de
 nombres aléatoires différents, ou encore de spécifier son propre
-générateur. Par défaut, R utilise le générateur
-Marsenne--Twister, considéré comme le plus avancé en ce moment.  La
-période de ce générateur est $2^{\nombre{19937}} - 1$ (rien de moins!)
-et la distribution des nombres est uniforme dans 623 dimensions
-consécutives sur toute la période.
+générateur. Par défaut, R utilise le générateur Marsenne--Twister,
+considéré comme le plus avancé en ce moment. La période de ce
+générateur est $2^{\nombre{19937}} - 1$ (rien de moins!) et la
+distribution des nombres est uniforme dans 623 dimensions consécutives
+sur toute la période.
 
 Pour de plus amples détails, consulter les rubriques d'aide des
 fonctions \code{.Random.seed} et \code{set.seed}.
+
+
+\section{Code informatique des exemples}
+\label{sec:generation:code}
+
+\lstinputlisting[firstline=3]{generation.R}
 
 \input{exercices-generation}
 
