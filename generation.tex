@@ -13,6 +13,13 @@
   VBA et R.
 \end{objectifs}
 
+La simulation stochastique est une technique de plus en plus utilisée
+en actuariat comme dans la plupart des sciences appliquées, du génie,
+de la finance, etc. Or, la qualité et la fiabilité des résultats de
+toute simulation repose d'abord et avant tout sur une source fiable de
+nombres aléatoires.
+
+
 Ce chapitre traite de la simulation de nombres (pseudo) aléatoires
 distribués uniformément sur l'intervalle $(0, 1)$. La transformation
 de ces nombres uniformes en nombres provenant d'autres distributions
@@ -225,14 +232,27 @@ de définir
 \end{exemple}
 
 \begin{exemple}
-  \mbox{} \normalfont
-  %\lstinputlisting{exemple_2.3.R}
+  \label{ex:generation:rand}
+  Cet exemple illustre l'effet des différents paramètres d'un
+  générateur congruentiel sur la qualité des nombres pseudo-aléatoires
+  produits.
+
+  Exécuter la portion du code informatique présenté à la
+  section~\ref{sec:generation:code} correspondant à cet exemple. %
   \qed
 \end{exemple}
 
 \begin{exemple}
-  \mbox{} \normalfont
-  %\lstinputlisting{exemple_2.4.R}
+  Un générateur apparemment de qualité en une dimension peut
+  rapidement se révéler médiocre dans les dimensions supérieures. Cet
+  exemple en fait la démonstration en deux dimensions avec un
+  générateur tout simple, alors que
+  l'exercice~\ref{chap:generation}.\ref{ex:generation:rgl} reprend les
+  mêmes idées en trois dimensions avec un générateur longtemps
+  considéré standard.
+
+  Exécuter la portion du code informatique présenté à la
+  section~\ref{sec:generation:code} correspondant à cet exemple. %
   \qed
 \end{exemple}
 
