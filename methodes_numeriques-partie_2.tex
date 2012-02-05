@@ -18,6 +18,7 @@
 
   %%%  Couleurs
   \definecolor{comments}{rgb}{0.7,0,0}
+  \definecolor{darkred}{rgb}{0.8,0,0}
   \definecolor{shadecolor}{gray}{0}
   \definecolor{link}{rgb}{0,0,0.3}
 
@@ -144,6 +145,17 @@
         \setdefaultenum{a)}{i)}{}{}}\item}
     {\end{list}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
+
+  %%% Remarques importantes
+  \newenvironment{gotoR}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.07\linewidth}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\color{darkred}\noway}
+      \end{minipage}
+      \begin{minipage}[t]{0.88\linewidth}}
+      {\end{minipage}%
+    \end{framed}}
 
   %%% =============================================
   %%%  Paramètres pour les sections de code source

@@ -21,11 +21,11 @@
 options(width = 50)
 @
 
-L'exercice \ref{chap:generation}.\ref{ex:generation:rgl} requiert d'installer le package
-R \code{rgl}, disponible sur CRAN%
+L'exercice \ref{chap:generation}.\ref{ex:generation:rgl} requiert
+d'installer le package R \code{rgl}, disponible sur CRAN%
 \footnote{\url{http://cran.r-project.org}}. %
-Pour un utilisateur ayant les privilèges d'administrateur, entrer
-simplement à la ligne de commande
+Tel qu'expliqué à l'annexe~B des notes de cours de la partie~I, on
+installe le package dans R avec la commande
 <<echo=TRUE, eval=FALSE>>=
 install.packages("rgl")
 @
@@ -33,17 +33,6 @@ Pour utiliser les fonctions du package, il faut ensuite charger le
 package en mémoire avec
 <<echo=TRUE, eval=FALSE>>=
 library(rgl)
-@
-
-Un utilisateur sans droit d'écriture dans le dossier
-\verb|C:\Program Files| (sous Windows) devra installer le package dans
-le dossier de son choix et spécifier celui-ci avec l'argument
-\code{lib} de la fonction \code{install.packages}. Il faudra
-également utiliser l'argument \code{lib.loc} de la fonction
-\code{library} lors du chargement du package. Par exemple:
-<<echo=TRUE, eval=FALSE>>=
-install.packages("rgl", lib = "R:/R/library")
-library(rgl, lib.loc = "R:/R/library")
 @
 
 \begin{exercice}
@@ -119,11 +108,11 @@ rand(n = 5, a = 11, c = 0, m = 64, seed = 19)
 
 \begin{exercice}
   \begin{enumerate}
-  \item Écrire une fonction en S faisant la mise en oeuvre du
-    générateur congruentiel multiplicatif avec $m = 2^{13} - 1$ et $a
-    = 17$. Générer 500 nombres pseudo-aléatoire, puis faire un
-    graphique des paires $(x_i, x_{i+1})$. Sur combien de lignes les
-    points sont-ils alignés?
+  \item Écrire une fonction R faisant la mise en oeuvre du générateur
+    congruentiel multiplicatif avec $m = 2^{13} - 1$ et $a = 17$.
+    Générer 500 nombres pseudo-aléatoire, puis faire un graphique des
+    paires $(x_i, x_{i+1})$. Sur combien de lignes les points sont-ils
+    alignés?
   \item Répéter la partie a) avec $a = 85$.
   \end{enumerate}
   \begin{sol}
@@ -175,15 +164,16 @@ plot(x[-length(x)],
   \label{ex:generation:rgl}
   Le générateur RANDU, qui a longtemps été le plus populaire
   générateur de nombres pseudo-aléatoires, est défini ainsi:
-  \begin{displaymath}
-    x_i = 65539 x_{i - 1} \bmod 2^{31}.
-  \end{displaymath}
+  \begin{equation*}
+    x_i = \nombre{65539} x_{i - 1} \bmod 2^{31}.
+  \end{equation*}
   Les nombres aléatoires obtenus avec ce générateur présentent une
   excellente structure aléatoire en une et en deux dimensions. On peut
   toutefois démontrer mathématiquement qu'en trois dimensions, les
   triplets $(x_i, x_{i+1}, x_{i+2})$ se retrouvent sur quinze plans ou
   moins, rendant ainsi assez prévisible la valeur de $x_{i+2}$ étant
-  donné les deux autres valeurs.
+  donné les deux autres valeurs. On se contente de constater cet état
+  de fait graphiquement.
   \begin{enumerate}
   \item Générer une suite $\{x_i\}$ de longueur \nombre{20002} avec le
     générateur RANDU et poser $u_i = 2^{-31} x_i$. Pour tous les
@@ -191,12 +181,11 @@ plot(x[-length(x)],
     \leq u_{i + 1} \leq 0,51$ et faire un graphique de $u_{i+2}$ en
     fonction de $u_i$. Commenter le graphique obtenu.
   \item Générer une suite $\{x_i\}$ de longueur \nombre{1002} avec le
-    générateur RANDU. À l'aide de R, placer les triplets
-    $(u_i, u_{i+1}, u_{i+2})$ dans un graphique en trois dimensions
-    avec la fonction \code{rgl.points} du package \code{rgl}, puis
-    faire pivoter le graphique jusqu'à ce que les quinze plans sur
-    lesquels se trouvent les points soient visibles. (On peut
-    également utiliser la fonction \code{spin} de S-Plus.)
+    générateur RANDU. À l'aide de R, placer les triplets $(u_i,
+    u_{i+1}, u_{i+2})$ dans un graphique en trois dimensions avec la
+    fonction \code{plot3d} du package \code{rgl}, puis faire pivoter
+    le graphique pour voir les quinze plans sur lesquels se trouvent
+    répartis les points.
   \end{enumerate}
   \begin{sol}
     \begin{enumerate}
@@ -211,7 +200,7 @@ plot(mat, xlab = expression(u[i]), ylab = expression(u[i+2]))
 <<echo=TRUE, eval=FALSE>>=
 library(rgl)
 u <- rand(n = 1002, a = 65539, c = 0, m = 2^31, seed=19)/2^31
-rgl.points(u[1:1000], u[2:1001], u[3:1002])
+plot3d(u[1:1000], u[2:1001], u[3:1002])
 @
     \end{enumerate}
   \end{sol}

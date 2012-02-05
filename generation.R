@@ -60,7 +60,7 @@ plot(x)
 ## Par contre, si l'on fait un graphique des paires de valeurs
 ## successives (c'est-à-dire x[1] en fonction de x[2], x[2] en
 ## fonction de x[3], etc.), un portrait dérangeant apparaît.
-plot(head(x , -1), tail(x, -1))
+plot(head(x, -1), tail(x, -1))
 
 ## Augmenter la valeur du multiplicateur améliore la
 ## situation. Si l'on utilise plutôt a = 12 (une racine
@@ -69,7 +69,7 @@ plot(head(x , -1), tail(x, -1))
 ## ordre différent. Cependant, les valeurs sont mieux
 ## distribuées.
 x <- rand(30, a = 12, c = 0, m = 31, seed = 9)
-plot(head(x , -1), tail(x, -1))
+plot(head(x, -1), tail(x, -1))
 
 ## On illustre par six autres graphiques comment le
 ## choix des paramètres d'un générateur congruentiel

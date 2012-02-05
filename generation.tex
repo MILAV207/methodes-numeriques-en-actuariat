@@ -13,13 +13,6 @@
   VBA et R.
 \end{objectifs}
 
-La simulation stochastique est une technique de plus en plus utilisée
-en actuariat comme dans la plupart des sciences appliquées, du génie,
-de la finance, etc. Or, la qualité et la fiabilité des résultats de
-toute simulation repose d'abord et avant tout sur une source fiable de
-nombres aléatoires.
-
-
 Ce chapitre traite de la simulation de nombres (pseudo) aléatoires
 distribués uniformément sur l'intervalle $(0, 1)$. La transformation
 de ces nombres uniformes en nombres provenant d'autres distributions
@@ -29,9 +22,11 @@ statistiques fera l'objet du prochain chapitre.
 \section{Pourquoi faire de la simulation?}
 \label{sec:generation:pourquoi}
 
-Les modèles mathématiques et la simulation stochastiques comportent
-plusieurs avantages par rapport à l'expérimentation directe. Entre
-autres, on note:
+La simulation stochastique est une technique de plus en plus utilisée
+en actuariat comme dans la plupart des sciences appliquées, en génie,
+en finance, etc. Les modèles mathématiques et la simulation
+stochastiques comportent plusieurs avantages par rapport à
+l'expérimentation directe, dont, entre autres:
 \begin{itemize}
 \item la simulation est non destructrice et peu coûteuse;
 \item le système considéré n'a pas besoin d'exister;
@@ -41,7 +36,7 @@ autres, on note:
 \item la simulation permet de considérer des modèles très complexes
   impossibles à traiter analytiquement.
 \end{itemize}
-En revanche, au rayon des inconvénients:
+En revanche, au rayon des inconvénients, on note:
 \begin{itemize}
 \item le coût (en temps et en argent) de modélisation et de
   programmation s'avère parfois important;
@@ -53,20 +48,28 @@ En revanche, au rayon des inconvénients:
 
 À la base, toute étude de simulation requiert une source de nombres
 aléatoires. Or, ces nombres aléatoires ne sont pas toujours facile à
-obtenir et la qualité de la source est primodiale pour que l'étude
-soit fiable.
+obtenir --- surtout en grande quantité --- et la qualité de la source
+est primodiale pour que l'étude soit fiable. En effet, un générateur
+qui ne fournirait pas des nombres suffisamment aléatoires, ou alors
+qui se répètent trop rapidement, peut corrompre les résultats d'une
+étude jusqu'à rendre ses conclusions invalides.
 
+Les nombres aléatoires sont également beaucoup utilisés en
+cryptographie. Ici encore, un générateur de mauvaise qualité peut
+avoir des conséquences fâcheuses. Par exemple, si la période du
+générateur est trop courte, il devient relativement facile de percer
+la sécurité d'un système en découvrant le mot de passe par une attaque
+en force.
 
 
 \section{Générateurs de nombres aléatoires}
 \label{sec:generation:generateurs}
 
-On veut obtenir des nombres issus d'une distribution $U(0, 1)$.
-Ceux-ci peuvent par la suite être transformés en des nombres issus de
-toute autre distribution. Quelques techniques possibles:
+On veut obtenir des nombres issus d'une distribution uniforme sur un
+intervalle quelconque, en général $(0, 1)$. Comment procéder?
 \begin{enumerate}
-\item Utiliser les résultats de processus physiques aléatoires en
-  apparence comme, par exemple,
+\item On peut utiliser les résultats de processus physiques aléatoires
+  en apparence comme, par exemple,
   \begin{itemize}
   \item le lancer d'une pièce de monnaie ou d'un dé;
   \item des nombres pris au hasard dans des tableaux de rapports ou
@@ -80,21 +83,31 @@ toute autre distribution. Quelques techniques possibles:
   L'utilisation de listes de nombres aléatoires est toutefois peu
   pratique avec un ordinateur, surtout si l'on a besoin de milliers ou
   de millions de nombres aléatoires.
-\item Carrés centraux de von~Neumann: prendre un nombre à quatre
-  chiffres, l'élever au carré puis extraire les quatre chiffres du
-  milieu; recommencer. Par exemple:
+\item Une ancienne technique est celle des carrés centraux de
+  von~Neumann: on prend un nombre à quatre chiffres, on l'élève au
+  carré puis on extrait les quatre chiffres du milieu, et ainsi de
+  suite. Par exemple:
   \begin{align*}
     8653^2 &= 74\undergroup{8744}09 \\
     8744^2 &= 76\undergroup{4575}36 \\
     4575^2 &= 20\undergroup{9306}25 \\
-    &\vdots
   \end{align*}
-\item Générateurs congruentiels et variations sur le même thème. Ce
-  sont encore les plus utilisés encore aujourd'hui. Ils sont
-  particulièrement utiles parce qu'aisément \emph{reproduisibles}.
-\item Générateurs basés sur la suite de Fibonacci.
-\item Générateurs chaotiques, etc.
+\item On peut construire des générateurs basés sur la suite de
+  Fibonacci, des générateurs chaotiques, etc.
 \end{enumerate}
+
+En fait, les générateurs couramment utilisés aujourd'hui dans les
+ordinateurs sont des évolutions des générateurs dits
+\emph{congruentiels}. Ils sont particulièrement utiles parce
+qu'aisément \emph{reproduisibles}. De plus, nous pouvons généralement
+en connaître les propriétés --- notamment la période --- par une
+analyse mathématique poussée. \citet[section 3.1]{Knuth:ACP:vol2:1997}
+fournit un exemple éloquent de l'importance de pouvoir démontrer
+mathématiquement les propriétés d'un générateur de nombres aléatoires.
+Cette référence de quelques pages seulement est fournie dans le site
+du cours; la lire avant d'aller plus loin.
+
+C'est fait? Bien. Intéressant, n'est-ce pas?
 
 Dans la suite, nous nous concentrerons sur les générateurs de nombres
 pseudo-aléatoires. En général, on exige d'un générateur de ce type
@@ -109,7 +122,8 @@ qu'il:
 \end{enumerate}
 
 
-\subsection{Congruence et modulo}
+\section{Congruence et modulo}
+\label{sec:generation:congruence}
 
 Les générateurs congruentiels utilisent l'arithmétique modulo. Une
 propriété de base de cette arithmétique est l'équivalence, ou
@@ -119,14 +133,15 @@ congruence, modulo $m$.
   Deux nombres $a$ et $b$ sont dits \emph{équivalents}, ou
   \emph{congruents}, modulo $m$ si la différence entre $a$ et $b$ est
   un entier divisible par $m$. Mathématiquement,
-  \begin{displaymath}
+  \begin{equation*}
     a \equiv b \bmod m \quad\Leftrightarrow\quad \frac{a - b}{m} = k, \quad
     k \in \mathbb{Z}.
-  \end{displaymath}
+  \end{equation*}
 \end{definition}
 
 En d'autres mots, deux nombres sont équivalents modulo $m$ si la
-distance entre ceux-ci est un multiple de $m$.
+distance entre ceux-ci est un multiple de $m$. La notion d'équivalence
+partitionne donc l'ensemble des nombres (ici, les réels).
 
 \begin{exemple}
   On a
@@ -142,17 +157,16 @@ distance entre ceux-ci est un multiple de $m$.
 \end{exemple}
 
 De la définition de congruence découle celle de \emph{réduction
-  modulo} ou \emph{résidu modulo}: si
-\begin{itemize}
-\item $a \equiv b \bmod m$ et
-\item $0 \leq a < m$,
-\end{itemize}
-alors $a$ est le résidu de la division de $b$ par $m$, ou le résidu de
-$b$ modulo $m$, c'est-à-dire
-\begin{displaymath}
-  a = b \bmod m \quad\Leftrightarrow\quad a = b - \left\lfloor
-    \frac{b}{m} \right\rfloor m.
-\end{displaymath}
+  modulo} ou \emph{résidu modulo}: si $a \equiv b \bmod m$ et $0 \leq
+a < m$, alors $a$ est le résidu de la division de $b$ par $m$, ou le
+résidu de $b$ modulo $m$, c'est-à-dire
+\begin{equation*}
+  a = b \bmod m
+  \quad\Leftrightarrow\quad
+  a = b - \left\lfloor \frac{b}{m} \right\rfloor m,
+\end{equation*}
+où $\lfloor x \rfloor$ est le plus grand entier inférieur ou égal à
+$x$.
 
 La plupart des langages de programmation et logiciels à connotation
 mathématique comportent un opérateur ou une fonction modulo:
@@ -163,13 +177,14 @@ mathématique comportent un opérateur ou une fonction modulo:
 \end{itemize}
 
 
-\subsection{Générateurs congruentiels linéaires}
+\section{Générateurs congruentiels linéaires}
+\label{sec:generation:congruentiel}
 
 Dans un générateur congruentiel linéaire, tout nombre dans la suite
 générée détermine le nombre suivant par la formule
-\begin{displaymath}
+\begin{equation*}
   x_i = (a x_{i - 1} + c) \bmod m,
-\end{displaymath}
+\end{equation*}
 où $0 \leq x_i < m$ et
 \begin{itemize}
 \item $a$ est appelé le \emph{multiplicateur};
@@ -177,56 +192,54 @@ où $0 \leq x_i < m$ et
 \item $m$ est appelé le \emph{module};
 \item $x_0$ (un nombre quelconque) est l'\emph{amorce} («\emph{seed}»).
 \end{itemize}
-De plus,
-\begin{itemize}
-\item $c = 0$ $\Rightarrow$ générateur \emph{multiplicatif};
-\item $c \neq 0$ $\Rightarrow$ générateur \emph{mixte}.
-\end{itemize}
+
+Lorsque $c = 0$, on parle d'un générateur \emph{multiplicatif}; dans
+le cas contraire on a générateur \emph{mixte}.
 
 Pour obtenir des nombre uniformes sur $[0, 1]$ ou $(0, 1)$, il suffit
 de définir
-\begin{displaymath}
+\begin{equation*}
   u_i = \frac{x_i}{m}.
-\end{displaymath}
+\end{equation*}
 
 \begin{rems}
   \begin{enumerate}
   \item La méthode de génération des nombres est entièrement
-    déterministe $\Rightarrow$ nombres \emph{pseudo}-aléatoires.
+    déterministe, c'est pourquoi il convient mieux de parler de
+    nombres \emph{pseudo}-aléatoires.
   \item Un générateur congruentiel est forcément périodique puisqu'il
     ne peut prendre, au mieux, que les valeurs
     \begin{itemize}
     \item $0, 1, 2, \dots, m - 1$ pour un générateur mixte;
     \item $1, 2, \dots, m - 1$ pour un générateur multiplicatif.
     \end{itemize}
-  \item On cherche donc à avoir la période la plus longue possible
-    tout en obtenant des suites en apparence aléatoires.
+    C'est pourquoi on cherche donc à avoir la période la plus longue
+    possible, tout en obtenant des suites en apparence aléatoires.
   \item Pour les générateurs multiplicatifs ($c = 0$), on atteint la
     période maximale $m - 1$ si
     \begin{itemize}
     \item $m$ est un nombre premier (on en choisira un grand);
     \item $a$ est une \emph{racine primitive} de $m$, c'est à dire que
       le plus petit entier $k$ satisfaisant
-      \begin{displaymath}
+      \begin{equation*}
         1 = a^k \bmod m
-      \end{displaymath}
+      \end{equation*}
       est $k = m - 1$.
     \end{itemize}
-    Valeurs populaires: $m = 2^{31} - 1$ (nombre premier de Mersenne),
-    $a = 7^5$.
+    Des valeurs populaires sont $m = 2^{31} - 1$ (nombre premier de
+    Mersenne) et $a = 7^5$.
   \end{enumerate}
 \end{rems}
 
 \begin{exemple}
   Soit un générateur congruentiel multiplicatif avec $a = 7$ et $m =
-  31$. Les cinq premiers nombres pseudo-aléatoires avec l'amorce $x_0
-  = 19$ sont:
+  31$. Les quatre premiers nombres pseudo-aléatoires avec l'amorce
+  $x_0 = 19$ sont:
   \begin{align*}
     (7 \times 19) \bmod 31 &= 133 \bmod 31 = 9 \rightarrow x_1 \\
     (7 \times 9) \bmod 31 &= 63 \bmod 31 = 1 \rightarrow x_2 \\
     (7 \times 1) \bmod 31 &= 7 \bmod 31 = 7 \rightarrow x_3 \\
-    (7 \times 7) \bmod 31 &= 49 \bmod 31 = 18 \rightarrow x_4 \\
-    &\vdots
+    (7 \times 7) \bmod 31 &= 49 \bmod 31 = 18 \rightarrow x_4.
   \end{align*}
   \qed
 \end{exemple}
@@ -237,8 +250,10 @@ de définir
   générateur congruentiel sur la qualité des nombres pseudo-aléatoires
   produits.
 
-  Exécuter la portion du code informatique présenté à la
-  section~\ref{sec:generation:code} correspondant à cet exemple. %
+  \begin{gotoR}
+    Exécuter la portion du code informatique R présenté à la
+    section~\ref{sec:generation:code} correspondant à cet exemple.
+  \end{gotoR}
   \qed
 \end{exemple}
 
@@ -251,8 +266,10 @@ de définir
   mêmes idées en trois dimensions avec un générateur longtemps
   considéré standard.
 
-  Exécuter la portion du code informatique présenté à la
-  section~\ref{sec:generation:code} correspondant à cet exemple. %
+  \begin{gotoR}
+    Exécuter la portion du code informatique R présenté à la
+    section~\ref{sec:generation:code} correspondant à cet exemple.
+  \end{gotoR}
   \qed
 \end{exemple}
 
@@ -281,18 +298,12 @@ Whichmann--Hill est $10^{13}$, mais omet alors de tenir compte de
 littérature démontrant qu'elle est plutôt de $6,95 \times 10^{12}
 \approx 2^{43}$, ce qui est aujourd'hui considéré trop court.
 
-\begin{sloppypar}
-  La mise en {\oe}uvre du générateur Whichmann--Hill dans Excel 2003
-  avait le fâcheux défaut de pouvoir générer des nombres négatifs.
-  Selon l'article 834520 de la base de connaissances Microsoft
-  (\url{http://support.microsoft.com/kb/834520}), ce défaut a été
-  corrigé dans le \emph{Service Pack} 1 de Office 2003, mais encore
-  faut-il s'assurer que votre version de Excel est à jour. Sinon, une
-  analyse basée sur des nombres aléatoires obtenus dans Excel pourrait
-  s'avérer complètement erronée. La version 2007 du générateur est
-  identique à la version 2003 corrigée
-  (\url{http://support.microsoft.com/kb/828795}).
-\end{sloppypar}
+La mise en {\oe}uvre du générateur Whichmann--Hill dans Excel 2003
+avait le fâcheux défaut de pouvoir générer des nombres négatifs. Ce
+défaut a été corrigé dans le \emph{Service Pack} 1 de Office 2003
+(voir \url{http://support.microsoft.com/kb/834520}). La version 2007
+du générateur est identique à la version 2003 corrigée (voir
+\url{http://support.microsoft.com/kb/828795}).
 
 Consulter \cite{McCullough:Excel2007:2008} pour une discussion
 détaillée de la génération de nombres aléatoires et d'autres
@@ -313,6 +324,7 @@ auteurs écrivent en conclusion:
 \end{quote}
 
 
+
 \subsection{Générateur de VBA}
 
 \begin{sloppypar}
@@ -324,21 +336,21 @@ auteurs écrivent en conclusion:
 \end{sloppypar}
 
 Étant donné l'avancement actuel des connaissances dans le domaine des
-générateurs de nombres pseudo-aléatoires, l'utilisation d'un tel
-générateur est tout-à-fait injustifiée et archaïque. De plus, le
-générateur utilise toujours la même amorce et donc les suites de
-nombres aléatoires sont toujours les mêmes. Pour toute
-utilisation moindrement sérieuse de nombres aléatoires, il convient
-donc d'éviter à tout prix la fonction \code{RND()} et de lui
-préférer un appel à la fonction \code{RAND()} de Excel.
+générateurs de nombres pseudo-aléatoires, un tel générateur est tout à
+fait archaïque. De plus, le générateur utilise toujours la même amorce
+et, par conséquent, les suites de nombres aléatoires sont toujours les
+mêmes. Pour toute utilisation moindrement sérieuse de nombres
+aléatoires, il convient donc d'éviter à tout prix la fonction
+\code{RND()} et de lui préférer un appel à la fonction \code{RAND()}
+de Excel.
 
 
 \subsection{Générateurs de R}
 
 On obtient des nombres uniformes sur un intervalle quelconque avec la
-fonction \code{runif} dans R. De plus, la fonction
-\code{set.seed} permet de déterminer la valeur de l'amorce du
-générateur aléatoire.
+fonction \code{runif} dans R. La fonction \code{set.seed} permet de
+déterminer la valeur de l'amorce du générateur aléatoire, ce qui est
+utile si on veut répéter une simulation absolument à l'identique.
 
 R offre la possibilité de choisir entre plusieurs générateurs de
 nombres aléatoires différents, ou encore de spécifier son propre
@@ -348,8 +360,10 @@ générateur est $2^{\nombre{19937}} - 1$ (rien de moins!) et la
 distribution des nombres est uniforme dans 623 dimensions consécutives
 sur toute la période.
 
-Pour de plus amples détails, consulter les rubriques d'aide des
-fonctions \code{.Random.seed} et \code{set.seed}.
+Pour de plus amples détails et les dernières informations sur les
+générateurs disponibles et la procédure de réglage de l'amorce,
+consulter les rubriques d'aide des fonctions \code{.Random.seed} et
+\code{set.seed}.
 
 
 \section{Code informatique des exemples}
