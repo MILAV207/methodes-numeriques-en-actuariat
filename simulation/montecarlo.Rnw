@@ -1,0 +1,337 @@
+\chapter{Intégration Monte Carlo}
+\label{chap:montecarlo}
+
+\begin{objectifs}
+\item Comprendre le principe de calcul de la valeur d’une intégrale
+  définie à l’aide de nombres aléatoires.
+\item Être en mesure de calculer la valeur d’une intégrale définie par
+  la méthode Monte Carlo.
+\end{objectifs}
+
+On appelle simulation Monte Carlo (ou méthode de Monte Carlo) toute
+méthode consistant à résoudre une expression mathématique à l'aide de
+nombres aléatoires. Par extension, l'appellation est souvent utilisée
+pour référer à toute utilisation de la simulation.
+
+L'une des utilisations de la simulation Monte Carlo la plus répandue
+est le calcul d'intégrales, principalement pour des dimensions
+supérieures à un. On ne présente ici que l'idée générale.
+
+
+\section{Contexte}
+\label{sec:montecarlo:contexte}
+
+Supposons que l'on souhaite calculer l'intégrale
+\begin{equation*}
+  \theta = \int_a^b h(x)\, dx,
+\end{equation*}
+mais que celle-ci est trop compliquée pour être évaluée explicitement.
+On pourrait d'abord faire deux approximations de l'aire sous la
+fonction $h$ à l'aide des sommes de Riemann
+\begin{align*}
+  R_n^- &= \sum_{k = 0}^{n - 1} h(a + k \Delta x) \Delta x \\
+  \intertext{et}
+  R_n^+ &= \sum_{k = 1}^n h(a + k \Delta x) \Delta x,
+\end{align*}
+où $\Delta x = (b - a)/n$ et $n$ est grand. Voir la
+figure~\ref{fig:montecarlo:riemann} pour une illustration de ces deux
+aires.
+
+Par la suite, une estimation numérique de l'intégrale serait la
+moyenne des deux sommes de Riemann:
+\begin{equation*}
+  \hat{\theta}_n = \frac{R_n^- + R_n^+}{2}.
+\end{equation*}
+Cette procédure devient toutefois rapidement compliquée pour les
+intégrales multiples à plusieurs dimensions. Il y a éventuellement
+beaucoup trop de points à évaluer.
+
+\begin{figure}
+  \centering
+<<echo=FALSE, fig=TRUE, width=8, height=4>>=
+par(mfrow = c(1, 2), mar = c(5, 4, 2, 2))
+
+curve(dgamma(x, 3, 2), xlim = c(0, 2), lwd = 2, ylab="h(x)")
+xx <- seq(0, 2, by = 0.2)
+for (i in seq.int(length(xx) - 1))
+    polygon(rep(xx[c(i, i + 1)], each = 2),
+            c(0, rep(dgamma(xx[i], 3, 2), 2), 0),
+            col = "lightblue")
+curve(dgamma(x, 3, 2), xlim = c(0, 2), lwd = 2, add = TRUE)
+
+curve(dgamma(x, 3, 2), xlim = c(0, 2), lwd = 2, ylab="h(x)")
+xx <- seq(0, 2, by = 0.2)
+for (i in seq.int(length(xx) - 1))
+    polygon(rep(xx[c(i, i + 1)], each = 2),
+            c(0, rep(dgamma(xx[i + 1], 3, 2), 2), 0),
+            col = "lightblue")
+curve(dgamma(x, 3, 2), xlim = c(0, 2), lwd = 2, add = TRUE)
+@
+  \caption{Approximation de l'aire sous une fonction par les deux sommes
+    de Riemann $R_n^-$ (gauche) et $R_n^+$ (droite)}
+  \label{fig:montecarlo:riemann}
+\end{figure}
+
+
+\section{Méthode Monte Carlo}
+\label{sec:montecarlo:methode}
+
+L'idée de l'intégration Monte Carlo consiste à évaluer la fonction à
+intégrer en des points choisis aléatoirement, puis à s'en remettre à
+la loi des grands nombres pour estimer l'intégrale.
+
+On exprime tout d'abord la fonction $h(x)$ sous la forme
+\begin{equation*}
+  h(x) = g(x) f(x),
+\end{equation*}
+où $f(x)$ est une densité sur $(a, b)$. Ainsi, par définition de
+l'espérance,
+\begin{align*}
+  \theta
+  &= \int_a^b g(x) f(x)\, dx \\
+  &= \esp{g(X)},
+\end{align*}
+où $X$ est la variable aléatoire avec fonction de densité de
+probabilité $f(x)$. Par la suite, si $x_1, \dots, x_n$ sont des
+observations simulées de la densité $f(x)$, alors
+\begin{equation*}
+  \hat{\theta}_n = \frac{1}{n} \sum_{i = 1}^n g(x_i)
+\end{equation*}
+constitue une estimation de l'intégrale $\theta$.  Par la loi des
+grands nombres $\hat{\theta}_n \stackrel{n \rightarrow
+  \infty}{\longrightarrow} \theta$.
+
+Par souci de simplicité et parce qu'il est facile d'obtenir un
+échantillon aléatoire d'une loi uniforme, on pose en général $X \sim
+U(a, b)$, soit
+\begin{equation*}
+  f(x) = \frac{1}{b - a}, \quad a < x < b.
+\end{equation*}
+Dans ce cas, on réécrit l'intégrale sous la forme
+\begin{align*}
+  \theta
+  &= (b - a) \int_a^b g(x)\, \frac{1}{b - a}\, dx \\
+  &= (b - a) \esp{g(X)},
+\end{align*}
+et
+\begin{equation*}
+  \hat{\theta}_n = \frac{b - a}{n} \sum_{i = 1}^n g(x_i),
+\end{equation*}
+où $x_1, \dots, x_n$ est un échantillon aléatoire d'une loi $U(a, b)$,
+constitue une estimation de l'intégrale.
+
+On remarquera qu'il est équivalent de faire le changement de variable
+\begin{equation*}
+  \begin{split}
+    u  &= \frac{x - a}{b - a} \\
+    du &= \frac{dx}{b - a}
+  \end{split}
+  \quad \Leftrightarrow \quad
+  \begin{split}
+    x  &= a + (b - a) u \\
+    dx &= (b - a)\, du
+  \end{split}
+\end{equation*}
+dans l'intégrale
+\begin{equation*}
+  \theta = \int_a^b g(x) f(x)\, dx.
+\end{equation*}
+On obtient alors
+\begin{align*}
+  \theta
+  &= (b - a) \int_0^1 g(a + (b - a)u) f(a + (b - a)u)\, du \\
+  &= (b - a) \esp{g(a + (b - a)U)},
+\end{align*}
+où $U \sim U(0, 1)$. Une estimation de l'intégrale est donc
+\begin{equation*}
+  \hat{\theta}_n = \frac{b - a}{n} \sum_{i = 1}^n g(a + (b - a) u_i),
+\end{equation*}
+où $u_1, \dots, u_n$ est un échantillon aléatoire d'une loi $U(0, 1)$.
+On doit utiliser la technique du changement de variable lorsque le
+domaine est infini.
+
+\begin{exemple}
+  \label{ex:montecarlo:2d}
+  Soit l'intégrale
+  \begin{equation*}
+    \theta = \int_2^5 x^{11/5} e^{-x/10}\, dx.
+  \end{equation*}
+  Parce que l'exposant de $x$ n'est pas un entier, on ne peut évaluer
+  cette intégrale par parties. Cependant, on remarque que la fonction
+  à intégrer est, à une constante près, la densité d'une loi gamma:
+  \begin{align*}
+    \theta
+    &= \int_2^5 x^{11/5} e^{-x/10}\, dx \\
+    &= \frac{\Gamma(\frac{16}{5})}{(\frac{1}{10})^{16/5}} \int_2^5
+    \frac{(\frac{1}{10})^{16/5}}{\Gamma(\frac{16}{5})}\,
+    x^{16/5 - 1} e^{-x/10}\, dx \\
+    &= \frac{\Gamma(\frac{16}{5})}{(\frac{1}{10})^{16/5}}
+    \left[
+      G \left(5; \frac{16}{5}, \frac{1}{10} \right) -
+      G \left(2; \frac{16}{5}, \frac{1}{10} \right)
+    \right],
+  \end{align*}
+  où $G(x; \alpha, \lambda)$ est la fonction de répartition de la loi
+  Gamma$(\alpha, \lambda)$. Avec R, on obtient la valeur exacte
+<<echo=TRUE>>=
+gamma(3.2) * diff(pgamma(c(2, 5), 3.2, 0.1)) / 0.1^3.2
+@
+
+  Pour utiliser la méthode Monte Carlo, on pose
+  \begin{equation*}
+    \theta = 3 \int_2^5 x^{11/5} e^{-x/10}
+    \left( \frac{1}{3} \right)\, dx.
+  \end{equation*}
+  Si $\{x_1, \dots, x_n\}$ est un échantillon aléatoire d'une loi
+  $U(2, 5)$, alors
+  \begin{equation*}
+    \hat{\theta}_n = \frac{3}{n} \sum_{i = 1}^n
+    x_i^{11/5} e^{-x_i/10}
+  \end{equation*}
+  est une estimation de $\theta$. On a obtenu les résultats suivants
+  avec R (voir aussi la figure \ref{fig:montecarlo:2d}):
+<<echo=TRUE>>=
+f <- function(x) x^2.2 * exp(-x/10)
+x <- runif(1e2, 2, 5)
+3 * mean(f(x))
+x <- runif(1e3, 2, 5)
+3 * mean(f(x))
+x <- runif(1e4, 2, 5)
+3 * mean(f(x))
+x <- runif(1e5, 2, 5)
+3 * mean(f(x))
+x <- runif(1e6, 2, 5)
+3 * mean(f(x))
+@
+  \begin{figure}[t]
+    \centering
+<<echo=FALSE, fig=TRUE>>=
+par(mfrow = c(2, 2))
+f <- function(x) x^2.2 * exp(-x/10)
+curve(f(x), xlim = c(2, 5), lwd = 3, main = "Vraie fonction")
+
+x <- runif(1e2, 2, 5)
+plot(x, f(x), main = "n = 100",
+     pch = 21, bg = "lightblue")
+x <- runif(1e3, 2, 5)
+plot(x, f(x), main = "n = 1000",
+     pch = 21, bg = "lightblue")
+x <- runif(1e4, 2, 5)
+plot(x, f(x), main = "n = 10 000",
+     pch = 21, bg = "lightblue")
+@
+    \caption{Fonction $h(x)$ de l'exemple \ref{ex:montecarlo:2d} et points
+      choisis aléatoirement où la fonction est évaluée pour l'intégration
+      Monte Carlo}
+    \label{fig:montecarlo:2d}
+  \end{figure}
+  \begin{gotoR}
+    Le code R pour effectuer les calculs et les graphiques ci-dessus
+    est fourni à la section~\ref{sec:montecarlo:code}.
+  \end{gotoR}
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \label{ex:montecarlo:3d}
+  Soit l'intégrale
+  \begin{equation*}
+    \theta = \int_0^{5/4} \int_0^{5/4} \sqrt{4 - x^2 - y^2}\, dy\, dx.
+  \end{equation*}
+  La procédure à suivre avec les intégrales multiples est la même
+  qu'avec les intégrales simples, sauf que l'on tire des points
+  uniformément dans autant de dimensions que nécessaire. Ainsi, dans
+  le cas présent, on pose
+  \begin{align*}
+    \theta
+    &= \int_0^{5/4} \int_0^{5/4} \sqrt{4 - x^2 - y^2}\, dy\, dx \\
+    &= \frac{25}{16} \int_0^{5/4} \int_0^{5/4} \sqrt{4 - x^2 - y^2}
+    \frac{1}{(\frac{5}{4})(\frac{5}{4})}\, dy\, dx \\
+    &= \frac{25}{16}\, \Esp{\sqrt{4 - X^2 - Y^2}},
+  \end{align*}
+  où $X$ et $Y$ sont des variables aléatoires indépendantes
+  distribuées uniformément sur l'intervalle $(0, \frac{5}{4})$.
+  Autrement dit, la densité conjointe de $X$ et $Y$ est uniforme sur
+  $(0, \frac{5}{4}) \times (0, \frac{5}{4})$. Par conséquent, une
+  estimation de $\theta$ calculée à partir d'un échantillon $\{(x_1,
+  y_1), \dots, (x_n, y_n)\}$ tiré de cette loi conjointe est
+  \begin{equation*}
+    \hat{\theta}_n = \frac{25}{16 n} \sum_{i = 1}^n \sqrt{4 - x_i^2 - y_i^2}.
+  \end{equation*}
+  On a obtenu les résultats suivants avec R (voir aussi la
+  figure \ref{fig:montecarlo:3d}):
+<<echo=TRUE>>=
+u <- runif(1e2, 0, 1.25)
+v <- runif(1e2, 0, 1.25)
+mean(sqrt(4 - u^2 - v^2)) * 1.25^2
+u <- runif(1e3, 0, 1.25)
+v <- runif(1e3, 0, 1.25)
+mean(sqrt(4 - u^2 - v^2)) * 1.25^2
+u <- runif(1e4, 0, 1.25)
+v <- runif(1e4, 0, 1.25)
+mean(sqrt(4 - u^2 - v^2)) * 1.25^2
+@
+  \begin{figure}[t]
+    \centering
+<<echo=FALSE,fig=TRUE>>=
+par(mfrow = c(2, 2), mar = c(1, 1, 2, 1))
+f <- function(x, y) sqrt(4 - x^2 - y^2)
+x <- seq(0, 1.25, length = 25)
+y <- seq(0, 1.25, length = 25)
+persp(x, y, outer(x, y, f), main = "Vraie fonction",
+      zlim = c(0, 2), theta = 120, phi = 30, col = "lightblue",
+      zlab = "z", ticktype = "detailed")
+u <- runif(1e2, 0, 1.25)
+v <- runif(1e2, 0, 1.25)
+res <- persp(x, y, matrix(NA, length(x), length(y)), main = "n = 100",
+             zlim = c(0, 2), theta = 120, phi = 30,
+             zlab = "z", ticktype = "detailed")
+points(trans3d(u, v, f(u, v), pm = res),
+       pch = 21, bg = "lightblue")
+
+u <- runif(1e3, 0, 1.25)
+v <- runif(1e3, 0, 1.25)
+res <- persp(x, y, matrix(NA, length(x), length(y)), main = "n = 1000",
+             zlim = c(0, 2), theta = 120, phi = 30,
+             zlab = "z", ticktype = "detailed")
+points(trans3d(u, v, f(u, v), pm = res),
+       pch = 21, bg = "lightblue")
+
+u <- runif(1e4, 0, 1.25)
+v <- runif(1e4, 0, 1.25)
+res <- persp(x, y, matrix(NA, length(x), length(y)), main = "n = 10 000",
+             zlim = c(0, 2), theta = 120, phi = 30,
+             zlab = "z", ticktype = "detailed")
+points(trans3d(u, v, f(u, v), pm = res),
+       pch = 21, bg = "lightblue")
+@
+    \caption{Fonction $h(x)$ de l'exemple
+      \ref{ex:montecarlo:3d} et points choisis
+      aléatoirement où la fonction est évaluée pour l'intégration
+      Monte Carlo}
+    \label{fig:montecarlo:3d}
+  \end{figure}
+  \begin{gotoR}
+    Le code R pour effectuer les calculs et les graphiques ci-dessus
+    est fourni à la section~\ref{sec:montecarlo:code}.
+  \end{gotoR}
+  \enlargethispage{5mm}
+  \qed
+\end{exemple}
+
+
+\section{Code informatique}
+\label{sec:montecarlo:code}
+
+\lstinputlisting[firstline=3]{montecarlo.R}
+
+\vfill
+
+\input{exercices-montecarlo}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "methodes_numeriques-partie_2"
+%%% coding: utf-8
+%%% End:

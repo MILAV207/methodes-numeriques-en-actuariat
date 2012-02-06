@@ -5,8 +5,8 @@
 %%% Fichers de solutions et de réponses
 %%%
 
-\Opensolutionfile{reponses}[reponses-simulation_va]
-\Opensolutionfile{solutions}[solutions-simulation_va]
+\Opensolutionfile{reponses}[reponses-simulation]
+\Opensolutionfile{solutions}[solutions-simulation]
 
 \begin{Filesave}{reponses}
 \bigskip
@@ -24,6 +24,13 @@
 %%% Début des exercices
 %%%
 
+Les étudiants jugent souvent les exercices de ce chapitre plus
+difficiles que ceux des autres chapitres. Ils font beaucoup appel à
+des notions de transformations de variables aléatoires qui ont
+pourtant déjà étudiées dans d'autres cours. Pour un rappel des
+principaux résultats dans ce domaine, consulter
+l'annexe~\ref{chap:rappels_transformations}.
+
 \begin{exercice}
   La transformation de Box--Muller est populaire pour simuler des
   nombres normaux à partir de nombres uniformes. Soit $U_1 \sim U(0,
@@ -32,8 +39,6 @@
     X_1 &= (-2 \log U_1)^{1/2} \cos (2\pi U_2) \\
     X_2 &= (-2 \log U_1)^{1/2} \sin (2\pi U_2).
   \end{align*}
-  Les questions ci-dessous font appel à des notions de transformation
-  de variables aléatoires étudiées dans le cours ACT-16384.
   \begin{enumerate}
   \item Vérifier de manière heuristique que la transformation
     ci-dessus est bijective de $\{(u_1, u_2); 0 < u_1 < 1, 0 < u_2 <
@@ -47,39 +52,23 @@
     \end{align*}
   \item Démontrer que $X_1$ et $X_2$ sont deux variables aléatoires
     indépendantes chacune distribuée selon une $N(0, 1)$.
-  \item Vérifier la validité de ces formules à l'aide de Excel,
-    \textsf{R} ou S-Plus. La procédure à suivre en S est expliquée
-    ici.
-    \begin{enumerate}[i)]
-    \item Simuler deux séries de nombres uniformes sur l'intervalle
-      $(0, 1)$ avec la fonction \texttt{runif}.
-    \item Transformer les nombres uniformes en nombres normaux sans
-      utiliser de boucles grâce à la fonction \texttt{outer} et deux
-      fonctions anonymes.
-    \item Tracer un histogramme des résultats avec
-\begin{Schunk}
-\begin{Sinput}
-> hist(x, prob = TRUE)
-\end{Sinput}
-\end{Schunk}
-      pour voir si la distribution des nombres transformés est
-      approximativement normale.
-    \item On peut ajouter une courbe normale théorique au graphique
-      avec
-\begin{Schunk}
-\begin{Sinput}
-> curve(dnorm(x), add = TRUE)
-\end{Sinput}
-\end{Schunk}
-      pour fins de comparaison.
-    \end{enumerate}
+  \item Vérifier empiriquement la validité de ces formules à l'aide de
+    Excel ou R. En R, on peut transformer les nombres uniformes
+    obtenus avec la fonction \code{runif} en nombres normaux sans même
+    utiliser de boucles grâce à la fonction \code{outer} et deux
+    fonctions anonymes.
   \end{enumerate}
   \begin{sol}
     \begin{enumerate}
-    \item Tout d'abord, on a que $\cos (2\pi U_{2}) \in (-1, 1)$,
-      $\sin (2\pi U_{2}) \in (-1, 1)$ et $(-2 \log U_1)^{1/2} \in (0,
-      \infty)$. Par conséquent, $X_1 \in (-\infty, \infty)$ et $X_2
-      \in (-\infty, \infty)$. On vérifie la bijectivité de façon
+    \item Tout d'abord, on voit que
+      \begin{align*}
+        \cos (2\pi U_{2}) &\in (-1, 1) \\
+        \sin (2\pi U_{2}) &\in (-1, 1) \\
+        \intertext{et}
+        (-2 \log U_1)^{1/2} &\in (0, \infty).
+      \end{align*}
+      Par conséquent, $X_1 \in (-\infty, \infty)$ et $X_2 \in
+      (-\infty, \infty)$. On vérifie la bijectivité de façon
       heuristique avec quelques valeurs de $u_1$ et $u_2$.
     \item On a
       \begin{align*}
@@ -147,16 +136,16 @@
       et, donc, $X_1$ et $X_2$ sont deux variables aléatoires $N(0, 1)$
       indépendantes.
     \item
-\begin{Schunk}
-\begin{Sinput}
-> u1 <- runif(500)
-> u2 <- runif(500)
-> x1 <- outer(u1, u2, function(x, y) sqrt((-2 * log(x))) * cos(2 * pi * y))
-> x2 <- outer(u1, u2, function(x, y) sqrt((-2 * log(x))) * sin(2 * pi * y))
-> hist(x1, prob = TRUE)
-> curve(dnorm(x), add = TRUE)
-\end{Sinput}
-\end{Schunk}
+<<echo=TRUE, eval=FALSE>>=
+u1 <- runif(500)
+u2 <- runif(500)
+x1 <- outer(u1, u2, function(x, y)
+            sqrt((-2 * log(x))) * cos(2 * pi * y))
+x2 <- outer(u1, u2, function(x, y)
+            sqrt((-2 * log(x))) * sin(2 * pi * y))
+hist(x1, prob = TRUE)
+curve(dnorm(x), add = TRUE)
+@
     \end{enumerate}
     La figure \ref{fig:simulation:boxmuller} illustre d'une autre façon que la
     transformation de Box--Muller fonctionne bel et bien. Dans le
@@ -173,7 +162,24 @@
     niveau.
     \begin{figure}
       \centering
-\includegraphics{simulation_va-004}
+<<echo=FALSE, fig=TRUE, width=10, height=5>>=
+u1 <- runif(1000)
+u2 <- runif(1000)
+x1 <- sqrt(-2 * log(u1)) * cos(2 * pi * u2)
+x2 <- sqrt(-2 * log(u1)) * sin(2 * pi * u2)
+
+col <- rgb(0.8, 0, 0, 0.25)
+par(mfrow = c(1, 2))
+
+plot(u1, u2, pch = 19, col = col)
+
+f <- function(x, y) dnorm(x) * dnorm(y)
+x <- seq(-3, 3, length = 100)
+z <- outer(x, x, f)
+contour(x, x, z, xlim = c(-3, 3), ylim = c(-3, 3),
+        nlevels = 15, method = "edge", xlab = "x1", ylab = "x2")
+points(x1, x2, pch = 19, col = col)
+@
       \caption{Démonstration graphique du fonctionnement de la
         transformation de Box--Muller.}
       \label{fig:simulation:boxmuller}
@@ -182,7 +188,7 @@
 \end{exercice}
 
 \begin{exercice}
-  La distribution de Laplace, ou double exponentielle, est obtenue
+  La distribution de Laplace, ou double exponentielle, est définie
   comme la différence entre deux distributions exponentielles
   identiques et indépendantes. Sa fonction de densité de probabilité
   est
@@ -219,6 +225,7 @@
 \end{exercice}
 
 \begin{exercice}
+  \label{ex:simulation:gamma}
   Faire la mise en oeuvre informatique (dans le langage de votre
   choix) de l'algorithme de simulation suivant. Il s'agit d'un
   algorithme pour simuler des observations d'une loi Gamma$(\alpha,
@@ -243,15 +250,12 @@
   Faire les vérifications empiriques usuelles de la validité de
   l'algorithme.
   \begin{sol}
-    \label{ex:simulation:gamma}
-    Voir la fonction S de la figure \ref{fig:simulation:gamma}. On vérifie
+    Voir la fonction R de la figure~\ref{fig:simulation:gamma}. On vérifie
     graphiquement la validité de l'algorithme:
-\begin{Schunk}
-\begin{Sinput}
-> hist(rgamma2(1000, 5), prob=TRUE)
-> curve(dgamma(x, 5, 1), add=TRUE)
-\end{Sinput}
-\end{Schunk}
+<<echo=TRUE, eval=FALSE>>=
+hist(rgamma2(1000, 5), prob = TRUE)
+curve(dgamma(x, 5, 1), add = TRUE)
+@
     \begin{figure}
       \centering
       \begin{framed}
@@ -284,15 +288,16 @@ rgamma2 <- function(nsim, alpha)
 \end{exercice}
 
 \begin{exercice}
-  Quelle procédure pourrait-on suivre pour simuler des nombres d'une
-  loi Gamma$(\alpha, \lambda)$ où $\alpha > 1$?
+  En utilisant le résultat de l'exercice précédent, quelle procédure
+  pourrait-on suivre pour simuler des nombres d'une loi Gamma$(\alpha,
+  \lambda)$ où $\alpha > 1$?
   \begin{sol}
     Deux suggestions.
     \begin{enumerate}[1.]
     \item Si $X \sim \text{Gamma}(\alpha, 1)$, alors $Y = X/\lambda
       \sim \text{Gamma}(\alpha, \lambda)$. On peut donc générer un
       nombre $x$ d'une loi Gamma$(\alpha, 1)$ avec l'algorithme de
-      l'exercice \ref{chap:simulation}.\ref{ex:simulation:gamma}, puis poser $y =
+      l'exercice~\ref{chap:simulation}.\ref{ex:simulation:gamma}, puis poser $y =
       x/\lambda$.
     \item Si $\alpha$ est entier, on peut générer $\alpha$ nombres
       (indépendants) $x_1, \dots, x_\alpha$ d'une distribution
@@ -334,12 +339,10 @@ rgamma2 <- function(nsim, alpha)
       paramètres $\alpha$ et $\lambda$ avec le résultat en a), on
       génère d'abord un nombre $\theta$ d'une distribution gamma de
       mêmes paramètres, puis on génère un nombre $x$ d'une
-      distribution exponentielle de paramètre $\theta$. En S:
-\begin{Schunk}
-\begin{Sinput}
-> rexp(1, rgamma(1, alpha, lambda))
-\end{Sinput}
-\end{Schunk}
+      distribution exponentielle de paramètre $\theta$. En R:
+<<echo=TRUE, eval=FALSE>>=
+rexp(1, rgamma(1, alpha, lambda))
+@
     \end{enumerate}
   \end{sol}
 \end{exercice}
@@ -358,9 +361,9 @@ rgamma2 <- function(nsim, alpha)
   \end{displaymath}
   Utiliser une amorce de 12.
   \begin{rep}
-    1619,
-    1126,
-    2103
+    \Sexpr{round(1000/sqrt(0.3813))},
+    \Sexpr{round(1000/sqrt(0.7881))},
+    \Sexpr{round(1000/sqrt(0.2261))}
   \end{rep}
   \begin{sol}
     La fonction de répartition est
@@ -400,51 +403,9 @@ rgamma2 <- function(nsim, alpha)
       0,3813 \quad 0,7881 \quad 0,2261.
     \end{displaymath}
     Finalement, les observations de la Pareto$(2, \nombre{1000})$ sont
-\begin{Schunk}
-\begin{Sinput}
-> 1000/sqrt(c(0.3813, 0.7881, 0.2261))
-\end{Sinput}
-\begin{Soutput}
-[1] 1619.446 1126.443 2103.051
-\end{Soutput}
-\end{Schunk}
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Simuler à l'aide de \textsf{R}, S-Plus ou Excel des observations du
-  mélange
-  \begin{displaymath}
-    0,6 f_1(x) + 0,4 f_2(x),
-  \end{displaymath}
-  où $f_1(x)$ et $f_2$ sont les densités de deux lois log-normales, la
-  première de paramètres $\mu = 3,1$ et $\sigma^2 = 0,6$; la seconde
-  de paramètres $\mu = 4,3$ et $\sigma^2 = 0,4$.  Tracer par la suite
-  un histogramme des observations, y superposer la densité théorique
-  de la distribution simulée et vérifier que les deux graphiques
-  correspondent.
-  \begin{sol}
-    Le mélange $f_X(x) = 0,6 f_{X_1}(x) + 0,4 f_{X_2}(x)$ est
-    équivalent à
-    \begin{displaymath}
-      f_X(x) = \sum_{i=1}^2 f_{X|I}(x|i) \Pr(I = i),
-    \end{displaymath}
-    où $I \sim \text{Bernoulli}(0,6)$ et
-    \begin{align*}
-      X|I = 0 &\sim \text{Lognormale}(\mu = 3,1, \sigma^2 = 0,6) \\
-      X|I = 1 &\sim \text{Lognormale}(\mu = 4,3, \sigma^2 = 0,4).
-    \end{align*}
-    On peut simuler \nombre{1000} observations d'un tel mélange et
-    faire une vérification graphique en S avec les expressions suivantes:
-\begin{Schunk}
-\begin{Sinput}
-> w <- sum(runif(10000) <= 0.6)
-> x <- c(rlnorm(w, meanlog = 3.1, sdlog = sqrt(0.6)),
-+        rlnorm(10000 - w, meanlog = 4.3, sdlog = sqrt(0.4)))
-> hist(x, prob=TRUE)
-> curve(0.6 * dlnorm(x, meanlog = 3.1, sdlog = sqrt(0.6)) + 0.4 * dlnorm(x, meanlog = 4.3, sdlog = sqrt(0.4)), add=TRUE)
-\end{Sinput}
-\end{Schunk}
+<<echo=TRUE>>=
+1000/sqrt(c(0.3813, 0.7881, 0.2261))
+@
   \end{sol}
 \end{exercice}
 
@@ -528,7 +489,16 @@ rgamma2 <- function(nsim, alpha)
     cercle de rayon centré en $(0, 0)$.
     \begin{figure}
       \centering
-\includegraphics{simulation_va-009}
+<<echo=FALSE, fig=TRUE, width=10, height=5>>=
+col <- rgb(0.8, 0, 0, 0.25)
+par(mfrow = c(1, 2))
+u1 <- runif(1000)
+u2 <- runif(1000)
+x1 <- sqrt(u1) * cos(2 * pi * u2)
+x2 <- sqrt(u1) * sin(2 * pi * u2)
+plot(u1, u2, pch = 19, col = col)
+plot(x1, x2, pch = 19, col = col)
+@
       \caption{Démonstration graphique du fonctionnement de la
         transformation de l'exercice
         \ref{chap:simulation}.\ref{ex:simulation:cercle}.}
@@ -649,18 +619,32 @@ rgamma2 <- function(nsim, alpha)
       densité de la loi bêta également représentée sur le graphique.
       \begin{figure}
         \centering
-\includegraphics{simulation_va-010}
+<<echo=FALSE, fig=TRUE, width=10, height=5>>=
+col <- rgb(0.8, 0, 0, 0.25)
+par(mfrow = c(1, 2))
+f <- function(x, y) dgamma(x, 2) * dgamma(y, 3)
+y <- seq(0, 8, length = 100)
+z <- outer(y, y, f)
+contour(y, y, z, xlim = c(0, 8), ylim = c(0, 8),
+        nlevels = 15, method = "edge",
+        xlab = expression(y[1]), ylab = expression(y[2]))
+
+y1 <- rgamma(100, 2)
+y2 <- rgamma(100, 3)
+points(y1, y2, pch = 19, col = col)
+
+curve(dbeta(x, 2, 3), xlim = c(0, 1), lwd = 2)
+points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
+@
         \caption{Démonstration graphique du fonctionnement de la
           transformation de l'exercice
           \ref{chap:simulation}.\ref{ex:simulation:gamma-beta}.}
         \label{fig:simulation:gamma-beta}
       \end{figure}
-    \item En S:
-\begin{Schunk}
-\begin{Sinput}
-> (y <- rgamma(1, alpha, 1))/(y + rgamma(1, beta, 1))
-\end{Sinput}
-\end{Schunk}
+    \item En R:
+<<echo=TRUE,eval=FALSE>>=
+(y <- rgamma(1, alpha, 1))/(y + rgamma(1, beta, 1))
+@
     \end{enumerate}
   \end{sol}
 \end{exercice}
@@ -703,7 +687,7 @@ rgamma2 <- function(nsim, alpha)
         \Pr \left[ U \leq \frac{f_X(Y)}{c g_Y(Y)}|Y = y \right]
         g_Y(y)\, dy \\
         &= \int_{-\infty}^\infty
-        \frac{f_X(Y)}{c g_Y(Y)}\, g_Y(y)\, dy \\
+        \frac{f_X(Y)}{c g_Y(Y)}\, g_Y(y)\, dy \displaybreak[0] \\
         &= \frac{1}{c} \int_{-\infty}^\infty f_X(y)\, dy \\
         &= \frac{1}{c}.
       \end{align*}
@@ -750,15 +734,13 @@ rgamma2 <- function(nsim, alpha)
       \end{displaymath}
       soit $Y \sim U(a, b)$ et $c = M (b - a)$. L'algorithme
       d'acceptation-rejet est donc le suivant:
-      \begin{quote}
-        \begin{enumerate}[1.]
-        \item Simuler deux nombres indépendants $u_1$ et $u_2$ d'une
-          loi $U(0, 1)$.
-        \item Poser $y = a + (b - a) u_1$.
-        \item Si $u_2 \leq f_X(y)/M$, poser $x = y$. Sinon, retourner
-          à l'étape 1.
-        \end{enumerate}
-      \end{quote}
+      \begin{enumerate}[1.]
+      \item Simuler deux nombres indépendants $u_1$ et $u_2$ d'une
+        loi $U(0, 1)$.
+      \item Poser $y = a + (b - a) u_1$.
+      \item Si $u_2 \leq f_X(y)/M$, poser $x = y$. Sinon, retourner
+        à l'étape 1.
+      \end{enumerate}
     \item L'efficacité est
       \begin{displaymath}
         \frac{1}{c} = \frac{1}{M (b - a)}.
@@ -775,8 +757,8 @@ rgamma2 <- function(nsim, alpha)
   \item Calculer l'efficacité de l'algorithme développé au problème
     \ref{chap:simulation}.\ref{ex:simulation:mode} lorsque adapté au
     cas présent.
-  \item Calculer l'efficacité de l'algorithme développé dans l'exemple
-    3.7 des notes de cours, où l'on a déterminé que
+  \item Calculer l'efficacité de l'algorithme développé dans
+    l'exemple~\ref{ex:simulation:beta}, où l'on a déterminé que
     \begin{displaymath}
       f_{X}(x) \leq
       \begin{cases}
@@ -784,7 +766,7 @@ rgamma2 <- function(nsim, alpha)
         12 - 12 x, & 0,8 \leq x < 1.
       \end{cases}
     \end{displaymath}
-  \item Faire la mise en oeuvre en S et/ou VBA de l'algorithme le plus
+  \item Faire la mise en oeuvre en R et/ou VBA de l'algorithme le plus
     efficace entre celui de la partie a) et celui de la partie b).
     Vérifier la fonction en superposant l'histogramme d'un grand
     échantillon obtenu avec cette fonction et la vraie fonction de
@@ -820,19 +802,23 @@ rgamma2 <- function(nsim, alpha)
       \end{align*}
       Avec $\alpha = 3$ et $\beta = 2$, on obtient une efficacité de
       $9/16$.
-    \item On a trouvé $c = 1,2$ dans l'exemple 3.7, d'où une
-      efficacité de $1/c = 5/6$. Cet algorithme est évidemment plus
-      efficace puisque la surface de l'enveloppe de la densité bêta
-      est nettement plus petite.
-    \item On utilise l'algorithme développé à l'exemple 3.7 des notes
-      de cours. Voir le code S à la figure
-      \ref{fig:simulation:rbeta.ar} et le code VBA à la figure
+    \item On a trouvé $c = 1,2$ dans
+      l'exemple~\ref{ex:simulation:beta}, d'où une efficacité de $1/c
+      = 5/6$. Cet algorithme est évidemment plus efficace puisque la
+      surface de l'enveloppe de la densité bêta est nettement plus
+      petite.
+    \item On utilise l'algorithme développé à
+      l'exemple~\ref{ex:simulation:beta}. Une première mise en
+      {\oe}uvre de l'algorithme en R est fournie dans le code
+      informatique de la section~\ref{sec:simulation:code}. La
+      figure~\ref{fig:simulation:rbeta.ar2} en propose une autre. On
+      propose aussi une mise en {\oe}uvre VBA à la figure
       \ref{fig:simulation:betasim}.
       \begin{figure}[t]
         \centering
         \begin{framed}
 \begin{Scode}
-rbeta.ar <- function(n)
+rbeta.ar2 <- function(n)
 {
     g <- function(x)
         ifelse(x < 0.8, 2.5 * x, 10 - 10 * x)
@@ -852,8 +838,8 @@ rbeta.ar <- function(n)
 }
 \end{Scode}
         \end{framed}
-        \caption{Code S de la fonction \texttt{rbeta.ar}.}
-        \label{fig:simulation:rbeta.ar}
+        \caption{Code R de la fonction \code{rbeta.ar2}.}
+        \label{fig:simulation:rbeta.ar2}
       \end{figure}
       \begin{figure}
         \centering
@@ -898,48 +884,23 @@ Function betasim()
 End Function
 \end{Scode}
         \end{framed}
-        \caption{Code VBA de la fonction \texttt{betasim}.}
+        \caption{Code VBA de la fonction \code{betasim}.}
         \label{fig:simulation:betasim}
       \end{figure}
-      On vérifie l'exactitude la fonction \texttt{rbeta.ar} avec
-\begin{Schunk}
-\begin{Sinput}
-> x <- rbeta.ar(10000)
-> hist(x, prob = TRUE)
-> curve(dbeta(x, 3, 2), add = TRUE)
-\end{Sinput}
-\end{Schunk}
-      Pour un exemple d'utilisation de la fonction VBA, voir le fichier
-      \texttt{betasim.xls}.
-  \end{enumerate}
-\end{sol}
+      On peut vérifier l'exactitude la fonction \code{rbeta.ar2} avec
+<<echo=TRUE, eval=FALSE>>=
+x <- rbeta.ar2(10000)
+hist(x, prob = TRUE)
+curve(dbeta(x, 3, 2), add = TRUE)
+@
+    \end{enumerate}
+  \end{sol}
 \end{exercice}
 
 \begin{exercice}
   \label{ex:simulation:rejet}
-  La fonction S de la figure \ref{fig:simulation:fonction} permet de
+  La fonction R de la figure~\ref{fig:simulation:fonction} permet de
   simuler des observations de la distribution Bêta$(\alpha, \beta)$.
-  \begin{enumerate}
-  \item Identifier le type d'algorithme utilisé dans cette fonction.
-  \item On vous donne également les valeurs suivantes, obtenues dans
-    \textsf{R}:
-\begin{Schunk}
-\begin{Sinput}
-> set.seed(12345)
-> runif(10)
-\end{Sinput}
-\begin{Soutput}
- [1] 0.72 0.88 0.76 0.89 0.46 0.17 0.33 0.51 0.73
-[10] 0.99
-\end{Soutput}
-\end{Schunk}
-    Évaluer le résultat des expressions suivantes:
-\begin{Schunk}
-\begin{Sinput}
-> set.seed(12345)
-> simul(2, alpha = 2, beta = 3)
-\end{Sinput}
-\end{Schunk}
     \begin{figure}[t]
       \begin{framed}
 \begin{Scode}
@@ -969,16 +930,50 @@ simul <- function(n, alpha, beta)
         \ref{chap:simulation}.\ref{ex:simulation:rejet}.}
       \label{fig:simulation:fonction}
     \end{figure}
+  \begin{enumerate}
+  \item Identifier le type d'algorithme utilisé dans cette fonction.
+  \item On vous donne également les valeurs suivantes, obtenues dans
+    R:
+<<echo=FALSE>>=
+op <- options(width = 50, digits = 2)
+simul <- function(n, alpha, beta)
+{
+    ymax <- dbeta((alpha-1)/(alpha + beta - 2), alpha, beta)
+    x <- numeric(n)
+    i <- 1
+    repeat
+    {
+        u <- runif(1)
+        if (ymax * runif(1) <= dbeta(u, alpha, beta))
+        {
+            x[i] <- u
+            i <- i + 1
+        }
+        if (i > n)
+            break
+    }
+    x
+}
+@
+<<echo=TRUE>>=
+set.seed(12345)
+runif(10)
+@
+    Évaluer le résultat des expressions suivantes:
+<<echo=TRUE, eval=FALSE>>=
+set.seed(12345)
+simul(2, alpha = 2, beta = 3)
+@
   \end{enumerate}
   \begin{rep}
     \begin{enumerate}[a)]
       \stepcounter{enumi}
     \item
-\begin{Schunk}
-\begin{Soutput}
-[1] 0.46 0.33
-\end{Soutput}
-\end{Schunk}
+<<echo=FALSE>>=
+set.seed(12345)
+round(simul(2, alpha = 2, beta = 3), 2)
+options(op)
+@
     \end{enumerate}
   \end{rep}
   \begin{sol}
@@ -994,9 +989,9 @@ simul <- function(n, alpha, beta)
       solution de l'exercice
       \ref{chap:simulation}.\ref{ex:simulation:beta}) et la valeur de
       ce mode est $M = f(1/3) = 16/9$. Pour obtenir le résultat de
-      l'appel de la fonction \texttt{simul}, il faut s'assurer
+      l'appel de la fonction \code{simul}, il faut s'assurer
       d'utiliser les nombres uniformes dans le bon ordre. Quatre
-      itérations de la boucle \texttt{repeat} seront nécessaires;
+      itérations de la boucle \code{repeat} seront nécessaires;
       voici leurs résultas.
       \begin{enumerate}[1.]
       \item On a $u = 0,72$, puis $(16/9) (0,88) > f(0,72)$, donc $u$
@@ -1093,21 +1088,19 @@ simul <- function(n, alpha, beta)
         \end{cases}
       \end{displaymath}
       On a donc l'algorithme de simulation suivant:
-      \begin{quote}
-        \begin{enumerate}[1.]
-        \item Simuler deux nombres $u_1$ et $u_2$ d'une $U(0, 1)$.
-        \item Poser $y = G_Y^{-1}(u_1)$.
-        \item Si
-          \begin{displaymath}
-            u_2 \leq
-            \begin{cases}
-              e^{-y},        & 0 \leq y \leq 1 \\
-              y^{\alpha - 1}, & y > 1,
-            \end{cases}
-          \end{displaymath}
-          alors poser $x = y$. Sinon, retourner à l'étape 1.
-        \end{enumerate}
-      \end{quote}
+      \begin{enumerate}[1.]
+      \item Simuler deux nombres $u_1$ et $u_2$ d'une $U(0, 1)$.
+      \item Poser $y = G_Y^{-1}(u_1)$.
+      \item Si
+        \begin{displaymath}
+          u_2 \leq
+          \begin{cases}
+            e^{-y},        & 0 \leq y \leq 1 \\
+            y^{\alpha - 1}, & y > 1,
+          \end{cases}
+        \end{displaymath}
+        alors poser $x = y$. Sinon, retourner à l'étape 1.
+      \end{enumerate}
     \end{enumerate}
   \end{sol}
 \end{exercice}
@@ -1121,14 +1114,12 @@ simul <- function(n, alpha, beta)
   Utiliser cette inégalité pour justifier l'algorithme
   d'acceptation-rejet suivant pour simuler des observations d'une loi
   Gamma$(\alpha, 1)$ avec $\alpha \geq 1$:
-  \begin{quote}
-    \begin{enumerate}[1.]
-    \item Simuler deux observations indépendantes $v_1$ et $v_2$ d'une
-      loi Exponentielle$(1)$.
-    \item Si $v_2 < (\alpha - 1)(v_1 - \ln v_1 - 1)$, poser $x =
-      \alpha v_1$. Sinon, retourner à l'étape 1.
-    \end{enumerate}
-  \end{quote}
+  \begin{enumerate}[1.]
+  \item Simuler deux observations indépendantes $v_1$ et $v_2$ d'une
+    loi Exponentielle$(1)$.
+  \item Si $v_2 < (\alpha - 1)(v_1 - \ln v_1 - 1)$, poser $x =
+    \alpha v_1$. Sinon, retourner à l'étape 1.
+  \end{enumerate}
   \begin{sol}
     On veut simuler des observations de la fonction de densité de
     probabilité $f_X(x) = x^{\alpha - 1} e^{-x}/\Gamma(\alpha)$ avec
@@ -1174,180 +1165,16 @@ simul <- function(n, alpha, beta)
   \end{sol}
 \end{exercice}
 
-\begin{exercice}
-  Évaluer l'intégrale
-  \begin{displaymath}
-    \int_0^1 \ln(5x + 4)\, dx
-  \end{displaymath}
-  exactement ainsi qu'à l'aide de l'intégration Monte Carlo. Comparer
-  les réponses.
-  \begin{rep}
-    Valeur exacte: $1,845969$
-  \end{rep}
-  \begin{sol}
-    On a
-    \begin{align*}
-      \theta
-      &= \int_0^1 \ln(5u + 4)\, dx \\
-      &= \esp{\ln(5U + 4)},
-    \end{align*}
-    où $U \sim U(0, 1)$, ou encore simplement
-    \begin{displaymath}
-      \theta = \esp{\ln(X)},
-    \end{displaymath}
-    où $X \sim U(4, 9)$. Une approximation de $\theta$ est
-    \begin{displaymath}
-      \hat{\theta} = \frac{1}{n} \sum_{i = 1}^n \ln(x_i),
-    \end{displaymath}
-    où $x_1, \dots, x_n$ est un échantillon aléatoire d'une
-    distribution $U(4, 9)$. Une évaluation avec \textsf{R} donne
-\begin{Schunk}
-\begin{Sinput}
-> mean(log(runif(1e6, 4, 9)))
-\end{Sinput}
-\begin{Soutput}
-[1] 1.845911
-\end{Soutput}
-\end{Schunk}
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Évaluer l'intégrale
-  \begin{displaymath}
-    \int_0^1 \int_0^1 e^{2xy} \ln(3x + y^2)\, dx dy
-  \end{displaymath}
-  à l'aide de l'intégration Monte Carlo. Comparer la réponse obtenue
-  avec la vraie valeur, $1,203758$, obtenue à l'aide de Maple.
-  \begin{sol}
-    On pose
-    \begin{align*}
-      \theta
-      &= \int_0^1 \int_0^1 e^{2xy} \ln(3x + y^2)\, dx dy \\
-      &= \esp{e^{2XY} \ln(3X + Y^2)},
-    \end{align*}
-    où $X \sim U(0, 1)$, $Y \sim U(0, 1)$ et $X$ et $Y$ sont
-    indépendantes. Ainsi, leur densité conjointe est uniforme sur $(0,
-    1) \times (0, 1)$. Une approximation de $\theta$ est
-    \begin{displaymath}
-      \hat{\theta} = \frac{1}{n} \sum_{i = 1}^n
-      e^{2 x_i y_i} \ln(3x_i + y_i^2)
-    \end{displaymath}
-    où $x_1, \dots, x_n$ et $y_1, \dots, y_n$ sont deux échantillons
-    aléatoires indépendants d'une distribution $U(0, 1)$. Une
-    évaluation avec \textsf{R} donne
-\begin{Schunk}
-\begin{Sinput}
-> x <- runif(1e6)
-> y <- runif(1e6)
-> mean(exp(2 * x * y) * log(3 * x + y^2))
-\end{Sinput}
-\begin{Soutput}
-[1] 1.203179
-\end{Soutput}
-\end{Schunk}
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Soit l'intégrale
-  \begin{displaymath}
-    \theta = \int_0^\infty x^2 \sin (\pi x) e^{-x/2}\, dx.
-  \end{displaymath}
-  \begin{enumerate}
-  \item Évaluer cette intégrale par Monte Carlo en effectuant un
-    changement de variable.
-  \item Évaluer cette intégrale par Monte Carlo par échantillonnage
-    direct d'une loi de probabilité appropriée.
-  \end{enumerate}
-  \begin{rep}
-    Valeur exacte: $-0,055292$
-  \end{rep}
-  \begin{sol}
-    \begin{enumerate}
-    \item Soit le changement de variable $u = e^{-x/2} \Leftrightarrow
-      x = - \ln u^2$, d'où $-2 du = e^{-x/2} dx$. On a donc
-      \begin{align*}
-        \theta
-        &= \int_0^1 2 (- \ln u^2)^2 \sin (- \pi \ln u^2)\, du \\
-        &= 2 \esp{(- \ln U^2)^2 \sin (- \pi \ln U^2)},
-      \end{align*}
-      où $U \sim U(0, 1)$. Une estimation de $\theta$ est
-      \begin{displaymath}
-        \hat{\theta} = \frac{2}{n} \sum_{i = 1}^n
-        (- \ln u_i^2)^2 \sin (- \pi \ln u_i^2),
-      \end{displaymath}
-      où $u_1, \dots, u_n$ est un échantillon aléatoire d'une
-      distribution $U(0, 1)$. Une évaluation avec \textsf{R} donne
-\begin{Schunk}
-\begin{Sinput}
-> u <- runif(1e6)
-> 2 * mean((-log(u^2))^2 * sin(pi * (-log(u^2))))
-\end{Sinput}
-\begin{Soutput}
-[1] -0.07674176
-\end{Soutput}
-\end{Schunk}
-    \item On remarque que la fonction à intégrer contient, à une
-      constante près, la fonction de densité de probabilité d'une loi
-      Gamma$(3, 1/2)$. Ainsi,
-      \begin{align*}
-        \theta
-        &= 16 \int_0^\infty \sin (\pi x) \frac{(1/2)^3}{\Gamma(3)}\,
-        x^2 e^{-x/2}\, dx \\
-        &= 16 \esp{\sin (\pi X)},
-      \end{align*}
-      où $X \sim \text{Gamma}(3, 1/2)$. Une estimation de $\theta$ est
-      donc
-      \begin{displaymath}
-        \hat{\theta} = \frac{16}{n} \sum_{i = 1}^n \sin(\pi x_i)
-      \end{displaymath}
-      où $x_1, \dots, x_n$ est un échantillon aléatoire d'une
-      Gamma$(3, 1/2)$. Une évaluation avec \textsf{R} donne
-\begin{Schunk}
-\begin{Sinput}
-> 16 * mean(sin(pi * rgamma(1e6, 3, 0.5)))
-\end{Sinput}
-\begin{Soutput}
-[1] -0.060359
-\end{Soutput}
-\end{Schunk}
-    \end{enumerate}
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  Soit $X_1, \dots, X_{25}$ un échantillon aléatoire de taille 25
-  d'une distribution $N(0, 1)$ et soit $X_{(1)} \leq \dots \leq
-  X_{(25)}$ les statistiques d'ordre de cet échantillon, c'est-à-dire
-  les données de l'échantillon triées en ordre croissant. Estimer
-  $\esp{X_{(5)}}$ par intégration Monte Carlo. Comparer la réponse
-  obtenue avec la vraie espérance, $-0,90501$.
-  \begin{sol}
-    On peut faire l'estimation en \textsf{R} simplement avec les
-    expressions suivantes:
-\begin{Schunk}
-\begin{Sinput}
-> x <- replicate(10000, rnorm(25))
-> mean(apply(x, 2, function(x) sort(x)[5]))
-\end{Sinput}
-\begin{Soutput}
-[1] -0.9056168
-\end{Soutput}
-\end{Schunk}
-  \end{sol}
-\end{exercice}
-
 \Closesolutionfile{reponses}
 \Closesolutionfile{solutions}
 
 %%%
 %%% Insérer les réponses
 %%%
-\input{reponses-simulation_va}
+\input{reponses-simulation}
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: methodes_numeriques-partie_1
+%%% TeX-master: methodes_numeriques-partie_2
 %%% coding: utf-8
 %%% End:

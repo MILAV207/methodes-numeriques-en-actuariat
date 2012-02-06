@@ -1,4 +1,4 @@
-\chapter{Génération de nombres aléatoires}
+\chapter{Génération de nombres aléatoires uniformes}
 \label{chap:generation}
 
 \begin{objectifs}
@@ -77,12 +77,14 @@ intervalle quelconque, en général $(0, 1)$. Comment procéder?
   \item la roulette;
   \item le bruit électronique (tablaux RAND);
   \item les intervalles de temps dans un processus de décroissance
-    radioactive sont considérés parfaitement aléatoires; voir
-    \url{http://www.fourmilab.ch/hotbits/}.
+    radioactive sont considérés parfaitement aléatoires; le site
+    HotBits\footnote{%
+      \url{http://www.fourmilab.ch/hotbits/}} %
+    fournit des nombres issus d'un tel processus.
   \end{itemize}
-  L'utilisation de listes de nombres aléatoires est toutefois peu
-  pratique avec un ordinateur, surtout si l'on a besoin de milliers ou
-  de millions de nombres aléatoires.
+  L'utilisation de listes de nombres aléatoires ou de sources
+  physiques est toutefois peu pratique avec un ordinateur, surtout si
+  l'on a besoin de milliers ou de millions de nombres aléatoires.
 \item Une ancienne technique est celle des carrés centraux de
   von~Neumann: on prend un nombre à quatre chiffres, on l'élève au
   carré puis on extrait les quatre chiffres du milieu, et ainsi de
@@ -90,7 +92,7 @@ intervalle quelconque, en général $(0, 1)$. Comment procéder?
   \begin{align*}
     8653^2 &= 74\undergroup{8744}09 \\
     8744^2 &= 76\undergroup{4575}36 \\
-    4575^2 &= 20\undergroup{9306}25 \\
+    4575^2 &= 20\undergroup{9306}25
   \end{align*}
 \item On peut construire des générateurs basés sur la suite de
   Fibonacci, des générateurs chaotiques, etc.
@@ -251,7 +253,7 @@ de définir
   produits.
 
   \begin{gotoR}
-    Exécuter la portion du code informatique R présenté à la
+    Exécuter le code informatique R de la
     section~\ref{sec:generation:code} correspondant à cet exemple.
   \end{gotoR}
   \qed
@@ -267,7 +269,7 @@ de définir
   considéré standard.
 
   \begin{gotoR}
-    Exécuter la portion du code informatique R présenté à la
+    Exécuter le code informatique R de la
     section~\ref{sec:generation:code} correspondant à cet exemple.
   \end{gotoR}
   \qed
@@ -349,7 +351,7 @@ de Excel.
 
 On obtient des nombres uniformes sur un intervalle quelconque avec la
 fonction \code{runif} dans R. La fonction \code{set.seed} permet de
-déterminer la valeur de l'amorce du générateur aléatoire, ce qui est
+spécifier la valeur de l'amorce du générateur aléatoire, ce qui est
 utile si on veut répéter une simulation absolument à l'identique.
 
 R offre la possibilité de choisir entre plusieurs générateurs de
@@ -366,10 +368,12 @@ consulter les rubriques d'aide des fonctions \code{.Random.seed} et
 \code{set.seed}.
 
 
-\section{Code informatique des exemples}
+\section{Code informatique}
 \label{sec:generation:code}
 
 \lstinputlisting[firstline=3]{generation.R}
+
+\vfill
 
 \input{exercices-generation}
 

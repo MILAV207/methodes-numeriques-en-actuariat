@@ -1,0 +1,52 @@
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\markboth{Introduction}{Introduction}
+
+La simulation stochastique est une technique de plus en plus utilisée
+en actuariat, mais aussi dans plusieurs disciplines des sciences, du
+genre, de la finance, etc. On n’a qu’à penser aux simulations
+boursières qui font l’objet d’un concours annuel, aux voitures qui
+sont d’abord conçues sur ordinateur et soumises à des tests de
+collision virtuels, ou encore aux prévisions météo qui ne sont rien
+d'autre que les résultats de simulations de systèmes climatiques
+d'une grande complexité.
+
+Toute simulation stochastique repose d’abord et avant tout sur une
+source de nombres aléatoires de qualité. Comment en générer un grand
+nombre rapidement et, surtout, comment s’assurer que les nombres
+produits sont bien aléatoires? C’est un sujet d’une grande importance,
+mais également fort complexe. Aussi ne ferons-nous que l'effleurer en
+étudiant les techniques de base dans le
+chapitre~\ref{chap:generation}.
+
+En actuariat, nous avons habituellement besoin de nombres aléatoires
+provenant d’une loi de probabilité non uniforme. Le
+chapitre~\ref{chap:simulation} présente quelques algorithmes pour
+transformer des nombres aléatoires uniformes en nombres non uniformes.
+Évidemment, des outils informatiques sont aujourd'hui disponibles pour
+générer facilement et rapidement des nombres aléatoires de diverses
+lois de probabilité. Nous passons en revue les fonctionnalités de R et
+de Excel à ce chapitre.
+
+Enfin, cette partie du cours se termine au
+chapitre~\ref{chap:montecarlo} par une application à première vue
+inusitée de la simulation, soit le calcul d’intégrales définies par la
+méthode dite Monte Carlo.
+
+L'étude de ce document implique quelques allers-retours entre le texte
+et les sections de code informatique présentes dans chaque chapitre.
+Les changements dans le fil de la lecture sont clairement indiqués par
+des mentions mises en évidence par le symbole {\color{darkred}\noway}.
+
+Chaque chapitre comporte également un lot d'exercices. Les réponses
+des exercices se trouvent à la fin de chacun des chapitres et les
+solutions complètes en annexe du document.
+
+Je tiens à souligner la précieuse collaboration de MM.~Mathieu
+Boudreault, Sébastien Auclair et Louis-Philippe Pouliot lors de la
+rédaction des exercices et des solutions.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "methodes_numeriques-partie_2"
+%%% End:

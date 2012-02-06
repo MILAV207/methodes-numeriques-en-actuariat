@@ -6,7 +6,7 @@
   \usepackage{natbib,url}
   \usepackage[english,francais]{babel}
   \usepackage[autolanguage]{numprint}
-  \usepackage{vgmath,actu,amsmath,amsthm,amsthm,amsfonts,icomma}
+  \usepackage{vgmath,actu,amsmath,amsthm,amsfonts,icomma}
   \usepackage[noae]{Sweave}
   \usepackage[alwaysadjust]{paralist}
   \usepackage{textpos}
@@ -67,10 +67,11 @@
 
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
+  \newcommand{\Fonction}[1]{\texttt{#1}}
+  \newcommand{\pkg}[1]{\textbf{#1}}
 
   %% Environnements d'exemples et al.
   \theoremstyle{plain}
-  \newtheorem{algorithme}{Algorithme}[chapter]
   \newtheorem{thm}{Théorème}[chapter]
 
   \theoremstyle{definition}
@@ -146,7 +147,7 @@
     {\end{list}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
 
-  %%% Remarques importantes
+  %%% Changements au fil de la lecture
   \newenvironment{gotoR}{%
     \begin{framed}%
       \noindent
@@ -172,16 +173,10 @@
   %%% =====================
   %%%  Nouvelles commandes
   %%% =====================
-  \newcommand{\R}{\marginpar[\hfill \sffamily R]{\sffamily R}}
-  \newcommand{\Splus}{\marginpar[\hfill S$+$]{S$+$}}
-  \newcommand{\warning}{\marginpar{\LARGE\danger}}
-  \newcommand{\ieee}[3]{\fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
-  \newcommand{\fl}{\mathrm{fl}}
-  \newcommand{\tr}{\mathrm{tr}}
+  \newcommand{\R}{\mathbb{R}}
 
-  %%% Sous-tableaux et sous-figures
-  \newsubfloat{table}
-  \newsubfloat{figure}
+  %%% Aide pour la césure
+  \hyphenation{con-gru-en-tiels}
 
   %%% Style de la bibliographie
   \bibliographystyle{francais}
@@ -189,14 +184,14 @@
   %%% Numérotation des chapitres
   \setcounter{chapter}{6}
 
-%  \includeonly{arithmetique_ordinateurs}
+%  \includeonly{generation}
 
 \begin{document}
 
 \frontmatter
 
 \pagestyle{empty}
-%\include{avant-partie_2}
+\include{avant-partie_2}
 
 \pagestyle{companion}
 
@@ -207,17 +202,19 @@
 \mainmatter
 
 \include{generation}
-\include{simulation_va}
+\include{simulation}
+\include{montecarlo}
 
 \appendix
+\include{rappels_transformations}
 \include{solutions-partie_2}
 
-\bibliography{math,stat,informatique,vg}
+\bibliography{r,math,stat,informatique,vg}
 
 \cleardoublepage
 \cleartoverso
 
-%\include{arriere-partie_2}
+\include{arriere-partie_2}
 
 \end{document}
 
