@@ -230,7 +230,7 @@ On procède ainsi parce que plusieurs générateurs produisent des
 nombres uniformes sur $[0, 1)$.
 
 \begin{exemple}
-  \label{ex:simulation:mixte}
+  \label{exemple:simulation:mixte}
   Soit $X$ une variable aléatoire avec fonction de densité de probabilité
   \begin{displaymath}
     f(x) =
@@ -271,7 +271,7 @@ axis(1, at = 0:3)
 axis(2, at = 0:2/2)
 @
     \caption{Fonction de densité de probabilité (gauche) et fonction de
-      répartition (droite) de l'exemple~\ref{ex:simulation:mixte}}
+      répartition (droite) de l'exemple~\ref{exemple:simulation:mixte}}
     \label{fig:simulation:mixte}
   \end{figure}
 
@@ -435,7 +435,7 @@ text(0.1, m + 0.08, "c g(y)")
 \end{rems}
 
 \begin{exemple}
-  \label{ex:simulation:beta}
+  \label{exemple:simulation:beta}
   Soit $X \sim \text{Bêta}(3, 2)$. On a
   \begin{align*}
     f_X(x)
@@ -658,6 +658,10 @@ en actuariat:
   Ces techniques sont présentées et illustrées à même le code
   informatique R de la section~\ref{sec:simulation:code}.
 \end{gotoR}
+
+En terminant, mentionnons que l'annexe~\ref{planification} propose
+quelques trucs pour bien planifier une étude de simulation en R.
+
 
 
 \section{Code informatique}

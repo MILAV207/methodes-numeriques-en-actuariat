@@ -15,6 +15,10 @@
   \usepackage{expdlist}
   \usepackage{listingsutf8,answers}
   \usepackage{pdfpages}                % couvertures
+  \usepackage{xr}                      % références au chap. 6
+
+  %%% Références externes
+  \externaldocument{avance}
 
   %%%  Couleurs
   \definecolor{comments}{rgb}{0.7,0,0}
@@ -67,7 +71,6 @@
 
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
-  \newcommand{\Fonction}[1]{\texttt{#1}}
   \newcommand{\pkg}[1]{\textbf{#1}}
 
   %% Environnements d'exemples et al.
@@ -174,6 +177,9 @@
   %%%  Nouvelles commandes
   %%% =====================
   \newcommand{\R}{\mathbb{R}}
+  \newcommand{\Fonction}[1]{\code{#1}}
+  \newcommand{\fonction}[1]{\code{#1}}
+  \newcommand{\argument}[1]{\code{#1}}
 
   %%% Aide pour la césure
   \hyphenation{con-gru-en-tiels}
@@ -206,6 +212,7 @@
 \include{montecarlo}
 
 \appendix
+\include{planification}
 \include{rappels_transformations}
 \include{solutions-partie_2}
 

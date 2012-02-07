@@ -758,7 +758,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
     \ref{chap:simulation}.\ref{ex:simulation:mode} lorsque adapté au
     cas présent.
   \item Calculer l'efficacité de l'algorithme développé dans
-    l'exemple~\ref{ex:simulation:beta}, où l'on a déterminé que
+    l'exemple~\ref{exemple:simulation:beta}, où l'on a déterminé que
     \begin{displaymath}
       f_{X}(x) \leq
       \begin{cases}
@@ -803,12 +803,12 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
       Avec $\alpha = 3$ et $\beta = 2$, on obtient une efficacité de
       $9/16$.
     \item On a trouvé $c = 1,2$ dans
-      l'exemple~\ref{ex:simulation:beta}, d'où une efficacité de $1/c
-      = 5/6$. Cet algorithme est évidemment plus efficace puisque la
-      surface de l'enveloppe de la densité bêta est nettement plus
+      l'exemple~\ref{exemple:simulation:beta}, d'où une efficacité de
+      $1/c = 5/6$. Cet algorithme est évidemment plus efficace puisque
+      la surface de l'enveloppe de la densité bêta est nettement plus
       petite.
     \item On utilise l'algorithme développé à
-      l'exemple~\ref{ex:simulation:beta}. Une première mise en
+      l'exemple~\ref{exemple:simulation:beta}. Une première mise en
       {\oe}uvre de l'algorithme en R est fournie dans le code
       informatique de la section~\ref{sec:simulation:code}. La
       figure~\ref{fig:simulation:rbeta.ar2} en propose une autre. On
