@@ -712,7 +712,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
   observations de cette variable aléatoire par la méthode
   d'acceptation-rejet, on peut toujours inscrire la fonction de
   densité de probabilité de $X$ dans un rectangle de hauteur $M$, ou
-  $M$ est le mode de $X$.
+  $M$ est la valeur de la densité au mode de $X$.
   \begin{enumerate}
   \item Énoncer l'algorithme d'acceptation-rejet découlant d'une telle
     procédure.
