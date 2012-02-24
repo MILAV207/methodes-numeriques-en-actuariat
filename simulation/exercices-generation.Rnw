@@ -71,7 +71,7 @@ rand <- function(n, a, c, m, seed)
 }
 \end{Scode}
       \end{framed}
-      \caption{Code de la fonction \code{rand}.}
+      \caption{Code de la fonction \code{rand}}
       \label{fig:generation:rand}
     \end{figure}
 <<echo=FALSE>>=
@@ -151,7 +151,7 @@ x <- rand(n = 500, a = 85, c = 0, m = 2^13 - 1, seed = 19)
         \centering
 <<echo=FALSE,fig=TRUE>>=
 x <- rand(n = 500, a = 85, c = 0, m = 2^13 - 1, seed = 19)
-plot(x[-length(x)],
+plot(x[-length(x)], x[-1],
      xlab = expression(x[i]), ylab = expression(x[i + 1]), pch = 19)
 @
         \caption{Paires de valeurs du générateur congruentiel
