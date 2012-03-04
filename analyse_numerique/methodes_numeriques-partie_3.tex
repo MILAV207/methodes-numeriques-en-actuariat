@@ -1,0 +1,248 @@
+\documentclass[letterpaper,11pt]{memoir}
+  \usepackage[utf8]{inputenc}
+  \usepackage{fourier}                 % texte en Utopia
+  \usepackage[scaled=0.82]{beramono}   % code en Bera
+  \renewcommand{\sfdefault}{Myriad-LF} % titres en MyriadPro
+  \usepackage{natbib,url}
+  \usepackage[english,francais]{babel}
+  \usepackage[autolanguage]{numprint}
+  \usepackage{vgmath,actu,amsmath,amsthm,amsfonts,icomma}
+  \usepackage[noae]{Sweave}
+  \usepackage[alwaysadjust]{paralist}
+  \usepackage{textpos}
+  \usepackage{graphicx,color}
+  \usepackage{MnSymbol,applekeys}      % symboles spéciaux
+  \usepackage{expdlist}
+  \usepackage{listingsutf8,answers}
+  \usepackage{pdfpages}                % couvertures
+  \usepackage{xr}                      % références au chap. 3
+
+  %%% Références externes
+  \externaldocument{operateurs}
+
+  %%%  Couleurs
+  \definecolor{comments}{rgb}{0.7,0,0}
+  \definecolor{darkred}{rgb}{0.8,0,0}
+  \definecolor{shadecolor}{gray}{0}
+  \definecolor{link}{rgb}{0,0,0.3}
+
+  %%% Hyperliens
+  \usepackage{hyperref}
+  \hypersetup{colorlinks,allcolors=link}
+
+  %%% ============
+  %%%  Page titre
+  %%% ============
+  \title{\HUGE
+    \fontseries{b}\selectfont ACT 2002 \\
+    \fontseries{b}\selectfont Méthodes numériques \\
+    \fontseries{m}\selectfont en \\
+    \fontseries{b}\selectfont actuariat \\[10mm]
+    \huge
+    \fontseries{m}\selectfont Partie III \\
+    \fontseries{m}\selectfont Analyse numérique}
+  \author{\Large Vincent Goulet \\[3mm]
+    \large École d'actuariat, Université Laval}
+  \date{\large Notes de cours et exercices}
+
+  %%% ===================
+  %%%  STYLE DU DOCUMENT
+  %%% ===================
+
+  %% Titres des chapitres
+  \chapterstyle{hangnum}
+  \renewcommand{\chaptitlefont}{\normalfont\Huge\sffamily\bfseries\raggedright}
+
+  %% Marges, entêtes et pieds de page
+  \setlength{\marginparsep}{7mm}
+  \setlength{\marginparwidth}{13mm}
+  \setlength{\headwidth}{\textwidth}
+  \addtolength{\headwidth}{\marginparsep}
+  \addtolength{\headwidth}{\marginparwidth}
+
+  %% Titres des sections et sous-sections
+  \setsecheadstyle{\normalfont\Large\sffamily\bfseries\raggedright}
+  \setsubsecheadstyle{\normalfont\large\sffamily\bfseries\raggedright}
+  \maxsecnumdepth{subsection}
+  \setsecnumdepth{subsection}
+
+  %% Franciser le second niveau des énumérations
+  \setdefaultenum{}{a)}{}{}
+
+  %% Noms de fonctions, code, etc.
+  \newcommand{\code}[1]{\texttt{#1}}
+  \newcommand{\pkg}[1]{\textbf{#1}}
+
+  %% Environnements d'exemples et al.
+  \theoremstyle{plain}
+  \newtheorem{algorithme}{Algorithme}[chapter]
+  \newtheorem{thm}{Théorème}[chapter]
+
+  \theoremstyle{definition}
+  \newtheorem{exemple}{Exemple}[chapter]
+  \newtheorem{definition}{Définition}[chapter]
+  \newtheorem*{astuce}{Astuce}
+
+  \theoremstyle{remark}
+  \newtheorem*{remarque}{Remarque}
+  \newtheorem*{remarques}{Remarques}
+  \newenvironment{rem}{\begin{remarque} \mbox{}}{\end{remarque}}
+  \newenvironment{rems}{\begin{remarques} \mbox{}}{\end{remarques}}
+
+  %% Options de babel
+  \frenchbsetup{CompactItemize=false,%
+    ThinSpaceInFrenchNumbers=true,
+    ItemLabeli=$\filledtriangleright$,
+    ItemLabelii=\textendash}
+  \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
+  \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
+
+  %%% =========================
+  %%%  Nouveaux environnements
+  %%% =========================
+
+  %% Listes d'objectifs au début des chapitres
+  \newenvironment{objectifs}{%
+    \noindent
+    \begin{framed}
+      \vspace{-1.33\baselineskip}
+      \begin{shaded}
+        \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
+      \end{shaded}
+      \vspace{-0.6\baselineskip}
+      \begin{compactitem}
+        \small}
+      {\end{compactitem}
+    \end{framed}}
+
+  %% Environnements de Sweave
+  \DefineVerbatimEnvironment{Sinput}{Verbatim}{xleftmargin=\parindent}
+  \DefineVerbatimEnvironment{Soutput}{Verbatim}{xleftmargin=\parindent}
+  \DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=\parindent}
+  \fvset{listparameters={\setlength{\topsep}{0pt}}}
+  \renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+
+  %% Exercices et réponses
+  \Newassociation{sol}{solution}{solutions}
+  \Newassociation{rep}{reponse}{reponses}
+  \newcounter{exercice}[chapter]
+  \newenvironment{exercice}{%
+    \begin{list}{\bfseries \thechapter.\arabic{exercice}}{%
+        \refstepcounter{exercice}
+        \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+  \renewenvironment{reponse}[1]{%
+    \begin{list}{\bfseries #1}{%
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+  \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
+  \renewenvironment{solution}[1]{%
+    \begin{list}{\bfseries #1}{%
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setdefaultenum{a)}{i)}{}{}}\item}
+    {\end{list}}
+  \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
+
+  %%% Changements au fil de la lecture
+  \newenvironment{gotoR}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.07\linewidth}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\color{darkred}\noway}
+      \end{minipage}
+      \begin{minipage}[t]{0.88\linewidth}}
+      {\end{minipage}%
+    \end{framed}}
+
+  %%% Remarques importantes
+  \newenvironment{important}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.1\linewidth}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\danger}
+      \end{minipage}
+      \begin{minipage}[t]{0.85\linewidth}}
+      {\end{minipage}%
+    \end{framed}}
+
+  %%% =============================================
+  %%%  Paramètres pour les sections de code source
+  %%% =============================================
+  \lstloadlanguages{R}
+  \lstset{language=R,
+    extendedchars=true,
+    inputencoding=utf8/latin1,
+    basicstyle=\small\ttfamily,
+    commentstyle=\color{comments}\slshape,
+    keywordstyle=\mdseries,
+    showstringspaces=false}
+
+  %%% =====================
+  %%%  Nouvelles commandes
+  %%% =====================
+  \newcommand{\R}{\mathbb{R}}
+  \newcommand{\Fonction}[1]{\code{#1}}
+  \newcommand{\fonction}[1]{\code{#1}}
+  \newcommand{\argument}[1]{\code{#1}}
+  \newcommand{\ieee}[3]{\fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
+  \newcommand{\fl}{\mathrm{fl}}
+  \newcommand{\texthl}[1]{\textbf{\color{darkred}{#1}}}
+
+  %%% Support pour sous-tableaux et sous-figures
+  \newsubfloat{table}
+  \newsubfloat{figure}
+
+  %%% Aide pour la césure
+  \hyphenation{hexa-dé-ci-mal}
+
+  %%% Style de la bibliographie
+  \bibliographystyle{francais}
+
+  %%% Numérotation des chapitres
+  \setcounter{chapter}{9}
+
+%  \includeonly{generation}
+
+\begin{document}
+
+\frontmatter
+
+\pagestyle{empty}
+\include{avant-partie_3}
+
+\pagestyle{companion}
+
+%\include{introduction-partie_3}
+\cleartorecto
+\tableofcontents*
+
+\mainmatter
+
+\include{arithmetique_ordinateurs}
+%\include{resolution_equations}
+%\include{integration_numerique}
+
+\appendix
+%\include{solutions-partie_3}
+
+\bibliography{r,math,stat,informatique,vg}
+
+\cleardoublepage
+\cleartoverso
+
+\include{arriere-partie_3}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

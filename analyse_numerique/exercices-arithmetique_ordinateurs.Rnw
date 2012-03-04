@@ -1,5 +1,5 @@
-\chapter{Arithmétique des ordinateurs}
-\label{chap:ordinateurs}
+\section{Exercices}
+\label{sec:ordinateurs:exercices}
 
 %%%
 %%% Fichers de solutions et de réponses
@@ -196,16 +196,20 @@ omet généralement $b$ pour les nombres en base 10.
 \begin{exercice}
   \begin{enumerate}
   \item Utiliser l'algorithme de conversion des nombres en base $b$
-    vers la base 10 et les idées de l'exemple 4.6 des notes de cours
-    pour trouver une formule générale donnant la position de l'élément
-    $a_{ijk}$ d'un tableau de dimensions $I \times J \times K$ dans
-    l'ordre de la liste des éléments du tableau. Utiliser l'ordre
-    lexicographique, où le tableau est rempli dans l'ordre $a_{111},
-    a_{112}, \dots, a_{11K}, a_{121}, a_{122}, \dots$
-  \item Répéter la partie a) en utilisant l'ordre S, où le tableau
+    vers la base 10 et les idées de
+    l'exemple~\ref{ex:ordinateurs:position_dans_matrice} des notes de
+    cours pour trouver une formule générale donnant la position de
+    l'élément $a_{ijk}$ d'un tableau de dimensions $I \times J \times
+    K$ dans l'ordre de la liste des éléments du tableau. Utiliser
+    l'ordre lexicographique, où le tableau est rempli dans l'ordre
+    \begin{equation*}
+      a_{111}, a_{112}, \dots, a_{11K}, a_{121}, a_{122}, \dots
+    \end{equation*}
+  \item Répéter la partie a) en utilisant l'ordre R, où le tableau
     est plutôt rempli dans l'ordre $a_{111}, a_{211}, \dots, a_{I11},
     a_{121}, a_{221}, \dots$.  Comparer la réponse avec celle de
-    l'exercice 3.7~b) de \cite{Goulet_intro_S}.
+    l'exercice~\ref{operateurs}.\ref{exercice:operateurs:ijk}~b) de la
+    partie~I.
   \end{enumerate}
   \begin{sol}
     La généralisation de l'algorithme de conversion des nombres en
@@ -504,5 +508,5 @@ omet généralement $b$ pour les nombres en base 10.
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "exercices_methodes_numeriques"
+%%% TeX-master: "exercices_methodes_numeriques-partie_3"
 %%% End:
