@@ -1,30 +1,63 @@
 \chapter{Résolution d'équations à une variable}
 \label{chap:resolution}
 
-\begin{itemize}
-\item Un investisseur est disposé à payer $k$~\$ aujourd'hui en retour
-  d'une série de $n$ versements de 1~\$, le premier dans un an. Quel
-  taux de rendement exige-t-il?
+\begin{objectifs}
+\item Être en mesure de résoudre une équation à une variable à l’aide
+  des méthodes de la bissection, du point fixe et de Newton-Raphson.
+\item Réaliser une mise en {\oe}uvre des méthodes de résolution
+  ci-dessus en VBA et en R.
+\item Savoir quand utiliser une méthode plutôt qu’une autre.
+\item Pouvoir déterminer si une fonction admet un point fixe dans un
+  intervalle donné.
+\item Connaître et savoir utiliser les fonctions de résolution
+  d’équations et d’optimisation de Excel et R.
+\end{objectifs}
 
-  On doit trouver la valeur de $i$ tel que $a_{\angl{n}\, i} = k$, soit
-  \begin{displaymath}
+<<echo=FALSE>>=
+options(width = 60)
+source("bissection.R")
+source("pointfixe.R")
+source("nr.R")
+@
+
+
+\section{Mise en contexte}
+\label{sec:resolution:contexte}
+
+Ce chapitre passe en revue les méthodes les plus populaires pour
+résoudre numériquement une équation à une variable. Ce problème,
+simple en apparence seulement, survient dans une foule de domaines.
+Nous donnons deux exemples, tiré des mathématiques financières et de
+l'inférence statistique.
+
+\begin{exemple}
+  Un investisseur est disposé à payer $k$~\$ aujourd'hui en retour
+  d'une série de $n$ versements de 1~\$, le premier dans un an. Pour
+  déterminer le taux de rendement qu'il exige, on doit trouver la
+  valeur de $i$ tel que $a_{\angl{n}\, i} = k$ ou, énoncé autrement,
+  la valeur de $i$ tel que
+  \begin{equation*}
     f(i) = \frac{1 - (1 + i)^{-n}}{i} -k = 0.
-  \end{displaymath}
+  \end{equation*}
+  \qed
+\end{exemple}
 
-\item On a un échantillon aléatoire $X_1, \dots, X_n$ provenant d'une
-  distribution binomiale négative avec fonction de masse de probabilité
+\begin{exemple}
+  On a un échantillon aléatoire $X_1, \dots, X_n$ provenant d'une
+  distribution binomiale négative avec fonction de masse de
+  probabilité
   \begin{displaymath}
     \Pr[X = x] = \binom{x + r - 1}{r - 1} p^r (1 - p)^x, \quad x = 0,
     1, \dots,
   \end{displaymath}
-  où $p$ est supposé connu. Trouver l'estimateur du maximum de
-  vraisemblance du paramètre $r$.
+  où $p$ est supposé connu. On souhaite trouver l'estimateur du
+  maximum de vraisemblance du paramètre $r$.
 
   La fonction de vraisemblance est
   \begin{align*}
     L(r)
     &= \prod_{i = 1}^n \Pr[X = x_i] \\
-    &= \prod_{i = 1}^n \binom{x_i + r - 1}{r - 1} p^r (1 - p)^{x_i} \\
+    &= \prod_{i = 1}^n \binom{x_i + r - 1}{r - 1} p^r (1 - p)^{x_i}
   \end{align*}
   et la fonction de log-vraisemblance est
   \begin{align*}
@@ -36,134 +69,253 @@
   Par conséquent, l'estimateur du maximum de vraisemblance $\hat{r}$
   est la solution de
   \begin{displaymath}
-    \frac{d}{dr}\, l(r) = \underbrace{%
-      \sum_{i = 1}^n (\Psi(x_i + r) - \Psi(r) + \ln p)}_{f(r)}
-    = 0,
+    f(r) = \frac{d}{dr}\, l(r) =
+    \sum_{i = 1}^n (\Psi(x_i + r) - \Psi(r) + \ln p) = 0,
   \end{displaymath}
   où $\Psi(x) = \Gamma(x)^\prime/\Gamma(x)$ est la \emph{fonction
-    digamma}.
-\end{itemize}
+    digamma}. %
+  \qed
+\end{exemple}
 
-Problème de base, mais fréquemment rencontré en analyse numérique:
+Le problème sur lequel nous allons nous pencher consiste donc à
 trouver la racine d'une fonction $f(x)$, c'est-à-dire la solution de
 $f(x) = 0$.
+
 
 
 \section{Méthode de bissection}
 \label{sec:resolution:bissection}
 
-La méthode de bissection est la plus simple et intuitive de résolution
-d'une équation à une variable, mais aussi la plus inefficace.
+Toutes les méthodes numériques de résolution d'une équation qui seront
+étudiées dans ce chapitre reposent sur une procédure systématique
+d'essais et d'erreurs. La procédure --- ou algorithme --- utilisée
+déterminera l'efficacité de la méthode. À ce chapitre, la méthode de
+bissection est la plus simple et la plus intuitive méthode de
+résolution, mais aussi la moins efficace.
 
-Soit $f$ une fonction continue sur $[a, b]$ et $f(a)$ et $f(b)$ sont
-de signes opposés. Par le théorème de la valeur intermédiaire, il
-existe un point $x^*$ tel que $f(x^*) = 0$.
+Soit $f$ une fonction continue sur un intervalle $[a, b]$ choisi de
+telle sorte que $f(a)$ et $f(b)$ sont de signes opposés. Par le
+théorème de la valeur intermédiaire, il existe un point $x^*$ tel que
+$f(x^*) = 0$. En d'autres mots, si une fonction continue est d'un côté
+de l'axe des abscisses au début d'un intervalle et de l'autre coté à
+l'autre extrémité de l'intervalle, alors elle a forcément croisé l'axe
+quelque part dans l'intervalle.
 
-Idée de la méthode de bissection: trouver le point $x^*$ en utilisant
-le point milieu d'intervalles de plus en plus petits.
+L'idée de la méthode de bissection consiste à trouver la solution
+$x^*$ par essais successifs en utilisant le point milieu d'intervalles
+de plus en plus petits, mais que l'on sait toujours contenir le point
+cherché. L'algorithme~\ref{algo:resolution:bissection} systématise
+cette idée et la figure~\ref{fig:resolution:bissection} l'illustre
+pour quelques itérations de l'algorithme.
 
-\SweaveOpts{height=4, width=6}
-\begin{center}
-<<echo=FALSE,fig=TRUE>>=
-par(mar = c(4, 4, 1, 1))
+\begin{algorithme}[Méthode de la bissection]
+  \label{algo:resolution:bissection}
+  Soit $f$ une fonction continue sur l'intervalle $[a, b]$ où $f(a)$
+  et $f(b)$ sont de signes opposés. On cherche $x^*$ tel que $f(x^*) =
+  0$ en un maximum de $N_{\mathrm{max}}$ itérations.
+  \begin{enumerate}
+  \item Poser $n = 1$.
+  \item Répéter les étapes suivantes.
+    \begin{enumerate}
+      \pointedenum
+    \item Poser $x_n = (a + b)/2$.
+    \item \label{algo:resolution:bissection:signe} Si $f(a) f(x_n) >
+      0$, poser $a = x_n$, sinon poser $b = x_n$.
+    \item \label{algo:resolution:bissection:test} Si $|x_n - x_{n -
+        1}|/|x_n| < \varepsilon$, poser $x^* = x_n$ et terminer.
+    \item Si $n \geq N_{\mathrm{max}}$, terminer sans convergence.
+    \item Poser $n = n + 1$.
+    \end{enumerate}
+  \end{enumerate}
+\end{algorithme}
+
+\begin{figure}[t]
+<<echo=FALSE, fig=TRUE>>=
+par(mfrow = c(2, 2))
 f <- function(x) x^3 + x
-curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2, axes = FALSE)
-x <- c(-0.5, 0.75, 0.125, -0.1875, 0)
-#segments(x, -2.08, x, f(x), lty = 2)
-points(x, f(x), pch = c(rep(21, 4), 19), bg = "gray")
-axis(1, at = x,
-     labels = c("a", "b", expression(x[1]), expression(x[2]),
-     expression(x^"*")))
-axis(2)
-abline(h = 0)
-box()
-@
-\end{center}
 
-On peut utiliser différents critères pour arrêter la procédure:
-\begin{enumerate}
-\item $|f(x_n)| < \varepsilon$. Peut être satisfait même si $x_n \gg
-  x^*$ ou $x_n \ll x^*$;
-  \begin{center}
-    \begin{minipage}[c]{0.4\linewidth}
-<<echo=FALSE,fig=TRUE>>=
-par(mar = c(1, 4, 1, 1))
+x <- c(-0.5, 0.75, 0.125)
+curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
+      main = "Première itération")
+abline(h = 0)
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+points(x, f(x), pch = c(19, 19, 21), bg = "red3")
+
+x <- c(-0.5, 0.125, -0.1875)
+curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
+      main = "Seconde itération")
+abline(h = 0)
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+points(x, f(x), pch = c(19, 19, 21), bg = "red3")
+
+x <- c(-0.1875, 0.125, -0.03125)
+curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
+      main = "Troisième itération")
+abline(h = 0)
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+points(x, f(x), pch = c(19, 19, 21), bg = "red3")
+
+x <- c(-0.03125, 0.125, 0.046875)
+curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
+      main = "Quatrième itération")
+abline(h = 0)
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+points(x, f(x), pch = c(19, 19, 21), bg = "red3")
+@
+  \caption{Illustration de la méthode de bissection. À chaque
+    itération, les points noirs reliés par des segments verticaux en
+    ligne pleine identifient les bornes de l'intervalle dans lequel on
+    sait se trouver la solution de l'équation $f(x) = 0$. Le point
+    rouge relié par un segment en pointillé est l'essai de
+    l'itération, c'est-à-dire le point milieu de l'intervalle. On
+    remarquera comment ce point devient la borne inférieure ou
+    supérieure de l'intervalle à l'itération suivante.}
+  \label{fig:resolution:bissection}
+\end{figure}
+
+L'application de l'algorithme~\ref{algo:resolution:bissection} génère
+une suite $\{x_n\}$, $n = 1, 2, \dots$ qui, si tout se passe bien,
+converge vers la valeur $x^*$.
+
+\begin{rems}
+  \begin{enumerate}
+  \item À l'étape~\ref{algo:resolution:bissection:signe} de
+    l'algorithme, le produit $f(a)
+    f(x_n)$ permet de déterminer si l'on se trouve du même côté de
+    l'axe des abscisses aux points $a$ et $x_n$ (produit de deux
+    valeurs négatives ou deux valeurs positives) ou de part et d'autre
+    de l'axe (produit de valeurs de signes opposés).
+  \item L'étape~\ref{algo:resolution:bissection:test} permet de
+    valider si l'algorithme a convergé vers une réponse. La valeur de
+    $\varepsilon$ sera donc en général «petite».
+  \item Nous avons utilisé l'erreur relative comme critère d'arrêt à
+    l'étape~\ref{algo:resolution:bissection:test}. Il s'agit en
+    général du meilleur choix. En effet, un critère tel que $|f(x_n)|
+    < \varepsilon$ peut être satisfait même si $x_n \gg x^*$ ou $x_n
+    \ll x^*$ (voir la figure~\ref{fig:resolution:critere} pour deux
+    exemples). Quant à l'erreur absolue $|x_n - x_{n - 1}| <
+    \varepsilon$, l'inégalité peut être satisfaite même si la suite
+    $\{x_n\}$ diverge.
+  \end{enumerate}
+\end{rems}
+
+\begin{figure}
+  \centering
+<<echo=FALSE, fig=TRUE, height=4, width=8>>=
+par(mfrow = c(1, 2))
 f <- function(x) x^3 - x^2 - x - 10
-curve(f(x), xlim = c(-10, 10), xlab = "", ylab = "f(x)",
-      lwd = 2, axes = FALSE)
-axis(2)
+curve(f(x), xlim = c(-10, 10), xlab = "x", ylab = "f(x)", lwd = 2)
 abline(h = 0)
-box()
-@
-    \end{minipage}
-    \begin{minipage}[c]{0.4\linewidth}
-<<echo=FALSE,fig=TRUE>>=
-par(mar = c(1, 4, 1, 1))
+
 f <- function(x) x^3 - x^2 - x - 0.2
-curve(f(x), xlim = c(-1, 2), xlab = "", ylab = "f(x)",
-      lwd = 2, axes = FALSE)
-axis(2)
+curve(f(x), xlim = c(-1, 2), xlab = "x", ylab = "f(x)", lwd = 2)
 abline(h = 0)
-box()
 @
-    \end{minipage}
-  \end{center}
+  \caption{Deux exemples de fonctions pour lesquelles on pourrait
+    avoir $|f(x_n)| < \varepsilon$ même si $x_n \gg x^*$ ou $x_n \ll
+    x^*$.}
+  \label{fig:resolution:critere}
+\end{figure}
 
-\item $|x_n - x_{n - 1}| < \varepsilon$. Peut être satisfait même si
-  $\{x_n\}$ diverge. Le choix de $\varepsilon$ est donc important;
+\begin{exemple}
+  \label{ex:resolution:bissection_1}
+  On cherche la racine de $f(x) = x^3 + 4 x^2 - 10$ dans l'intervalle
+  $[1, 2]$. On peut vérifier que la fonction $f$ n'a qu'une seule
+  racine dans cet l'intervalle et que, de plus, $f(1) = -5$ et $f(2) =
+  14$. Ainsi, $a = 1$ et $b = 2$ constituent des valeurs de départ
+  adéquates.
 
-\item $|x_n - x_{n - 1}|/|x_n| < \varepsilon$ pour $x_n \neq 0$. En
-  général le meilleur choix.
-\end{enumerate}
+  Le code R de la section~\ref{sec:resolution:code} définit une
+  fonction \code{bissection} dont les arguments sont:
+  \begin{enumerate}
+  \item la fonction $f(x)$;
+  \item la valeur de $a$;
+  \item la valeur de $b$;
+  \item la valeur de $\varepsilon$ ($10^{-6}$ par défaut);
+  \item le nombre maximal d'itérations $N_{\mathrm{max}}$ (100 par
+    défaut);
+  \item une valeur booléenne indiquant si les calculs intermédiaires
+    doivent être affichés à l'écran: si l'argument est \code{TRUE},
+    les valeurs de $a$, $b$, $x_n$ et $f(x_n)$ sont affichées à chaque
+    itération.
+  \end{enumerate}
+  La fonction retourne une liste dont l'élément \code{\$root} contient
+  la réponse et l'élément \code{\$nb.iter} le nombre d'itérations
+  nécessaire pour obtenir cette réponse.
 
-\begin{commentaire}
-  Présentation de l'algorithme et des deux exemples au projecteur.
-\end{commentaire}
+  \begin{gotoR}
+    Exécuter le code informatique de la
+    section~\ref{sec:resolution:code} pour définir la fonction
+    \code{bissection} puis résoudre cet exemple.
+  \end{gotoR}
 
-%%% ALGORITHME DE BISSECTION À INSÉRER
-\input{input_algorithme_bissection}
+<<echo=FALSE>>=
+source("bissection.R")
+f <- function(x) x^3 + 4*x^2 - 10
+res <- bissection(f, 1, 2, TOL=1E-5)
+@
 
-%%% DEUX EXEMPLES À INSÉRER
-\input{input_exemple_bissection_1}
-\input{input_exemple_bissection_2}
+  Après \Sexpr{res$nb.iter} %$
+  itérations de la fonction \code{bissection}, la réponse obtenue est,
+  à neuf décimales, %
+  \nombre{\Sexpr{format(res$root, digits = 10, decimal.mark = ",")}}. %$
+  L'erreur d'approximation est au maximum de
+  \begin{displaymath}
+    |x^* - x_{17}| < |b_{18} - a_{18}| =
+    |1,365234 - 1,365227| = 0,000007
+  \end{displaymath}
+  et, puisque $|a_{18}| < |x^*|$,
+  \begin{displaymath}
+    \frac{|x^* - x_{17}|}{|x^*|} < \frac{|b_{18} - a_{18}|}{|a_{18}|} =
+    5,13 \times 10^{-6}.
+  \end{displaymath}
+  La réponse est donc exacte à au moins cinq décimales près. %
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \label{ex:resolution:bissection_2}
+  La valeur présente d'une série de 10 paiements de fin d'année est
+  $8,2218$. Pour déterminer le taux d'intérêt (ou taux de rendement,
+  selon le point de vue), on cherche $i$ tel que $f(i) =
+  a_{\angl{10}\, i} - 8,2218 = 0$.
+
+  \begin{gotoR}
+    Exécuter le code informatique de la
+    section~\ref{sec:resolution:code} correspondant à cet exemple pour
+    la solution.
+  \end{gotoR}
+  \qed
+\end{exemple}
 
 
 
 \section{Méthode du point fixe}
 \label{sec:resolution:pointfixe}
 
-<<echo=FALSE>>=
-source("pointfixe.R")
-@
-
 La solution de l'équation
-\begin{center}
-  \begin{minipage}[c]{0.4\linewidth}
-    \begin{displaymath}
-      g(x) = x
-    \end{displaymath}
-\end{minipage}
-  \begin{minipage}[c]{0.4\linewidth}
-<<echo=FALSE, fig=TRUE, height=4, width=4>>=
-f <- function(x) x
-g <- function(x) x - (x^3 + 4 * x^2 - 10)/(3 * x^2 + 8 * x)
-x <- pointfixe(g, 1.5)$fixed.point
-curve(g, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25), lwd = 2)
-curve(f, add = TRUE)
-points(x, x, pch = 19)
-polygon(c(1, 1, 2, 2), c(1, 2, 2, 1), lty = 2, border = "blue")
-@
-  \end{minipage}
-\end{center}
-est un \emph{point fixe} de la fonction $g$.
+\begin{equation*}
+  g(x) = x
+\end{equation*}
+est un \emph{point fixe} de la fonction $g$. Il s'agit du point où les
+fonctions $g(x)$ et $y = x$ sont égales, c'est-à-dire où la fonction
+$g$ croise la droite à 45{\textdegree} dans le plan.
 
 Tout problème de recherche de racine peut être exprimé comme un
-problème de point fixe:
-\begin{displaymath}
-  f(x) = 0 \quad\Leftrightarrow\quad \underbrace{x - f(x)}_{\D g(x)} = x.
-\end{displaymath}
+problème de point fixe. Par exemple, en définissant
+\begin{equation*}
+  g(x) = x - f(x),
+\end{equation*}
+les problèmes de trouver $x$ tel que $g(x) = x$ ou $f(x) = 0$ sont
+équivalents.
 
-\begin{thm}
+La méthode du point fixe repose sur le théorème du même nom. Celui-ci
+fournit les conditions garantissant, d'une part, l'existence d'un
+point fixe pour une fonction $g$ dans un intervalle donné et, d'autre
+part, l'unicité de ce point fixe. Un point fixe unique peut néanmoins
+exister sans que ces conditions ne soient remplies.
+
+\begin{thm}[Théorème du point fixe]
   \label{thm:resolution:pointfixe}
   Soit $g$ une fonction continue sur $[a, b]$.
   \begin{enumerate}
@@ -178,13 +330,52 @@ problème de point fixe:
     dans $[a, b]$.
   \end{enumerate}
 \end{thm}
-\begin{proof}[Démonstration graphique]
-  \mbox{}
+
+\begin{proof}
+  Le théorème compte deux volets. Nous en faisons une démonstration
+  simplifiée ne reposant que sur des arguments graphiques.
+
   \begin{enumerate}
-  \item
-    \begin{minipage}[t]{0.5\linewidth}
-      \mbox{} \\[-\baselineskip]
+  \item Le premier volet garantit l'existence d'un point fixe sur $[a,
+    b]$ si l'image de la fonction $g$ se trouve aussi dans un
+    intervalle $[a, b]$. Cette paire d'intervalles engendre le carré
+    en pointillé que l'on retrouve dans les graphiques de la
+    figure~\ref{fig:resolution:demo}.
+
+    En définitive, le premier volet du théorème établit que si la
+    fonction continue $g$ entre dans l'intervalle $[a, b]$ par la
+    gauche du carré ($g(x) \in [a, b]$) et en ressort par la droite
+    (idem), alors elle doit forcément croiser la droite $y = x$.
+    Observons le graphique (a) de la figure~\ref{fig:resolution:demo}:
+    \begin{itemize}
+    \item $g(x) \in [a, b]$ pour tout $x \in [a, b]$, donc un point
+      fixe existe nécessairement;
+    \item $h(x) \notin [a, b]$ pour tout $x \in [a, b]$, donc la
+      fonction n'a pas nécessairement de point fixe dans $[a, b]$;
+    \item $k(x) \notin [a, b]$ pour tout $x \in [a, b]$, mais un point
+      fixe demeure néanmoins possible.
+    \end{itemize}
+  \item Le second volet garantit l'unicité du point fixe si la pente
+    de la fonction sur $(a, b)$ n'excède jamais $1$. Cette condition
+    empêche la fonction de croiser la droite $y = x$ une première fois
+    et de la croiser de nouveau suite à une forte augmentation.
+    Comparons les deux fonctions du graphique (b) de la
+    figure~\ref{fig:resolution:demo}:
+    \begin{itemize}
+    \item $g^\prime(x) < 1$ pour tout $x \in (a, b)$, donc $g(x)$
+      croise $y = x$ en un seul point et le point fixe est unique;
+    \item $h(x) \in [a, b]$ pour tout $x \in [a, b]$, mais
+      $h^\prime(x) > 1$ pour $x \in (a, b)$, ce qui ouvre la porte à
+      des points fixes multiples, tel qu'illustré.
+    \end{itemize}
+  \end{enumerate}
+
+  \begin{figure}
+    \setkeys{Gin}{width=\textwidth}
+    \begin{minipage}{0.45\linewidth}
+      \centering
 <<echo=FALSE, fig=TRUE, height=4, width=4>>=
+par(mar = c(2, 2, 1, 1))
 f <- function(x) x
 g <- function(x) x - (x^3 + 4 * x^2 - 10)/(3 * x^2 + 8 * x)
 k <- function(x) g(x - 0.5) + 0.3
@@ -192,31 +383,24 @@ h <- function(x) -2 * x^2 + 7 * x - 4.75
 curve(g, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
       lwd = 2, axes = FALSE, xlab = "", ylab = "")
 curve(h, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
-      lwd = 2, lty = "dashed", col = "red1", add = TRUE)
+      lwd = 2, col = "red3", add = TRUE)
 curve(k, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
-      lwd = 2, lty = "dotted", col = "orange1", add = TRUE)
+      lwd = 2, col = "orange1", add = TRUE)
 curve(f, add = TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1), lty = 2, border = "blue")
 axis(1, at = c(1, 2), labels = c("a", "b"))
 axis(2, at = c(1, 2), labels = c("a", "b"))
-text(rep(2.27, 3), c(g(2.25), h(2.25), k(2.25)), c("g", "h", "k"))
+text(rep(2.2, 3), c(g(2.2), h(2.2), k(2.2)) + c(0.05, 0.09, 0.05),
+     c("g", "h", "k"))
 box()
 @
+      \subcaption{existence du point fixe}
     \end{minipage}
-    \begin{minipage}[t]{0.5\linewidth}
-      \begin{itemize}
-      \item $g(x) \in [a, b]$ pour tout $x \in [a, b]$ $\Rightarrow$
-        point fixe existe;
-      \item $h(x) \not\in [a, b]$ pour tout $x \in [a, b]$ $\Rightarrow$
-        pas nécessairement de point fixe;
-      \item $k(x) \not\in [a, b]$ pour tout $x \in [a, b]$ $\Rightarrow$
-         point fixe néanmoins possible.
-      \end{itemize}
-    \end{minipage}
-  \item
-    \begin{minipage}[t]{0.5\linewidth}
-      \mbox{} \\[-\baselineskip]
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+      \centering
 <<echo=FALSE, fig=TRUE, height=4, width=4>>=
+par(mar = c(2, 2, 1, 1))
 f <- function(x) x
 g <- function(x) x - (x^3 + 4 * x^2 - 10)/(3 * x^2 + 8 * x)
 
@@ -260,97 +444,29 @@ y <- c(
 
 curve(g, xlim = c(0.75, 2.25), ylim = c(0.75, 2.25),
       lwd = 2, axes = FALSE, xlab = "", ylab = "")
-lines(x, y, lwd = 2, lty = "dashed", col = "red1")
+lines(x, y, lwd = 2, col = "red3")
 curve(f, add = TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1), lty = 2, border = "blue")
 axis(1, at = c(1, 2), labels = c("a", "b"))
 axis(2, at = c(1, 2), labels = c("a", "b"))
-text(rep(2.27, 2), c(g(2.25), tail(y, 1)), c("g", "h"))
+text(rep(2.2, 2), c(g(2.2), y[96]) + 0.05, c("g", "h"))
 box()
 @
+      \subcaption{unicité du point fixe}
     \end{minipage}
-    \begin{minipage}[t]{0.5\linewidth}
-      \begin{itemize}
-      \item $g^\prime(x) < 1$ pour tout $x \in (a, b)$, donc $g(x)$
-        croise $y = x$ en un seul point $\Rightarrow$ point fixe
-        unique;
-      \item $h(x) \not\in [a, b]$ pour tout $x \in [a, b]$
-        $\Rightarrow$, mais $h^\prime(x) > 1$ pour $x \in (a, b)$
-        $\Rightarrow$ possibilité de plusieurs points fixes.
-      \end{itemize}
-    \end{minipage}
-  \end{enumerate}
+    \caption{Exemples de graphiques permettant de faire la démonstration du théorème du point fixe}
+    \label{fig:resolution:demo}
+    \setkeys{Gin}{width=0.8\textwidth}
+  \end{figure}
 \end{proof}
 
-Procédure pour trouver le point fixe: choisir une valeur de départ
-$x_0$, puis rechercher le point $x^*$ tel que $g(x^*) = x^*$ par
-essais successifs:
-
-%% Premier graphique: fonction décroissante
-\begin{center}
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x
-g <- function(x) -0.035 * x^2 +  10
-lim <- c(7, 8.5)
-curve(g, xlim = lim, ylim = lim,
-      lwd = 2, axes = FALSE, xlab = "", ylab = "")
-curve(f, add = TRUE)
-x <- numeric(6)
-x[1] <- 7.1
-for (i in 2:length(x)) x[i] <- g(x[i - 1])
-arrows(x[1], 0, x[1], x[2],
-       lty = "dashed", col = "blue", length = 0.15)
-arrows(x[-length(x)],
-       x[-1],
-       x[-1],
-       x[-1], lty = "dashed", col = "blue", length = 0.15)
-arrows(x[-length(x)][-1],
-       x[-length(x)][-1],
-       x[-length(x)][-1],
-       x[-1][-1], lty = "dashed", col = "blue", length = 0.15)
-axis(1, at = x,
-     labels = parse(text = paste("x[", -1 + seq(along = x), "]", sep = "")))
-axis(2, at = x[-1],
-     labels = parse(text = paste("y[", -1 + seq(along = x[-1]), "]", sep = "")))
-box()
-@
-\end{center}
-
-%% Deuxième graphique: fonction croissante
-\begin{center}
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) x
-g <- function(x) -0.035 * (x - 15)^2 +  10
-lim <- c(7.5, 8.8)
-curve(g, xlim = lim, ylim = lim,
-      lwd = 2, axes = FALSE, xlab = "", ylab = "")
-curve(f, add = TRUE)
-x <- numeric(5)
-x[1] <- 7.8
-for (i in 2:length(x)) x[i] <- g(x[i - 1])
-arrows(x[1], 0, x[1], x[2],
-       lty = "dashed", col = "blue", length = 0.15)
-arrows(x[-length(x)],
-       x[-1],
-       x[-1],
-       x[-1], lty = "dashed", col = "blue", length = 0.15)
-arrows(x[-length(x)][-1],
-       x[-length(x)][-1],
-       x[-length(x)][-1],
-       x[-1][-1], lty = "dashed", col = "blue", length = 0.15)
-axis(1, at = x,
-     labels = parse(text = paste("x[", -1 + seq(along = x), "]", sep = "")))
-axis(2, at = x,
-     labels = parse(text = paste("y[", -1 + seq(along = x), "]", sep = "")))
-box()
-@
-\end{center}
-
-La rapidité de la convergence est donc fonction de la $g^\prime(x)$:
-plus la pente est \emph{faible}, plus la convergence est \emph{rapide}.
+Le théorème suivant, donné sans preuve, établit véritablement la
+procédure qui sera utilisée par la méthode numérique pour trouver le
+point fixe d'une fonction.
 
 \begin{thm}
-  Si les deux conditions du théorème \ref{thm:resolution:pointfixe}
+  \label{thm:resolution:pointfixe:2}
+  Si les deux conditions du théorème~\ref{thm:resolution:pointfixe}
   sont satisfaites, alors la série $\{x_n\}$ définie par
   \begin{displaymath}
     x_n = g(x_{n - 1})
@@ -358,28 +474,238 @@ plus la pente est \emph{faible}, plus la convergence est \emph{rapide}.
   converge vers un point fixe unique dans $[a, b]$.
 \end{thm}
 
-\begin{commentaire}
-  Présentation de l'algorithme et des deux exemples au projecteur.
-\end{commentaire}
+Tel que mentionné au début de la
+section~\ref{sec:resolution:bissection}, toutes les méthodes
+numériques --- et la méthode du point fixe ne fait pas exception ---
+procèdent par essais et erreurs, mais de manière systématique. Le
+théorème~\ref{thm:resolution:pointfixe:2} nous dit que pour trouver un
+point fixe, le meilleur essai $x_n$ à faire est la valeur de la
+fonction $g$ à l'essai précédent, $g(x_{n - 1})$. La
+figure~\ref{fig:resolution:pointfixe} illustre comment la suite des
+essais succesifs peut converger vers le point fixe.
 
-%%% ALGORITHME DU POINT FIXE À INSÉRER
-\input{input_algorithme_pointfixe}
+\begin{figure}
+  \centering
+  \setkeys{Gin}{width=\textwidth}
+<<echo=FALSE, fig=TRUE, height=4, width=8>>=
+par(mfrow = c(1, 2))
+f <- function(x) x
 
-%%% DEUX EXEMPLES À INSÉRER
-\input{input_exemple_pointfixe_1}
-\input{input_exemple_pointfixe_2}
+## Fonction décroissante
+g <- function(x) -0.035 * x^2 +  10
 
+lim <- c(7, 8.5)
+curve(g, xlim = lim, ylim = lim, lwd = 2)
+curve(f, add = TRUE)
+
+x <- numeric(6)
+x[1] <- 7.1
+for (i in 2:length(x)) x[i] <- g(x[i - 1])
+
+points(x, g(x), pch = 21, bg = "red3")
+segments(x[1], 6.95, x[1], x[2], lty = 2)
+segments(x[-1], x[-1], x[-1], g(x[-1]), lty = 2)
+arrows(head(x, -1), x[-1], x[-1], x[-1],
+       col = "blue", length = 0.1)
+
+## Fonction croissante
+g <- function(x) -0.035 * (x - 15)^2 +  10
+lim <- c(7.5, 8.8)
+curve(g, xlim = lim, ylim = lim, lwd = 2)
+curve(f, add = TRUE)
+x <- numeric(5)
+x[1] <- 7.7
+for (i in 2:length(x)) x[i] <- g(x[i - 1])
+
+points(x, g(x), pch = 21, bg = "red3")
+segments(x[1], 6.95, x[1], x[2], lty = 2)
+segments(x[-1], x[-1], x[-1], g(x[-1]), lty = 2)
+arrows(head(x, -1), x[-1], x[-1], x[-1],
+       col = "blue", length = 0.1)
+@
+  \caption{Illustration de la méthode du point fixe pour une fonction
+    décroissante et une fonction croissante. Les points rouges
+    identifient les essais successifs, le premier étant, ici, le point
+    le plus à gauche dans les graphiques. Les flèches illustrent
+    comment est déterminé l'essai suivant. La relation $x_n = g(x_{n -
+      1})$ implique que l'abscisse d'un essai correspond à la
+    projection de l'ordonnée de l'essai précédent sur la droite $y =
+    x$.}
+  \label{fig:resolution:pointfixe}
+  \setkeys{Gin}{width=0.8\textwidth}
+\end{figure}
+
+Nous pouvons dès lors composer un algorithme de résolution par la
+méthode du point fixe.
+
+\begin{algorithme}[Méthode du point fixe]
+  \label{algo:resolution:pointfixe}
+  Soit $g$ une fonction et $x_0$ une valeur de départ. On cherche
+  $x^*$ tel que $g(x^*) = x^*$ en un maximum de $N_{\mathrm{max}}$
+  itérations.
+  \begin{enumerate}
+  \item Poser $n = 1$.
+  \item Répéter les étapes suivantes.
+    \begin{enumerate}
+    \item Poser $x_n = g(x_{n - 1})$.
+    \item Si $|x_n - x_{n - 1}|/|x_n| < \varepsilon$, alors poser $x^*
+      = x_n$ et terminer.
+    \item Si $n \geq N_{\mathrm{max}}$, terminer sans convergence.
+    \item Poser $n = n + 1$.
+    \end{enumerate}
+  \end{enumerate}
+\end{algorithme}
+
+\begin{rem}
+  Comme on peut le déduire des illustrations de la
+  figure~\ref{fig:resolution:pointfixe}, la rapidité de la convergence
+  est fonction de $g^\prime(x)$: plus la pente est \emph{faible}, plus
+  la convergence est \emph{rapide}, et vice versa.
+\end{rem}
+
+\begin{exemple}
+  \label{ex:resolution:pointfixe_1}
+  On répète l'exemple~\ref{ex:resolution:bissection_2} à l'aide de la
+  méthode du point fixe, soit trouver le taux d'intérêt $i$ tel que
+  $a_{\angl{10}\,i} = 8,2218$. On a déjà déterminé à l'exemple
+  \ref{ex:resolution:bissection_2} que le taux d'intérêt se trouve
+  dans l'intervalle $[0,035, 0,040]$. On peut exprimer le problème
+  sous forme de point fixe ainsi: trouver la valeur de $i$ tel que
+  \begin{displaymath}
+    g(i) = \frac{1 - (1 + i)^{-10}}{8,2218} = i.
+  \end{displaymath}
+
+  Le code R de la section~\ref{sec:resolution:code} définit une
+  fonction \code{pointfixe} similaire à la fonction \code{bissection}
+  présentée à la section \ref{sec:resolution:bissection}. Ses
+  arguments sont d'ailleurs les mêmes, à l'exception que les points
+  $a$ et $b$ qui sont remplacés par une valeur de départ $x_0$.
+
+  \begin{gotoR}
+    Exécuter le code informatique de la
+    section~\ref{sec:resolution:code} correspondant à ce bloc de
+    matière pour définir la fonction \code{pointfixe} puis résoudre
+    cet exemple.
+  \end{gotoR}
+
+<<echo=FALSE>>=
+source("pointfixe.R")
+g <- function(i) (1 - (1 + i)^(-10))/8.2218
+res <- pointfixe(g, start = 0.0375)
+@
+  Il faut \Sexpr{res$nb.iter} %$
+  itérations pour obtenir la convergence avec un critère identique à
+  celui utilisé avec la bissection. Pour ce type de problème, la
+  méthode du point fixe n'est pas la plus efficace.
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \label{ex:resolution:pointfixe_2}
+  On répète l'exemple \ref{ex:resolution:bissection_1} à l'aide de la
+  méthode du point fixe, à savoir: trouver la racine de $f(x) = x^3 +
+  4 x^2 - 10 = 0$ dans l'intervalle $[1, 2]$.
+
+  Il y a plusieurs façons d'exprimer le problème de recherche de
+  racine en termes de point fixe. On examine cinq différentes
+  fonctions toutes algébriquement équivalentes:
+  \begin{align*}
+    g_1(x) &= x - x^3 - 4 x^2 + 10  \\
+    g_2(x) &= \left( \frac{10}{x} - 4x \right)^{1/2} \\
+    g_3(x) &= \frac{1}{2} (10 - x^3)^{1/2} \\
+    g_4(x) &= \left( \frac{10}{4 + x} \right)^{1/2} \\
+    g_5(x) &= x - \frac{x^3 + 4 x^2 - 10}{3x^2 + 8x}.
+  \end{align*}
+  Il est laissé en exercice de vérifier que, dans chacun des cas, la
+  racine de $f(x)$ est le point fixe de $g_i(x)$, $i = 1, \dots, 5$.
+
+  Les graphiques des cinq fonctions ci-dessus se trouvent aux figures
+  \ref{fig:resolution:pointfixe_2-1}--\ref{fig:resolution:pointfixe_2-5}.
+  L'examen de ces graphiques permet de déterminer, avant de faire tout
+  calcul, pour quelles fonctions la procédure itérative du point fixe
+  convergera ainsi que les taux de convergence relatif, le cas
+  échéant.
+  \begin{figure}
+    \begin{minipage}{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+f <- function(x) x
+lim <- c(0.95, 2.05)
+g1 <- function(x) x - x^3 - 4 * x^2 + 10
+curve(g1, xlim = lim, ylim = lim, lwd = 2, ylab = expression(g[1](x)))
+curve(f, add=TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
+        lty = "dashed", border = "blue")
+@
+      \caption{Fonction $g_1(x)$}
+      \label{fig:resolution:pointfixe_2-1}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+g2 <- function(x) sqrt(10/x - 4*x)
+curve(g2, xlim = lim, ylim = lim, lwd = 2, ylab = expression(g[2](x)))
+curve(f, add=TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
+        lty = "dashed", border = "blue")
+@
+      \caption{Fonction $g_2(x)$}
+    \end{minipage}
+    \newline
+    \begin{minipage}{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+g3 <- function(x) sqrt(10 - x^3)/2
+curve(g3, xlim = lim, ylim = lim, lwd = 2, ylab = expression(g[3](x)))
+curve(f, add=TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
+        lty = "dashed", border = "blue")
+@
+      \caption{Fonction $g_3(x)$}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+g4 <- function(x) sqrt(10/(4 + x))
+curve(g4, xlim = lim, ylim = lim, lwd = 2, ylab = expression(g[4](x)))
+curve(f, add=TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
+        lty = "dashed", border = "blue")
+@
+      \caption{Fonction $g_4(x)$}
+    \end{minipage}
+    \newline
+    \centering
+    \begin{minipage}{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+g5 <- function(x) x - (x^3 + 4*x^2 - 10)/(3*x^2 + 8*x)
+curve(g5, xlim = lim, ylim = lim, lwd = 2, ylab = expression(g[5](x)))
+curve(f, add=TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
+        lty = "dashed", border = "blue")
+@
+      \caption{Fonction $g_5(x)$}
+      \label{fig:resolution:pointfixe_2-5}
+    \end{minipage}
+  \end{figure}
+
+  \begin{gotoR}
+    Compléter cet exemple en exécutant le code informatique
+    correspondant à la section~\ref{sec:resolution:code}.
+  \end{gotoR}
+  \qed
+\end{exemple}
 
 
 \section{Méthode de Newton--Raphson}
 \label{sec:resolution:newtonraphson}
 
-<<echo=FALSE>>=
-source("nr.R")
-@
-
-Avec la méthode de Newton-Raphson, on revient au problème de trouver
-la racine $x^*$ de la fonction $f(x)$, c'est-à-dire la solution de
+L'étude de la méthode de Newton-Raphso nous ramène au problème de
+trouver la racine $x^*$ de la fonction $f(x)$, c'est-à-dire la
+solution de
 \begin{displaymath}
   f(x) = 0.
 \end{displaymath}
@@ -388,27 +714,24 @@ Soit $\tilde{x}$ un point «près» de $x^*$ tel que $f(\tilde{x}) \neq
 0$. Alors la tengente de $f$ en $\tilde{x}$ croise l'abscisse près de
 $x^*$. Graphiquement:
 
-\begin{center}
-
+\begin{figure}
+  \centering
 <<echo=FALSE, fig=TRUE>>=
-par(mar = c(3, 4, 1, 1))
-f <- function(x) x^3 + x
-fp <- function(x) 3 * x^2 + 1
-tangente <- function(x) fp(0.5) * x + f(0.5) - 0.5 * fp(0.5)
-curve(f(x), xlim = c(-1, 1), ylim = c(-1, 2),
-      ylab = "f(x)", lwd = 2, axes = FALSE)
-curve(tangente(x), xlim = c(-0.25, 1),
-      lwd = 2, lty = "dashed", add = TRUE)
-xh <- -(f(0.5) - 0.5 * fp(0.5))/fp(0.5)
-points(c(0, xh, 0.5),
-       c(0, 0, f(0.5)), pch = 19)
+f <- function(x) (x - 0.2)^3 + x - 0.2
+fp <- function(x) 3 * (x - 0.2)^2 + 1
+tangente <- function(x) fp(0.7) * x + f(0.7) - 0.7 * fp(0.7)
+curve(f(x), xlim = c(-0.8, 1.2), ylim = c(-1, 2), lwd = 2)
 abline(h = 0)
-axis(1, at = c(0, xh, 0.5),
-     labels = c(expression(x^"*"), expression(hat(x)), expression(tilde(x))))
-axis(2)
-box()
+xh <- -(f(0.7) - 0.7 * fp(0.7))/fp(0.7)
+points(c(0.2, 0.7, xh), c(0, f(0.7), f(xh)),
+       pch = c(19, 21, 21), bg = "red3")
+segments(c(0.7, xh), c(-1.1, 0), c(0.7, xh), f(c(0.7, xh)),
+         lty = 2)
+arrows(1.1, tangente(1.1), xh, 0, col = "blue", length = 0.1)
 @
-\end{center}
+  \caption{}
+  \label{fig:resolution:nr}
+\end{figure}
 
 Le point $\hat{x}$ est tel que
 \begin{displaymath}
@@ -514,26 +837,293 @@ segments(x, 0, x, f(x),
   \end{enumerate}
 \end{rems}
 
-\begin{commentaire}
-  Présentation de l'algorithme et des trois exemples au projecteur.
-\end{commentaire}
+\begin{algorithme}[Méthode de Newton--Raphson]
+  Soit $f$ une fonction continue et différentiable sur l'intervalle
+  $[a, b]$. On cherche $x^*$ tel que $f(x^*) = 0$ en un maximum de
+  $N_{\mathrm{max}}$ itérations avec une valeur de départ $x_0$.
+  \begin{enumerate}
+  \item Poser $n = 1$.
+  \item Répéter les étapes suivantes.
+    \begin{enumerate}
+    \item Poser $x_n = x_{n-1} - f(x_{n-1})/f^\prime(x_{n-1})$.
+    \item Si $|x_n - x_{n - 1}|/|x_n| < \varepsilon$, alors poser $x^*
+      = x_n$ et terminer.
+    \item Si $n \geq N_{\mathrm{max}}$, terminer sans convergence.
+    \item Poser $n = n + 1$.
+    \end{enumerate}
+  \end{enumerate}
+\end{algorithme}
 
-%%% ALGORITHME DE NEWTON-RAPHSON À INSÉRER
-\input{input_algorithme_newtonraphson}
+\begin{exemple}
+  \label{ex:resolution:newtonraphson_1}
+  On répète l'exemple \ref{ex:resolution:pointfixe_1} à l'aide de la
+  méthode de Newton--Raphson.  On sait du cours de mathématiques
+  financières que la méthode de Newton--Raphson est la plus efficace
+  pour résoudre les problèmes de recherche d'un taux de rendement. La
+  figure \ref{fig:resolution:newtonraphson_1} montre pourquoi elle est
+  plus efficace que la méthode du point fixe: la fonction
+  \begin{displaymath}
+    g(i) =  i - \frac{f(i)}{f^\prime(i)}
+  \end{displaymath}
+  avec $f(i) = a_{\angl{n}\, i} - k$ est beaucoup plus plate que la
+  fonction
+  \begin{displaymath}
+    g(i) = \frac{1 - v^n}{k}
+  \end{displaymath}
+  utilisée à l'exemple \ref{ex:resolution:pointfixe_1}.
+  \begin{figure}[t]
+    \centering
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x
+an <- function(i, n) (1 - (1 + i)^(-n))/i
+anp <- function(i, n) (n * i * (1 + i)^(-n - 1) + (1 + i)^(-n) - 1)/i^2
+g <- function(x) x - (an(x, 10) - 8.2218)/anp(x, 10)
+lim <- c(0.0345, 0.0405)
+curve(g, xlim = lim, ylim = lim,
+      lwd = 2, xlab = "i", ylab = "g(i)")
+curve(f, add=TRUE)
+polygon(c(0.035, 0.035, 0.04, 0.04), c(0.035, 0.04, 0.04, 0.035),
+        lty = "dashed", border = "blue")
+@
+    \caption{Fonction $g(i) = i - f(i)/f^\prime(i)$ où $f(i) = (1 - (1 +
+      i)^{-10})/i - 8,2218$ pour $0,035 \leq i \leq 0,040$ (ligne épaisse)
+      et la droite $y = i$ (ligne mince)}
+    \label{fig:resolution:newtonraphson_1}
+  \end{figure}
 
-%%% TROIS EXEMPLES À INSÉRER
-%% Les originaux de ces trois fichiers sont des fichiers .Rnw
-\input{input_exemple_newtonraphson_1}
-\input{input_exemple_newtonraphson_2}
-\input{input_exemple_newtonraphson_3}
+  On a défini en R une fonction \code{nr} similaire à la
+  fonction \code{pointfixe} mentionnée à la section
+  \ref{sec:resolution:pointfixe}, sauf qu'on y a ajouté un argument
+  pour la dérivée de la fonction $f(x)$.
+
+  Le résultat de l'application de la fonction \code{nr} est
+  le suivant:
+<<echo=TRUE>>=
+f <- function(i) (1 - (1 + i)^(-10))/i - 8.2218
+fp <- function(i) (10 * i * (1 + i)^(-11) + (1 + i)^(-10) - 1)/i^2
+nr(f, fp, start = 0.0375, echo=TRUE)
+@
+<<echo=FALSE>>=
+g <- function(x) (1 - (1 + x)^(-10))/8.2218
+res <- nr(f, fp, 0.0375)
+res.pf <- pointfixe(g, 0.0375)
+@
+  La méthode de Newton--Raphson ne requiert donc que \Sexpr{res$nb.iter}
+  itérations pour obtenir un résultat équivalent à celui obtenu par la
+  méthode du point fixe en \Sexpr{res.pf$nb.iter} itérations.
+
+  À noter que, si la fonction $g$ est définie adéquatement, on peut de
+  manière tout aussi équivalente utiliser la fonction
+  \code{pointfixe} pour effectuer les itérations de la méthode de
+  Newton--Raphson:
+<<echo=TRUE>>=
+g <- function(i) i - f(i)/fp(i)
+pointfixe(g, 0.0375)
+@
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \label{ex:resolution:newtonraphson_2}
+  On répète l'exemple \ref{ex:resolution:bissection_1} à l'aide de la
+  méthode de Newton-Raphson. On a $f(x) = x^3 + 4 x^2 - 10$ et
+  $f^\prime(x) = 3x^2 + 8 x$, d'où $f^\prime(x) \neq 0$ pour tout $x
+  \in [1, 2]$. La fonction
+  \begin{displaymath}
+    g(x) = x - \frac{f(x)}{f^\prime(x)}
+  \end{displaymath}
+  est présentée à la figure \ref{fig:resolution:newtonraphson_2}, où
+  l'on constate que la procédure itérative de Newton--Raphson
+  convergera rapidement vers une racine unique dans l'intervalle $[1,
+  2]$. En effet,
+  \begin{figure}[t]
+    \centering
+<<echo=FALSE, fig=TRUE>>=
+f0 <- function(x) x
+lim <- c(0.95, 2.05)
+f <- function(x) x^3 + 4*x^ 2 - 10
+fp <- function(x) 3*x^2 + 8 * x
+g <- function(x) x - f(x)/fp(x)
+curve(g, xlim = lim, ylim = lim, lwd = 2)
+curve(f0, add=TRUE)
+polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
+        lty = "dashed", border = "blue")
+@
+    \caption{Fonction $g(x) = x - f(x)/f^\prime(x)$, où $f(x) = x^3 + 4 x^2 -
+      10$}
+    \label{fig:resolution:newtonraphson_2}
+  \end{figure}
+<<echo=TRUE>>=
+f <- function(x) x^3 + 4*x^ 2 - 10
+fp <- function(x) 3*x^2 + 8 * x
+nr(f, fp, start = 1.5)
+@
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \label{ex:resolution:newtonraphson_3}
+  Cet exemple illustre l'importance d'utiliser, pour certaines
+  fonctions, une valeur de départ près de la racine. La fonction $f(x)
+  = (4x - 7)/(x - 2)$ a une racine en $x = 1,75$. une asymptote en $x
+  = 2$, ce qui cause quelques soucis. (Voir la figure
+  \ref{fig:resolution:newtonraphson_3-1} pour un graphique de cette
+  fonction.)
+  \begin{figure}[t]
+    \centering
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) ifelse(x == 2, NA, (4 * x - 7)/(x - 2))
+curve(f, xlim = c(0, 5), lwd = 2)
+abline(8, -4, lty = "dotted", lwd = 2, col="gray")
+abline(h = 0)
+abline(v = 2, lty = "dashed", col="blue")
+@
+  \caption{Fonction $f(x) = (4x - 7)/(x - 2)$ (ligne épaisse), asymptote
+    (ligne traitillée) et tangente en $x = 1,5$ (ligne pointillée)}
+  \label{fig:resolution:newtonraphson_3-1}
+  \end{figure}
+
+  On peut tenter de trouver numériquement la racine de la fonction
+  $f(x)$ avec l'algorithme de Newton--Raphson en utilisant
+  \begin{align*}
+    f(x) &= \frac{4x - 7}{x - 2} \\
+    \intertext{et}
+    f^\prime(x) &= - \frac{1}{(x - 2)^2},
+  \end{align*}
+  ou encore directement par l'algorithme du point fixe avec
+  \begin{align*}
+    g(x)
+    &= x - \frac{f(x)}{f^\prime(x)} \\
+    &= 4x^2 - 14x + 14.
+  \end{align*}
+  Le graphique la fonction $g(x)$ se trouve à la figure
+  \ref{fig:resolution:newtonraphson_3-2}. On notera toutefois que le
+  point fixe en $x = 2$ n'est pas une solution acceptable dans le
+  problème d'origine.
+\begin{figure}[t]
+    \centering
+<<echo=FALSE, fig=TRUE>>=
+f0 <- function(x) x
+g <- function(x) 4*x^2 - 14*x + 14
+lim <- c(1.5, 3)
+curve(g, xlim = lim, ylim = lim, ylab = "g(x)", lwd = 2)
+curve(f0, add = TRUE)
+@
+    \caption{Fonction $g(x) = 4x^2 - 14x + 14$}
+    \label{fig:resolution:newtonraphson_3-2}
+  \end{figure}
+
+  On constate également dans cette dernière figure que les hypothèses
+  pour l'existence et l'unicité d'un point fixe --- et, donc, pour la
+  convergence de la méthode de Newton--Raphson --- ne sont pas
+  rencontrées. La valeur de départ utilisée aura donc un impact sur la
+  réponse obtenue.
+
+  Avec une valeur de départ $x_0 = 1,625 < 1,75$, la convergence se
+  fait vers la bonne racine:
+<<echo=TRUE>>=
+f <- function(x) ifelse(x == 2, NA, (4*x - 7)/(x - 2))
+fp <- function(x) ifelse(x == 2, NA, -1/(x - 2)^2)
+nr(f, fp, 1.625, echo=TRUE)
+g <- function(x) 4*x^2 - 14*x + 14
+pointfixe(g, 1.625)
+@
+
+  On peut vérifier à la figure
+  \ref{fig:resolution:newtonraphson_3-2} qu'avec une valeur de départ
+  entre $1,75$ et $2$, la procédure itérative convergera vers la bonne
+  réponse:
+<<echo=TRUE>>=
+pointfixe(g, 1.875, echo=TRUE)
+@
+
+  La tangente en $x = 1,5$ tracée sur le graphique de la figure
+  \ref{fig:resolution:newtonraphson_3-1} montre que $x_0 = 1,5$
+  constitue un mauvais choix car $g(1,5) = 2$. La procédure
+  itérative converge donc vers une  valeur non admissible:
+<<echo=TRUE>>=
+pointfixe(g, 1.5)
+@
+
+  Pour toute valeur de départ supérieure à $2$, la procédure
+  itérative diverge. On peut vérifier ce fait graphiquement autant à
+  la figure \ref{fig:resolution:newtonraphson_3-1} qu'à la figure
+  \ref{fig:resolution:newtonraphson_3-2}:
+\begin{Schunk}
+\begin{Sinput}
+> pointfixe(g, 3, echo = TRUE)
+\end{Sinput}
+\begin{Soutput}
+[1] 3
+[1] 8
+[1] 158
+[1] 97658
+[1] 38146972658
+[1] 5.820766e+21
+[1] 1.355253e+44
+[1] 7.34684e+88
+[1] 2.159042e+178
+Erreur dans if (abs(x - xt)/abs(x) < TOL) break :
+	valeur manquante là où TRUE / FALSE est requis
+\end{Soutput}
+\end{Schunk}
+  \qed
+\end{exemple}
 
 
 
-%%% SECTION À INSÉRER
-\input{input_fonctions_optimisation}
+\section{Fonctions d'optimisation dans Excel et R}
+\label{sec:resolution:fonctions}
+
+Les méthodes de bissection, du point fixe, de Newton--Raphson et
+consorts permettent de résoudre des équations à une variable de la
+forme $f(x) = 0$ ou $g(x) = x$. Il existe également des versions de
+ces méthodes pour les systèmes à plusieurs variables comme
+\begin{align*}
+  f_1(x_1, x_2, x_3) &= 0 \\
+  f_2(x_1, x_2, x_3) &= 0 \\
+  f_3(x_1, x_2, x_3) &= 0.
+\end{align*}
+
+De tels systèmes d'équations surviennent plus souvent qu'autrement
+lors de l'optimisation d'une fonction. Par exemple, en recherchant le
+maximum ou le minimum d'une fonction $f(x, y)$, on souhaitera résoudre
+le système d'équations
+\begin{align*}
+  \frac{\partial}{\partial x}\, f(x, y) &= 0 \\
+  \frac{\partial}{\partial y}\, f(x, y) &= 0.
+\end{align*}
+
+La grande majorité des suites logicielles comportent des outils
+d'optimisation de fonctions. Ce document passe en revue les fonctions
+disponibles dans Excel, S-Plus et R.
+
+
+\subsubsection{Excel}
+
+Le principal outil d'optimisation utilisé dans Excel est le Solveur.
+La rubrique d'aide de cet outil est complète et on trouvera plusieurs
+exemples dans le classeur
+\url{...\Microsoft Office\Office11\Samples\SOLVAMP.XLS}.
+
+
+\subsubsection{R}
+
+Consulter le chapitre 7 de \cite{Goulet:introS:2007} pour une
+description des fonctions d'optimisation disponibles dans R.
+
+
+\section{Code informatique}
+\label{sec:resolution:code}
+
+\lstinputlisting[firstline=3]{resolution_equations.R}
+
+\vfill
+
+%\input{exercices-arithmetique_ordinateurs}
 
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "methodes_numeriques"
+%%% TeX-master: "methodes_numeriques-partie_3"
 %%% End:

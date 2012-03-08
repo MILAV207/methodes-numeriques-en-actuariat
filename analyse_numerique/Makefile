@@ -16,7 +16,7 @@ RNWFILES = $(wildcard *.Rnw)
 TEXFILES = $(wildcard *.tex)
 
 # The work horses
-SWEAVE = R CMD SWEAVE
+SWEAVE = R CMD SWEAVE --encoding="utf-8"
 TEXI2DVI = texi2dvi -b --pdf
 RM = rm -rf
 
