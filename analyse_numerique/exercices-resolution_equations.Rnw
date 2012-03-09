@@ -313,8 +313,8 @@ polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
     Les cinq fonctions sont les suivantes:
     \begin{align*}
       g_1(x) &= x - x^3 - 4 x^2 + 10  \\
-      g_2(x) &= \left( \frac{10}{x} - 4x \right)^{1/2} \\
-      g_3(x) &= \frac{1}{2} (10 - x^3)^{1/2} \\
+      g_2(x) &= \left( \frac{10}{x} - 4x \right)^{1/2} \displaybreak[0]\\
+      g_3(x) &= \frac{1}{2} (10 - x^3)^{1/2}  \displaybreak[0]\\
       g_4(x) &= \left( \frac{10}{4 + x} \right)^{1/2} \\
       g_5(x) &= x - \frac{x^3 + 4 x^2 - 10}{3x^2 + 8x}.
     \end{align*}
@@ -380,7 +380,7 @@ polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
       \centering
       \begin{minipage}[t]{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE>>=
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
 f <- function(x) x
 g <- function(x) (20 * x + 21 / x^2)/21
 curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
@@ -392,7 +392,7 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE>>=
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
 f <- function(x) x
 g <- function(x) x - (x^3 - 21)/(3 * x^2)
 curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
@@ -404,7 +404,7 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE>>=
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
 f <- function(x) x
 g <- function(x) x - (x^4 - 21 * x)/(x^2 - 21)
 curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
@@ -516,7 +516,8 @@ pointfixe(function(x) 2^(-x), start = 2/3)
     \end{displaymath}
     avec $x_0$ une valeur de départ «près» de la solution. On obtient
 <<echo=TRUE>>=
-nr(function(x) 4 * x^3 + 2 * x - 2, function(x) 12 * x^2 + 2, start = 0.6)
+nr(function(x) 4 * x^3 + 2 * x - 2,
+   function(x) 12 * x^2 + 2, start = 0.6)
 @
 
     On voit à la figure \ref{fig:resolution:proche} que la solution, disons le
@@ -719,7 +720,7 @@ emv.gamma <- function(x, erreur.max = 1E-6)
          (3 * n)/theta
     fp <- function(theta) -2 * xsum / theta^3 +
           (3 * n)/theta^2
-    nr(f, fp, xsum / n /3, TOL = erreur.max)$root
+    nr(f, fp, xsum/n/3, TOL = erreur.max)$root
 }
 \end{Scode}
         \end{framed}
@@ -842,7 +843,7 @@ End Function
     \begin{figure}
       \begin{minipage}{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE>>=
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
 f0 <- function(x) x
 f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
 curve(x - f(x), xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
@@ -855,7 +856,7 @@ polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
       \hfill
       \begin{minipage}{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE>>=
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
 g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
 curve(g2, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
       xlab = "i", ylab = "g(i)", lwd = 2)
@@ -867,7 +868,7 @@ polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
       \hfill
       \begin{minipage}{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE>>=
+<<echo=FALSE, fig=TRUE, height=4, width=4>>=
 fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
 g3 <- function(i) i - f(i)/fp(i)
 curve(g3, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
@@ -883,14 +884,18 @@ polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
     \end{figure}
     On obtient les résultats suivants:
 <<echo=TRUE>>=
-f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
-fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
+f <- function(i)
+    (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
+fp <- function(i)
+    (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) -
+     (1 - (1 + i)^(-10)) * (1 + i)^(-11/12)) /
+    (144 * ((1 + i)^(1/12) - 1)^2)
 g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
 g3 <- function(i) i - f(i)/fp(i)
 pointfixe(g2, start = 0.05)
 pointfixe(g3, start = 0.05)
 @
-      \end{sol}
+  \end{sol}
   \begin{rep}
 <<echo=FALSE>>=
 xp <- pointfixe(g3, start = 0.05)$fixed.point
@@ -956,6 +961,7 @@ x <- lambda * (runif(100)^(-1/alpha) - 1)
 @
   pour des valeurs de \code{alpha} et \code{lambda} choisies.
   \begin{sol}
+    On a
 <<echo=TRUE,eval=FALSE>>=
 dpareto <- function(x, alpha, lambda)
 {

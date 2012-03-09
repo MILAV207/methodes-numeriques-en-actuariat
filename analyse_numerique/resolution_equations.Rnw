@@ -1116,8 +1116,13 @@ R.
 
 \input{optimisation-fonctions}
 
+\begin{gotoR}
+  Des exemples d'utilisation des fonctions R ci-dessus sont fournis
+  dans le code informatique de la section~\ref{sec:resolution:code}.
+\end{gotoR}
 
-\section{Pour en savoir plus}
+
+\section{Outils additionnels}
 \label{optimisation:plus}
 
 Les packages disponible sur CRAN fournissent plusieurs autres outils
