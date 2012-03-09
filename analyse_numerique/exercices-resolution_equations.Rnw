@@ -387,7 +387,7 @@ curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
 @
-        \subcaption{\itshape Fonction $g_1(x)$}
+        \subcaption{fonction $g_1(x)$}
       \end{minipage}
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
@@ -399,7 +399,7 @@ curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
 @
-        \subcaption{\itshape Fonction $g_2(x)$}
+        \subcaption{fonction $g_2(x)$}
       \end{minipage}
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
@@ -411,7 +411,7 @@ curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
 @
-        \subcaption{\itshape Fonction $g_3(x)$}
+        \subcaption{fonction $g_3(x)$}
       \end{minipage}
       \caption{Fonctions de l'exercice
         \ref{chap:resolution}.\ref{ex:resolution:racinecubique}.}
@@ -851,7 +851,7 @@ curve(x - f(x), xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
 curve(f0, add = TRUE)
 polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_1(x)$ \label{fig:resolution:a_angle:g1}}
+        \subcaption{fonction $g_1(x)$ \label{fig:resolution:a_angle:g1}}
       \end{minipage}
       \hfill
       \begin{minipage}{0.32\linewidth}
@@ -863,7 +863,7 @@ curve(g2, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
 curve(f0, add = TRUE)
 polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_2(x)$ \label{fig:resolution:a_angle:g2}}
+        \subcaption{fonction $g_2(x)$ \label{fig:resolution:a_angle:g2}}
       \end{minipage}
       \hfill
       \begin{minipage}{0.32\linewidth}
@@ -876,7 +876,7 @@ curve(g3, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
 curve(f0, add = TRUE)
 polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
 @
-        \subcaption{Fonction $g_3(x)$ \label{fig:resolution:a_angle:g3}}
+        \subcaption{fonction $g_3(x)$ \label{fig:resolution:a_angle:g3}}
       \end{minipage}
       \caption{Trois fonctions pour résoudre $a_{\angl{10}\, i}^{(12)}
         = 8$ par la méthode du point fixe}
