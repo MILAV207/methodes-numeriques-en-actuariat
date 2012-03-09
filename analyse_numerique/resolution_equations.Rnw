@@ -138,28 +138,28 @@ x <- c(-0.5, 0.75, 0.125)
 curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
       main = "Première itération")
 abline(h = 0)
-segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2), col = "darkgray")
 points(x, f(x), pch = c(19, 19, 21), bg = "red3")
 
 x <- c(-0.5, 0.125, -0.1875)
 curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
       main = "Seconde itération")
 abline(h = 0)
-segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2), col = "darkgray")
 points(x, f(x), pch = c(19, 19, 21), bg = "red3")
 
 x <- c(-0.1875, 0.125, -0.03125)
 curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
       main = "Troisième itération")
 abline(h = 0)
-segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2), col = "darkgray")
 points(x, f(x), pch = c(19, 19, 21), bg = "red3")
 
 x <- c(-0.03125, 0.125, 0.046875)
 curve(f(x), xlim = c(-1, 1), ylab = "f(x)", lwd = 2,
       main = "Quatrième itération")
 abline(h = 0)
-segments(x, -2.08, x, f(x), lty = c(1, 1, 2))
+segments(x, -2.08, x, f(x), lty = c(1, 1, 2), col = "darkgray")
 points(x, f(x), pch = c(19, 19, 21), bg = "red3")
 @
   \caption{Illustration de la méthode de bissection. À chaque
@@ -502,11 +502,11 @@ x <- numeric(6)
 x[1] <- 7.1
 for (i in 2:length(x)) x[i] <- g(x[i - 1])
 
-points(x, g(x), pch = 21, bg = "red3")
-segments(x[1], 6.95, x[1], x[2], lty = 2)
-segments(x[-1], x[-1], x[-1], g(x[-1]), lty = 2)
+segments(x[1], 6.95, x[1], x[2], lty = 2, col = "darkgray")
+segments(x[-1], x[-1], x[-1], g(x[-1]), lty = 2, col = "darkgray")
 arrows(head(x, -1), x[-1], x[-1], x[-1],
-       col = "blue", length = 0.1)
+       col = "blue", length = 0.07)
+points(x, g(x), pch = 21, bg = "red3")
 
 ## Fonction croissante
 g <- function(x) -0.035 * (x - 15)^2 +  10
@@ -517,11 +517,11 @@ x <- numeric(5)
 x[1] <- 7.7
 for (i in 2:length(x)) x[i] <- g(x[i - 1])
 
-points(x, g(x), pch = 21, bg = "red3")
-segments(x[1], 6.95, x[1], x[2], lty = 2)
-segments(x[-1], x[-1], x[-1], g(x[-1]), lty = 2)
+segments(x[1], 6.95, x[1], x[2], lty = 2, col = "darkgray")
+segments(x[-1], x[-1], x[-1], g(x[-1]), lty = 2, col = "darkgray")
 arrows(head(x, -1), x[-1], x[-1], x[-1],
-       col = "blue", length = 0.1)
+       col = "blue", length = 0.07)
+points(x, g(x), pch = 21, bg = "red3")
 @
   \caption{Illustration de la méthode du point fixe pour une fonction
     décroissante et une fonction croissante. Les points rouges
@@ -591,9 +591,9 @@ méthode du point fixe.
 <<echo=FALSE>>=
 source("pointfixe.R")
 g <- function(i) (1 - (1 + i)^(-10))/8.2218
-res <- pointfixe(g, start = 0.0375)
+res.pf <- pointfixe(g, start = 0.0375)
 @
-  Il faut \Sexpr{res$nb.iter} %$
+  Il faut \Sexpr{res.pf$nb.iter} %$
   itérations pour obtenir la convergence avec un critère identique à
   celui utilisé avec la bissection. Pour ce type de problème, la
   méthode du point fixe n'est pas la plus efficace.
@@ -700,40 +700,58 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
 \end{exemple}
 
 
-\section{Méthode de Newton--Raphson}
+\section[Méthode de Newton--Raphson]{%
+  Méthode de Newton-Raphson}         % MyriadPro n'aime pas --
 \label{sec:resolution:newtonraphson}
 
-L'étude de la méthode de Newton-Raphso nous ramène au problème de
-trouver la racine $x^*$ de la fonction $f(x)$, c'est-à-dire la
-solution de
-\begin{displaymath}
-  f(x) = 0.
-\end{displaymath}
+La méthode de Newton--Raphson est l'une des plus populaires et
+puissantes méthodes numériques de résolution d'équations à une
+variable. Les algorithmes plus élaborés qui existent aujourd'hui sont
+d'ailleurs souvent basés sur cet algorithme.
 
-Soit $\tilde{x}$ un point «près» de $x^*$ tel que $f(\tilde{x}) \neq
-0$. Alors la tengente de $f$ en $\tilde{x}$ croise l'abscisse près de
-$x^*$. Graphiquement:
+L'étude de la méthode de Newton--Raphson nous ramène au problème de
+recherche de la racine $x^*$ d'une fonction $f(x)$, c'est-à-dire la
+solution de $f(x) = 0$. Il y a plusieurs manières d'introduire cette
+méthode de résolution. Nous privilégierons une approche graphique.
 
-\begin{figure}
+Dans la méthode de Newton--Raphson, les essais successifs sont
+déterminés en utilisant les points où la tangente de la fonction $f$ à
+l'essai précédent croise l'axe des abscisses; voir la
+figure~\ref{fig:resolution:newtonraphson} pour une illustration.
+
+\begin{figure}[t]
   \centering
 <<echo=FALSE, fig=TRUE>>=
 f <- function(x) (x - 0.2)^3 + x - 0.2
 fp <- function(x) 3 * (x - 0.2)^2 + 1
-tangente <- function(x) fp(0.7) * x + f(0.7) - 0.7 * fp(0.7)
+tangente <- function(x, a) fp(a) * (x - a) + f(a)
 curve(f(x), xlim = c(-0.8, 1.2), ylim = c(-1, 2), lwd = 2)
 abline(h = 0)
-xh <- -(f(0.7) - 0.7 * fp(0.7))/fp(0.7)
-points(c(0.2, 0.7, xh), c(0, f(0.7), f(xh)),
-       pch = c(19, 21, 21), bg = "red3")
-segments(c(0.7, xh), c(-1.1, 0), c(0.7, xh), f(c(0.7, xh)),
-         lty = 2)
-arrows(1.1, tangente(1.1), xh, 0, col = "blue", length = 0.1)
+x <- c(0.98, 0, 0)
+for (i in 2:3)
+    x[i] <- -(f(x[i - 1]) - x[i - 1] * fp(x[i - 1]))/fp(x[i - 1])
+
+segments(x, c(-1.1, 0, 0), x, f(x), lty = 2, col = "darkgray")
+arrows(1.2, tangente(1.2, x[1]), x[2], 0, col = "blue", length = 0.07)
+arrows(0.95, tangente(0.95, x[2]), x[3], 0, col = "blue", length = 0.07)
+
+points(x, f(x), pch = 21, bg = "red3")
 @
-  \caption{}
-  \label{fig:resolution:nr}
+  \caption{Illustration de la méthode de Newton--Raphson. Les points
+    rouges identifient les essais successifs, le premier étant, ici,
+    le point le plus à droite dans le graphique. Les flèches
+    illustrent comment est déterminé l'essai suivant. On trace la
+    tangente en un point; le prochain essai est la valeur en abscisse
+    où cette tangente croise l'axe.}
+  \label{fig:resolution:newtonraphson}
 \end{figure}
 
-Le point $\hat{x}$ est tel que
+Une première justification mathématique de la méthode va comme suit.
+Soit $\tilde{x}$ un point «près» de la racine $x^*$ et tel que
+$f(\tilde{x}) \neq 0$. Comme on peut le voir à la
+figure~\ref{fig:resolution:newtonraphson}, la tangente de $f$ en
+$\tilde{x}$ croise l'abscisse en un point $\hat{x}$ «près» de $x^*$.
+Ainsi, le point $\hat{x}$ est tel que
 \begin{displaymath}
   \frac{f(\tilde{x}) - 0}{\tilde{x} - \hat{x}} = f^\prime(\tilde{x}),
 \end{displaymath}
@@ -746,98 +764,40 @@ d'où
 
 On peut également justifier la formule précédente à l'aide du
 développement de Taylor de $f(x)$ autour de $\tilde{x}$:
-\begin{align*}
+\begin{equation*}
   f(x)
-  &= f(\tilde{x}) + (x - \tilde{x}) f^\prime(\tilde{x})
-  + \frac{(x - \tilde{x})^2}{2} f^{\prime\prime}(\tilde{x}) + \dots \\
-  \intertext{et donc}
-  f(x^*)
-  &= 0 =
-  f(\tilde{x}) + (x^* - \tilde{x}) f^\prime(\tilde{x})
-  + \underbrace{%
-    \frac{(x^* - \tilde{x})^2}{2} f^{\prime\prime}(\tilde{x}) +
-    \dots}_{\D \text{négligeable}},
-\end{align*}
-d'où
-\begin{displaymath}
-  x^*
-  \simeq \tilde{x} - \frac{f(\tilde{x})}{f^\prime(\tilde{x})}.
-\end{displaymath}
+  = f(\tilde{x}) + (x - \tilde{x}) f^\prime(\tilde{x})
+  + \frac{(x - \tilde{x})^2}{2} f^{\prime\prime}(\tilde{x}) + \dots
+\end{equation*}
+Toujours en supposant que $\tilde{x}$ est près de $x^*$, on a
+\begin{equation*}
+  f(x^*) = 0 = f(\tilde{x}) + (x^* - \tilde{x}) f^\prime(\tilde{x}) +
+  \frac{(x^* - \tilde{x})^2}{2} f^{\prime\prime}(\tilde{x}) + \dots,
+\end{equation*}
+où l'on peut considérer les termes de puissance 2 et plus dans le
+développement comme négligeables. On obtient alors l'approximation
+\begin{equation*}
+  x^* \simeq \tilde{x} - \frac{f(\tilde{x})}{f^\prime(\tilde{x})}.
+\end{equation*}
 
-Si le point $\hat{x}$ est trop éloigné de la racine $x^*$, on peut
-répéter la procédure ci-dessus en utilisant $\hat{x}$ comme nouveau
+Tel qu'illustré à la figure~\ref{fig:resolution:newtonraphson}, on
+peut répéter la procédure ci-dessus si le point $\hat{x}$ est trop
+éloigné de la racine $x^*$. On utilise alors $\hat{x}$ comme nouveau
 point où l'on calcule la tengente, et ainsi de suite jusqu'à
 l'obtention d'une «bonne» approximation.
 
-Ainsi, soit $f$ une fonction différentiable sur $[a, b]$ et $x^* \in
-[a, b]$. Alors $x^*$ peut être obtenu comme le point de convergence de
-la série $\{x_n\}$ définie par
+Formellement, soit $f$ une fonction différentiable sur $[a, b]$ et
+$x^* \in [a, b]$. Alors $x^*$ peut être obtenu comme le point de
+convergence de la série $\{x_n\}$ définie par
 \begin{displaymath}
   x_n = x_{n - 1} - \frac{f(x_{n - 1})}{f^\prime(x_{n - 1})},
 \end{displaymath}
 avec $x_0$ une valeur de départ quelconque.
-
-\begin{rems}
-  \begin{enumerate}
-  \item La méthode de Newton--Raphson constitue en fait une procédure
-    de point fixe avec
-    \begin{displaymath}
-      g(x) = x - \frac{f(x)}{f^\prime(x)}.
-    \end{displaymath}
-  \item On peut démontrer que si $f$ est doublement différentiable sur
-    $[a, b]$ et que $x^* \in [a, b]$ est tel que
-    \begin{itemize}
-    \item $f(x^*) = 0$
-    \item $f^\prime(x^*) \neq 0$,
-    \end{itemize}
-    alors il existe un $\delta > 0$ tel que la série $\{x_n\}$
-    converge vers $x^*$ pour tout $x_0 \in [x^* - \delta, x^* +
-    \delta]$. Autrement dit:
-    \begin{itemize}
-    \item les hypothèses du théorème \ref{thm:resolution:pointfixe}
-      sont satisfaites;
-    \item la méthode de Newton--Raphson fonctionne toujours avec un
-      «bon» choix de valeur de départ $x_0$.
-    \end{itemize}
-  \item Si $f^\prime(x)$ est difficile à calculer et/ou inefficace à
-    calculer, on peut utiliser la \emph{méthode de la sécante}:
-    \begin{displaymath}
-      x_n = x_{n - 1} - \frac{f(x_{n - 1})(x_{n - 1} - x_{n - 2})}{%
-        f(x_{n - 1}) - f(x_{n - 2})},
-    \end{displaymath}
-    avec $x_0$, $x_1$ des valeurs de départ.
-    \begin{center}
-
-<<echo=FALSE, fig=TRUE>>=
-f <- function(x) exp(2 * x) - 20
-curve(f, xlim = c(0, 2),
-      ylab = "f(x)", lwd = 2, axes = FALSE)
-abline(h = 0)
-x <- numeric(7)
-x[1] <- 0
-x[2] <- 2
-for (i in 3:length(x))
-    x[i] <- x[i - 1] - (f(x[i - 1]) * (x[i - 1] - x[i - 2]))/
-    (f(x[i - 1]) - f(x[i - 2]))
-axis(1, at = x, label = parse(text = paste("x[", -1 + seq(along = x), "]", sep = "")))
-axis(2)
-box()
-for (i in 1:(length(x) - 2))
-{
-    xx <- x[i:(i + 2)]
-    fxx <- f(xx)
-    segments(xx[1:2], fxx[1:2], xx[-1], c(fxx[2], 0),
-             lwd = 1, col = "blue")
-}
-x <- x[-(1:2)]
-segments(x, 0, x, f(x),
-         lwd = 1, lty = "dashed", col = "gray")
-@
-    \end{center}
-  \end{enumerate}
-\end{rems}
+L'algorithme~\ref{algo:resolution:newtonraphson} systématise cette
+procédure.
 
 \begin{algorithme}[Méthode de Newton--Raphson]
+  \label{algo:resolution:newtonraphson}
   Soit $f$ une fonction continue et différentiable sur l'intervalle
   $[a, b]$. On cherche $x^*$ tel que $f(x^*) = 0$ en un maximum de
   $N_{\mathrm{max}}$ itérations avec une valeur de départ $x_0$.
@@ -854,22 +814,48 @@ segments(x, 0, x, f(x),
   \end{enumerate}
 \end{algorithme}
 
+\begin{rems}
+  \begin{enumerate}
+  \item \label{algo:resolution:rem} L'examen attentif de la méthode de
+    Newton--Raphson revèle qu'il s'agit en fait d'une procédure de
+    point fixe avec
+    \begin{displaymath}
+      g(x) = x - \frac{f(x)}{f^\prime(x)}.
+    \end{displaymath}
+    La méthode de Newton--Raphson nous fournit donc la «bonne»
+    fonction $g$ à utiliser dans la méthode du point fixe pour trouver
+    la racine de la fonction $f$.
+  \item On peut démontrer que si $f$ est doublement différentiable sur
+    $[a, b]$ et que $x^* \in [a, b]$ est tel que $f(x^*) = 0$ et
+    $f^\prime(x^*) \neq 0$, alors il existe un $\delta > 0$ tel que la
+    série $\{x_n\}$ converge vers $x^*$ pour tout $x_0 \in [x^* -
+    \delta, x^* + \delta]$. Autrement dit:
+    \begin{itemize}
+    \item les hypothèses du théorème~\ref{thm:resolution:pointfixe}
+      sont satisfaites;
+    \item la méthode de Newton--Raphson fonctionne toujours avec un
+      «bon» choix de valeur de départ $x_0$.
+    \end{itemize}
+  \end{enumerate}
+\end{rems}
+
 \begin{exemple}
   \label{ex:resolution:newtonraphson_1}
-  On répète l'exemple \ref{ex:resolution:pointfixe_1} à l'aide de la
-  méthode de Newton--Raphson.  On sait du cours de mathématiques
-  financières que la méthode de Newton--Raphson est la plus efficace
-  pour résoudre les problèmes de recherche d'un taux de rendement. La
-  figure \ref{fig:resolution:newtonraphson_1} montre pourquoi elle est
-  plus efficace que la méthode du point fixe: la fonction
-  \begin{displaymath}
+  On reprend l'exemple~\ref{ex:resolution:pointfixe_1} de calcul d'un
+  taux de rendement, cette fois à l'aide de la méthode de
+  Newton--Raphson. Vous savez peut-être de votre cours de
+  mathématiques financières que la méthode de Newton--Raphson est la
+  plus efficace pour résoudre ce genre de problème. La figure
+  \ref{fig:resolution:newtonraphson_1} montre pourquoi elle est plus
+  efficace que la méthode du point fixe: la fonction
+  \begin{equation*}
     g(i) =  i - \frac{f(i)}{f^\prime(i)}
-  \end{displaymath}
+  \end{equation*}
   avec $f(i) = a_{\angl{n}\, i} - k$ est beaucoup plus plate que la
   fonction
-  \begin{displaymath}
+  \begin{equation*}
     g(i) = \frac{1 - v^n}{k}
-  \end{displaymath}
+  \end{equation*}
   utilisée à l'exemple \ref{ex:resolution:pointfixe_1}.
   \begin{figure}[t]
     \centering
@@ -881,7 +867,7 @@ g <- function(x) x - (an(x, 10) - 8.2218)/anp(x, 10)
 lim <- c(0.0345, 0.0405)
 curve(g, xlim = lim, ylim = lim,
       lwd = 2, xlab = "i", ylab = "g(i)")
-curve(f, add=TRUE)
+curve(f, add = TRUE)
 polygon(c(0.035, 0.035, 0.04, 0.04), c(0.035, 0.04, 0.04, 0.035),
         lty = "dashed", border = "blue")
 @
@@ -896,46 +882,50 @@ polygon(c(0.035, 0.035, 0.04, 0.04), c(0.035, 0.04, 0.04, 0.035),
   \ref{sec:resolution:pointfixe}, sauf qu'on y a ajouté un argument
   pour la dérivée de la fonction $f(x)$.
 
-  Le résultat de l'application de la fonction \code{nr} est
-  le suivant:
-<<echo=TRUE>>=
+  \begin{gotoR}
+    Exécuter le code informatique de la
+    section~\ref{sec:resolution:code} correspondant à ce bloc de
+    matière pour définir la fonction \code{nr} puis résoudre cet
+    exemple. Prendre note comment l'on peut également utiliser la
+    fonction \code{pointfixe} pour obtenir le taux de rendement.
+  \end{gotoR}
+
+<<echo=FALSE>>=
 f <- function(i) (1 - (1 + i)^(-10))/i - 8.2218
 fp <- function(i) (10 * i * (1 + i)^(-11) + (1 + i)^(-10) - 1)/i^2
-nr(f, fp, start = 0.0375, echo=TRUE)
+res.nr <- nr(f, fp, 0.0375)
 @
-<<echo=FALSE>>=
-g <- function(x) (1 - (1 + x)^(-10))/8.2218
-res <- nr(f, fp, 0.0375)
-res.pf <- pointfixe(g, 0.0375)
-@
-  La méthode de Newton--Raphson ne requiert donc que \Sexpr{res$nb.iter}
+  La méthode de Newton--Raphson ne requiert donc que
+  \Sexpr{res.nr$nb.iter} %$
   itérations pour obtenir un résultat équivalent à celui obtenu par la
-  méthode du point fixe en \Sexpr{res.pf$nb.iter} itérations.
-
-  À noter que, si la fonction $g$ est définie adéquatement, on peut de
-  manière tout aussi équivalente utiliser la fonction
-  \code{pointfixe} pour effectuer les itérations de la méthode de
-  Newton--Raphson:
-<<echo=TRUE>>=
-g <- function(i) i - f(i)/fp(i)
-pointfixe(g, 0.0375)
-@
+  méthode du point fixe avec la fonction $g$ de
+  l'exemple~\ref{ex:resolution:pointfixe_1} en
+  \Sexpr{res.pf$nb.iter} %$
+  itérations. %
   \qed
 \end{exemple}
 
 \begin{exemple}
   \label{ex:resolution:newtonraphson_2}
-  On répète l'exemple \ref{ex:resolution:bissection_1} à l'aide de la
-  méthode de Newton-Raphson. On a $f(x) = x^3 + 4 x^2 - 10$ et
-  $f^\prime(x) = 3x^2 + 8 x$, d'où $f^\prime(x) \neq 0$ pour tout $x
-  \in [1, 2]$. La fonction
-  \begin{displaymath}
-    g(x) = x - \frac{f(x)}{f^\prime(x)}
-  \end{displaymath}
-  est présentée à la figure \ref{fig:resolution:newtonraphson_2}, où
-  l'on constate que la procédure itérative de Newton--Raphson
-  convergera rapidement vers une racine unique dans l'intervalle $[1,
-  2]$. En effet,
+  Revisitons l'exemple \ref{ex:resolution:bissection_1} où l'on
+  cherche la racine de la fonction $f(x) = x^3 + 4 x^2 - 10$ dans
+  l'intervalle $[1, 2]$. On a $f^\prime(x) = 3x^2 + 8 x$, d'où
+  $f^\prime(x) \neq 0$ pour tout $x \in [1, 2]$. La méthode de
+  Newton--Raphson dicte en définitive de rechercher le point fixe de
+  la fonction
+  \begin{align*}
+    g(x) &= x - \frac{f(x)}{f^\prime(x)} \\
+    &= x - \frac{x^3 + 4 x^2 - 10}{3 x^2 + 8 x}.
+  \end{align*}
+  Celle-ci est présentée à la figure
+  \ref{fig:resolution:newtonraphson_2}. On constate que la procédure
+  itérative de Newton--Raphson convergera rapidement vers une racine
+  unique dans l'intervalle $[1, 2]$. En effet:
+<<echo=TRUE>>=
+f <- function(x) x^3 + 4*x^ 2 - 10
+fp <- function(x) 3*x^2 + 8 * x
+nr(f, fp, start = 1.5)
+@
   \begin{figure}[t]
     \centering
 <<echo=FALSE, fig=TRUE>>=
@@ -945,19 +935,22 @@ f <- function(x) x^3 + 4*x^ 2 - 10
 fp <- function(x) 3*x^2 + 8 * x
 g <- function(x) x - f(x)/fp(x)
 curve(g, xlim = lim, ylim = lim, lwd = 2)
-curve(f0, add=TRUE)
+curve(f0, add = TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
         lty = "dashed", border = "blue")
 @
-    \caption{Fonction $g(x) = x - f(x)/f^\prime(x)$, où $f(x) = x^3 + 4 x^2 -
-      10$}
+    \caption{Fonction $g(x) = x - f(x)/f^\prime(x)$, où $f(x) = x^3 +
+      4 x^2 - 10$}
     \label{fig:resolution:newtonraphson_2}
   \end{figure}
-<<echo=TRUE>>=
-f <- function(x) x^3 + 4*x^ 2 - 10
-fp <- function(x) 3*x^2 + 8 * x
-nr(f, fp, start = 1.5)
-@
+
+  Le lecteur attentif aura remarqué que la fonction $g$ utilisée ici
+  était la fonction $g_5$ dans
+  l'exemple~\ref{ex:resolution:pointfixe_2}, celle pour laquelle la
+  convergence de la méthode du point fixe était la plus rapide. Mettre
+  cette constatation en relation avec la première des remarques
+  suivant l'algorithme~\ref{algo:resolution:newtonraphson}, à la
+  page~\pageref{algo:resolution:rem}. %
   \qed
 \end{exemple}
 
@@ -965,8 +958,8 @@ nr(f, fp, start = 1.5)
   \label{ex:resolution:newtonraphson_3}
   Cet exemple illustre l'importance d'utiliser, pour certaines
   fonctions, une valeur de départ près de la racine. La fonction $f(x)
-  = (4x - 7)/(x - 2)$ a une racine en $x = 1,75$. une asymptote en $x
-  = 2$, ce qui cause quelques soucis. (Voir la figure
+  = (4x - 7)/(x - 2)$ a une racine en $x = 1,75$ et une asymptote en
+  $x = 2$, ce qui cause quelques soucis. (Voir la figure
   \ref{fig:resolution:newtonraphson_3-1} pour un graphique de cette
   fonction.)
   \begin{figure}[t]
@@ -974,12 +967,14 @@ nr(f, fp, start = 1.5)
 <<echo=FALSE, fig=TRUE>>=
 f <- function(x) ifelse(x == 2, NA, (4 * x - 7)/(x - 2))
 curve(f, xlim = c(0, 5), lwd = 2)
-abline(8, -4, lty = "dotted", lwd = 2, col="gray")
+abline(8, -4, lty = "dashed", col = "blue")
 abline(h = 0)
-abline(v = 2, lty = "dashed", col="blue")
+abline(v = 2, lwd = 2, lty = "dotted", col = "darkgray")
+curve(f, xlim = c(0, 5), lwd = 2, add = TRUE)
 @
-  \caption{Fonction $f(x) = (4x - 7)/(x - 2)$ (ligne épaisse), asymptote
-    (ligne traitillée) et tangente en $x = 1,5$ (ligne pointillée)}
+  \caption{Fonction $f(x) = (4x - 7)/(x - 2)$ (ligne épaisse),
+    asymptote (ligne pointillée) et tangente en $x = 1,5$ (ligne
+    traitillée)}
   \label{fig:resolution:newtonraphson_3-1}
   \end{figure}
 
@@ -996,17 +991,21 @@ abline(v = 2, lty = "dashed", col="blue")
     &= x - \frac{f(x)}{f^\prime(x)} \\
     &= 4x^2 - 14x + 14.
   \end{align*}
-  Le graphique la fonction $g(x)$ se trouve à la figure
+  Le graphique de la fonction $g(x)$ ci-dessus se trouve à la figure
   \ref{fig:resolution:newtonraphson_3-2}. On notera toutefois que le
   point fixe en $x = 2$ n'est pas une solution acceptable dans le
   problème d'origine.
-\begin{figure}[t]
+
+  \begin{figure}[t]
     \centering
 <<echo=FALSE, fig=TRUE>>=
 f0 <- function(x) x
 g <- function(x) 4*x^2 - 14*x + 14
 lim <- c(1.5, 3)
-curve(g, xlim = lim, ylim = lim, ylab = "g(x)", lwd = 2)
+curve(g, xlim = lim, ylim = lim, lwd = 2)
+xx <- c(1.75, 2)
+segments(xx, 0, xx, g(xx), lty = 2, col = "darkgray")
+axis(1, at = 1.75)
 curve(f0, add = TRUE)
 @
     \caption{Fonction $g(x) = 4x^2 - 14x + 14$}
@@ -1019,56 +1018,63 @@ curve(f0, add = TRUE)
   rencontrées. La valeur de départ utilisée aura donc un impact sur la
   réponse obtenue.
 
-  Avec une valeur de départ $x_0 = 1,625 < 1,75$, la convergence se
-  fait vers la bonne racine:
-<<echo=TRUE>>=
-f <- function(x) ifelse(x == 2, NA, (4*x - 7)/(x - 2))
-fp <- function(x) ifelse(x == 2, NA, -1/(x - 2)^2)
-nr(f, fp, 1.625, echo=TRUE)
-g <- function(x) 4*x^2 - 14*x + 14
-pointfixe(g, 1.625)
-@
-
-  On peut vérifier à la figure
-  \ref{fig:resolution:newtonraphson_3-2} qu'avec une valeur de départ
-  entre $1,75$ et $2$, la procédure itérative convergera vers la bonne
-  réponse:
-<<echo=TRUE>>=
-pointfixe(g, 1.875, echo=TRUE)
-@
-
-  La tangente en $x = 1,5$ tracée sur le graphique de la figure
-  \ref{fig:resolution:newtonraphson_3-1} montre que $x_0 = 1,5$
-  constitue un mauvais choix car $g(1,5) = 2$. La procédure
-  itérative converge donc vers une  valeur non admissible:
-<<echo=TRUE>>=
-pointfixe(g, 1.5)
-@
-
-  Pour toute valeur de départ supérieure à $2$, la procédure
-  itérative diverge. On peut vérifier ce fait graphiquement autant à
-  la figure \ref{fig:resolution:newtonraphson_3-1} qu'à la figure
-  \ref{fig:resolution:newtonraphson_3-2}:
-\begin{Schunk}
-\begin{Sinput}
-> pointfixe(g, 3, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 3
-[1] 8
-[1] 158
-[1] 97658
-[1] 38146972658
-[1] 5.820766e+21
-[1] 1.355253e+44
-[1] 7.34684e+88
-[1] 2.159042e+178
-Erreur dans if (abs(x - xt)/abs(x) < TOL) break :
-	valeur manquante là où TRUE / FALSE est requis
-\end{Soutput}
-\end{Schunk}
+  \begin{gotoR}
+    Compléter cet exemple en exécutant le code informatique
+    correspondant à la section~\ref{sec:resolution:code}.
+  \end{gotoR}
   \qed
 \end{exemple}
+
+Le principal inconvénient de la méthode de Newton--Raphson demeure le
+fait de devoir connaître la dérivée de la fonction $f$. Dans les cas
+où celle-ci s'avère difficile et/ou inefficace à calculer, on peut
+utiliser la \emph{méthode de la sécante}. Avec cette méthode, plutôt
+que d'utiliser la tangente en un essai pour déterminer la valeur de
+l'essai suivant, on a recours à la sécante entre les deux essais
+précédents; voir la figure~\ref{fig:resolution:secante}. Les valeurs
+des essais successifs sont alors données par:
+\begin{equation*}
+  x_n = x_{n - 1} - \frac{f(x_{n - 1})(x_{n - 1} - x_{n - 2})}{%
+    f(x_{n - 1}) - f(x_{n - 2})},
+\end{equation*}
+avec $x_0$, $x_1$ des valeurs de départ.
+
+\begin{figure}
+  \centering
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) exp(2 * x) - 20
+curve(f, xlim = c(0, 2), lwd = 2)
+abline(h = 0)
+x <- numeric(7)
+x[1] <- 0
+x[2] <- 2
+for (i in 3:length(x))
+    x[i] <- x[i - 1] - (f(x[i - 1]) * (x[i - 1] - x[i - 2]))/
+    (f(x[i - 1]) - f(x[i - 2]))
+
+segments(x[(1:2)], -21, x[(1:2)], f(x[(1:2)]), lty = 2, col = "darkgray")
+segments(x[-c(1, 2)], 0, x[-c(1, 2)], f(x[-c(1, 2)]),
+         lwd = 1, lty = "dashed", col = "darkgray")
+
+for (i in 1:(length(x) - 2))
+{
+    xx <- x[i:(i + 2)]
+    fxx <- f(xx)
+    segments(xx[1], fxx[1], xx[3], 0, col = "blue")
+    arrows(xx[2], fxx[2], xx[3], 0, col = "blue", length = 0.07)
+}
+
+points(x, f(x), pch = 21, bg = "red3")
+@
+  asas
+  \caption{Illustration de la méthode de la sécante. Cette méthode
+    requiert deux essais initiaux. Dans le graphique, il s'agit, dans
+    l'ordre, du point à l'extrême gauche et celui à l'extrême droite.
+    Les flèches illustrent comment est déterminé l'essai suivant. On
+    trace la sécante entre deux points et le prochain essai est la
+    valeur en abscisse où cette sécante croise l'axe.}
+  \label{fig:resolution:secante}
+\end{figure}
 
 
 
@@ -1099,18 +1105,27 @@ d'optimisation de fonctions. Ce document passe en revue les fonctions
 disponibles dans Excel, S-Plus et R.
 
 
-\subsubsection{Excel}
+\subsection{Solveur de Excel}
 
 Le principal outil d'optimisation utilisé dans Excel est le Solveur.
 La rubrique d'aide de cet outil est complète et on trouvera plusieurs
-exemples dans le classeur
-\url{...\Microsoft Office\Office11\Samples\SOLVAMP.XLS}.
+exemples dans le classeur \code{SOLVAMP.XLS} livré avec Excel.
+
+Le reste de cette section est dévolu à des fonctions d'optimisation de
+R.
+
+\input{optimisation-fonctions}
 
 
-\subsubsection{R}
+\section{Pour en savoir plus}
+\label{optimisation:plus}
 
-Consulter le chapitre 7 de \cite{Goulet:introS:2007} pour une
-description des fonctions d'optimisation disponibles dans R.
+Les packages disponible sur CRAN fournissent plusieurs autres outils
+d'optimisation pour R. Pour un bon résumé des options disponibles,
+consulter la \emph{CRAN Task View} consacrée à l'optimisation:
+\begin{quote}
+  \url{http://cran.r-project.org/web/views/Optimization.html}
+\end{quote}
 
 
 \section{Code informatique}
@@ -1120,10 +1135,10 @@ description des fonctions d'optimisation disponibles dans R.
 
 \vfill
 
-%\input{exercices-arithmetique_ordinateurs}
-
+\input{exercices-resolution_equations}
 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "methodes_numeriques-partie_3"
+%%% coding: utf-8
 %%% End:

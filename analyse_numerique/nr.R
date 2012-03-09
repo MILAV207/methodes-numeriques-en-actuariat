@@ -1,23 +1,25 @@
 nr <- function(FUN, FUNp, start, TOL = 1E-6, MAX.ITER = 100, echo = FALSE)
 {
+    x <- start
+
     if (echo)
-        expr <- expression(print(start <- x))
+        expr <- expression(print(xt <- x))
     else
-        expr <- expression(start <- x)
+        expr <- expression(xt <- x)
 
     i <- 0
 
     repeat
     {
-        x <- start - FUN(start)/FUNp(start)
+        eval(expr)
 
-        if (abs(x - start)/abs(start) < TOL)
+        x <- xt - FUN(xt)/FUNp(xt)
+
+        if (abs(x - xt)/abs(xt) < TOL)
             break
 
         if (MAX.ITER < (i <- i + 1))
             stop('Maximum number of iterations reached without convergence')
-
-        eval(expr)
     }
     list(root = x, nb.iter = i)
 }

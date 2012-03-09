@@ -1,5 +1,5 @@
-\chapter{Résolution d'équations à une variable}
-\label{chap:resolution}
+\section{Exercices}
+\label{sec:resolution:exercices}
 
 %%%
 %%% Fichers de solutions et de réponses
@@ -24,39 +24,26 @@
 %%% Début des exercices
 %%%
 
+<<echo=FALSE>>=
+options(width = 55, digits = 5)
+@
 
 \begin{exercice}
-  Écrire des fonctions S pour effectuer les calculs des algorithmes de
-  bissection, du point fixe, de Newton--Raphson et de la sécante.
-  Outre les arguments communs à toutes les fonctions que sont le
-  niveau de tolérance $\varepsilon$, le nombre maximal d'itérations
+  En vous basant sur les fonctions \code{bissection}, \code{pointfixe}
+  et \code{nr} présentées dans le code de la
+  section~\ref{sec:resolution:code}, écrire une fonction R pour
+  effectuer les calculs de l'algorithme de la sécante. Outre les
+  arguments communs à toutes les fonctions que sont le niveau de
+  tolérance $\varepsilon$, le nombre maximal d'itérations
   $N_{\mathrm{max}}$ et une valeur booléenne spécifiant si les valeurs
-  successives des itérations doivent être affichées à l'écran, les
-  fonctions doivent compter les arguments mentionnés dans le tableau
-  ci-dessous.
-  \begin{center}
-    \begin{tabular}{ll}
-      \toprule
-      Méthode d'approximation & Arguments de la fonction S \\
-      \midrule
-      Bissection & $f(x)$, $a$, $b$ \\
-      Point fixe & $f(x)$, $x_0$ \\
-      Newton--Raphson & $f(x)$, $f^\prime(x)$, $x_0$ \\
-      Sécante & $f(x)$, $x_0$, $x_1$ \\
-      \bottomrule
-    \end{tabular}
-  \end{center}
-  \begin{sol}
-    Se baser sur la fonction de point fixe \texttt{fp} présentée au
-    chapitre 5 de \cite{Goulet_intro_S} pour composer les fonctions de
-    bissection, de Newton--Raphson et de la sécante.
-  \end{sol}
+  successives des itérations doivent être affichées à l'écran, la
+  fonction doit compter les arguments $f(x)$, $x_0$ et $x_1$.
 \end{exercice}
 
 \begin{exercice}
   \label{ex:resolution:toutes}
   Trouver la solution des équations suivantes par les méthodes de
-  bissection, de Newton-Raphson et de la sécante.
+  bissection, de Newton--Raphson et de la sécante.
   \begin{enumerate}
   \item $x^3 - 2 x^2 - 5 = 0$ pour $1 \leq x \leq 4$
   \item $x^3 + 3 x^2 - 1 = 0$ pour $-4 \leq x \leq 0$
@@ -74,406 +61,118 @@
       \centering
       \begin{minipage}{0.45\linewidth}
         \centering
-\includegraphics{resolution_equations-002}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x^3 - 2 * x^2 - 5
+curve(f, xlim = c(1, 4), lwd = 2)
+abline(h = 0)
+@
         \subcaption{$f(x) = x^3 - 2 x^2 - 5$}
       \end{minipage}
       \hfill
       \begin{minipage}{0.45\linewidth}
         \centering
-\includegraphics{resolution_equations-003}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x^3 + 3 * x^2 - 1
+curve(f, xlim = c(-4, 0), lwd = 2)
+abline(h = 0)
+@
         \subcaption{$f(x) = x^3 + 3 x^2 - 1$}
       \end{minipage} \\
       \begin{minipage}{0.45\linewidth}
         \centering
-\includegraphics{resolution_equations-004}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x - 2^(-x)
+curve(f, xlim = c(0, 1), lwd = 2)
+abline(h = 0)
+@
         \subcaption{$f(x) = x - 2^{-x}$}
       \end{minipage}
       \hfill
       \begin{minipage}{0.45\linewidth}
         \centering
-\includegraphics{resolution_equations-005}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) exp(x) + 2^(-x) + 2 * cos(x) - 6
+curve(f, xlim = c(1, 2), lwd = 2)
+abline(h = 0)
+@
         \subcaption{$f(x) = e^x + 2^{-x} + 2 \cos x - 6$}
       \end{minipage} \\
       \begin{minipage}{0.45\linewidth}
         \centering
-\includegraphics{resolution_equations-006}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) exp(x) - x^2 + 3 * x - 2
+curve(f, xlim = c(0.2, 0.3), lwd = 2)
+abline(h = 0)
+@
         \subcaption{$f(x) = e^x - x^2 + 3x - 2$}
       \end{minipage}
       \caption{Fonctions de l'exercice
         \ref{chap:resolution}.\ref{ex:resolution:toutes}.}
       \label{fig:resolution:toutes}
     \end{figure}
+<<echo=FALSE>>=
+source("bissection.R")
+source("nr.R")
+source("secante.R")
+@
     \begin{enumerate}
     \item La fonction n'a qu'une seule racine dans $[1, 4]$.
-\begin{Schunk}
-\begin{Sinput}
-> f1 <- function(x) x^3 - 2 * x^2 - 5
-> f1p <- function(x) 3 * x^2 - 4 * x
-> bissection(f1, lower = 1, upper = 4, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1]  1.000  4.000  2.500 -1.875
-[1] 2.5000 4.0000 3.2500 8.2031
-[1] 2.5000 3.2500 2.8750 2.2324
-[1]  2.500000  2.875000  2.687500 -0.034424
-[1] 2.6875 2.8750 2.7812 1.0432
-[1] 2.68750 2.78125 2.73438 0.49078
-[1] 2.68750 2.73438 2.71094 0.22481
-[1] 2.687500 2.710938 2.699219 0.094355
-[1] 2.687500 2.699219 2.693359 0.029757
-[1]  2.6875000  2.6933594  2.6904297 -0.0023855
-[1] 2.690430 2.693359 2.691895 0.013673
-[1] 2.6904297 2.6918945 2.6911621 0.0056403
-[1] 2.6904297 2.6911621 2.6907959 0.0016266
-[1]  2.69042969  2.69079590  2.69061279 -0.00037968
-[1] 2.6906128 2.6907959 2.6907043 0.0006234
-[1] 2.69061279 2.69070435 2.69065857 0.00012185
-[1]  2.69061279  2.69065857  2.69063568 -0.00012892
-[1]  2.6906e+00  2.6907e+00  2.6906e+00 -3.5365e-06
-[1] 2.6906e+00 2.6907e+00 2.6907e+00 5.9155e-05
-[1] 2.6906e+00 2.6907e+00 2.6906e+00 2.7809e-05
-[1] 2.6906e+00 2.6906e+00 2.6906e+00 1.2136e-05
-$root
-[1] 2.6906
-
-$nb.iter
-[1] 21
-\end{Soutput}
-\begin{Sinput}
-> nr(f1, f1p, start = 2.5, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 2.7143
-[1] 2.691
-[1] 2.6906
-$root
-[1] 2.6906
-
-$nb.iter
-[1] 3
-\end{Soutput}
-\begin{Sinput}
-> secante(f1, start0 = 1, start1 = 4, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 1.5455
-[1] 1.9969
-[1] 4.1051
-[1] 2.2947
-[1] 2.4787
-[1] 2.7514
-[1] 2.6831
-[1] 2.6904
-[1] 2.6906
-$root
-[1] 2.6906
-
-$nb.iter
-[1] 9
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+f1 <- function(x) x^3 - 2 * x^2 - 5
+f1p <- function(x) 3 * x^2 - 4 * x
+bissection(f1, lower = 1, upper = 4, echo = TRUE)
+nr(f1, f1p, start = 2.5, echo = TRUE)
+secante(f1, start0 = 1, start1 = 4, echo = TRUE)
+@
     \item La fonction possède deux racines dans $[-4, 0]$. La
       convergence se fera vers l'une ou l'autre selon la position
       de la ou des valeurs de départ par rapport à l'extremum de la
       fonction dans l'intervalle. Ici, il s'agit d'un maximum $x =
       -2$. Ainsi, avec des valeurs de départ inférieures au maximum,
       on trouve la première racine:
-\begin{Schunk}
-\begin{Sinput}
-> f2 <- function(x) x^3 + 3 * x^2 - 1
-> f2p <- function(x) 3 * x^2 + 6 * x
-> bissection(f2, lower = -3, upper = -2.8, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] -3.000 -2.800 -2.900 -0.159
-[1] -2.90000 -2.80000 -2.85000  0.21838
-[1] -2.900000 -2.850000 -2.875000  0.033203
-[1] -2.900000 -2.875000 -2.887500 -0.062014
-[1] -2.887500 -2.875000 -2.881250 -0.014185
-[1] -2.8812500 -2.8750000 -2.8781250  0.0095642
-[1] -2.8812500 -2.8781250 -2.8796875 -0.0022966
-[1] -2.8796875 -2.8781250 -2.8789062  0.0036373
-[1] -2.87968750 -2.87890625 -2.87929688  0.00067121
-[1] -2.87968750 -2.87929688 -2.87949219 -0.00081245
-[1] -2.8795e+00 -2.8793e+00 -2.8794e+00 -7.0567e-05
-[1] -2.87939453 -2.87929688 -2.87934570  0.00030034
-[1] -2.87939453 -2.87934570 -2.87937012  0.00011489
-[1] -2.8794e+00 -2.8794e+00 -2.8794e+00  2.2161e-05
-[1] -2.8794e+00 -2.8794e+00 -2.8794e+00 -2.4203e-05
-[1] -2.8794e+00 -2.8794e+00 -2.8794e+00 -1.0210e-06
-[1] -2.87938538 -2.87938232 -2.87938385  0.00001057
-$root
-[1] -2.8794
-
-$nb.iter
-[1] 17
-\end{Soutput}
-\begin{Sinput}
-> nr(f2, f2p, start = -3, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] -2.8889
-[1] -2.8795
-[1] -2.8794
-$root
-[1] -2.8794
-
-$nb.iter
-[1] 3
-\end{Soutput}
-\begin{Sinput}
-> secante(f2, start0 = -3, start1 = -2, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] -2.75
-[1] -3.0667
-[1] -2.862
-[1] -2.8772
-[1] -2.8794
-[1] -2.8794
-$root
-[1] -2.8794
-
-$nb.iter
-[1] 6
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+f2 <- function(x) x^3 + 3 * x^2 - 1
+f2p <- function(x) 3 * x^2 + 6 * x
+bissection(f2, lower = -3, upper = -2.8, echo = TRUE)
+nr(f2, f2p, start = -3, echo = TRUE)
+secante(f2, start0 = -3, start1 = -2, echo = TRUE)
+@
       Pour trouver la seconde racine, on utilise des valeurs de départ
       supérieures au maximum:
-\begin{Schunk}
-\begin{Sinput}
-> bissection(f2, lower = -1, upper = 0.5, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] -1.00000  0.50000 -0.25000 -0.82812
-[1] -1.000000 -0.250000 -0.625000 -0.072266
-[1] -1.00000 -0.62500 -0.81250  0.44409
-[1] -0.81250 -0.62500 -0.71875  0.17850
-[1] -0.718750 -0.625000 -0.671875  0.050953
-[1] -0.671875 -0.625000 -0.648438 -0.011236
-[1] -0.671875 -0.648438 -0.660156  0.019719
-[1] -0.6601562 -0.6484375 -0.6542969  0.0042058
-[1] -0.6542969 -0.6484375 -0.6513672 -0.0035239
-[1] -0.65429688 -0.65136719 -0.65283203  0.00033872
-[1] -0.6528320 -0.6513672 -0.6520996 -0.0015932
-[1] -0.65283203 -0.65209961 -0.65246582 -0.00062736
-[1] -0.65283203 -0.65246582 -0.65264893 -0.00014435
-[1] -6.5283e-01 -6.5265e-01 -6.5274e-01  9.7175e-05
-[1] -6.5274e-01 -6.5265e-01 -6.5269e-01 -2.3592e-05
-[1] -6.5274e-01 -6.5269e-01 -6.5272e-01  3.6791e-05
-[1] -6.5272e-01 -6.5269e-01 -6.5271e-01  6.5995e-06
-[1] -6.5271e-01 -6.5269e-01 -6.5270e-01 -8.4961e-06
-[1] -6.5271e-01 -6.5270e-01 -6.5270e-01 -9.4828e-07
-[1] -6.5271e-01 -6.5270e-01 -6.5270e-01  2.8256e-06
-[1] -6.5270e-01 -6.5270e-01 -6.5270e-01  9.3867e-07
-[1] -6.527e-01 -6.527e-01 -6.527e-01 -4.804e-09
-$root
-[1] -0.6527
-
-$nb.iter
-[1] 22
-\end{Soutput}
-\begin{Sinput}
-> nr(f2, f2p, start = -1, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] -0.66667
-[1] -0.65278
-[1] -0.6527
-$root
-[1] -0.6527
-
-$nb.iter
-[1] 3
-\end{Soutput}
-\begin{Sinput}
-> secante(f2, start0 = -2, start1 = -1, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] -0.5
-[1] -0.63636
-[1] -0.65394
-[1] -0.6527
-[1] -0.6527
-$root
-[1] -0.6527
-
-$nb.iter
-[1] 5
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+bissection(f2, lower = -1, upper = 0.5, echo = TRUE)
+nr(f2, f2p, start = -1, echo = TRUE)
+secante(f2, start0 = -2, start1 = -1, echo = TRUE)
+@
       On remarquera que les deux valeurs de départ de la méthode de la
       sécante n'ont pas à se trouver de part et d'autre de la racine.
     \item La fonction n'a qu'une seule racine dans $[0, 1]$ et elle
       est légèrement supérieure à $0,6$.
-\begin{Schunk}
-\begin{Sinput}
-> f3 <- function(x) x - 2^(-x)
-> f3p <- function(x) 1 + log(2) * 2^(-x)
-> bissection(f3, lower = 0.6, upper = 0.65, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1]  0.60000  0.65000  0.62500 -0.02342
-[1]  0.6250000  0.6500000  0.6375000 -0.0053259
-[1] 0.6375000 0.6500000 0.6437500 0.0037029
-[1]  0.63750000  0.64375000  0.64062500 -0.00081001
-[1] 0.6406250 0.6437500 0.6421875 0.0014468
-[1] 0.6406250 0.6421875 0.6414062 0.0003185
-[1]  0.64062500  0.64140625  0.64101562 -0.00024573
-[1] 0.64101562 0.64140625 0.64121094 0.00003639
-[1]  0.64101562  0.64121094  0.64111328 -0.00010467
-[1]  0.64111328  0.64121094  0.64116211 -0.00003414
-[1] 6.4116e-01 6.4121e-01 6.4119e-01 1.1251e-06
-[1]  6.4116e-01  6.4119e-01  6.4117e-01 -1.6507e-05
-[1]  6.4117e-01  6.4119e-01  6.4118e-01 -7.6910e-06
-[1]  6.4118e-01  6.4119e-01  6.4118e-01 -3.2830e-06
-[1]  6.4118e-01  6.4119e-01  6.4118e-01 -1.0789e-06
-[1] 6.4118e-01 6.4119e-01 6.4119e-01 2.3101e-08
-[1]  6.4118e-01  6.4119e-01  6.4119e-01 -5.2791e-07
-$root
-[1] 0.64119
-
-$nb.iter
-[1] 17
-\end{Soutput}
-\begin{Sinput}
-> nr(f3, f3p, start = 0.6, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 0.641
-[1] 0.64119
-$root
-[1] 0.64119
-
-$nb.iter
-[1] 2
-\end{Soutput}
-\begin{Sinput}
-> secante(f3, start0 = 0.6, start1 = 0.65, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 0.64122
-[1] 0.64119
-$root
-[1] 0.64119
-
-$nb.iter
-[1] 2
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+f3 <- function(x) x - 2^(-x)
+f3p <- function(x) 1 + log(2) * 2^(-x)
+bissection(f3, lower = 0.6, upper = 0.65, echo = TRUE)
+nr(f3, f3p, start = 0.6, echo = TRUE)
+secante(f3, start0 = 0.6, start1 = 0.65, echo = TRUE)
+@
     \item La fonction n'a qu'une seule racine dans $[1, 2]$ et elle
       est légèrement supérieure à $1,8$.
-\begin{Schunk}
-\begin{Sinput}
-> f4 <- function(x) exp(x) + 2^(-x) + 2 * cos(x) - 6
-> f4p <- function(x) exp(x) - 2^(-x) * log(2) - 2 * sin(x)
-> bissection(f4, lower = 1.8, upper = 1.85, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1]  1.800000  1.850000  1.825000 -0.017913
-[1] 1.825000 1.850000 1.837500 0.033517
-[1] 1.825000 1.837500 1.831250 0.007667
-[1]  1.8250000  1.8312500  1.8281250 -0.0051567
-[1] 1.8281250 1.8312500 1.8296875 0.0012468
-[1]  1.8281250  1.8296875  1.8289063 -0.0019571
-[1]  1.82890625  1.82968750  1.82929688 -0.00035568
-[1] 1.8292969 1.8296875 1.8294922 0.0004454
-[1] 1.8293e+00 1.8295e+00 1.8294e+00 4.4827e-05
-[1]  1.82929688  1.82939453  1.82934570 -0.00015544
-[1]  1.8293e+00  1.8294e+00  1.8294e+00 -5.5307e-05
-[1]  1.8294e+00  1.8294e+00  1.8294e+00 -5.2405e-06
-[1] 1.8294e+00 1.8294e+00 1.8294e+00 1.9793e-05
-[1] 1.8294e+00 1.8294e+00 1.8294e+00 7.2762e-06
-[1] 1.8294e+00 1.8294e+00 1.8294e+00 1.0178e-06
-$root
-[1] 1.8294
-
-$nb.iter
-[1] 15
-\end{Soutput}
-\begin{Sinput}
-> nr(f4, f4p, start = 1.8, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 1.8301
-[1] 1.8294
-$root
-[1] 1.8294
-
-$nb.iter
-[1] 2
-\end{Soutput}
-\begin{Sinput}
-> secante(f4, start0 = 1.8, start1 = 1.85, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 1.8289
-[1] 1.8294
-[1] 1.8294
-$root
-[1] 1.8294
-
-$nb.iter
-[1] 3
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+f4 <- function(x) exp(x) + 2^(-x) + 2 * cos(x) - 6
+f4p <- function(x) exp(x) - 2^(-x) * log(2) - 2 * sin(x)
+bissection(f4, lower = 1.8, upper = 1.85, echo = TRUE)
+nr(f4, f4p, start = 1.8, echo = TRUE)
+secante(f4, start0 = 1.8, start1 = 1.85, echo = TRUE)
+@
     \item Encore ici, la fonction n'a qu'une seule racine dans
       l'intervalle mentionné et elle se situe autour de $0,25$.
-\begin{Schunk}
-\begin{Sinput}
-> f5 <- function(x) exp(x) - x^2 + 3 * x - 2
-> f5p <- function(x) exp(x) - 2 * x + 3
-> bissection(f5, lower = 0.24, upper = 0.26, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1]  0.240000  0.260000  0.250000 -0.028475
-[1]  0.2500000  0.2600000  0.2550000 -0.0095634
-[1]  0.25500000  0.26000000  0.25750000 -0.00011444
-[1] 0.2575000 0.2600000 0.2587500 0.0046084
-[1] 0.2575000 0.2587500 0.2581250 0.0022471
-[1] 0.2575000 0.2581250 0.2578125 0.0010664
-[1] 0.25750000 0.25781250 0.25765625 0.00047597
-[1] 0.25750000 0.25765625 0.25757812 0.00018077
-[1] 2.5750e-01 2.5758e-01 2.5754e-01 3.3166e-05
-[1]  2.5750e-01  2.5754e-01  2.5752e-01 -4.0637e-05
-[1]  2.5752e-01  2.5754e-01  2.5753e-01 -3.7355e-06
-[1] 2.5753e-01 2.5754e-01 2.5753e-01 1.4715e-05
-[1] 2.5753e-01 2.5753e-01 2.5753e-01 5.4898e-06
-[1] 2.5753e-01 2.5753e-01 2.5753e-01 8.7717e-07
-[1]  2.5753e-01  2.5753e-01  2.5753e-01 -1.4291e-06
-[1]  2.5753e-01  2.5753e-01  2.5753e-01 -2.7598e-07
-[1] 2.5753e-01 2.5753e-01 2.5753e-01 3.0059e-07
-$root
-[1] 0.25753
-
-$nb.iter
-[1] 17
-\end{Soutput}
-\begin{Sinput}
-> nr(f5, f5p, start = 0.26, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 0.25753
-[1] 0.25753
-$root
-[1] 0.25753
-
-$nb.iter
-[1] 2
-\end{Soutput}
-\begin{Sinput}
-> secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
-\end{Sinput}
-\begin{Soutput}
-[1] 0.25753
-[1] 0.25753
-$root
-[1] 0.25753
-
-$nb.iter
-[1] 2
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+f5 <- function(x) exp(x) - x^2 + 3 * x - 2
+f5p <- function(x) exp(x) - 2 * x + 3
+bissection(f5, lower = 0.24, upper = 0.26, echo = TRUE)
+nr(f5, f5p, start = 0.26, echo = TRUE)
+secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
+@
     \end{enumerate}
   \end{sol}
 \end{exercice}
@@ -549,15 +248,13 @@ $nb.iter
   \end{sol}
 \end{exercice}
 
-\newpage
-
 \begin{exercice}
   Considérer la fonction $g(x) = 3^{-x}$ sur l'intervalle $[0,
   1]$.
   \begin{enumerate}
-  \item Vérifier si les hypothèses du théorème 5.1 des notes de cours
-    quant à l'existence et l'unicité d'un point fixe dans $[0, 1]$
-    sont satisfaites.
+  \item Vérifier si les hypothèses du
+    théorème~\ref{thm:resolution:pointfixe} quant à l'existence et
+    l'unicité d'un point fixe dans $[0, 1]$ sont satisfaites.
   \item Déterminer graphiquement l'existence et l'unicité d'un point
     fixe de $g(x)$ dans $[0, 1]$ puis, le cas échéant, calculer ce
     point fixe.
@@ -572,62 +269,35 @@ $nb.iter
         |g^\prime(x)| = \frac{\ln 3}{3^{x + 1}} \leq \ln 3 < 1, \quad
         0 \leq x \leq 1.
       \end{displaymath}
-      Par le théorème 5.1 des notes de cours, la fonction $g$ possède
-      un point fixe unique dans l'intervalle $[0, 1]$.
+      Par le théorème~\ref{thm:resolution:pointfixe}, la fonction $g$
+      possède un point fixe unique dans l'intervalle $[0, 1]$.
     \item Le graphique de la fonction $g$ se trouve à la figure
       \ref{fig:resolution:3^-x}. On constate que la fonction a effectivement un
       point fixe unique dans l'intervalle $[0, 1]$ et que celui-ci se
       trouve près de $x = \frac{1}{2}$. On peut donc utiliser cette
       valeur comme point de départ de l'algorithme du point fixe:
-\begin{Schunk}
-\begin{Sinput}
-> pointfixe(function(x) 3^(-x), start = 0.5)
-\end{Sinput}
-\begin{Soutput}
-$fixed.point
-[1] 0.54781
-
-$nb.iter
-[1] 24
-\end{Soutput}
-\end{Schunk}
+<<echo=FALSE>>=
+source("pointfixe.R")
+@
+<<echo=TRUE>>=
+pointfixe(function(x) 3^(-x), start = 0.5)
+@
       On remarque que la réponse est indépendante de la valeur de
       départ:
-\begin{Schunk}
-\begin{Sinput}
-> pointfixe(function(x) 3^(-x), start = 0)
-\end{Sinput}
-\begin{Soutput}
-$fixed.point
-[1] 0.54781
-
-$nb.iter
-[1] 29
-\end{Soutput}
-\begin{Sinput}
-> pointfixe(function(x) 3^(-x), start = 1)
-\end{Sinput}
-\begin{Soutput}
-$fixed.point
-[1] 0.54781
-
-$nb.iter
-[1] 28
-\end{Soutput}
-\begin{Sinput}
-> pointfixe(function(x) 3^(-x), start = 2)
-\end{Sinput}
-\begin{Soutput}
-$fixed.point
-[1] 0.54781
-
-$nb.iter
-[1] 29
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+pointfixe(function(x) 3^(-x), start = 0)
+pointfixe(function(x) 3^(-x), start = 1)
+pointfixe(function(x) 3^(-x), start = 2)
+@
       \begin{figure}
         \centering
-\includegraphics{resolution_equations-017}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x
+g <- function(x) 3^(-x)
+curve(g, xlim = c(-0.05, 1.05), ylim = c(-0.05, 1.05), lwd = 2)
+curve(f, add = TRUE)
+polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
+@
         \caption{Fonction $g(x) = 3^{-x}$ dans $[0, 1]$.}
         \label{fig:resolution:3^-x}
       \end{figure}
@@ -636,9 +306,9 @@ $nb.iter
 \end{exercice}
 
 \begin{exercice}
-  Vérifier que les cinq fonctions $g_1, \dots, g_5$ de l'exemple 5.4
-  des notes de cours ont toutes un point fixe en $x^*$ lorsque $f(x^*)
-  = 0$, où $f(x) = x^3 + 4x^2 - 10$.
+  Vérifier que les cinq fonctions $g_1, \dots, g_5$ de
+  l'exemple~\ref{ex:resolution:pointfixe_2} ont toutes un point fixe
+  en $x^*$ lorsque $f(x^*) = 0$, où $f(x) = x^3 + 4x^2 - 10$.
   \begin{sol}
     Les cinq fonctions sont les suivantes:
     \begin{align*}
@@ -710,19 +380,37 @@ $nb.iter
       \centering
       \begin{minipage}[t]{0.32\linewidth}
         \centering
-\includegraphics{resolution_equations-018}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x
+g <- function(x) (20 * x + 21 / x^2)/21
+curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
+curve(f, add = TRUE)
+polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
+@
         \subcaption{\itshape Fonction $g_1(x)$}
       \end{minipage}
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
         \centering
-\includegraphics{resolution_equations-019}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x
+g <- function(x) x - (x^3 - 21)/(3 * x^2)
+curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
+curve(f, add = TRUE)
+polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
+@
         \subcaption{\itshape Fonction $g_2(x)$}
       \end{minipage}
       \hfill
       \begin{minipage}[t]{0.32\linewidth}
         \centering
-\includegraphics{resolution_equations-020}
+<<echo=FALSE, fig=TRUE>>=
+f <- function(x) x
+g <- function(x) x - (x^4 - 21 * x)/(x^2 - 21)
+curve(g, xlim = c(2.45, 3.05), ylim = c(2.45, 3.05), lwd = 2)
+curve(f, add = TRUE)
+polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
+@
         \subcaption{\itshape Fonction $g_3(x)$}
       \end{minipage}
       \caption{Fonctions de l'exercice
@@ -753,10 +441,10 @@ $nb.iter
 \end{exercice}
 
 \begin{exercice}
-  Démontrer, à l'aide du théorème 5.1 des notes de cours, que la
-  fonction $g(x) = 2^{-x}$ possède un point fixe unique dans
-  l'intervalle $[\frac{1}{3}, 1]$. Calculer par la suite ce point fixe
-  à l'aide de votre fonction S.
+  Démontrer, à l'aide du théorème du point fixe, que la fonction $g(x)
+  = 2^{-x}$ possède un point fixe unique dans l'intervalle
+  $[\frac{1}{3}, 1]$. Calculer par la suite ce point fixe à l'aide de
+  la fonction \code{pointfixe}.
   \begin{sol}
     On considère la fonction $g(x) = 2^{-x}$ dans l'intervalle
     $[\frac{1}{3}, 1]$. En premier lieu, on a $g(x) \in [\frac{1}{2},
@@ -766,40 +454,32 @@ $nb.iter
       |g^\prime(x)| = \frac{\ln 2}{2^{x + 1}} \leq \ln 2 < 1, \quad
       \frac{1}{3} \leq x \leq 1.
     \end{displaymath}
-    Par le théorème 5.1 des notes de cours, la fonction $g$ possède
-    donc un point fixe unique dans l'intervalle $[\frac{1}{3}, 1]$. La
-    valeur de ce point fixe est
-\begin{Schunk}
-\begin{Sinput}
-> pointfixe(function(x) 2^(-x), start = 2/3)
-\end{Sinput}
-\begin{Soutput}
-$fixed.point
-[1] 0.64119
-
-$nb.iter
-[1] 14
-\end{Soutput}
-\end{Schunk}
+    Par le théorème du point fixe, la fonction $g$ possède donc un
+    point fixe unique dans l'intervalle $[\frac{1}{3}, 1]$. La valeur
+    de ce point fixe est
+<<echo=TRUE>>=
+pointfixe(function(x) 2^(-x), start = 2/3)
+@
   \end{sol}
 \end{exercice}
 
 \begin{exercice}
-  Vérifier graphiquement que le théorème 5.1 des notes de cours
+  Vérifier graphiquement que le théorème~\ref{thm:resolution:pointfixe}
   demeure valide si la condition $|g^\prime(x)| \leq k < 1$ est
   remplacée par $g^\prime(x) \leq k < 1$.
   \begin{sol}
-    La condition $|g^\prime(x)| \leq k < 1$ du théorème 5.1 assure
-    l'unicité d'un point fixe. Cette condition est nécessaire pour que
-    la fonction $g(x)$ ne puisse repasser au-dessus de la droite $y =
-    x$ après l'avoir déjà croisée une première fois pour créer un
-    point fixe. Or, il est seulement nécessaire de limiter la
-    croissance de la fonction --- soit les valeurs positives de sa
-    pente. Peu importe la vitesse de décroissance de la fonction dans
-    l'intervalle $[a, b]$ (mais toujours sujet à ce que $g(x) \in [a,
-    b]$), la fonction ne peut croiser la droite $y = x$ qu'une seule
-    fois. La condition $g^\prime(x) \leq k < 1$ est donc suffisante
-    pour assurer l'unicité du point fixe dans $[a, b]$.
+    La condition $|g^\prime(x)| \leq k < 1$ du
+    théorème~\ref{thm:resolution:pointfixe} assure l'unicité d'un
+    point fixe. Cette condition est nécessaire pour que la fonction
+    $g(x)$ ne puisse repasser au-dessus de la droite $y = x$ après
+    l'avoir déjà croisée une première fois pour créer un point fixe.
+    Or, il est seulement nécessaire de limiter la croissance de la
+    fonction --- soit les valeurs positives de sa pente. Peu importe
+    la vitesse de décroissance de la fonction dans l'intervalle $[a,
+    b]$ (mais toujours sujet à ce que $g(x) \in [a, b]$), la fonction
+    ne peut croiser la droite $y = x$ qu'une seule fois. La condition
+    $g^\prime(x) \leq k < 1$ est donc suffisante pour assurer
+    l'unicité du point fixe dans $[a, b]$.
   \end{sol}
 \end{exercice}
 
@@ -824,7 +504,7 @@ $nb.iter
     \begin{displaymath}
       \frac{d}{dx} d^2(x) = f(x) = 4x^3 + 2x - 2 = 0
     \end{displaymath}
-    à l'aide de la méthode de Newton-Raphson. Cela requiert également
+    à l'aide de la méthode de Newton--Raphson. Cela requiert également
     \begin{displaymath}
       f^\prime(x) = 12 x^2 + 2.
     \end{displaymath}
@@ -835,28 +515,24 @@ $nb.iter
           1}^2 + 2}, \quad n = 1, 2, \dots,
     \end{displaymath}
     avec $x_0$ une valeur de départ «près» de la solution. On obtient
-\begin{Schunk}
-\begin{Sinput}
-> nr(function(x) 4 * x^3 + 2 * x - 2, function(x) 12 * x^2 + 2, start = 0.6)
-\end{Sinput}
-\begin{Soutput}
-$root
-[1] 0.58975
-
-$nb.iter
-[1] 2
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+nr(function(x) 4 * x^3 + 2 * x - 2, function(x) 12 * x^2 + 2, start = 0.6)
+@
 
     On voit à la figure \ref{fig:resolution:proche} que la solution, disons le
     point $(x^*, (x^*)^2)$, est la projection du point $(1, 0)$ sur la
     courbe $y = x^2$; autrement dit, la droite passant par $(x^*,
-    (x^*)^2)$ et $(1, 0)$ est perpenticulaire à la tangente de $y =
+    (x^*)^2)$ et $(1, 0)$ est perpendiculaire à la tangente de $y =
     x^2$ en $x = x^*$.
     \begin{figure}
       \centering
-\includegraphics{resolution_equations-023}
-      \caption{Point de $y = x^2$ le plus près du point $(1, 0)$.}
+<<echo=FALSE, fig=TRUE>>=
+xp <- nr(function(x) 4 * x^3 + 2 * x - 2, function(x) 12 * x^2 + 2, start = 0.6)$root
+curve(x^2, xlim = c(0, 1), lwd = 2)
+segments(xp, xp^2, 1, 0)
+points(c(1, xp), c(0, xp^2), pch = 19)
+@
+      \caption{Point de $y = x^2$ le plus près du point $(1, 0)$}
       \label{fig:resolution:proche}
     \end{figure}
   \end{sol}
@@ -872,11 +548,11 @@ $nb.iter
   \begin{displaymath}
     \sum_{t=0}^{n} \frac{\mathit{CF}_{t}}{(1 + i)^{t}} = 0.
   \end{displaymath}
-  Écrire une fonction S permettant de calculer le taux de rendement
+  Écrire une fonction R permettant de calculer le taux de rendement
   interne d'une série de flux financiers quelconque à l'aide de la
   méthode de Newton--Raphson. Les arguments de la fonction sont un
-  vecteur \texttt{CF} et un scalaire \texttt{erreur.max}. Au moins un
-  élément de \texttt{CF} doit être négatif pour représenter une sortie
+  vecteur \code{CF} et un scalaire \code{erreur.max}. Au moins un
+  élément de \code{CF} doit être négatif pour représenter une sortie
   de fonds. Dans tous les cas, utiliser $i = 0,05$ comme valeur de
   départ.
   \begin{sol}
@@ -889,9 +565,9 @@ $nb.iter
       f^\prime(i)
       &= - \sum_{t=0}^{n} \frac{t \mathit{CF}_{t}}{(1 + i)^{t + 1}}.
     \end{align*}
-    La fonction \texttt{tri} de la figure \ref{fig:resolution:tri} calcule le
+    La fonction \code{tri} de la figure~\ref{fig:resolution:tri} calcule le
     taux de rendement interne d'un vecteur de flux financiers en
-    utilisant notre fonction de Newton--Raphson \texttt{nr}.
+    utilisant la fonction de Newton--Raphson \code{nr}.
     \begin{figure}
       \centering
       \begin{framed}
@@ -909,28 +585,28 @@ tri <- function(CF, erreur.max = 1E-6)
 
     nr(f, fp, start = 0.05, TOL = erreur.max)$root
 }
-\end{Scode}
+\end{Scode} %$
       \end{framed}
-      \caption{Fonction S de calcul du taux de rendement interne d'une
-        série de flux financiers.}
+      \caption{Fonction R de calcul du taux de rendement interne d'une
+        série de flux financiers}
       \label{fig:resolution:tri}
     \end{figure}
   \end{sol}
 \end{exercice}
 
 \begin{exercice}
-  Refaire l'exercice \ref{chap:resolution}.\ref{ex:resolution:tri} en VBA en composant une fonction
-  accessible dans une feuille Excel et comparer le résultat avec la
-  fonction Excel \texttt{TRI()}.
+  Refaire l'exercice \ref{chap:resolution}.\ref{ex:resolution:tri} en
+  VBA en composant une fonction accessible dans une feuille Excel et
+  comparer le résultat avec la fonction Excel \code{TRI()}.
   \begin{sol}
     La figure \ref{fig:resolution:tri2} contient le code d'une fonction VBA
-    \texttt{tri2} effectuant le calcul du taux de rendement interne
+    \code{tri2} effectuant le calcul du taux de rendement interne
     d'un ensemble de flux financiers. Ceux-ci sont passés en argument
     à la fonction par le bais d'une plage horizontale ou verticale de
     montants périodiques consécutifs. La procédure de Newton--Raphson
     est codée à même cette fonction. On peut vérifier facilement que
     le résultat de cette fonction est identique à celui de la fonction
-    Excel \texttt{TRI()}.
+    Excel \code{TRI()}.
     \begin{figure}
       \centering
       \begin{framed}
@@ -971,7 +647,7 @@ End Function
 \end{Scode}
       \end{framed}
       \caption{Fonction VBA de calcul du taux de rendement interne d'une
-        série de flux financiers.}
+        série de flux financiers}
       \label{fig:resolution:tri2}
     \end{figure}
   \end{sol}
@@ -980,7 +656,7 @@ End Function
 \begin{exercice}
   \label{ex:resolution:gamma}
   \begin{enumerate}
-  \item Écrire une fonction S pour estimer par la méthode du maximum
+  \item Écrire une fonction R pour estimer par la méthode du maximum
     de vraisemblance le paramètre $\theta$ d'une loi gamma de
     paramètre de forme $\alpha = 3$ et de paramètre d'échelle $\theta
     = 1/\lambda$ --- de moyenne $3 \theta$, donc --- à partir d'un
@@ -1024,9 +700,9 @@ End Function
         l^{\prime\prime}(\theta) = - \frac{2}{\theta^3} \sum_{i =
           1}^n x_i + \frac{3n}{\theta^2}.
       \end{displaymath}
-      La figure \ref{fig:resolution:emv.gamma} présente une fonction S pour
+      La figure \ref{fig:resolution:emv.gamma} présente une fonction R pour
       effectuer le calcul à l'aide de notre fonction de
-      Newton--Raphson \texttt{nr}.  On remarquera que la somme des
+      Newton--Raphson \code{nr}.  On remarquera que la somme des
       valeurs de l'échantillon --- qui ne change pas durant la
       procédure itérative --- est calculée une fois pour toute dès le
       début de la fonction.  De plus, on utilise comme valeur de
@@ -1047,20 +723,27 @@ emv.gamma <- function(x, erreur.max = 1E-6)
 }
 \end{Scode}
         \end{framed}
-        \caption{Fonction S d'estimation du paramètre d'échelle d'une
-          loi gamma par le maximum de vraisemblance.}
+        \caption{Fonction R d'estimation du paramètre d'échelle d'une
+          loi gamma par le maximum de vraisemblance}
         \label{fig:resolution:emv.gamma}
       \end{figure}
     \item On a, par exemple,
-\begin{Schunk}
-\begin{Sinput}
-> x <- rgamma(20, shape = 3, scale = 1000)
-> emv.gamma(x)
-\end{Sinput}
-\begin{Soutput}
-[1] 952.32
-\end{Soutput}
-\end{Schunk}
+<<echo=FALSE>>=
+emv.gamma <- function(x, erreur.max = 1E-6)
+{
+    n <- length(x)
+    xsum <- sum(x)
+    f <- function(theta) xsum/theta^2 -
+         (3 * n)/theta
+    fp <- function(theta) -2 * xsum / theta^3 +
+          (3 * n)/theta^2
+    nr(f, fp, mean(x)/3, TOL = erreur.max)$root
+}
+@
+<<echo=TRUE>>=
+x <- rgamma(20, shape = 3, scale = 1000)
+emv.gamma(x)
+@
     \end{enumerate}
   \end{sol}
 \end{exercice}
@@ -1071,7 +754,7 @@ emv.gamma <- function(x, erreur.max = 1E-6)
   à l'aide du Solveur de Excel.
   \begin{sol}
     La figure \ref{fig:resolution:emvGamma} présente le code VBA d'une fonction
-    \texttt{emvGamma} très similaire à la fonction S de l'exercice
+    \code{emvGamma} très similaire à la fonction R de l'exercice
     précédent. Pour l'utiliser dans Excel, il suffit de lui passer en
     argument une plage (verticale) contenant un échantillon aléatoire
     d'une loi Gamma$(3, 1/\theta)$.
@@ -1100,7 +783,7 @@ End Function
 \end{Scode}
       \end{framed}
       \caption{Fonction VBA d'estimation du paramètre d'échelle d'une
-        loi gamma par le maximum de vraisemblance.}
+        loi gamma par le maximum de vraisemblance}
       \label{fig:resolution:emvGamma}
     \end{figure}
   \end{sol}
@@ -1118,13 +801,6 @@ End Function
     \left( 1 + \frac{i^{(12)}}{12} \right)^{12} = 1 + i.
   \end{displaymath}
   Comparer les résultats obtenus avec la méthode de Newton--Raphson.
-%   \emph{Astuce}: Si vous avez une calculatrice TI-30XII, chacune des
-%   itérations d'une méthode du type $x_{n} = g(x_{n-1})$ (point fixe,
-%   Newton--Raphson, etc.) peut être exécutée en appuyant sur
-%   \texttt{=}.  Il suffit de saisir la valeur de départ et d'appuyer
-%   sur \texttt{=}. Ensuite, il faut saisir l'équation où $x$ devient
-%   \texttt{Ans}. Chaque pression sur \texttt{=} exécutera ainsi une
-%   itération de l'algorithme.
   \begin{sol}
     On cherche à résoudre l'équation
     \begin{displaymath}
@@ -1166,56 +842,141 @@ End Function
     \begin{figure}
       \begin{minipage}{0.32\linewidth}
         \centering
-\includegraphics{resolution_equations-026}
+<<echo=FALSE, fig=TRUE>>=
+f0 <- function(x) x
+f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
+curve(x - f(x), xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
+      xlab = "i", ylab = "g(i)", lwd = 2)
+curve(f0, add = TRUE)
+polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
+@
         \subcaption{Fonction $g_1(x)$ \label{fig:resolution:a_angle:g1}}
       \end{minipage}
       \hfill
       \begin{minipage}{0.32\linewidth}
         \centering
-\includegraphics{resolution_equations-027}
+<<echo=FALSE, fig=TRUE>>=
+g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
+curve(g2, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
+      xlab = "i", ylab = "g(i)", lwd = 2)
+curve(f0, add = TRUE)
+polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
+@
         \subcaption{Fonction $g_2(x)$ \label{fig:resolution:a_angle:g2}}
       \end{minipage}
       \hfill
       \begin{minipage}{0.32\linewidth}
         \centering
-\includegraphics{resolution_equations-028}
+<<echo=FALSE, fig=TRUE>>=
+fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
+g3 <- function(i) i - f(i)/fp(i)
+curve(g3, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
+      xlab = "i", ylab = "g(i)", lwd = 2)
+curve(f0, add = TRUE)
+polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
+@
         \subcaption{Fonction $g_3(x)$ \label{fig:resolution:a_angle:g3}}
       \end{minipage}
       \caption{Trois fonctions pour résoudre $a_{\angl{10}\, i}^{(12)}
-        = 8$ par la méthode du point fixe.}
+        = 8$ par la méthode du point fixe}
       \label{fig:resolution:a_angle}
     \end{figure}
     On obtient les résultats suivants:
-\begin{Schunk}
-\begin{Sinput}
-> f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
-> fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
-> g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
-> g3 <- function(i) i - f(i)/fp(i)
-> pointfixe(g2, start = 0.05)
-\end{Sinput}
-\begin{Soutput}
-$fixed.point
-[1] 0.047081
-
-$nb.iter
-[1] 40
-\end{Soutput}
-\begin{Sinput}
-> pointfixe(g3, start = 0.05)
-\end{Sinput}
-\begin{Soutput}
-$fixed.point
-[1] 0.047081
-
-$nb.iter
-[1] 2
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
+fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
+g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
+g3 <- function(i) i - f(i)/fp(i)
+pointfixe(g2, start = 0.05)
+pointfixe(g3, start = 0.05)
+@
       \end{sol}
   \begin{rep}
-    $0,0470806$
+<<echo=FALSE>>=
+xp <- pointfixe(g3, start = 0.05)$fixed.point
+@
+    $\Sexpr{format(xp, digits = 6, dec = ",")}$
   \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  Trouver la solution des équations suivantes à l'aide des fonctions R
+  appropriées.
+  \begin{enumerate}
+  \item $x^3 - 2 x^2 - 5 = 0$ pour $1 \leq x \leq 4$
+  \item $x^3 + 3 x^2 - 1 = 0$ pour $-4 \leq x \leq 0$
+  \item $x - 2^{-x} = 0$ pour $0 \leq x \leq 1$
+  \item $e^x + 2^{-x} + 2 \cos x - 6 = 0$ pour $1 \leq x \leq 2$
+  \item $e^x - x^2 + 3x - 2 = 0$ pour $0 \leq x \leq 1$
+  \end{enumerate}
+  \begin{sol}
+    \begin{enumerate}
+\item
+<<echo=TRUE,eval=FALSE>>=
+f <- function(x) x^3 - 2 * x^2 - 5
+uniroot(f, lower = 1, upper = 4)
+@
+\item Comme un simple graphique le démontre, il y a deux racines dans
+  l'intervalle.
+<<echo=TRUE,eval=FALSE>>=
+f <- function(x) x^3 + 3 * x^2 - 1
+curve(f, xlim = c(-4, 0))
+uniroot(f, lower = -4, upper = -1)
+uniroot(f, lower = -1, upper = 0)
+@
+\item
+<<echo=TRUE,eval=FALSE>>=
+f <- function(x) x - 2^(-x)
+uniroot(f, lower = 0, upper = 1)
+@
+\item
+<<echo=TRUE,eval=FALSE>>=
+f <- function(x) exp(x) + 2^(-x) + 2 * cos(x) - 6
+uniroot(f, lower = 1, upper = 2)
+@
+\item
+<<echo=TRUE,eval=FALSE>>=
+f <- function(x) exp(x) - x^2 + 3 * x - 2
+uniroot(f, lower = 0, upper = 1)
+@
+    \end{enumerate}
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  \label{exercice:optimisation:optim}
+  Les fonctions de densité de probabilité et de répartition de la
+  distribution de Pareto sont données à
+  l'exercice~\ref{avance}.\ref{exercice:avance:pareto} de la partie~I.
+  Calculer les estimateurs du maximum de vraisemblance des paramètres
+  de la Pareto à partir d'un échantillon aléatoire obtenu par
+  simulation avec la commande
+<<echo=TRUE,eval=FALSE>>=
+x <- lambda * (runif(100)^(-1/alpha) - 1)
+@
+  pour des valeurs de \code{alpha} et \code{lambda} choisies.
+  \begin{sol}
+<<echo=TRUE,eval=FALSE>>=
+dpareto <- function(x, alpha, lambda)
+{
+    (alpha * lambda^alpha)/(x + lambda)^(alpha+1)
+}
+f <- function(par, x) -sum(log(dpareto(x, par[1], par[2])))
+optim(c(1, 1000), f, x = x)
+@
+    ou, en utilisant le truc du logarithme des paramètres expliqué
+    dans les exemples pour éviter les soucis de convergence:
+<<echo=TRUE,eval=FALSE>>=
+dpareto <- function(x, logAlpha, logLambda)
+{
+    alpha <- exp(logAlpha)
+    lambda <- exp(logLambda)
+    (alpha * lambda^alpha)/(x + lambda)^(alpha+1)
+}
+optim(c(log(2), log(1000)), f, x = x)
+exp(optim(c(log(2), log(1000)), f, x = x)$par)
+@
+  \end{sol}
 \end{exercice}
 
 \Closesolutionfile{reponses}
@@ -1226,8 +987,8 @@ $nb.iter
 %%%
 \input{reponses-resolution_equations}
 
-
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: exercices_methodes_numeriques
+%%% TeX-master: "methodes_numeriques-partie_3"
+%%% coding: utf-8
 %%% End:
