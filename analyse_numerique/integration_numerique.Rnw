@@ -6,7 +6,8 @@
   intégrale définie à l’aide des méthodes du point milieu, du trapèze,
   de Simpson et de Simpson 3/8.
 \item Avoir une connaissance générale de ce qu'est un polynôme
-  d'interpolation de Lagrange.
+  d'interpolation de Lagrange et comment il peut servir dans le
+  contexte de l'intégration numérique.
 \item Être en mesure de développer les formules d'approximation
   composées de chacune des méthodes d'intégration numériques
   présentées dans le chapitre.
@@ -22,9 +23,127 @@ très difficile à calculer. Dans de tels cas, l'intégration numérique
 permet d'obtenir une approximation --- parfois excellente --- de
 l'intégrale cherchée.
 
+Les méthodes d'approximation qui seront étudiées dans ce chapitre
+reposent toutes sur le remplacement de la fonction à intégrer par une
+«bonne» approximation sur un intervalle donné. Cette approximation
+devra évidemment être simple à intégrer, autrement aucun gain n'est
+réalisé. Or, quelles fonctions sont simples à intégrer sinon les
+polynômes?
 
-\section{Mise en contexte}
-\label{sec:integration:contexte}
+
+\section{Polynômes d'interpolation de Lagrange}
+\label{sec:integration:Lagrange}
+
+Un résultat connu en analyse mathématique sous le nom de Théorème
+d'approximation de Weierstrass établit que l'on peut faire
+l'approximation de toute fonction continue par un polynôme de degré
+suffisant. Formellement, soit
+\begin{equation*}
+  P_n(x) = a_0 + a_1 x + \dots a_{n - 1} x^{n - 1} + a_n x^n
+\end{equation*}
+un polynôme de degré $n$. Si $f$ est une fonction continue sur un
+intervalle $[a, b]$, alors pour tout $\varepsilon > 0$ il existe un
+polynôme $P(x)$ tel que
+\begin{equation*}
+  |f(x) - P(x)| < \varepsilon
+\end{equation*}
+pour tout $x \in [a, b]$.
+
+La notion d'approximation d'une fonction par un polynôme est beaucoup
+utilisée en analyse numérique puisque les polynômes sont simples à
+dériver et à intégrer, et que leurs dérivées et intégrales sont
+elles-mêmes des polynômes.
+
+Un type de polynôme d'approximation que vous connaissez déjà est le
+polynôme (ou développement) de Taylor autour d'un point $x_0$.
+Cependant, les polynômes de Taylor sont conçus pour être précis autour
+de $x_0$ et non sur tout un intervalle. Dans le contexte de
+l'intégration numérique où nous voudrons remplacer la fonction à
+intégrer par un polynôme, nous aurons besoin d'une bonne approximation
+sur tout le domaine d'intégration.
+
+C'est là qu'interviennent les polynômes d'interpolation de Lagrange.
+Soit $x_0$, $x_1, \dots, x_n$ un ensemble de $n + 1$ points distincts
+et $f$ une fonction qui passe par ces points (ou \emph{n{\oe}uds}). Le
+polynôme d'interpolation de Lagrange de degré $n$ de la fonction $f$
+est
+\begin{equation*}
+  P_n(x) = f(x_0) L_0(x) + f(x_1) L_1(x) + \dots + f(x_n) L_n(x) =
+  \sum_{k = 0}^n f(x_k) L_k(x),
+\end{equation*}
+où
+\begin{align*}
+  L_k(x)
+  &= \frac{(x - x_0)(x - x_1) \cdots
+    (x - x_{k - 1})(x - x_{k +  1}) \cdots (x - x_n)}{%
+    (x_k - x_0)(x_k - x_1) \cdots
+    (x_k - x_{k - 1})(x_k - x_{k +  1}) \cdots (x_k - x_n)} \\
+  &= \prod_{\substack{i = 0 \\ i \neq k}}^n \frac{(x - x_i)}{(x_k - x_i)}.
+\end{align*}
+Remarquer que le terme $(x - x_k)$ n'apparait pas au numérateur de la
+fonction $L_k(x)$.
+
+On peut démontrer \citep[voir, par exemple,][]{Burden:numerical:2011}
+que le polynôme $P(x)$ peut être aussi près que l'on veut de la
+fonction $f(x)$.
+
+\begin{exemple}
+  \label{ex:integration:Lagrange}
+  Le polynôme d'interpolation de Lagrange de premier degré de la
+  fonction $f$ est
+  \begin{align*}
+    P_1(x)
+    &= f(x_0) L_0(x) + f(x_1) L_1(x) \\
+    &= f(x_0) \frac{(x - x_1)}{(x_0 - x_1)}
+    + f(x_1) \frac{(x - x_0)}{(x_1 - x_0)}.
+  \end{align*}
+  Le polynôme de second degré, quant à lui, est
+  \begin{align*}
+    P_2(x)
+    &= f(x_0) L_0(x) + f(x_1) L_1(x) + f(x_2) L_2(x)\\
+    &= f(x_0) \frac{(x - x_1)(x - x_2)}{(x_0 - x_1)(x_0 - x_2)}
+    + f(x_1) \frac{(x - x_0)(x - x_2)}{(x_1 - x_0)(x_1 - x_2)} \\
+    &\phantom{=}
+    + f(x_2) \frac{(x - x_0)(x - x_1)}{(x_2 - x_0)(x_2 - x_1)}.
+  \end{align*}
+
+  Supposons que $f(x) = 1/x$ et que les polynômes d'interpolation
+  passent par les n{\oe}uds $x_0 = 2$, $x_1 = 2,75$ et $x_2 = 4$.
+  On a alors
+  \begin{align*}
+    P_1(x)
+    &= \frac{1}{2} \frac{(x - 2,75)}{2 - 2,75}
+    + \frac{1}{2,75} \frac{(x - 2)}{(2,75 - 2)} \\
+    &= -\frac{2}{3} (x - 2,75) + \frac{16}{33} (x - 2) \\
+    &= -\frac{6}{33}\, x + \frac{171}{198} \\
+    \intertext{et}
+    P_2(x)
+    &= \frac{1}{2} \frac{(x - 2,75)(x - 4)}{(2 - 2,75)(2 - 4)}
+    + \frac{1}{2,75} \frac{(x - 2)(x - 4)}{(2,75 - 2)(2,75 - 4)} \\
+    &\phantom{=}
+    + \frac{1}{4} \frac{(x - 2)(x - 2,75)}{(4 - 2)(4 - 2,75)} \\
+    &= \frac{1}{3} (x - 2,75)(x - 4)
+    - \frac{64}{165} (x - 2)(x - 4)
+    + \frac{1}{10} (x - 2)(x - 2,75) \\
+    &= \frac{1}{22}\, x^2 - \frac{35}{88}\, x + \frac{49}{44}.
+  \end{align*}
+  Des approximations de $f(3) = 1/3$ sont donc $P_1(3) \approx
+  0,31818$ et $P_2(x) \approx 0,32955$. %
+  \qed
+\end{exemple}
+
+\begin{gotoR}
+  La fonction \code{poly.calc} du package \pkg{polynom} permet de
+  calculer le polynôme d'interpolation de Lagrange de degré $n$ dans
+  R. Exécuter le code informatique de la
+  section~\ref{sec:integration:code} correspondant à ce bloc de
+  matière pour vérifier les calculs de
+  l'exemple~\ref{ex:integration:Lagrange}.
+\end{gotoR}
+
+
+\section{Principes généraux d'intégration numérique}
+\label{sec:integration:principes}
 
 Supposons que l'on cherche à calculer $\int_a^b f(x)\, dx$. Toutes les
 méthodes d'intégration numérique reposent, en premier lieu, sur le
@@ -166,7 +285,7 @@ box()
   \label{fig:integration:methodes}
 \end{figure}
 
-Les quatre formules d'intégration numérique présentées ci-dessous
+Les formules d'intégration numérique présentées dans la suite
 découlent de la procédure suivante: le domaine d'intégration $(a, b)$
 est découpé en $n$ intervalles de longueur égale. Chacun de ces
 intervalles est à son tour divisé en $m$ sous-intervalles de longueur
@@ -180,21 +299,26 @@ intervalles est à son tour divisé en $m$ sous-intervalles de longueur
 \end{align*}
 où $x_0 = a$ et $x_{nm} = b$. L'approximation numérique se trouve dans
 l'évaluation de l'intégrale du côté droit de la dernière équation.
+Pour toutes les méthodes étudiées dans ce chapitre sauf la méthode du
+point milieu, la fonction $f$ sera remplacée par un polynôme
+d'interpolation de Lagrange.
 
 Afin de ne pas alourdir inutilement la notation, les formules
 d'approximation de l'intégrale
 \begin{equation*}
   \int_{x_{jm}}^{x_{(j+1)m}} f(x)\, dx
 \end{equation*}
-seront ci-dessous présentées pour le cas $j = 0$ seulement.
+seront présentées pour le cas $j = 0$ seulement dans les sections
+suivantes.
 
 
 \section{Méthode du point milieu}
 \label{sec:integration:pointmilieu}
 
-La méthode du point milieu est la plus simple et la plus intuitive.
-Les intervalles sont divisés en $m = 2$ parties et la valeur de la
-fonction $f$ sur l'intervalle $(x_0, x_2)$ est estimée par $f(x_1)$
+La méthode du point milieu est la plus simple et la plus intuitive
+méthode d'intégration numérique. Les intervalles sont divisés en $m =
+2$ parties et la valeur de la fonction $f$ sur l'intervalle $(x_0,
+x_2)$ est estimée par $f(x_1)$
 (figure~\ref{fig:integration:grosplan:pointmilieu}). Ainsi, on a
 l'approximation
 \begin{displaymath}
@@ -208,11 +332,6 @@ milieu de $\int_a^b f(x)\, dx$ avec $n$ intervalles est
   \int_a^b f(x)\, dx \approx 2 h \sum_{j=0}^{n - 1} f(x_{2j + 1})
 \end{displaymath}
 où $h = (b - a)/(2 n)$ et $x_j = a + jh$.
-
-
-\section{Polynômes d'interpolation de Lagrange}
-\label{sec:integration:Lagrange}
-
 
 
 \section{Méthode du trapèze}
@@ -229,9 +348,9 @@ linéaire (figure~\ref{fig:integration:grosplan:trapeze}). On a donc
 \begin{equation*}
   \int_{x_0}^{x_1} f(x)\, dx \approx  \frac{h}{2}[f(x_0) + f(x_1)],
 \end{equation*}
-où $h = x_1 - x_0$. Contrairement à ce que peut évoquer la figure
-\ref{fig:integration:methodes}, cette méthode est généralement plus
-précise que la méthode du point milieu.
+où $h = x_1 - x_0$. Contrairement à ce que peut laisser croire la
+figure \ref{fig:integration:methodes}, cette méthode est généralement
+plus précise que la méthode du point milieu.
 
 La formule composée pour l'approximation de $\int_a^b f(x)\, dx$ par
 la méthode du trapèze avec $n$ intervalles est
@@ -357,268 +476,27 @@ où $h = x_3 - x_2 = x_2 - x_1 = x_1 - x_0$. La dérivation de la
 formule composée d'approximation de $\int_a^b f(x)\, dx$ avec $n$
 intervalles est laissée en exercice.
 
-Consulter \cite{Burden:numerical:1988} et les deux articles de
-Mathworld cités en références pour de plus amples détails sur ces
-méthodes d'intégration numérique et les polynômes d'interpolation de
-Lagrange.
+Consulter \cite{Burden:numerical:2011} pour de plus amples détails sur
+les polynômes d'interpolation de Lagrange et les méthodes
+d'intégration numérique présentées ci-dessus.
 
-
-\section{Problèmes}
-
-\begin{exercice}
-  Écrire en des fonctions \textsf{R} nommées \texttt{pointmilieu},
-  \texttt{trapeze}, \texttt{simpson} et \texttt{simpson38} pour
-  intégrer une fonction $f$ entre deux bornes finies $a$ et $b$ par
-  les méthodes d'intégration numérique correspondantes. En utilisant
-  judicieusement la fonction \texttt{seq}, ces quatre fonctions
-  peuvent --- et \emph{doivent} --- ne compter aucune boucle. Leurs
-  arguments seront:
-  \begin{itemize}
-  \item \texttt{FUN}, la fonction à intégrer;
-  \item \texttt{lower}, la borne d'intégration inférieure $a$;
-  \item \texttt{upper}, la borne d'intégration supérieure $b$;
-  \item \texttt{subdivisions}, le nombre $n$ d'intervalles à utiliser.
-  \end{itemize}
-  \begin{sol}
-    Voir les figures \ref{fig:pointmilieu}--\ref{fig:simpson38} pour
-    le code des fonctions.
-    \begin{figure}[tp]
-      \centering
-      \begin{framed}
-\begin{verbatim}
-pointmilieu <- function(FUN, lower, upper,
-                        subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / (2 * subdivisions)
-
-    x <- seq(from = lower + h, to = upper - h,
-             by = 2 * h)
-
-    2 * h * sum(FUN(x))
-}
-\end{verbatim}
-      \end{framed}
-      \caption{Fonction pour la méthode du point milieu}
-      \label{fig:pointmilieu}
-    \end{figure}
-
-    \begin{figure}[tp]
-      \centering
-      \begin{framed}
-\begin{verbatim}
-trapeze <- function(FUN, lower, upper,
-                    subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / subdivisions
-
-    x <- seq(from = lower + h, to = upper - h, by = h)
-
-    h * sum(c(FUN(c(lower, upper)), 2 * FUN(x)))/2
-}
-\end{verbatim}
-      \end{framed}
-      \caption{Fonction pour la méthode du trapèze}
-    \end{figure}
-
-    \begin{figure}[tp]
-      \centering
-      \begin{framed}
-\begin{verbatim}
-simpson <- function(FUN, lower, upper,
-                    subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / (2 * subdivisions)
-
-    x1 <- seq(from = lower + h, to = upper - h,
-              by = 2 * h)
-    x2 <- x1[-length(x1)] + h
-
-    h * sum(c(FUN(c(lower, upper)),
-              4 * FUN(x1),
-              2 * FUN(x2)))/3
-}
-\end{verbatim}
-      \end{framed}
-      \caption{Fonction pour la méthode de Simpson}
-    \end{figure}
-
-    \begin{figure}[tp]
-      \centering
-      \begin{framed}
-\begin{verbatim}
-simpson38 <- function(FUN, lower, upper,
-                      subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / (3 * subdivisions)
-
-    x1 <- seq(from = lower + h, to = upper - h,
-              by = 3 * h)
-    x2 <- x1 + h
-    x3 <- x2[-length(x2)] + h
-
-    3 * h * sum(c(FUN(c(lower, upper)),
-                3 * FUN(c(x1, x2)),
-                2 * FUN(x3)))/8
-}
-\end{verbatim}
-      \end{framed}
-      \caption{Fonction pour la méthode de Simpson 3/8}
-      \label{fig:simpson38}
-    \end{figure}
-
-<<echo=FALSE>>=
-pointmilieu <- function(FUN, lower, upper, subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / (2 * subdivisions)
-
-    x <- seq(from = lower + h, to = upper - h, by = 2 * h)
-
-    2 * h * sum(FUN(x))
-}
-
-trapeze <- function(FUN, lower, upper, subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / subdivisions
-
-    x <- seq(from = lower + h, to = upper - h, by = h)
-
-    h * sum(c(FUN(c(lower, upper)), 2 * FUN(x)))/2
-}
-
-simpson <- function(FUN, lower, upper, subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / (2 * subdivisions)
-
-    x1 <- seq(from = lower + h, to = upper - h, by = 2 * h)
-    x2 <- x1[-length(x1)] + h
-
-    h * sum(c(FUN(c(lower, upper)), 4 * FUN(x1), 2 * FUN(x2)))/3
-}
-
-simpson38 <- function(FUN, lower, upper, subdivisions = 1000)
-{
-    if (upper <= lower)
-        stop("upper should be larger than lower")
-    if (identical(all.equal(lower, upper), TRUE))
-        return(0)
-
-    h <- (upper - lower) / (3 * subdivisions)
-
-    x1 <- seq(from = lower + h, to = upper - h, by = 3 * h)
-    x2 <- x1 + h
-    x3 <- x2[-length(x2)] + h
-
-    3 * h * sum(c(FUN(c(lower, upper)), 3 * FUN(c(x1, x2)), 2 * FUN(x3)))/8
-}
-@
-  \end{sol}
-\end{exercice}
-
-\begin{exercice}
-  La fonction de densité d'une loi normale centrée réduite est
-  \begin{displaymath}
-    f(x) = \frac{1}{\sqrt{2\pi}}\, e^{-x^2/2}.
-  \end{displaymath}
-  Calculer la valeur de $F(1) - F(0) = \int_0^1 f(x)\, dx$ à l'aide
-  des méthodes suivantes.
-  \begin{enumerate}
-  \item La méthode du point milieu.
-  \item La méthode du trapèze.
-  \item La méthode de Simpson.
-  \item La méthode de Simpson 3/8.
-  \item L'intégration Monte-Carlo.
-  \item La fonction \textsf{R} \texttt{integrate}.
-  \item La fonction \textsf{R} \texttt{pnorm}.
-  \end{enumerate}
-  Commenter brièvement les résultats, entre autres l'effet du nombre
-  d'intervalles sur ceux-ci.
-  \begin{sol}
-    Premier ensemble de réponses avec le nombre d'intervalles par
-    défaut, soit \nombre{1000} dans nos fonctions.
-<<echo=TRUE>>=
-pointmilieu(dnorm, 0, 1)
-trapeze(dnorm, 0, 1)
-simpson(dnorm, 0, 1)
-simpson38(dnorm, 0, 1)
-mean(dnorm(runif(100000)))
-integrate(dnorm, 0, 1)
-pnorm(1) - pnorm(0)
-@
-    Les réponses sont essentiellement identiques. Pour constater des
-    différences entre les méthodes d'intégration, il faut réduire le
-    nombre d'intervalles. On voit alors que les méthodes de Simpson
-    sont plus précises.
-<<echo=TRUE>>=
-pointmilieu(dnorm, 0, 1, subdiv = 100)
-trapeze(dnorm, 0, 1, subdiv = 100)
-simpson(dnorm, 0, 1, subdiv = 100)
-simpson38(dnorm, 0, 1, subdiv = 100)
-@
-    \end{sol}
-\end{exercice}
-
-\begin{rem}
-  Les graphiques des figures \ref{fig:integration:methodes} et \ref{fig:integration:grosplan}
-  ont été réalisés entièrement dans \textsf{R} avec les fonctions
-  \texttt{curve}, \texttt{rect}, \texttt{polygon} et
-  \texttt{segments}. Les étiquettes de l'abscisse ont été changées
-  avec la fonction \texttt{axis}. Les polynômes d'interpolation de
-  Lagrange utilisés dans la méthode de Simpson ont été calculés avec
-  la fonction \texttt{poly.calc} du package \texttt{polynom}
-  (disponible sur CRAN).
-\end{rem}
-
-\newpage
-
-\begin{Filesave}{solutions}
-  \setcounter{chapter}{2}
-\end{Filesave}
-
-
+\begin{gotoR}
+  Il n'y a pas de fonction dans la distribution de base de R pour le
+  calcul d'intégrales avec précisément l'une ou l'autre des méthodes
+  mentionnées dans ce chapitre. Cependant, la fonction
+  \code{integrate} réalise à peu près la même chose avec un algorithme
+  différent. Consulter le code informatique de la
+  section~\ref{sec:integration:code} pour quelques menus exemples.
+\end{gotoR}
 
 \section{Code informatique}
 \label{sec:integration:code}
 
-%\lstinputlisting[firstline=3]{integration_numerique.R}
+\lstinputlisting[firstline=3]{integration_numerique.R}
 
 \vfill
 
-%\input{exercices-integration_numerique}
+\input{exercices-integration_numerique}
 
 %%% Local Variables:
 %%% mode: latex

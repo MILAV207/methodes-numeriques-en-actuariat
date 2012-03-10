@@ -17,7 +17,7 @@
 options(width = 62)
 @
 
-\section{Les ordinateurs en savent pas compter}
+\section{Les ordinateurs ne savent pas compter}
 \label{sec:ordinateurs:introduction}
 
 Le type de bogue le plus fréquemment rapporté dans les forums de
@@ -218,7 +218,7 @@ conversion de la partie fractionnaire d'un nombre réel.
 \begin{algorithme}[Conversion de la base 10 vers la base $b$]
   \label{algo:ordinateurs:10_vers_b}
   Soit $x$ un nombre réel en base 10.
-  \begin{enumerate}[1.]
+  \begin{enumerate}
   \item Poser $i \leftarrow 0$ et $v \leftarrow \lfloor x \rfloor$.
   \item Répéter les étapes suivantes jusqu'à ce que $v = 0$:
     \begin{enumerate}
@@ -353,7 +353,7 @@ Un algorithme de conversion est le suivant.
     x_b = x_{m-1}x_{m-2} \cdots x_1x_0,x_{-1}x_{-2} \cdots x_{-n}
   \end{displaymath}
   un nombre réel en base $b$.
-  \begin{enumerate}[1.]
+  \begin{enumerate}
   \item Poser $x \leftarrow 0$ et $y \leftarrow 0$.
   \item Pour $i = m - 1, m - 2, \dots, 0$, faire les étapes suivantes:
     \begin{enumerate}
@@ -927,7 +927,7 @@ de programmation ci-dessous, lorsque suivis par le programmeur prudent
 et consciencieux, permettent d'atténuer l'impact de l'erreur
 d'arrondi.
 
-\begin{enumerate}[\bfseries({P}1)]
+\begin{enumerate}[label=(P\arabic*),font=\bfseries]
 \item L'addition et la soustraction en virgule flottante ne sont pas
   associatives. Additionner les nombres en ordre croissant de grandeur
   afin d'accumuler des bits significatifs.
@@ -1035,8 +1035,7 @@ L'exemple suivant est adapté de \cite{Monahan:numstat:2001}.
 
 Les deux principes ci-dessous permettent d'éviter des dépassements ou
 des soupassements de capacité et d'améliorer la précision des calculs.
-\begin{enumerate}[\bfseries({P}1)]
-  \setcounter{enumi}{4}
+\begin{enumerate}[label=(P\arabic*),font=\bfseries,start=5]
 \item Chercher des formules mathématiques équivalentes évitant de
   devoir traiter des très grands ou des très petits nombres.
 \item Travailler en échelle logarithmique. Par exemple, le produit de

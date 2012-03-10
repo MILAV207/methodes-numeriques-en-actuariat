@@ -586,7 +586,7 @@ tri <- function(CF, erreur.max = 1E-6)
 
     nr(f, fp, start = 0.05, TOL = erreur.max)$root
 }
-\end{Scode} %$
+\end{Scode}
       \end{framed}
       \caption{Fonction R de calcul du taux de rendement interne d'une
         série de flux financiers}
@@ -841,6 +841,7 @@ End Function
     convergence très rapide; voir la figure
     \ref{fig:resolution:a_angle:g3}.
     \begin{figure}
+      \setkeys{Gin}{width=\textwidth}
       \begin{minipage}{0.32\linewidth}
         \centering
 <<echo=FALSE, fig=TRUE, height=4, width=4>>=
@@ -881,6 +882,7 @@ polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
       \caption{Trois fonctions pour résoudre $a_{\angl{10}\, i}^{(12)}
         = 8$ par la méthode du point fixe}
       \label{fig:resolution:a_angle}
+      \setkeys{Gin}{width=0.8\textwidth}
     \end{figure}
     On obtient les résultats suivants:
 <<echo=TRUE>>=

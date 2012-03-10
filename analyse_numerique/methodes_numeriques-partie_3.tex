@@ -8,11 +8,10 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{vgmath,actu,amsmath,amsthm,amsfonts,icomma}
   \usepackage[noae]{Sweave}
-  \usepackage[alwaysadjust]{paralist}
+  \usepackage{paralist,enumitem}
   \usepackage{textpos}
   \usepackage{graphicx,color}
-  \usepackage{MnSymbol,textcomp} % symboles spéciaux
-  \usepackage{expdlist}
+  \usepackage{MnSymbol,textcomp}       % symboles spéciaux
   \usepackage{listingsutf8,answers}
   \usepackage{pdfpages}                % couvertures
   \usepackage{xr}                      % références au chap. 6
@@ -35,11 +34,10 @@
   %%% ============
   \title{\HUGE
     \fontseries{b}\selectfont ACT 2002 \\
-    \fontseries{b}\selectfont Méthodes numériques \\
-    \fontseries{m}\selectfont en \\
-    \fontseries{b}\selectfont actuariat \\[10mm]
+    \fontseries{m}\selectfont Méthodes numériques \\
+    \fontseries{m}\selectfont en actuariat \\[10mm]
     \huge
-    \fontseries{m}\selectfont Partie III \\
+    \fontseries{b}\selectfont Partie III \\
     \fontseries{m}\selectfont Analyse numérique}
   \author{\Large Vincent Goulet \\[3mm]
     \large École d'actuariat, Université Laval}
@@ -66,8 +64,11 @@
   \maxsecnumdepth{subsection}
   \setsecnumdepth{subsection}
 
-  %% Franciser le second niveau des énumérations
-  \setdefaultenum{}{a)}{}{}
+  %% Listes. Paramétrage avec enumitem.
+  \setenumerate{leftmargin=*,align=left}
+  \setenumerate[2]{label=\alph*)}
+  \setenumerate[3]{label=\roman*),align=right}
+  \setitemize{leftmargin=*,align=left}
 
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
@@ -110,9 +111,9 @@
         \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
       \end{shaded}
       \vspace{-0.6\baselineskip}
-      \begin{compactitem}
+      \begin{itemize}[nolistsep]
         \small}
-      {\end{compactitem}
+      {\end{itemize}
     \end{framed}}
 
   %% Environnements de Sweave
@@ -127,28 +128,28 @@
   \Newassociation{rep}{reponse}{reponses}
   \newcounter{exercice}[chapter]
   \newenvironment{exercice}{%
-    \begin{list}{\bfseries \thechapter.\arabic{exercice}}{%
+    \begin{enumerate}[leftmargin=*,align=left,
+      label=\thechapter.\arabic{exercice},
+      labelsep=2em,
+      ref=\arabic{exercice},    % compatibilité avec vieux code
+      font=\bfseries]
         \refstepcounter{exercice}
-        \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
-        \setlength{\leftmargin}{\labelwidth}
-        \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
-    {\end{list}}
+        \setenumerate[2]{leftmargin=*,labelsep=0em}
+        \item}
+    {\end{enumerate}}
   \renewenvironment{reponse}[1]{%
-    \begin{list}{\bfseries #1}{%
-        \settowidth{\labelwidth}{#1}
-        \setlength{\leftmargin}{\labelwidth}
-        \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
-    {\end{list}}
+    \begin{enumerate}[leftmargin=*,align=left,
+      label=#1,font=\bfseries]
+        \setenumerate[2]{leftmargin=*,labelsep=0em}
+        \item}
+    {\end{enumerate}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
   \renewenvironment{solution}[1]{%
-    \begin{list}{\bfseries #1}{%
-        \settowidth{\labelwidth}{#1}
-        \setlength{\leftmargin}{\labelwidth}
-        \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
-    {\end{list}}
+    \begin{enumerate}[leftmargin=*,align=left,
+      label=#1,font=\bfseries]
+        \setenumerate[2]{leftmargin=*,labelsep=0em}
+        \item}
+    {\end{enumerate}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
 
   %%% Changements au fil de la lecture
@@ -191,7 +192,6 @@
   \newcommand{\R}{\mathbb{R}}
   \newcommand{\Fonction}[1]{\code{#1}}
   \newcommand{\fonction}[1]{\code{#1}}
-  \newcommand{\argument}[1]{\code{#1}}
   \newcommand{\ieee}[3]{\fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
   \newcommand{\fl}{\mathrm{fl}}
   \newcommand{\texthl}[1]{\textbf{\color{darkred}{#1}}}
@@ -209,7 +209,7 @@
   %%% Numérotation des chapitres
   \setcounter{chapter}{9}
 
-%  \includeonly{generation}
+%  \includeonly{arithmetique_ordinateurs}
 
 \begin{document}
 
@@ -228,7 +228,7 @@
 
 \include{arithmetique_ordinateurs}
 \include{resolution_equations}
-%\include{integration_numerique}
+\include{integration_numerique}
 
 \appendix
 \include{solutions-partie_3}

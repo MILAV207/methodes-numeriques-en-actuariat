@@ -4,8 +4,6 @@
 \begin{objectifs}
 \item Être en mesure de résoudre une équation à une variable à l’aide
   des méthodes de la bissection, du point fixe et de Newton-Raphson.
-\item Réaliser une mise en {\oe}uvre des méthodes de résolution
-  ci-dessus en VBA et en R.
 \item Savoir quand utiliser une méthode plutôt qu’une autre.
 \item Pouvoir déterminer si une fonction admet un point fixe dans un
   intervalle donné.

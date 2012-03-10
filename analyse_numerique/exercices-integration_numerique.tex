@@ -1,0 +1,64 @@
+\section{Exercices}
+\label{sec:integration:exercices}
+
+%%%
+%%% Fichers de solutions et de réponses
+%%%
+
+\Opensolutionfile{reponses}[reponses-integration_numerique]
+\Opensolutionfile{solutions}[solutions-integration_numerique]
+
+\begin{Filesave}{reponses}
+\bigskip
+\section*{Réponses}
+
+\end{Filesave}
+
+\begin{Filesave}{solutions}
+\section*{Chapitre \ref{chap:integration}}
+\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:integration}}
+
+\end{Filesave}
+
+%%%
+%%% Début des exercices
+%%%
+
+\begin{exercice}
+  À partir des formules d'approximation de $\int_{x_0}^{x_m} f(x)\,
+  dx$, $m = 1, 2, 3$, développer les formules composées pour les
+  méthodes d'approximation suivantes.
+  \begin{enumerate}
+  \item Trapèze ($m = 1$)
+  \item Simpson ($m = 2$)
+  \item Simpson 3/8 ($m = 3$)
+  \end{enumerate}
+  \begin{sol}
+    Tel que vu à l'exemple~\ref{ex:integration:Lagrange}, le polynôme
+    d'interpolation de Lagrange de second degré $P_2(x)$ est
+    \begin{align*}
+      P_2(x)
+      &= f(x_0) \frac{(x - x_1)(x - x_2)}{(x_0 - x_1)(x_0 - x_2)}
+      + f(x_1) \frac{(x - x_0)(x - x_2)}{(x_1 - x_0)(x_1 - x_2)} \\
+      &\phantom{=}
+      + f(x_2) \frac{(x - x_0)(x - x_1)}{(x_2 - x_0)(x_2 - x_1)}.
+      &= \frac{1}{h^2} [f(x_0) (x - x_1)(x - x_2)
+      + f(x_1) (x - x_0)(x - x_2) + f(x_2) (x - x_0)(x - x_1)]
+    \end{align*}
+  \end{sol}
+\end{exercice}
+
+
+\Closesolutionfile{reponses}
+\Closesolutionfile{solutions}
+
+%%%
+%%% Insérer les réponses
+%%%
+\input{reponses-integration_numerique}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "methodes_numeriques-partie_3"
+%%% coding: utf-8
+%%% End:
