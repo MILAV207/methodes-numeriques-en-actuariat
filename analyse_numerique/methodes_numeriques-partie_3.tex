@@ -128,27 +128,25 @@
   \Newassociation{rep}{reponse}{reponses}
   \newcounter{exercice}[chapter]
   \newenvironment{exercice}{%
-    \begin{enumerate}[leftmargin=*,align=left,
-      label=\thechapter.\arabic{exercice},
-      labelsep=2em,
-      ref=\arabic{exercice},    % compatibilité avec vieux code
-      font=\bfseries]
+    \begin{list}{\bfseries \thechapter.\arabic{exercice}}{%
         \refstepcounter{exercice}
-        \setenumerate[2]{leftmargin=*,labelsep=0em}
-        \item}
-    {\end{enumerate}}
+        \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setenumerate[1]{leftmargin=*,label=\alph*),widest=a}
+        \setenumerate[2]{leftmargin=*,label=\roman*)}}
+      \item}
+    {\end{list}}
   \renewenvironment{reponse}[1]{%
-    \begin{enumerate}[leftmargin=*,align=left,
-      label=#1,font=\bfseries]
-        \setenumerate[2]{leftmargin=*,labelsep=0em}
-        \item}
+    \begin{enumerate}[label=#1,font=\bfseries]
+      \setenumerate[2]{leftmargin=*,labelsep=0em}
+      \item}
     {\end{enumerate}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
   \renewenvironment{solution}[1]{%
-    \begin{enumerate}[leftmargin=*,align=left,
-      label=#1,font=\bfseries]
-        \setenumerate[2]{leftmargin=*,labelsep=0em}
-        \item}
+    \begin{enumerate}[label=#1,font=\bfseries]
+      \setenumerate[2]{leftmargin=*,labelsep=0em}
+      \item}
     {\end{enumerate}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
 
@@ -209,7 +207,7 @@
   %%% Numérotation des chapitres
   \setcounter{chapter}{9}
 
-%  \includeonly{arithmetique_ordinateurs}
+%  \includeonly{resolution_equations}
 
 \begin{document}
 

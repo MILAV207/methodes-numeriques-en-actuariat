@@ -8,7 +8,7 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{vgmath,actu,amsmath,amsthm,amsfonts,icomma}
   \usepackage[noae]{Sweave}
-  \usepackage[alwaysadjust]{paralist}
+  \usepackage{paralist,enumitem}
   \usepackage{textpos}
   \usepackage{graphicx,color}
   \usepackage{MnSymbol,applekeys}      % symboles spéciaux
@@ -35,11 +35,10 @@
   %%% ============
   \title{\HUGE
     \fontseries{b}\selectfont ACT 2002 \\
-    \fontseries{b}\selectfont Méthodes numériques \\
-    \fontseries{m}\selectfont en \\
-    \fontseries{b}\selectfont actuariat \\[10mm]
+    \fontseries{m}\selectfont Méthodes numériques \\
+    \fontseries{m}\selectfont en actuariat \\[10mm]
     \huge
-    \fontseries{m}\selectfont Partie II \\
+    \fontseries{b}\selectfont Partie II \\
     \fontseries{m}\selectfont Simulation stochastique}
   \author{\Large Vincent Goulet \\[3mm]
     \large École d'actuariat, Université Laval}
@@ -66,8 +65,11 @@
   \maxsecnumdepth{subsection}
   \setsecnumdepth{subsection}
 
-  %% Franciser le second niveau des énumérations
-  \setdefaultenum{}{a)}{}{}
+  %% Listes. Paramétrage avec enumitem.
+  \setenumerate{leftmargin=*,align=left}
+  \setenumerate[2]{label=\alph*)}
+  \setenumerate[3]{label=\roman*),align=right}
+  \setitemize{leftmargin=*,align=left}
 
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
@@ -134,20 +136,16 @@
         \setdefaultenum{a)}{i)}{}{}}\item}
     {\end{list}}
   \renewenvironment{reponse}[1]{%
-    \begin{list}{\bfseries #1}{%
-        \settowidth{\labelwidth}{#1}
-        \setlength{\leftmargin}{\labelwidth}
-        \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
-    {\end{list}}
+    \begin{enumerate}[label=#1,font=\bfseries]
+      \setenumerate[2]{leftmargin=*,labelsep=0em}
+    \item}
+    {\end{enumerate}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
   \renewenvironment{solution}[1]{%
-    \begin{list}{\bfseries #1}{%
-        \settowidth{\labelwidth}{#1}
-        \setlength{\leftmargin}{\labelwidth}
-        \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
-    {\end{list}}
+    \begin{enumerate}[label=#1,font=\bfseries]
+      \setenumerate[2]{leftmargin=*,labelsep=0em}
+      \item}
+    {\end{enumerate}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
 
   %%% Changements au fil de la lecture

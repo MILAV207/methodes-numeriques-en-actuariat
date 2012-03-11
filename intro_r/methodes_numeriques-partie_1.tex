@@ -8,7 +8,7 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{vgmath,actu,amsmath,amsthm,icomma}
   \usepackage[noae]{Sweave}
-  \usepackage[alwaysadjust]{paralist}
+  \usepackage{paralist,enumitem}
   \usepackage{textpos}
   \usepackage{graphicx,color}
   \usepackage{MnSymbol,applekeys}      % symboles spéciaux
@@ -110,15 +110,15 @@
         \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
         \setlength{\leftmargin}{\labelwidth}
         \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
+        \setenumerate[1]{leftmargin=*,label=\alph*),widest=a}
+        \setenumerate[2]{leftmargin=*,label=\roman*)}}
+      \item}
     {\end{list}}
   \renewenvironment{reponse}[1]{%
-    \begin{list}{\bfseries #1}{%
-        \settowidth{\labelwidth}{#1}
-        \setlength{\leftmargin}{\labelwidth}
-        \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
-    {\end{list}}
+    \begin{enumerate}[label=#1,font=\bfseries]
+      \setenumerate[2]{leftmargin=*,labelsep=0em}
+      \item}
+    {\end{enumerate}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
 
   %% Listes de commandes
