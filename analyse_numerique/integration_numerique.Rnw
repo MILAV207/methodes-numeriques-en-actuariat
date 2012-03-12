@@ -2,12 +2,12 @@
 \label{chap:integration}
 
 \begin{objectifs}
-\item Être en mesure de calculer la valeur approximative d’une
-  intégrale définie à l’aide des méthodes du point milieu, du trapèze,
-  de Simpson et de Simpson 3/8.
 \item Avoir une connaissance générale de ce qu'est un polynôme
   d'interpolation de Lagrange et comment il peut servir dans le
   contexte de l'intégration numérique.
+\item Être en mesure de calculer la valeur approximative d’une
+  intégrale définie à l’aide des méthodes du point milieu, du trapèze,
+  de Simpson et de Simpson 3/8.
 \item Être en mesure de développer les formules d'approximation
   composées de chacune des méthodes d'intégration numériques
   présentées dans le chapitre.
@@ -321,16 +321,18 @@ méthode d'intégration numérique. Les intervalles sont divisés en $m =
 x_2)$ est estimée par $f(x_1)$
 (figure~\ref{fig:integration:grosplan:pointmilieu}). Ainsi, on a
 l'approximation
-\begin{displaymath}
+\begin{equation}
+  \label{eq:integration:pointmilieu}
   \int_{x_0}^{x_2} f(x)\, dx \approx 2 h f(x_1),
-\end{displaymath}
+\end{equation}
 où $h = x_2 - x_1 = x_1 - x_0$.
 
 La formule composée pour l'approximation par la méthode du point
 milieu de $\int_a^b f(x)\, dx$ avec $n$ intervalles est
-\begin{displaymath}
+\begin{equation}
+  \label{eq:integration:pointmilieu:comp}
   \int_a^b f(x)\, dx \approx 2 h \sum_{j=0}^{n - 1} f(x_{2j + 1})
-\end{displaymath}
+\end{equation}
 où $h = (b - a)/(2 n)$ et $x_j = a + jh$.
 
 
@@ -345,21 +347,23 @@ La méthode du trapèze utilise un polynôme du premier degré ($m = 1$)
 pour faire l'approximation de la valeur de $f(x)$ sur l'intervalle
 $(x_0, x_1)$, ce qui est équivalent à une simple interpolation
 linéaire (figure~\ref{fig:integration:grosplan:trapeze}). On a donc
-\begin{equation*}
+\begin{equation}
+  \label{eq:integration:trapeze}
   \int_{x_0}^{x_1} f(x)\, dx \approx  \frac{h}{2}[f(x_0) + f(x_1)],
-\end{equation*}
+\end{equation}
 où $h = x_1 - x_0$. Contrairement à ce que peut laisser croire la
 figure \ref{fig:integration:methodes}, cette méthode est généralement
 plus précise que la méthode du point milieu.
 
 La formule composée pour l'approximation de $\int_a^b f(x)\, dx$ par
 la méthode du trapèze avec $n$ intervalles est
-\begin{equation*}
+\begin{equation}
+  \label{eq:integration:trapeze:comp}
   \int_a^b f(x)\, dx \approx \frac{h}{2}
   \left[
     f(a) + f(b) + 2 \sum_{j = 1}^{n - 1} f(x_j)
   \right],
-\end{equation*}
+\end{equation}
 où $h = (b - a)/n$ et $x_j = a + jh$.
 
 \begin{figure}[t]
@@ -441,22 +445,24 @@ précise. La fonction $f(x)$ est remplacée, sur l'intervalle $(x_0,
 x_2)$, par un polynôme d'interpolation de Lagrange du second degré
 (figure~\ref{fig:integration:grosplan:simpson}). On a donc $m = 2$ et
 on peut démontrer que
-\begin{equation*}
+\begin{equation}
+  \label{eq:integration:simpson}
   \int_{x_0}^{x_2} f(x)\, dx \approx \frac{h}{3}[f(x_0) + 4f(x_1) + f(x_2)],
-\end{equation*}
+\end{equation}
 où $h = x_2 - x_1 = x_1 - x_0$. Cette méthode d'approximation
 numérique s'avère exacte pour les fonctions polynomiales de degré
 trois ou moins.
 
 La formule composée pour l'approximation par la méthode de Simpson de
 $\int_a^b f(x)\, dx$ avec $n$ intervalles est
-\begin{displaymath}
+\begin{equation}
+  \label{eq:integration:simpson:comp}
   \int_a^b f(x)\, dx \approx \frac{h}{3}
   \left[
     f(a) +  2 \sum_{j = 1}^{n - 1} f(x_{2j}) +
     4 \sum_{j = 1}^n f(x_{2j-1}) + f(b)
   \right],
-\end{displaymath}
+\end{equation}
 où $h = (b - a)/(2n)$ et $x_j = a + jh$.
 
 
@@ -468,10 +474,11 @@ Simpson où la fonction $f$ est remplacée par un polynôme
 d'interpolation de degré $m = 3$
 (figure~\ref{fig:integration:grosplan:simpson38}). On peut alors
 démontrer que
-\begin{displaymath}
+\begin{equation}
+  \label{eq:integration:simpson38}
   \int_{x_0}^{x_3} f(x)\, dx \approx \frac{3h}{8}[f(x_0) + 3f(x_1) +
   3f(x_2) + f(x_3)],
-\end{displaymath}
+\end{equation}
 où $h = x_3 - x_2 = x_2 - x_1 = x_1 - x_0$. La dérivation de la
 formule composée d'approximation de $\int_a^b f(x)\, dx$ avec $n$
 intervalles est laissée en exercice.
