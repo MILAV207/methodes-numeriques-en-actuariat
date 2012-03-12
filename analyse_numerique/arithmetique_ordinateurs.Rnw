@@ -987,10 +987,10 @@ Les exemples ci-dessous illustrent ces principes.
 L'exemple suivant est adapté de \cite{Monahan:numstat:2001}.
 
 \begin{exemple}
-  L'évaluation numériques de probabilités loin à droite dans la queue
-  d'une fonction de répartition peut s'avérer imprécise selon la
-  technique employée. Par exemple, la fonction de répartition de la
-  distribution logistique est
+  L'évaluation numérique de probabilités loin dans les queues d'une
+  fonction de répartition peut s'avérer imprécise selon la technique
+  employée. Par exemple, la fonction de répartition de la distribution
+  logistique est
   \begin{equation*}
     F(x) = (1 + e^{-x})^{-1}.
   \end{equation*}

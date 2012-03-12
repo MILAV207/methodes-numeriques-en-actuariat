@@ -197,11 +197,11 @@ omet généralement $b$ pour les nombres en base 10.
   \begin{enumerate}
   \item Utiliser l'algorithme de conversion des nombres en base $b$
     vers la base 10 et les idées de
-    l'exemple~\ref{ex:ordinateurs:position_dans_matrice} des notes de
-    cours pour trouver une formule générale donnant la position de
-    l'élément $a_{ijk}$ d'un tableau de dimensions $I \times J \times
-    K$ dans l'ordre de la liste des éléments du tableau. Utiliser
-    l'ordre lexicographique, où le tableau est rempli dans l'ordre
+    l'exemple~\ref{ex:ordinateurs:position_dans_matrice} pour trouver
+    une formule générale donnant la position de l'élément $a_{ijk}$
+    d'un tableau de dimensions $I \times J \times K$ dans l'ordre de
+    la liste des éléments du tableau. Utiliser l'ordre
+    lexicographique, où le tableau est rempli dans l'ordre
     \begin{equation*}
       a_{111}, a_{112}, \dots, a_{11K}, a_{121}, a_{122}, \dots
     \end{equation*}
@@ -230,23 +230,24 @@ omet généralement $b$ pour les nombres en base 10.
     \end{enumerate}
     Cet algorithme permet de trouver les formules demandées.
     \begin{enumerate}
-    \item Tel que présenté à l'exemple 4.6 des notes de cours, on
-      trouve la position de l'élément $a_{ijk}$ dans l'ordre de la
-      liste des éléments du tableau en convertissant le nombre $[i -
-      1\; j - 1\; k - 1]$ de la base $[I\; J\; K]$ à la base 10, puis
-      à additionnant 1. À l'aide de l'algorithme ci-dessus, on obtient
+    \item On trouve la position de l'élément $a_{ijk}$ dans l'ordre de
+      la liste des éléments du tableau en convertissant le nombre $[i
+      - 1\; j - 1\; k - 1]$ de la base $[I\; J\; K]$ à la base 10,
+      puis à additionnant 1. À l'aide de l'algorithme ci-dessus, on
+      obtient
       \begin{displaymath}
         [((i - 1) \times J + j - 1) \times K + k - 1] + 1
         = k + K (j - 1 + J (i - 1))
       \end{displaymath}
-    \item Dans l'ordre S, on convertit le nombre $[k - 1\; j - 1\; i -
+    \item Dans l'ordre R, on convertit le nombre $[k - 1\; j - 1\; i -
       1]$ exprimé dans la base $[K\; J\; I]$ en base 10. On obtient alors
       \begin{displaymath}
         [((k - 1) \times J + j - 1) \times I + i - 1] + 1
         = i + I (j - 1 + J (k - 1))
       \end{displaymath}
-      soit la même réponse qu'à l'exercice 3.7~b) de
-      \cite{Goulet_intro_S}.
+      soit la même réponse qu'à
+      l'exercice~\ref{operateurs}.\ref{exercice:operateurs:ijk}~b) de
+      la partie~I.
     \end{enumerate}
   \end{sol}
   \begin{rep}
@@ -274,7 +275,7 @@ omet généralement $b$ pour les nombres en base 10.
   nombres en simple précision. Comparer les résultats avec les limites
   du type \texttt{Single} en VBA.
   \begin{sol}
-    Voir les notes de cours de la section 4.4. Les calculs sont
+    Voir la section~\ref{sec:ordinateurs:ieee}. Les calculs sont
     exactement les mêmes que pour les nombres en double précision.
   \end{sol}
   \begin{rep}
