@@ -33,16 +33,20 @@
   %%% ============
   %%%  Page titre
   %%% ============
-  \title{\HUGE
-    \fontseries{b}\selectfont ACT 2002 \\
-    \fontseries{m}\selectfont Méthodes numériques \\
-    \fontseries{m}\selectfont en actuariat \\[10mm]
-    \huge
-    \fontseries{b}\selectfont Partie III \\
-    \fontseries{m}\selectfont Analyse numérique}
-  \author{\Large Vincent Goulet \\[3mm]
-    \large École d'actuariat, Université Laval}
-  \date{\large Notes de cours et exercices}
+  \title{%
+    \fontseries{b}\fontsize{42}{33}\selectfont ACT 2002 \\
+    \fontseries{m}\fontsize{32}{33}\selectfont Méthodes numériques \\
+                                               en actuariat \\[21mm]
+    \fontseries{b}\fontsize{36}{36}\selectfont Partie III \\
+    \fontseries{m}\fontsize{32}{36}\selectfont Analyse numérique}
+  \author{%
+    \fontseries{b}\fontsize{16}{20}\selectfont Vincent Goulet \\
+    \fontseries{m}\fontsize{14}{18}\selectfont Professeur titulaire |
+                                               École d'actuariat |
+                                               Université Laval}
+  \date{%
+    \fontseries{m}\fontsize{14}{18}\selectfont Notes de cours |
+                                               Exercices}
 
   %%% ===================
   %%%  STYLE DU DOCUMENT
@@ -208,14 +212,26 @@
   %%% Numérotation des chapitres
   \setcounter{chapter}{9}
 
-%  \includeonly{resolution_equations}
+%  \includeonly{pagegarde,notices}
 
 \begin{document}
 
 \frontmatter
 
 \pagestyle{empty}
-\include{avant-partie_3}
+
+%% Page couverture avant. Il faut modifier la largeur des graphiques
+%% puisque Sweave la règle à 0.8\textwidth.
+\setkeys{Gin}{width=\paperwidth}
+\includepdf[pages=1]{couvertures-partie_3}
+\setkeys{Gin}{width=0.8\textwidth}
+\cleardoublepage
+
+\include{pagegarde}\
+\clearpage
+
+\include{notices}
+\clearpage
 
 \pagestyle{companion}
 
@@ -237,7 +253,9 @@
 \cleardoublepage
 \cleartoverso
 
-\include{arriere-partie_3}
+%% Page couverture arrière.
+\setkeys{Gin}{width=\paperwidth}
+\includepdf[pages=2]{couvertures-partie_3}
 
 \end{document}
 
