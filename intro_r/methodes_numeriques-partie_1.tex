@@ -8,7 +8,8 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{vgmath,actu,amsmath,amsthm,icomma}
   \usepackage[noae]{Sweave}
-  \usepackage{paralist,enumitem}
+  \usepackage{paralist}
+  \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
   \usepackage{graphicx,color}
   \usepackage{MnSymbol,applekeys}      % symboles spéciaux
@@ -28,17 +29,20 @@
   %%% ============
   %%%  Page titre
   %%% ============
-  \title{\HUGE
-    \fontseries{b}\selectfont ACT 2002 \\
-    \fontseries{b}\selectfont Méthodes numériques \\
-    \fontseries{m}\selectfont en \\
-    \fontseries{b}\selectfont actuariat \\[10mm]
-    \huge
-    \fontseries{m}\selectfont Partie I \\
-    \fontseries{m}\selectfont Programmation en R}
-  \author{\Large Vincent Goulet \\[3mm]
-    \large École d'actuariat, Université Laval}
-  \date{\large Notes de cours et exercices}
+  \title{%
+    \fontseries{b}\fontsize{42}{33}\selectfont ACT 2002 \\
+    \fontseries{m}\fontsize{32}{33}\selectfont Méthodes numériques \\
+                                               en actuariat \\[21mm]
+    \fontseries{b}\fontsize{36}{36}\selectfont Partie I \\
+    \fontseries{m}\fontsize{32}{36}\selectfont Programmation en R}
+  \author{%
+    \fontseries{b}\fontsize{16}{20}\selectfont Vincent Goulet \\
+    \fontseries{m}\fontsize{14}{18}\selectfont Professeur titulaire |
+                                               École d'actuariat |
+                                               Université Laval}
+  \date{%
+    \fontseries{m}\fontsize{14}{18}\selectfont Notes de cours |
+                                               Exercices}
 
   %%% ===================
   %%%  STYLE DU DOCUMENT
@@ -227,18 +231,30 @@
   %%% Style de la bibliographie
   \bibliographystyle{francais}
 
-%  \includeonly{avant-partie_1,introduction-partie_1,arriere-partie_1}
+%  \includeonly{}
 
 \begin{document}
 
 \frontmatter
 
 \pagestyle{empty}
-\include{avant-partie_1}        % différent de Introduction à la...
+
+%% Page couverture avant. Il faut modifier la largeur des graphiques
+%% puisque Sweave la règle à 0.8\textwidth.
+\setkeys{Gin}{width=\paperwidth}
+\includepdf[pages=1]{couvertures-partie_1}
+\setkeys{Gin}{width=0.8\textwidth}
+\cleardoublepage
+
+\include{pagegarde}
+\clearpage
+
+\include{notices}
+\clearpage
 
 \pagestyle{companion}
 
-\include{introduction-partie_1} % différent de Introduction à la...
+\include{introduction-partie_1}
 \cleartorecto
 \tableofcontents*
 
@@ -263,7 +279,9 @@
 \cleardoublepage
 \cleartoverso
 
-\include{arriere-partie_1}        % différent de Introduction à la...
+%% Page couverture arrière.
+\setkeys{Gin}{width=\paperwidth}
+\includepdf[pages=2]{couvertures-partie_1}
 
 \end{document}
 

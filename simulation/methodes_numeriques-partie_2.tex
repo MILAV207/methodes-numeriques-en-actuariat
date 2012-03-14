@@ -8,7 +8,8 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{vgmath,actu,amsmath,amsthm,amsfonts,icomma}
   \usepackage[noae]{Sweave}
-  \usepackage{paralist,enumitem}
+  \usepackage{paralist}
+  \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
   \usepackage{graphicx,color}
   \usepackage{MnSymbol,applekeys}      % symboles spéciaux
@@ -33,16 +34,20 @@
   %%% ============
   %%%  Page titre
   %%% ============
-  \title{\HUGE
-    \fontseries{b}\selectfont ACT 2002 \\
-    \fontseries{m}\selectfont Méthodes numériques \\
-    \fontseries{m}\selectfont en actuariat \\[10mm]
-    \huge
-    \fontseries{b}\selectfont Partie II \\
-    \fontseries{m}\selectfont Simulation stochastique}
-  \author{\Large Vincent Goulet \\[3mm]
-    \large École d'actuariat, Université Laval}
-  \date{\large Notes de cours et exercices}
+  \title{%
+    \fontseries{b}\fontsize{42}{33}\selectfont ACT 2002 \\
+    \fontseries{m}\fontsize{32}{33}\selectfont Méthodes numériques \\
+                                               en actuariat \\[21mm]
+    \fontseries{b}\fontsize{36}{36}\selectfont Partie II \\
+    \fontseries{m}\fontsize{32}{36}\selectfont Simulation stochastique}
+  \author{%
+    \fontseries{b}\fontsize{16}{20}\selectfont Vincent Goulet \\
+    \fontseries{m}\fontsize{14}{18}\selectfont Professeur titulaire |
+                                               École d'actuariat |
+                                               Université Laval}
+  \date{%
+    \fontseries{m}\fontsize{14}{18}\selectfont Notes de cours |
+                                               Exercices}
 
   %%% ===================
   %%%  STYLE DU DOCUMENT
@@ -195,7 +200,18 @@
 \frontmatter
 
 \pagestyle{empty}
-\include{avant-partie_2}
+%% Page couverture avant. Il faut modifier la largeur des graphiques
+%% puisque Sweave la règle à 0.8\textwidth.
+\setkeys{Gin}{width=\paperwidth}
+\includepdf[pages=1]{couvertures-partie_2}
+\setkeys{Gin}{width=0.8\textwidth}
+\cleardoublepage
+
+\include{pagegarde}\
+\clearpage
+
+\include{notices}
+\clearpage
 
 \pagestyle{companion}
 
@@ -219,7 +235,9 @@
 \cleardoublepage
 \cleartoverso
 
-\include{arriere-partie_2}
+%% Page couverture arrière.
+\setkeys{Gin}{width=\paperwidth}
+\includepdf[pages=2]{couvertures-partie_2}
 
 \end{document}
 
