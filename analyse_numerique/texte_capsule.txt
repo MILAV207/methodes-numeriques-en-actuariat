@@ -1,0 +1,29 @@
+Il y a un adage, en informatique, selon lequel 10 x 0,1 est rarement
+égal à 1. Est-ce donc dire que les ordinateurs ne savent pas compter?
+
+La troisième partie du cours porte sur l’analyse numérique. Un des
+premiers sujets abordés est l’arithmétique des ordinateurs. Pour
+l’occasion, nous vous avons préparé une petite visite toute spéciale.
+
+Malgré qu’il existe des super calculateurs tels que le CLUMEQ, il
+demeure important de connaître les règles de bases de l’arithmétique
+des ordinateurs afin d’optimiser ses calculs. Par exemple, saviez-vous
+qu’un ordinateur met 30% plus de temps à faire une multiplication
+qu’une addition? Un logarithme, 15 fois plus! Que des erreurs
+d’arrondi peuvent avoir, et ont eu, des conséquences catastrophiques?
+C’est le genre de choses auxquelles des gens comme vous, qui allez
+utiliser les ordinateurs de manière intensive, devez être
+sensibilisés.
+
+Lorsque vous êtes confrontés à un problème mathématique qui n’admet
+pas de solution explicite, vous pouvez appuyer sur une touche de votre
+calculatrice pour obtenir une réponse. Mais comment la calculatrice
+s’y prend-t-elle pour vous fournir cette réponse? C’est ce que nous
+allons voir dans les chapitres portant sur la résolution d’équations
+et l’intégration numérique.
+
+En terminant, 10𝑥x 0,1 n'est pas égal à 1 pour un ordinateur parce
+qu’il est incapable de représenter le nombre 1,0 de manière exacte. En
+effet, il ne peut le faire que pour les puissances de 2.
+
+Bon module!
