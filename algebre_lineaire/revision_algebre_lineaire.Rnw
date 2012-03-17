@@ -1,20 +1,35 @@
 \chapter{Révision d'algrèbre linéaire}
 \label{chap:revision}
 
-Cette section sert de révision des principaux éléments fondamentaux
-d'algèbre linéaire étudiés au cégep: matrice, déterminant, inverse,
-vecteur, espace vectoriel et relations avec les systèmes d'équations
-linéaires.
+\begin{objectifs}
+\item Connaître les principales règles de l’arithmétique matricielle,
+  dont la somme, le produit, la transposée et la trace.
+\item Savoir exprimer un système d’équations linéaires sous forme
+  matricielle et le résoudre par élimination gaussienne ainsi que par
+  produit de matrices élémentaires.
+\item Savoir vérifier si des éléments d’un espace vectoriel sont
+  linéairement indépendants.
+\item Connaître les propriétés de l’inverse d’une matrice.
+\item Connaître les propriétés du déterminant d’une matrice.
+\item Savoir calculer l’inverse d’une matrice à partir de matrices
+  élémentaires et par la méthode de la matrice adjointe.
+\item Savoir déterminer le rang d’une matrice.
+\item Établir les liens entre les concepts ci-dessus.
+\end{objectifs}
 
-Ce chapitre ne prétend évidemment à aucune exhaustivité. Consulter, au
-besoin, à l'un des nombreux livres d'introduction à l'algèbre linéaire
-offerts en librairie ou à la bibliothèque. Les éditions successives de
-\cite{Anton:linear:8e:2000} ont longtemps servi pour les examens
-professionnels et constituent toujours des références de choix.
+Ce chapitre vise à réviser les éléments fondamentaux d'algèbre
+linéaire normalement étudiés au collège: matrice, déterminant,
+inverse, vecteur, espace vectoriel et relations avec les systèmes
+d'équations linéaires. On ne prétend à aucune exhaustivité; le lecteur
+devrait donc consulter, au besoin, l'un des nombreux livres
+d'introduction à l'algèbre linéaire disponibles en librairie ou à la
+bibliothèque. Les éditions successives de \cite{Anton:linear:8e:2000}
+ont longtemps servi pour les examens professionnels et constituent
+toujours des références de choix.
 
-Le langage \textsf{R} contient à peu près tous les outils nécessaires
+Le langage R contient à peu près tous les outils nécessaires
 pour la manipulation et le traitement des vecteurs et matrices. Un
-\textsf{R} dans la marge indique un élément d'information propre à ce
+R dans la marge indique un élément d'information propre à ce
 langage.
 
 
@@ -49,8 +64,8 @@ Lorsqu'une matrice compte autant de lignes que de colonnes ($m = n$),
 la matrice est dite \emph{carrée}. Dans un tel cas, les éléments
 $a_{ii}$, $i = 1, \dots, n$ forment la \emph{diagonale} de la matrice.
 
-\begin{rem}
-  La \R fonction \texttt{diag} sert, entre autres, à extraire la
+\begin{dansR}
+  La fonction \texttt{diag} sert, entre autres, à extraire la
   diagonale d'une matrice. Si la matrice passée en argument est
   rectangulaire, \texttt{diag} retourne la liste des éléments
   $a_{ii}$, $i = 1, \dots, \min(m, n)$:
@@ -60,7 +75,7 @@ diag(m)
 ( m <- matrix(1:12, nrow=4) )
 diag(m)
 @
-\end{rem}
+\end{dansR}
 
 
 \subsection{Matrice symétrique}
@@ -200,7 +215,7 @@ et leurs éléments sont numérotés par un seul indice:
 \end{displaymath}
 
 \begin{rem}
-  Bien \R que rarement nécessaires en \textsf{R}, on peut créer des
+  Bien \R que rarement nécessaires en R, on peut créer des
   vecteurs ligne ou colonne avec les fonctions \texttt{rbind} et
   \texttt{cbind}, dans l'ordre:
 <<echo=TRUE>>=
@@ -304,7 +319,7 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
 \end{exemple}
 
 \begin{rem}
-  Le \R produit matriciel s'effectue en \textsf{R} avec l'opérateur
+  Le \R produit matriciel s'effectue en R avec l'opérateur
   \texttt{\%*\%}:
 <<echo=FALSE>>=
 m1 <- matrix(c(1, 2, 2, 6, 4, 0), nrow=2)
@@ -497,7 +512,7 @@ généralement notée $\mat{A}^T$ ou $\mat{A}^\prime$:
 \end{proof}
 
 \begin{rem}
-  La \R transposée est obtenue en \textsf{R} avec la fonction
+  La \R transposée est obtenue en R avec la fonction
   \texttt{t}:
 <<echo=TRUE>>=
 m
@@ -559,8 +574,8 @@ un système à trois équations et trois inconnues.
 par(mar = c(2, 2, 1, 1))
 f <- function(x) 2 * x + 2
 g <- function(x) -3 * x + 12
-curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 3)
-curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 3)
+curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
+curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
 @
   \end{minipage}
   \begin{minipage}[c]{0.4\linewidth}
@@ -573,8 +588,8 @@ curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 3)
 par(mar = c(2, 2, 1, 1))
 f <- function(x) 2 * x + 2
 g <- function(x) 2 * x + 4
-curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 3)
-curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 3)
+curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
+curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
 @
   \end{minipage}
   \begin{minipage}[c]{0.4\linewidth}
@@ -587,8 +602,8 @@ curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 3)
 par(mar = c(2, 2, 1, 1))
 f <- function(x) 2 * x + 2
 g <- function(x) 2 * x + 2.07
-curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 3)
-curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 3)
+curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
+curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
 @
   \end{minipage}
   \begin{minipage}[c]{0.4\linewidth}
@@ -596,8 +611,8 @@ curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 3)
   \end{minipage}
   \newline
   \caption{Solutions possibles de systèmes d'équations linéaires à
-    deux et trois variables: une seule solution (a), aucune solution
-    (b) ou une infinité de solutions (c).}
+    deux et trois variables: (a) une seule solution;(b) aucune
+    solution; (c) infinité de solutions.}
   \label{fig:revision:solutions}
 \end{figure}
 
@@ -892,8 +907,9 @@ L'élimination gaussienne et l'élimination de Gauss--Jordan se prêtent
 bien à la mise en oeuvre informatique de méthodes de résolution de
 grands systèmes d'équations linéaires. Un algorithme efficace prendra
 toutefois soin de minimiser les erreurs d'arrondi ainsi que le nombre
-d'opérations. Nous étudierons plus tard la méthode la plus souvent
-retenue pour résoudre les systèmes d'équations linéaires.
+d'opérations. Nous étudierons au chapitre~\ref{chap:decomposition} la
+méthode la plus souvent retenue pour résoudre les systèmes d'équations
+linéaires.
 
 
 \subsection{Matrices élémentaires}
@@ -901,8 +917,8 @@ retenue pour résoudre les systèmes d'équations linéaires.
 Les opérations élémentaires réalisées sur une matrice peuvent être
 représentées comme un produit entre une \emph{matrice élémentaire} et
 la matrice (dans cet ordre). Une matrice élémentaire $n \times n$ est
-le résultat d'une et une seule opération sur les lignes de la matrice
-identité $\mat{I}_n$.
+le résultat d'une --- et une seule --- opération sur les lignes de la
+matrice identité $\mat{I}_n$.
 
 Par exemple, soit la matrice
 \begin{displaymath}
@@ -944,6 +960,8 @@ le produit
     3 & 4
   \end{bmatrix}.
 \end{displaymath}
+Les matrices les plus à gauche dans les produits ci-dessus sont des
+matrices élémentaires.
 
 Les matrices élémentaires sont généralement notées $\mat{E}$. Leur
 principale propriété est formalisée dans le théorème suivant.
@@ -1146,9 +1164,6 @@ où $\mat{a}_i = (a_{1i}, \dots, a_{ni})$. Les règles de l'arithmétique
 matricielle nous fournissent donc une arithmétique pour les espaces
 vectoriels.
 
-
-\subsection{Indépendance linéaire}
-
 La principale notion d'algèbre vectorielle qui nous sera utile ici est
 celle d'indépendance linéaire.
 
@@ -1159,8 +1174,8 @@ nuls. Si la seule solution de l'équation vectorielle
 \end{displaymath}
 est la solution triviale $k_1 = 0, \dots, k_n = 0$, alors $V$ est un
 ensemble \emph{linéairement indépendant}. S'il existe une autre
-solution que la solution triviale à l'équation, alors $V$ est ensemble
-\emph{linéairement dépendant}.
+solution que la solution triviale à l'équation, alors $V$ est un
+ensemble \emph{linéairement dépendant}.
 
 Lorsque $V = \{\mat{v}_1, \dots, \mat{v}_n\}$ est un ensemble de
 vecteurs linéairement indépendants, on dit que $V$ forme une
@@ -1301,10 +1316,10 @@ inverse de $\mat{B}$.
     &= \mat{A} \mat{A}^{-1} \\
     &= \mat{I}.
   \end{align*}
-  Quant au second résultat, il sera démontré si l'on démontre que
-  $(\mat{A}^{-1})^T \mat{A}^T = \mat{A}^T (\mat{A}^{-1})^T = \mat{I}$.
-  Or, par le résultat 4 du théorème \ref{thm:revision:transposee}
-  (page \pageref{thm:revision:transposee}),
+  Pour le second résultat, il faut démontrer que $(\mat{A}^{-1})^T
+  \mat{A}^T = \mat{A}^T (\mat{A}^{-1})^T = \mat{I}$. Or, par le
+  résultat 4 du théorème \ref{thm:revision:transposee} (page
+  \pageref{thm:revision:transposee}),
   \begin{gather*}
     (\mat{A}^{-1})^T \mat{A}^T =
     (\mat{A} \mat{A}^{-1})^T =
@@ -1670,7 +1685,7 @@ de $\mat{A}$ et est notée $\mathrm{adj}(\mat{A})$.
 \end{thm}
 
 \begin{rem}
-  Le \R déterminant d'une matrice est obtenu dans \textsf{R} avec la
+  Le \R déterminant d'une matrice est obtenu dans R avec la
   fonction \texttt{det}.
 <<echo=TRUE>>=
 A <- matrix(c(1, 2, 1, 2, 5, 0, 3, 3, 8), nrow=3)
