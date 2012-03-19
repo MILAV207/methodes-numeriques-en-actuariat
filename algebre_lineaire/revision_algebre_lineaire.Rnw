@@ -20,17 +20,26 @@
 Ce chapitre vise à réviser les éléments fondamentaux d'algèbre
 linéaire normalement étudiés au collège: matrice, déterminant,
 inverse, vecteur, espace vectoriel et relations avec les systèmes
-d'équations linéaires. On ne prétend à aucune exhaustivité; le lecteur
-devrait donc consulter, au besoin, l'un des nombreux livres
-d'introduction à l'algèbre linéaire disponibles en librairie ou à la
-bibliothèque. Les éditions successives de \cite{Anton:linear:8e:2000}
-ont longtemps servi pour les examens professionnels et constituent
+d'équations linéaires. Nous tâchons d'insister sur l'établissement de
+liens entre les différentes notions passées en revue. À ce titre, le
+théorème~\ref{thm:revision:unification} en fin de chapitre est
+particulièrement important puisqu'il unifie un grand nombre de
+résultats.
+
+Le texte ne prétend à aucune exhaustivité; le lecteur devrait donc
+consulter, au besoin, l'un des nombreux livres d'introduction à
+l'algèbre linéaire disponibles en librairie ou à la bibliothèque. Les
+éditions successives de \cite{Anton:linear:8e:2000} ont longtemps
+servi pour les examens professionnels d'actuariat et constituent
 toujours des références de choix.
 
-Le langage R contient à peu près tous les outils nécessaires
-pour la manipulation et le traitement des vecteurs et matrices. Un
-R dans la marge indique un élément d'information propre à ce
-langage.
+Le langage R contient à peu près tous les outils nécessaires pour la
+manipulation et le traitement des vecteurs et matrices. La plupart des
+fonctions pertinentes ont déjà été inroduites dans le
+chapitre~\ref{operateurs} de la partie~I, mais nous offrons néanmoins
+une nouvelle présentation dans le code informatique de la
+section~\ref{sec:revision:code}. Prendre note qu'il n'y a pas d'autre
+renvoi au code informatique dans le chapitre.
 
 
 \section{Matrices}
@@ -63,19 +72,6 @@ lorsque les dimensions de la matrices sont claires par le contexte.
 Lorsqu'une matrice compte autant de lignes que de colonnes ($m = n$),
 la matrice est dite \emph{carrée}. Dans un tel cas, les éléments
 $a_{ii}$, $i = 1, \dots, n$ forment la \emph{diagonale} de la matrice.
-
-\begin{dansR}
-  La fonction \texttt{diag} sert, entre autres, à extraire la
-  diagonale d'une matrice. Si la matrice passée en argument est
-  rectangulaire, \texttt{diag} retourne la liste des éléments
-  $a_{ii}$, $i = 1, \dots, \min(m, n)$:
-<<echo=TRUE>>=
-( m <- matrix(1:9, nrow=3) )
-diag(m)
-( m <- matrix(1:12, nrow=4) )
-diag(m)
-@
-\end{dansR}
 
 
 \subsection{Matrice symétrique}
@@ -130,27 +126,6 @@ est appelée une matrice \emph{diagonale}, comme par exemple
   \end{bmatrix}.
 \end{displaymath}
 
-\begin{rem}
-  La \R fonction \texttt{lower.tri} (\texttt{upper.tri}) retourne une
-  matrice de la même dimension que celle passée en argument avec des
-  valeurs \texttt{TRUE} (\texttt{FALSE}) aux positions des éléments
-  sous la diagonale et \texttt{FALSE} (\texttt{TRUE}) aux positions
-  au-dessus de la diagonale.  La diagonale sera dans le premier ou le
-  second groupe selon que l'argument \texttt{diag} est \texttt{TRUE}
-  ou \texttt{FALSE}:
-<<echo=TRUE>>=
-( m <- matrix(1:9, nrow=3) )
-lower.tri(m)
-upper.tri(m, diag=TRUE)
-@
-
-  On utilise principalement ces fonctions pour extraire les éléments
-  au-dessus ou au-dessous de la diagonale:
-<<echo=TRUE>>=
-m[lower.tri(m)]
-@
-\end{rem}
-
 
 \subsection{Matrice identité et matrice zéro}
 
@@ -181,19 +156,6 @@ $\mat{0}$:
 
 La matrice nulle est tout-à-fait différente du scalaire 0.
 
-\begin{rem}
-  Lorsque \R l'on passe un vecteur à la fonction \texttt{diag}, le
-  résultat est une matrice diagonale formée du vecteur:
-<<echo=TRUE>>=
-diag(1:3)
-@
-  Lorsque l'argument de \texttt{diag} est un scalaire $n$, le résultat est
-  la matrice identité $n \times n$:
-<<echo=TRUE>>=
-diag(3)
-@
-\end{rem}
-
 
 \subsection{Vecteur ligne et vecteur colonne}
 
@@ -213,17 +175,6 @@ et leurs éléments sont numérotés par un seul indice:
     b_1 \\ b_2 \\ \vdots \\ b_m
   \end{bmatrix}.
 \end{displaymath}
-
-\begin{rem}
-  Bien \R que rarement nécessaires en R, on peut créer des
-  vecteurs ligne ou colonne avec les fonctions \texttt{rbind} et
-  \texttt{cbind}, dans l'ordre:
-<<echo=TRUE>>=
-rbind(1:3)
-dim(rbind(1:3))
-cbind(1:3)
-@
-\end{rem}
 
 
 
@@ -317,20 +268,6 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
   illustre que le produit matriciel n'est pas commutatif.
   \qed
 \end{exemple}
-
-\begin{rem}
-  Le \R produit matriciel s'effectue en R avec l'opérateur
-  \texttt{\%*\%}:
-<<echo=FALSE>>=
-m1 <- matrix(c(1, 2, 2, 6, 4, 0), nrow=2)
-m2 <- matrix(c(4, 0, 2, 1, -1, 7, 4, 3, 5, 3, 1, 2), nrow=3)
-@
-<<echo=TRUE>>=
-m1
-m2
-m1 %*% m2
-@
-\end{rem}
 
 \begin{thm}[Propriétés de l'arithmétique matricielle]
   \label{thm:revision:arithmetique}
@@ -510,16 +447,6 @@ généralement notée $\mat{A}^T$ ou $\mat{A}^\prime$:
   d'où $\mat{A}^T \mat{A}$ est une matrice symétrique. On procède de
   même pour le second résultat de la propriété 5.
 \end{proof}
-
-\begin{rem}
-  La \R transposée est obtenue en R avec la fonction
-  \texttt{t}:
-<<echo=TRUE>>=
-m
-t(m)
-@
-\end{rem}
-
 
 
 \section{Lien avec les systèmes d'équations linéaires}
@@ -1246,7 +1173,6 @@ la solution triviale.
 
 
 
-
 \section{Inverse d'une matrice}
 \label{sec:revision:inverse}
 
@@ -1684,32 +1610,6 @@ de $\mat{A}$ et est notée $\mathrm{adj}(\mat{A})$.
   \end{displaymath}
 \end{thm}
 
-\begin{rem}
-  Le \R déterminant d'une matrice est obtenu dans R avec la
-  fonction \texttt{det}.
-<<echo=TRUE>>=
-A <- matrix(c(1, 2, 1, 2, 5, 0, 3, 3, 8), nrow=3)
-det(A)
-@
-
-  De plus, avec pour seul argument une matrice carrée, la fonction
-  \texttt{solve} calcule l'inverse de cette matrice.  Avec deux
-  arguments, une matrice $\mat{A}$ et un vecteur $\mat{b}$,
-  \texttt{solve} calcule la solution du système d'équations $\mat{Ax}
-  = \mat{b}$, c'est-à-dire $\mat{A}^{-1} \mat{b}$. À noter qu'il est
-  plus rapide de faire \texttt{solve(A, b)} que \texttt{solve(A) \%*\%
-    b}.
-<<echo=TRUE>>=
-b <- 1:3
-solve(A)
-solve(A, b)
-A <- matrix(rnorm(500^2), nrow=500)
-b <- rnorm(500)
-system.time(solve(A) %*% b)
-system.time(solve(A, b))
-@
-\end{rem}
-
 
 
 \section{Rang}
@@ -1756,7 +1656,18 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
   \end{enumerate}
 \end{thm}
 
+
+
+\section{Code informatique}
+\label{sec:revision:code}
+
+\lstinputlisting[firstline=3]{revision_algebre_lineaire.R}
+
+\vfill
+
+\input{exercices-revision_algebre_lineaire}
+
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "methodes_numeriques"
+%%% TeX-master: "methodes_numeriques-partie_4"
 %%% End:
