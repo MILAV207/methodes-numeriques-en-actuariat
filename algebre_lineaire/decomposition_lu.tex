@@ -1,6 +1,14 @@
 \chapter{Méthodes de résolution de systèmes d'équations linéaires}
 \label{chap:decomposition}
 
+\begin{objectifs}
+\item Comparer la rapidité des méthodes usuelles de résolutions des
+  systèmes d’équations linéaires.
+\item Connaître la stratégie derrière la décomposition $LU$.
+\item Être en mesure de calculer la solution d’un
+  système d’équations linéaires par la décomposition $LU$.
+\end{objectifs}
+
 L'utilisation des matrices de loin la plus fréquente en actuariat
 consiste à résoudre des systèmes d'équations linéaires du type
 \begin{displaymath}
@@ -64,7 +72,7 @@ leur avantage augmentant rapidement avec la taille du système
 d'équations.
 
 
-\section{Décomposition $LU$}
+\section{Décomposition LU}
 \label{sec:decomposition:decomposition}
 
 Le principal inconvénient des méthodes d'élimination réside dans le
@@ -74,12 +82,10 @@ $\mat{Ax} = \mat{b}$ pour un nouveau vecteur $\mat{b}$, il faut
 répéter la procédure depuis le début.
 
 Les principales routines de résolution de systèmes d'équations
-linéaires disponibles dans les divers outils informatiques\footnote{%
-  Plusieurs utilisent les librairies LINPACK ou LAPACK.}  (S-Plus,
-\textsf{R}, Maple, Matlab, Mathematica, etc.) reposent donc plutôt sur
-la technique de la décomposition $LU$, une variante de l'élimination
-gaussienne ne nécessitant pas de connaître d'avance le vecteur
-$\mat{b}$.
+linéaires disponibles dans les divers outils informatiques (R, Maple,
+Matlab, Mathematica, etc.) reposent donc plutôt sur la technique de la
+décomposition $LU$, une variante de l'élimination gaussienne ne
+nécessitant pas de connaître d'avance le vecteur $\mat{b}$.
 
 L'idée est très simple: si la matrice $\mat{A}$ peut être factorisée
 en un produit de matrices $n \times n$
@@ -239,7 +245,22 @@ fois la factorisation connue, on peut donc résoudre plusieurs systèmes
 d'équations différents utilisant tous la même matrice de coefficients
 $\mat{A}$ sans devoir répéter une grande partie des calculs.
 
+\begin{rem}
+  Plusieurs progiciels mathématiques ont recours à LAPACK\footnote{%
+    \emph{Linear Algebra PACKage};
+    \url{http://www.netlib.org/lapack}.} %
+  pour les calculs d'algèbre linéaire numérique. Cette bibliothèque
+  est elle-même basée sur LINPACK, dont les origines remontent aux
+  années 1970. La bibliothèque est écrite en Fortran, un autre très
+  ancien langage de programmation, toujours utilisé pour le calcul
+  scientifique. D'ailleurs, au moins une idiosyncrasie de ce langage
+  demeure visible en R: c'est du Fortran que vient cette habitude de
+  remplir les matrices par colonne\dots
+\end{rem}
+
+\input{exercices-decomposition_lu}
+
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "methodes_numeriques"
+%%% TeX-master: "methodes_numeriques-partie_4"
 %%% End:
