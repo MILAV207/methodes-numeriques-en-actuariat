@@ -1637,7 +1637,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
   \label{thm:revision:unification}
   Soit $\mat{A}$ une matrice $n \times n$. Les énoncés suivants
   sont équivalents.
-  \begin{enumerate}
+  \begin{enumerate}[widest=10]
   \item $\mat{A}$ est inversible.
   \item $\det(\mat{A}) \neq 0$
   \item $\mathrm{rang}(\mat{A}) = n$

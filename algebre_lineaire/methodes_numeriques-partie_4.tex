@@ -8,9 +8,10 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{vgmath,actu,amsmath,amsthm,amsfonts,icomma}
   \usepackage[noae]{Sweave}
-  \usepackage{paralist,enumitem}
+  \usepackage{paralist}
+  \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
-  \usepackage{graphicx,color}
+  \usepackage{graphicx,color,multicol}
   \usepackage{MnSymbol,textcomp}       % symboles spéciaux
   \usepackage{listingsutf8,answers}
   \usepackage{pdfpages}                % couvertures
@@ -204,18 +205,11 @@
   %%%  Nouvelles commandes
   %%% =====================
   \newcommand{\R}{\mathbb{R}}
-  \newcommand{\Fonction}[1]{\code{#1}}
-  \newcommand{\fonction}[1]{\code{#1}}
-  \newcommand{\ieee}[3]{\fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
-  \newcommand{\fl}{\mathrm{fl}}
+  \newcommand{\tr}{\mathrm{tr}}
   \newcommand{\texthl}[1]{\textbf{\color{darkred}{#1}}}
 
   %%% Support pour sous-tableaux et sous-figures
-  \newsubfloat{table}
   \newsubfloat{figure}
-
-  %%% Aide pour la césure
-  \hyphenation{hexa-dé-ci-mal}
 
   %%% Style de la bibliographie
   \bibliographystyle{francais}
