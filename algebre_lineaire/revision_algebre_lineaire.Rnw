@@ -35,11 +35,10 @@ toujours des références de choix.
 
 Le langage R contient à peu près tous les outils nécessaires pour la
 manipulation et le traitement des vecteurs et matrices. La plupart des
-fonctions pertinentes ont déjà été inroduites dans le
+fonctions pertinentes ont déjà été introduites dans le
 chapitre~\ref{operateurs} de la partie~I, mais nous offrons néanmoins
 une nouvelle présentation dans le code informatique de la
-section~\ref{sec:revision:code}. Prendre note qu'il n'y a pas d'autre
-renvoi au code informatique dans le chapitre.
+section~\ref{sec:revision:code}.
 
 
 \section{Matrices}
@@ -1655,6 +1654,11 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
   \item Les vecteurs colonnes de $\mat{A}$ forment une base de $\mathbb{R}^n$.
   \end{enumerate}
 \end{thm}
+
+\begin{gotoR}
+  Le code informatique de la section~\ref{sec:revision:code} passe en
+  revue les fonctions d'algèbre linéaire offertes dans R.
+\end{gotoR}
 
 
 

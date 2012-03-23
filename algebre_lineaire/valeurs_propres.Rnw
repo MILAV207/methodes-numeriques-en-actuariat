@@ -612,9 +612,12 @@ Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$,
 \section{Diagonalisation}
 \label{sec:valeurspropres:diagonalisation}
 
-La diagonalisation d'une matrice est l'application des valeurs et
-vecteurs propres qu'un étudiant en actuariat est le plus susceptible
-de rencontrer dans ses études de premier cycle.
+La diagonalisation d'une matrice est la principale application des
+valeurs et vecteurs propres qu'un étudiant en actuariat est
+susceptible de rencontrer dans ses études. Elle joue un rôle dans la
+résolution de systèmes d'équations différentielles ordinaires, ainsi
+que dans le calcul de l'exponentielle d'une matrice, tel qu'expliqué
+dans l'exemple suivant.
 
 \begin{exemple}
   L'exponentielle d'un nombre réel $x$ est définie comme
@@ -631,10 +634,12 @@ de rencontrer dans ses études de premier cycle.
   avec $\mat{A}^0 = \mat{I}$ par convention.
 
   L'évaluation numérique de l'exponentielle d'une matrice de manière
-  efficace, fiable et précise est chose difficile; voir
-  \citet{Moler:dubious:1978}.
+  efficace, fiable et précise est chose difficile. Dans un article
+  célèbre, \citet{Moler:dubious:1978} passent en revue pas moins de 19
+  manières différentes de le faire, pour conclure{\dots} qu'aucune méthode
+  n'est uniformément meilleure que les autres!
 
-  Cependant, si $\mat{A}$ est diagonale, alors le calcul est simple.
+  Cela dit, le calcul est simple si $\mat{A}$ est diagonale.
   Supposons, sans perte de généralité, que $\mat{A}$ est une matrice
   $2 \times 2$:
   \begin{equation*}
@@ -678,7 +683,10 @@ de rencontrer dans ses études de premier cycle.
   \begin{align*}
     \mat{B}^2
     &= \mat{P^{-1}} \mat{A} \mat{P} \mat{P^{-1}} \mat{A} \mat{P} \\
-    &= \mat{P^{-1}} \mat{A}^2 \mat{P} \\
+    &= \mat{P^{-1}} \mat{A}^2 \mat{P}, \\
+    \mat{B}^3
+    &= \mat{P^{-1}} \mat{A} \mat{P} \mat{P^{-1}} \mat{A}^2 \mat{P} \\
+    &= \mat{P^{-1}} \mat{A}^3 \mat{P} \\
     &\vdots \\
     \mat{B}^n &= \mat{P^{-1}} \mat{A}^n \mat{P},
   \end{align*}
@@ -898,11 +906,17 @@ alors les vecteurs propres sont linéairement indépendants.
   \qed
 \end{exemple}
 
+\begin{gotoR}
+  On calcule les valeurs et vecteurs propres dans R avec la fonction
+  \code{eigen}. Voir le code informatique de la
+  section~\ref{sec:revision:code} pour les détails.
+\end{gotoR}
+
 
 \section{Code informatique}
 \label{sec:revision:code}
 
-%\lstinputlisting[firstline=3]{valeurs_propres.R}
+\lstinputlisting[firstline=3]{valeurs_propres.R}
 
 \vfill
 
