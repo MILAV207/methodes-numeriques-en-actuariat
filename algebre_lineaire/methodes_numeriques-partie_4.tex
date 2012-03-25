@@ -15,11 +15,10 @@
   \usepackage{MnSymbol,textcomp}       % symboles spéciaux
   \usepackage{listingsutf8,answers}
   \usepackage{pdfpages}                % couvertures
-  \usepackage{xr}                      % références aux chap. 3 et 6
+  \usepackage{xr}                      % référence au chap. 3
 
   %%% Références externes
-  % \externaldocument{operateurs}
-  % \externaldocument{avance}
+  \externaldocument{operateurs}
 
   %%%  Couleurs
   \definecolor{comments}{rgb}{0.7,0,0}
@@ -152,6 +151,7 @@
   \renewenvironment{solution}[1]{%
     \begin{enumerate}[label=#1,font=\bfseries]
       \setenumerate[2]{leftmargin=*,labelsep=0em}
+      \setenumerate[3]{leftmargin=*,labelsep=0.4em}
       \item}
     {\end{enumerate}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
@@ -217,6 +217,13 @@
   %%% Numérotation des chapitres
   \setcounter{chapter}{12}
 
+  %% Longueur utilisée dans les solutions d'algèbre
+  %% linéaire.
+  \newlength{\ocolumnsep}
+
+  %% Aide pour la césure
+  \hyphenation{cons-tante}
+
 %  \includeonly{pagegarde,notices}
 
 \begin{document}
@@ -251,7 +258,7 @@
 \include{decomposition_lu}
 
 \appendix
-%\include{solutions}
+\include{solutions}
 
 \bibliography{r,math,stat,informatique,vg}
 

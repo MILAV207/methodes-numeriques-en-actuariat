@@ -595,17 +595,12 @@ Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$,
   \qed
 \end{exemple}
 
-\begin{rems}
-  \begin{enumerate}
-  \item Le nombre de vecteurs propres dans la base est \emph{au plus}
-    la multiplicité de $\lambda$. Par conséquent, si toutes les
-    valeurs propres sont différentes, alors on a $n$ vecteurs propres
-    différents.
-  \item Dans \textsf{R}, les valeurs propres et vecteurs propres sont
-    calculés avec la fonction \texttt{eigen}. Les vecteurs propres
-    sont normalisés de sorte que leur norme soit toujours égale à 1.
-  \end{enumerate}
-\end{rems}
+\begin{rem}
+  Le nombre de vecteurs propres dans la base est \emph{au plus} la
+  multiplicité de $\lambda$. Par conséquent, si toutes les valeurs
+  propres sont différentes, alors on a $n$ vecteurs propres
+  différents.
+\end{rem}
 
 
 

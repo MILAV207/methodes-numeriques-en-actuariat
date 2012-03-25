@@ -24,12 +24,16 @@
 %%% Début des exercices
 %%%
 
+<<echo=FALSE>>=
+options(width = 50)
+@
 
 \begin{exercice}
   \label{ex:valeurspropres:base}
   Trouver l'équation caractéristique, les valeurs propres et les bases
-  de vecteurs propres des matrices suivantes. Vérifier les réponses
-  obtenues à l'aide de la fonction \texttt{eigen} de R.
+  de vecteurs propres des matrices suivantes.  Vérifier les réponses
+  obtenues à l'aide de la fonction \texttt{eigen} de \textsf{R} ou
+  S-Plus.
   \begin{enumerate}
     \begin{multicols}{2}
     \item $\begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix}$
@@ -89,21 +93,10 @@
       \end{displaymath}
       soit $x_1 = 0$ et $x_2 = s$. Une base de vecteurs propres
       correspondant à $\lambda = -1$ est donc $(0, 1)$. Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(3, 8, 0, -1), nrow = 2)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1]  3 -1
-
-$vectors
-          [,1] [,2]
-[1,] 0.4472136    0
-[2,] 0.8944272    1
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(3, 8, 0, -1), nrow = 2)
+eigen(m)
+@
       On remarque que les vecteurs propres obtenus avec \texttt{eigen}
       sont normalisés de sorte que leur norme soit toujours égale à 1.
     \item On a
@@ -127,21 +120,10 @@ $vectors
       soit $x_1 = 3s/2$ et $x_2 = s$. Une base de vecteurs propres
       correspondant à $\lambda = 4$ est donc $(\frac{3}{2}, 1)$.
       Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(10, 4, -9, -2), nrow = 2)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] 4 4
-
-$vectors
-           [,1]      [,2]
-[1,] -0.8320503 0.8320503
-[2,] -0.5547002 0.5547002
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(10, 4, -9, -2), nrow = 2)
+eigen(m)
+@
     \item On a
       \begin{align*}
         \det(\lambda \mat{I} - \mat{A})
@@ -194,22 +176,10 @@ $vectors
       soit $x_1 = -s$, $x_2 = s$ et $x_3 = s$. Une base de vecteurs
       propres correspondant à $\lambda = 2$ est donc $(-1, 1, 1)$.
       Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(4, -2, -2, 0, 1, 0, 1, 0, 1), nrow = 3)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] 3 2 1
-
-$vectors
-           [,1]       [,2] [,3]
-[1,]  0.5773503 -0.3333333    0
-[2,] -0.5773503  0.6666667    1
-[3,] -0.5773503  0.6666667    0
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(4, -2, -2, 0, 1, 0, 1, 0, 1), nrow = 3)
+eigen(m)
+@
     \item On a
       \begin{align*}
         \det(\lambda \mat{I} - \mat{A})
@@ -250,22 +220,10 @@ $vectors
       soit $x_1 = -2s$, $x_2 = 8s/3$ et $x_3 = s$. Une base de
       vecteurs propres correspondant à $\lambda = -4$ est donc $(-2,
       \frac{8}{3}, 1)$.  Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(5, 0, 1, 6, -1, 0, 2, -8, -2), nrow = 3)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] -4  3  3
-
-$vectors
-           [,1]       [,2]       [,3]
-[1,]  0.5746958 -0.9128709  0.9128709
-[2,] -0.7662610  0.3651484 -0.3651484
-[3,] -0.2873479 -0.1825742  0.1825742
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(5, 0, 1, 6, -1, 0, 2, -8, -2), nrow = 3)
+eigen(m)
+@
     \item On a
       \begin{align*}
         \det(\lambda \mat{I} - \mat{A})
@@ -331,23 +289,12 @@ $vectors
       soit $x_1 = -s$, $x_2 = 0$, $x_3 = s$ et $x_4 = 0$. Une base de
       vecteurs propres correspondant à $\lambda = -2$ est donc $(-1,
       0, 1, 0)$.  Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(0, 1, 0, 0, 0, 0, 1, 0, 2, 1, -2, 0, 0, 0, 0, 1), nrow = 4)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] -2 -1  1  1
-
-$vectors
-              [,1]       [,2] [,3]       [,4]
-[1,] -7.071068e-01  0.8164966    0 -0.5345225
-[2,]  4.317754e-16 -0.4082483    0 -0.8017837
-[3,]  7.071068e-01 -0.4082483    0 -0.2672612
-[4,]  0.000000e+00  0.0000000    1  0.0000000
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(0, 1, 0, 0, 0, 0, 1, 0,
+              2, 1, -2, 0, 0, 0, 0, 1),
+            nrow = 4)
+eigen(m)
+@
     \end{enumerate}
   \end{sol}
   \begin{rep}
@@ -643,7 +590,7 @@ $vectors
   \item si la matrice est diagonalisable, trouver la matrice $\mat{P}$
     qui diagonalise $\mat{A}$ et $\mat{P}^{-1} \mat{AP}$;
   \item vérifier les réponses en iv) avec la fonction \texttt{eigen}
-    de R.
+    de \textsf{R} ou S-Plus.
   \end{enumerate}
   \begin{enumerate}
     \begin{multicols}{2}
@@ -689,21 +636,10 @@ $vectors
       d'où $\mathrm{rang}(2 \mat{I} - \mat{A}) = 1$. Puisque la
       matrice $\mat{A}$ ne possède qu'un seul vecteur propre, elle
       n'est pas diagonalisable.  Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(2, 1, 0, 2), nrow = 2)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] 2 2
-
-$vectors
-     [,1]          [,2]
-[1,]    0  4.440892e-16
-[2,]    1 -1.000000e+00
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(2, 1, 0, 2), nrow = 2)
+eigen(m)
+@
     \item Le polynôme caractéristique est $(\lambda - 3)(\lambda^2 - 8
       \lambda + 15) = (\lambda - 3)^2 (\lambda - 5)$, donc les valeurs
       propres sont $\lambda_1 = \lambda_2 = 3$ et $\lambda_3 = 5$.  La
@@ -746,22 +682,10 @@ $vectors
         \end{bmatrix}.
       \end{align*}
       Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(4, 2, 1, 0, 3, 0, 1, 2, 4), nrow = 3)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] 5 3 3
-
-$vectors
-          [,1] [,2]       [,3]
-[1,] 0.4082483    0 -0.7071068
-[2,] 0.8164966    1  0.0000000
-[3,] 0.4082483    0  0.7071068
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(4, 2, 1, 0, 3, 0, 1, 2, 4), nrow = 3)
+eigen(m)
+@
     \item La matrice étant triangulaire, on sait immédiatement que les
       valeurs propres sont $\lambda_1 = 3$ et $\lambda_2 = \lambda_3 =
       2$. La forme échelonnée de la matrice $3 \mat{I} - \mat{A}$ est
@@ -788,22 +712,10 @@ $vectors
       Par conséquent, la matrice $\mat{A}$ n'a pas trois vecteurs
       linéairement indépendants, donc elle n'est pas diagonalisable.
       Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(3, 0, 0, 0, 2, 1, 0, 0, 2), nrow = 3)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] 3 2 2
-
-$vectors
-     [,1] [,2]          [,3]
-[1,]    1    0  0.000000e+00
-[2,]    0    0  4.440892e-16
-[3,]    0    1 -1.000000e+00
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(3, 0, 0, 0, 2, 1, 0, 0, 2), nrow = 3)
+eigen(m)
+@
     \item Le polynôme caractéristique est $\lambda^3 - 6 \lambda^2 +
       11 \lambda - 6 = (\lambda - 1)(\lambda - 2)(\lambda - 3)$, donc
       les valeurs propres sont $\lambda_1 = 1$, $\lambda_2 = 2$ et
@@ -856,22 +768,10 @@ $vectors
         \end{bmatrix}.
       \end{align*}
       Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(-1, -3, -3, 4, 4, 1, -2, 0, 3), nrow = 3)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1] 3 2 1
-
-$vectors
-          [,1]      [,2]       [,3]
-[1,] 0.1961161 0.4264014 -0.5773503
-[2,] 0.5883484 0.6396021 -0.5773503
-[3,] 0.7844645 0.6396021 -0.5773503
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(-1, -3, -3, 4, 4, 1, -2, 0, 3), nrow = 3)
+eigen(m)
+@
     \item La matrice est triangulaire: les valeurs propres sont donc
       $\lambda_1 = \lambda_2 = -2$ et $\lambda_3 = \lambda_4 = 3$. La
       forme échelonnée de la matrice $-2 \mat{I} - \mat{A}$ est
@@ -922,23 +822,12 @@ $vectors
         \end{bmatrix}.
       \end{align*}
       Vérification:
-\begin{Schunk}
-\begin{Sinput}
-> m <- matrix(c(-2, 0, 0, 0, 0, -2, 0, 0, 0, 5, 3, 0, 0, -5, 0, 3), nrow = 4)
-> eigen(m)
-\end{Sinput}
-\begin{Soutput}
-$values
-[1]  3  3 -2 -2
-
-$vectors
-          [,1]       [,2] [,3] [,4]
-[1,] 0.0000000  0.0000000    1    0
-[2,] 0.7071068 -0.7071068    0    1
-[3,] 0.7071068  0.0000000    0    0
-[4,] 0.0000000  0.7071068    0    0
-\end{Soutput}
-\end{Schunk}
+<<echo=TRUE>>=
+m <- matrix(c(-2, 0, 0, 0, 0, -2, 0, 0,
+              0, 5, 3, 0, 0, -5, 0, 3),
+            nrow = 4)
+eigen(m)
+@
     \end{enumerate}
   \end{sol}
   \begin{rep}

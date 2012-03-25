@@ -13,8 +13,8 @@
 (e <- eigen(A))
 
 ## Les vecteurs propres sont normalisés de sorte que leur
-## norme (longueur) soit toujours égale à 1. Pour comparer
-## avec les résultats calculés algébriquement, oberver les
+## norme (longueur) soit toujours égale à 1. Pour vérifier les
+## résultats calculés algébriquement, comparer simplement les
 ## valeurs relatives des coordonnées des vecteurs.
 e$values[c(1, 2)]          # deux premières valeurs propres...
 e$vectors[, c(1, 2)]       # ... et vecteurs correspondants
