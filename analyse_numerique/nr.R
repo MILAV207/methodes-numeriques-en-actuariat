@@ -1,4 +1,4 @@
-nr <- function(FUN, FUNp, start, TOL = 1E-6, MAX.ITER = 100, echo = FALSE)
+nr <- function(FUN, FUNp, start, TOL = 1E-6, MAX.ITER = 100, echo = FALSE, ...)
 {
     x <- start
 
@@ -13,7 +13,7 @@ nr <- function(FUN, FUNp, start, TOL = 1E-6, MAX.ITER = 100, echo = FALSE)
     {
         eval(expr)
 
-        x <- xt - FUN(xt)/FUNp(xt)
+        x <- xt - FUN(xt, ...)/FUNp(xt, ...)
 
         if (abs(x - xt)/abs(xt) < TOL)
             break

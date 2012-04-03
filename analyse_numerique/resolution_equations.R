@@ -174,8 +174,13 @@ pointfixe(g5, 1.5)
 ## Fonction pour trouver la solution de 'FUN'(x) = x par la
 ## méthode de Newton-Raphson à partir de sa dérivée 'FUNp' et
 ## d'un essai initial 'start'.
+##
+## On ajoute une amélioration par rapport aux fonctions
+## 'bissection' et 'pointfixe', soit la possibilité de passer
+## des arguments additionnels aux fonctions 'FUN' et 'FUNp'
+## via l'argument '...'
 nr <- function(FUN, FUNp, start, TOL = 1E-6,
-               MAX.ITER = 100, echo = FALSE)
+               MAX.ITER = 100, echo = FALSE, ...)
 {
     x <- start
 
@@ -190,9 +195,9 @@ nr <- function(FUN, FUNp, start, TOL = 1E-6,
     {
         eval(expr)
 
-        x <- xt - FUN(xt)/FUNp(xt)
+        x <- xt - FUN(xt, ...)/FUNp(xt, ...)
 
-        if (abs(x - xt)/abs(xt) < TOL)
+        if (abs(x - xt)/abs(x) < TOL)
             break
 
         if (MAX.ITER < (i <- i + 1))
@@ -352,21 +357,26 @@ f <- function(p, x) -sum(dgamma(x, p[1], p[2], log = TRUE))
 ## faire la différence entre l'un et l'autre.
 nlm(f, c(1, 1), x = x)
 
+## === ASTUCE RIPLEY ===
 ## L'optimisation ci-dessus a généré des avertissements? C'est
 ## parce que la fonction d'optimisation s'est égarée dans les
 ## valeurs négatives, alors que les paramètres d'une gamma
-## sont strictement positifs. Cela arrive souvent.
+## sont strictement positifs. Cela arrive souvent en pratique
+## et cela peut faire complètement dérailler la procédure
+## d'optimisation (c'est-à-dire: pas de convergence).
 ##
-## On peut pallier à ce problème avec le truc suivant: plutôt
-## que d'estimer les paramètres eux-mêmes, on estime leurs
-## logarithmes. Ceux-ci demeurent alors valides sur tout l'axe
-## des réels.
+## L'Astuce Ripley consiste à pallier à ce problème en
+## estimant plutôt les logarithmes des paramètres. Pour ce
+## faire, il s'agit de réécrire la log-vraisemblance comme une
+## fonction du logarithme des paramètres, mais de la calculer
+## avec les véritables paramètres.
 f2 <- function(logp, x)
 {
     p <- exp(logp)         # retour aux paramètres originaux
     -sum(dgamma(x, p[1], p[2], log = TRUE))
 }
 nlm(f2, c(0, 0), x = x)
+## ====================
 
 ## Les valeurs obtenues ci-dessus sont toutefois les
 ## estimateurs des logarithmes des paramètres de la loi gamma.

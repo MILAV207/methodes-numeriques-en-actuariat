@@ -249,7 +249,7 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
 \end{exercice}
 
 \begin{exercice}
-  Considérer la fonction $g(x) = 3^{-x}$ sur l'intervalle $[0,
+  Considérer la fonction $g(x) = 2^{-x}$ sur l'intervalle $[0,
   1]$.
   \begin{enumerate}
   \item Vérifier si les hypothèses du
@@ -261,45 +261,45 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
   \end{enumerate}
   \begin{sol}
     \begin{enumerate}
-    \item On considère la fonction $g(x) = 3^{-x}$ dans l'intervalle
-      $[0, 1]$. En premier lieu, $1/3 \leq 3^{-x} \leq 1$ pour $0 \leq
+    \item On considère la fonction $g(x) = 2^{-x}$ dans l'intervalle
+      $[0, 1]$. En premier lieu, $1/2 \leq 2^{-x} \leq 1$ pour $0 \leq
       x \leq 1$, donc $g(x) \in [0, 1]$. De plus, $g^\prime(x) = -
-      3^{-x - 1} (\ln 3)$, d'où
+      2^{-x} (\ln 2)$, d'où
       \begin{displaymath}
-        |g^\prime(x)| = \frac{\ln 3}{3^{x + 1}} \leq \ln 3 < 1, \quad
+        |g^\prime(x)| = \frac{\ln 2}{2^{x}} \leq \ln 2 < 1, \quad
         0 \leq x \leq 1.
       \end{displaymath}
       Par le théorème~\ref{thm:resolution:pointfixe}, la fonction $g$
       possède un point fixe unique dans l'intervalle $[0, 1]$.
     \item Le graphique de la fonction $g$ se trouve à la figure
-      \ref{fig:resolution:3^-x}. On constate que la fonction a effectivement un
+      \ref{fig:resolution:2^-x}. On constate que la fonction a effectivement un
       point fixe unique dans l'intervalle $[0, 1]$ et que celui-ci se
-      trouve près de $x = \frac{1}{2}$. On peut donc utiliser cette
+      trouve près de $x = 0,6$. On peut donc utiliser cette
       valeur comme point de départ de l'algorithme du point fixe:
 <<echo=FALSE>>=
 source("pointfixe.R")
 @
 <<echo=TRUE>>=
-pointfixe(function(x) 3^(-x), start = 0.5)
+pointfixe(function(x) 2^(-x), start = 0.6)
 @
       On remarque que la réponse est indépendante de la valeur de
       départ:
 <<echo=TRUE>>=
-pointfixe(function(x) 3^(-x), start = 0)
-pointfixe(function(x) 3^(-x), start = 1)
-pointfixe(function(x) 3^(-x), start = 2)
+pointfixe(function(x) 2^(-x), start = 0)
+pointfixe(function(x) 2^(-x), start = 1)
+pointfixe(function(x) 2^(-x), start = 2)
 @
       \begin{figure}
         \centering
 <<echo=FALSE, fig=TRUE>>=
 f <- function(x) x
-g <- function(x) 3^(-x)
+g <- function(x) 2^(-x)
 curve(g, xlim = c(-0.05, 1.05), ylim = c(-0.05, 1.05), lwd = 2)
 curve(f, add = TRUE)
 polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
 @
-        \caption{Fonction $g(x) = 3^{-x}$ dans $[0, 1]$.}
-        \label{fig:resolution:3^-x}
+        \caption{Fonction $g(x) = 2^{-x}$ dans $[0, 1]$.}
+        \label{fig:resolution:2^-x}
       \end{figure}
     \end{enumerate}
   \end{sol}
@@ -972,8 +972,9 @@ dpareto <- function(x, alpha, lambda)
 f <- function(par, x) -sum(log(dpareto(x, par[1], par[2])))
 optim(c(1, 1000), f, x = x)
 @
-    ou, en utilisant le truc du logarithme des paramètres expliqué
-    dans les exemples pour éviter les soucis de convergence:
+    ou, en utilisant l'Astuce Ripley
+    (section~\ref{sec:resolution:astuce}) consistant à estimer le
+    logarithme des paramètres pour éviter les soucis de convergence:
 <<echo=TRUE,eval=FALSE>>=
 dpareto <- function(x, logAlpha, logLambda)
 {

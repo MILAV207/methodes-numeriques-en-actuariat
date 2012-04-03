@@ -1121,8 +1121,56 @@ R.
 \end{gotoR}
 
 
+\section{Astuce Ripley}
+\label{sec:resolution:astuce}
+
+J'ai appris le truc suivant dans un message de Brian Ripley --- un
+important développeur de R --- posté dans les forums de discussion de
+R. Il m'a été très utile à de nombreuses reprises, alors je le
+dissémine.
+
+Une application statistique fréquente de l'optimisation est la
+maximisation numérique d'une fonction de vraisemblance ou, plus
+communément, la minimisation de la log-vraisemblance négative
+\begin{equation*}
+  -l(\theta) = - \sum_{i = 1}^n \ln f(x_i; \theta).
+\end{equation*}
+Les fonctions d'optimisation sont d'ailleurs illustrées dans ce
+contexte dans le code informatique de la
+section~\ref{sec:resolution:code}.
+
+En actuariat, nous utilisons principalement des lois de probabilité
+dont les paramètres sont strictement positifs. Or, en pratique, il
+n'est pas rare que les fonctions d'optimisation s'égarent dans les
+valeurs négatives des paramètres. La fonction de densité n'étant pas
+définie, la log-vraisemblance vaut alors \code{NaN} et cela peut faire
+complètement dérailler la procédure d'optimisation ou, à tout le
+moins, susciter des doutes sur la validité de la réponse.
+
+Afin de pallier à ce problème, l'Astuce Ripley{\texttrademark} propose
+d'estimer non pas les paramètres de la loi eux-mêmes, mais plutôt
+leurs logarithmes. Si l'on définit $\tilde{\theta} = \ln \theta$,
+alors on peut écrire la fonction de log-vraisemblance ci-dessus sous
+la forme
+\begin{equation*}
+  -l(\tilde{\theta}) = - \sum_{i = 1}^n \ln f(x_i; e^{\tilde{\theta}}).
+\end{equation*}
+Dès lors, $\tilde{\theta}$ (qui peut représenter un ou plusieurs
+paramètres) demeure valide sur tout l'axe des réels, ce qui permet
+d'éviter bien des soucis de nature numérique lors de la minimisation
+de $-l(\tilde{\theta})$.
+
+Évidemment, le résultat de l'optimisation est l'estimateur du maximum
+de vraisemblance de $\tilde{\theta}$. Il faudra donc veiller à faire
+la transformation inverse pour retrouver l'estimateur de $\theta$.
+
+L'utilisation de l'astuce est illustrée à la
+section~\ref{sec:resolution:code}.
+
+
+
 \section{Outils additionnels}
-\label{optimisation:plus}
+\label{sec:resolutio:plus}
 
 Les packages disponible sur CRAN fournissent plusieurs autres outils
 d'optimisation pour R. Pour un bon résumé des options disponibles,
