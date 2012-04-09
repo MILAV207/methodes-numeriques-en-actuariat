@@ -31,3 +31,26 @@ a == 0.94                  # 0.94 n'est pas dans le vecteur!
 (b <- c(0.90, 0.91, 0.92, 0.93, 0.94, 0.95))
 b == 0.94                  # mais ici, oui!
 a - b                      # remarquer le 5e élément
+
+###
+### CONVERSION DANS DES BASES GÉNÉRALES
+###
+
+## La fonction 'arrayInd', dont la syntaxe (simplifiée) est
+##
+##     arrayInd(ind, dim)
+##
+## retourne les coordonnées des éléments aux positions 'ind'
+## dans un tableau de dimensions 'dim'. Par exemple, le 14e
+## élément d'une matrice 4 x 5 remplie par colonne (ordre R)
+## est en position (2, 4).
+arrayInd(14, c(4, 5))      # comparer avec l'exemple 10.7
+
+## C'est toujours un peu plus compliqué avec les tableaux. Par
+## exemple, un tableau 3 x 4 x 5 doit être vu comme cinq
+## matrices 3 x 4 placées les unes derrière les autres. Où se
+## trouve le 'i'ème élément?
+arrayInd(8, 3:5)            # élément (2, 3) de 1ère matrice
+arrayInd(13, 3:5)           # élément (1, 1) de 2e matrice
+arrayInd(59, 3:5)           # élément (2, 4) de 5e matrice
+arrayInd(c(8, 13, 59), 3:5) # en un seul appel

@@ -533,6 +533,15 @@ résultat d'un calcul. L'exemple suivant illustre cette idée.
    \qed
 \end{exemple}
 
+\begin{gotoR}
+  La fonction \code{arrayInd} de R permet de faire exactement ce qui
+  est décrit dans l'exemple précédent, soit retourner les coordonnées
+  du $i${\ieme} élément d'un tableau. Voir le code informatique de la
+  section~\ref{sec:ordinateurs:code} pour quelques exemples
+  d'utilisation.
+\end{gotoR}
+
+
 
 \section{Unités de mesure}
 \label{sec:ordinateurs:unites}
