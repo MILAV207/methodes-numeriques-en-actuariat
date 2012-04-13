@@ -421,15 +421,15 @@ eigen(m)
     \begin{align*}
       \prod_{i = 1}^{k + 1} (x - x_i)
       &=
-      \left(
-        \prod_{i = 1}^k x - x_i
-      \right)
+      \left[
+        \prod_{i = 1}^k (x - x_i)
+      \right]
       (x - x_{k + 1}) \\
       &=
-      \left(
+      \left[
         x^k + \left(- \sum_{i = 1}^k x_i \right) x^{k - 1} + \dots +
         \prod_{i = 1}^k x_i
-      \right)
+      \right]
       (x - x_{k + 1}) \\
       &= x^{k + 1} + \left( - \sum_{i = 1}^k x_i + x_{k + 1} \right)
       x^k + \dots + x_{k + 1} \prod_{i = 1}^k x_i \\

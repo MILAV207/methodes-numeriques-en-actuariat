@@ -328,6 +328,8 @@ la solution triviale si, et seulement si, $\det(\lambda \mat{I} -
   \qed
 \end{exemple}
 
+Le résultat de l'exemple précédent justifie un théorème.
+
 \begin{thm}
   \label{thm:valeurspropres:triangulaire}
   Si $\mat{A}_{n \times n}$ est une matrice triangulaire (supérieure
@@ -335,8 +337,8 @@ la solution triviale si, et seulement si, $\det(\lambda \mat{I} -
   éléments de la diagonale.
 \end{thm}
 
-Du théorème ci-dessus, on peut établir les faits suivants pour une
-matrice triangulaire:
+De ce théorème, on peut établir les faits suivants pour une matrice
+triangulaire:
 \begin{enumerate}
 \item la trace est égale à la somme des valeurs propres;
 \item le déterminant est égal au produit des valeurs propres.
@@ -400,24 +402,9 @@ matrice carrée.
   \end{align*}
 \end{proof}
 
-
-Le théorème ne dit pas que les valeurs de la diagonale $a_{11}, \dots,
-a_{nn}$ sont les valeurs propres de la matrice $\mat{A}$ en général,
-mais bien seulement que
-\begin{itemize}
-\item $\sum_{i = 1}^n a_{ii} = \text{somme des valeurs propres}$; et
-  que
-\item $\prod_{i = 1}^n a_{ii} = \text{produit des valeurs propres}$.
-\end{itemize}
-
-Par ailleurs, si un élément de la diagonale d'une matrice triangulaire
-est nul, alors
-\begin{itemize}
-\item une valeur propre est nulle;
-\item le déterminant de la matrice est nul et la matrice est
-  singulière.
-\end{itemize}
-Cette observation nous permet d'ajouter un énoncé au
+Du théorème précédent, il découle que si une valeur propre d'une
+matrice est nulle, alors son déterminant est nul et la matrice est
+singulière. Cette observation nous permet d'ajouter un énoncé au
 théorème~\ref{thm:revision:unification}.
 
 \begin{thm}
@@ -471,7 +458,7 @@ un vecteur propre correspondant.
 \end{proof}
 
 \begin{rem}
-  L'équation cractéristique $\det(\lambda \mat{I} - \mat{A})$ peut
+  L'équation caractéristique $\det(\lambda \mat{I} - \mat{A})$ peut
   aussi fournir cette interprétation de la valeur propre: c'est le
   nombre de fois qu'il faut «déplacer» la matrice $\mat{A}$ de
   $\mat{I}$ jusqu'à ce qu'elle devienne singulière.
