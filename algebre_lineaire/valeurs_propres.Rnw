@@ -790,7 +790,7 @@ alors les vecteurs propres sont linéairement indépendants.
 \begin{thm}
   \label{thm:valeurspropres:diagonalisable2}
   Si la matrice $\mat{A}_{n \times n}$ possède $n$ valeurs propres
-  disctinctes, alors elle est diagonalisable.
+  distinctes, alors elle est diagonalisable.
 \end{thm}
 
 \begin{rem}
