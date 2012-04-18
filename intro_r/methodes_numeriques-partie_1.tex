@@ -65,6 +65,12 @@
   \maxsecnumdepth{subsection}
   \setsecnumdepth{subsection}
 
+  %% Listes. Paramétrage avec enumitem.
+  \setenumerate{leftmargin=*,align=left}
+  \setenumerate[2]{label=\alph*)}
+  \setenumerate[3]{label=\roman*),align=right}
+  \setitemize{leftmargin=*,align=left}
+
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
 
@@ -190,10 +196,11 @@
   %%% =======
   %%%  Index
   %%% =======
+  \newcommand{\bfhyperpage}[1]{\textbf{\hyperpage{#1}}}
   \renewcommand{\preindexhook}{%
     Les numéros de page en caractères gras indiquent les pages où les
     concepts sont introduits, définis ou expliqués.\vskip\onelineskip}
-  \newcommand{\Index}[1]{\index{#1|textbf}}
+  \newcommand{\Index}[1]{\index{#1|bfhyperpage}}
   \newcommand{\indexargument}[1]{\index{#1@\code{#1}}}
   \newcommand{\Indexargument}[1]{\Index{#1@\code{#1}}}
   \newcommand{\indexattribut}[1]{\index{#1@\code{#1} (attribut)}}
@@ -230,6 +237,9 @@
 
   %%% Style de la bibliographie
   \bibliographystyle{francais}
+
+  %%% Aide pour la césure
+  \hyphenation{con-sole}
 
 %  \includeonly{}
 
