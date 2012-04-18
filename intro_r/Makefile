@@ -29,6 +29,11 @@ tex: $(RNWFILES:.Rnw=.tex)
 	$(SWEAVE) '$<'
 
 $(MASTER): $(RNWFILES) $(TEXFILES)
+	sed -i ""                           \
+	    -e "/^\\\\item L'annexe/s/^/%/" \
+            -e "/^  stratégies ---/s/^/%/"  \
+	    -e "/^  la réalisation/s/^/%/"  \
+	    avance.tex
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 clean:
