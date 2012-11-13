@@ -2,12 +2,12 @@
 \label{chap:generation}
 
 \begin{objectifs}
-\item Connaître les caractéristiques d’un bon générateur de nombre
+\item Connaître les caractéristiques d'un bon générateur de nombre
   pseudo-aléatoires.
-\item Comprendre l’opérateur mathématique modulo.
-\item Savoir générer des nombres pseudo-aléatoires à l’aide d’un
+\item Comprendre l'opérateur mathématique modulo.
+\item Savoir générer des nombres pseudo-aléatoires à l'aide d'un
   générateur congruentiel linéaire.
-\item Savoir établir les caractéristiques d’un générateur congruentiel
+\item Savoir établir les caractéristiques d'un générateur congruentiel
   linéaire, notamment sa période.
 \item Savoir utiliser les générateurs de nombres aléatoires de Excel,
   VBA et R.
@@ -69,7 +69,7 @@ On veut obtenir des nombres issus d'une distribution uniforme sur un
 intervalle quelconque, en général $(0, 1)$. Comment procéder?
 \begin{enumerate}
 \item On peut utiliser les résultats de processus physiques aléatoires
-  en apparence comme, par exemple,
+  en apparence comme, par exemple:
   \begin{itemize}
   \item le lancer d'une pièce de monnaie ou d'un dé;
   \item des nombres pris au hasard dans des tableaux de rapports ou
@@ -196,7 +196,7 @@ où $0 \leq x_i < m$ et
 \end{itemize}
 
 Lorsque $c = 0$, on parle d'un générateur \emph{multiplicatif}; dans
-le cas contraire on a générateur \emph{mixte}.
+le cas contraire on a un générateur \emph{mixte}.
 
 Pour obtenir des nombre uniformes sur $[0, 1]$ ou $(0, 1)$, il suffit
 de définir
@@ -317,12 +317,13 @@ auteurs écrivent en conclusion:
 
 \begin{quote}
   Twice Microsoft has attempted to implement the dozen lines of code
-  that define the Wichmann and Hill (1982) RNG, and twice Microsoft
-  has failed, apparently not using standard methods for verifying that
-  an RNG has been correctly implemented. Consequently, users of
-  Excel's "rand" function have been using random numbers from an
-  unknown and undocumented RNG of unknown period that is not known to
-  pass any standard tests of randomness.
+  that define the Wichmann and Hill (1982) RNG\footnote{%
+    \emph{Random Number Generator}}, %
+  and twice Microsoft has failed, apparently not using standard
+  methods for verifying that an RNG has been correctly implemented.
+  Consequently, users of Excel's "rand" function have been using
+  random numbers from an unknown and undocumented RNG of unknown
+  period that is not known to pass any standard tests of randomness.
 \end{quote}
 
 
