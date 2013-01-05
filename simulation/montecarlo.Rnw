@@ -2,10 +2,10 @@
 \label{chap:montecarlo}
 
 \begin{objectifs}
-\item Comprendre le principe de calcul de la valeur d’une intégrale
-  définie à l’aide de nombres aléatoires.
-\item Être en mesure de calculer la valeur d’une intégrale définie par
-  la méthode Monte Carlo.
+\item Définir le principe calcul de la valeur d'une intégrale définie
+  à l'aide de nombres aléatoires.
+\item Calculer la valeur d'une intégrale définie par la méthode Monte
+  Carlo.
 \end{objectifs}
 
 On appelle simulation Monte Carlo (ou méthode de Monte Carlo) toute

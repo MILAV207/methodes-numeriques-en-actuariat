@@ -2,12 +2,12 @@
 \label{chap:valeurspropres}
 
 \begin{objectifs}
-\item Connaître les définitions de valeur et vecteur propre d'une
+\item Énoncer les définitions de valeur et vecteur propre d'une
   matrice.
-\item Savoir calculer les valeurs propres d'une matrice et les
+\item Calculer les valeurs propres d'une matrice et les
   vecteurs propres correspondants.
-\item Pouvoir déterminer si une matrice est diagonalisable ou non.
-\item Savoir diagonaliser une matrice carrée.
+\item Déterminer si une matrice est diagonalisable ou non.
+\item Diagonaliser une matrice carrée.
 \end{objectifs}
 
 

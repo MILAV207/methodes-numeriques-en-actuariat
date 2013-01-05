@@ -2,18 +2,18 @@
 \label{chap:revision}
 
 \begin{objectifs}
-\item Connaître les principales règles de l’arithmétique matricielle,
-  dont la somme, le produit, la transposée et la trace.
-\item Savoir exprimer un système d’équations linéaires sous forme
-  matricielle et le résoudre par élimination gaussienne ainsi que par
-  produit de matrices élémentaires.
-\item Savoir vérifier si des éléments d’un espace vectoriel sont
+\item Utiliser les principaux opérateurs de l'arithmétique
+  matricielle, dont la somme, le produit, la transposée et la trace.
+\item Exprimer un système d'équations linéaires sous forme matricielle
+  et le résoudre par élimination gaussienne ainsi que par produit de
+  matrices élémentaires.
+\item Vérifier si des éléments d'un espace vectoriel sont
   linéairement indépendants.
-\item Connaître les propriétés de l’inverse d’une matrice.
-\item Connaître les propriétés du déterminant d’une matrice.
-\item Savoir calculer l’inverse d’une matrice à partir de matrices
-  élémentaires et par la méthode de la matrice adjointe.
-\item Savoir déterminer le rang d’une matrice.
+\item Définir les propriétés de l'inverse d'une matrice.
+\item Définir les propriétés du déterminant d'une matrice.
+\item Calculer l'inverse d'une matrice à partir de matrices
+  élémentaires ainsi que par la méthode de la matrice adjointe.
+\item Déterminer le rang d'une matrice.
 \item Établir les liens entre les concepts ci-dessus.
 \end{objectifs}
 

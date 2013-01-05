@@ -2,15 +2,15 @@
 \label{chap:ordinateurs}
 
 \begin{objectifs}
-\item Comprendre l’effet de la représentation interne des nombres dans
+\item Concevoir l'effet de la représentation interne des nombres dans
   un ordinateur sur la précision des calculs.
-\item Savoir convertir un nombre décimal vers une base quelconque, et
-  vice versa.
-\item Savoir exprimer un nombre décimal dans la représentation interne
-  d’un ordinateur selon la norme IEEE~754.
-\item Savoir planifier ses calculs avec un ordinateur de manière à
-  diminuer l’impact des erreurs d’arrondis et de troncature et
-  optimiser le temps de calcul.
+\item Convertir un nombre décimal vers une base quelconque, et vice
+  versa.
+\item Exprimer un nombre décimal dans la représentation interne
+  d'un ordinateur selon la norme IEEE~754.
+\item Planifier ses calculs avec un ordinateur de manière à diminuer
+  l'impact des erreurs d'arrondis et de troncature et optimiser le
+  temps de calcul.
 \end{objectifs}
 
 <<echo=FALSE>>=

@@ -5,12 +5,11 @@
 \item Avoir une connaissance générale de ce qu'est un polynôme
   d'interpolation de Lagrange et comment il peut servir dans le
   contexte de l'intégration numérique.
-\item Être en mesure de calculer la valeur approximative d’une
-  intégrale définie à l’aide des méthodes du point milieu, du trapèze,
-  de Simpson et de Simpson 3/8.
-\item Être en mesure de développer les formules d'approximation
-  composées de chacune des méthodes d'intégration numériques
-  présentées dans le chapitre.
+\item Calculer la valeur approximative d'une intégrale définie à
+  l'aide des méthodes du point milieu, du trapèze, de Simpson et de
+  Simpson 3/8.
+\item Développer les formules d'approximation composées de chacune des
+  méthodes d'intégration numériques présentées dans le chapitre.
 \end{objectifs}
 
 <<echo=FALSE>>=

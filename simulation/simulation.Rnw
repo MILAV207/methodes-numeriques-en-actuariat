@@ -2,14 +2,14 @@
 \label{chap:simulation}
 
 \begin{objectifs}
-\item Être en mesure de développer un algorithme de simulation de
-  nombres non uniformes à partir de la méthode de l’inverse.
-\item Être en mesure de développer un algorithme de simulation de
-  nombres non uniformes à partir de la méthode d’acceptation-rejet.
-\item Savoir calculer des nombres pseudo-aléatoires non uniformes en
+\item Développer un algorithme de simulation de
+  nombres non uniformes à partir de la méthode de l'inverse.
+\item Développer un algorithme de simulation de nombres non uniformes
+  à partir de la méthode d'acceptation-rejet.
+\item Calculer des nombres pseudo-aléatoires non uniformes en
   suivant un algorithme donné.
-\item Connaître et savoir utiliser les outils de Excel, VBA et R pour
-  la simulation de nombres non uniformes.
+\item Utiliser les outils de Excel, VBA et R pour la simulation de
+  nombres non uniformes.
 \end{objectifs}
 
 Habituellement, les applications de la simulation requièrent des

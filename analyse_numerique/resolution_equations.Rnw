@@ -2,13 +2,14 @@
 \label{chap:resolution}
 
 \begin{objectifs}
-\item Être en mesure de résoudre une équation à une variable à l’aide
-  des méthodes de la bissection, du point fixe et de Newton-Raphson.
-\item Savoir quand utiliser une méthode plutôt qu’une autre.
-\item Pouvoir déterminer si une fonction admet un point fixe dans un
+\item Résoudre une équation à une variable à l'aide des méthodes de la
+  bissection, du point fixe et de Newton-Raphson.
+\item Faire un choix parmi l'une des méthodes ci-dessous pour résoudre
+  un problème donné.
+\item Déterminer si une fonction admet un point fixe dans un
   intervalle donné.
-\item Connaître et savoir utiliser les fonctions de résolution
-  d’équations et d’optimisation de Excel et R.
+\item Utiliser les fonctions de résolution d'équations et
+  d'optimisation de Excel et R.
 \end{objectifs}
 
 <<echo=FALSE>>=
