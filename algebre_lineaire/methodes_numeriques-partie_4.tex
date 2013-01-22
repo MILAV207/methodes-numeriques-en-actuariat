@@ -24,7 +24,7 @@
   \definecolor{comments}{rgb}{0.7,0,0}
   \definecolor{darkred}{rgb}{0.8,0,0}
   \definecolor{shadecolor}{gray}{0}
-  \definecolor{link}{rgb}{0,0,0.3}
+  \definecolor{link}{rgb}{0,0,0.4}
 
   %%% Hyperliens
   \usepackage{hyperref}
@@ -116,9 +116,13 @@
         \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
       \end{shaded}
       \vspace{-0.6\baselineskip}
-      \begin{itemize}[nolistsep]
+      \setlength{\labelsep}{1ex}
+      \settowidth{\labelwidth}{$\filledtriangleright$}
+      \setlength{\leftmargini}{\labelwidth}
+      \addtolength{\leftmargini}{\labelsep}
+      \begin{compactitem}
         \small}
-      {\end{itemize}
+      {\end{compactitem}
     \end{framed}}
 
   %% Environnements de Sweave
