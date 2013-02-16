@@ -11,7 +11,7 @@
   \usepackage{paralist}
   \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
-  \usepackage{graphicx,color}
+  \usepackage{graphicx,color,soul}
   \usepackage{MnSymbol,applekeys}      % symboles spéciaux
   \usepackage{expdlist}
   \usepackage{listingsutf8,answers}
@@ -21,6 +21,7 @@
   \definecolor{comments}{rgb}{0.7,0,0}
   \definecolor{shadecolor}{gray}{0}
   \definecolor{link}{rgb}{0,0,0.4}
+  \definecolor{videotag}{rgb}{0,0,0.75}
 
   %%% Hyperliens
   \usepackage{hyperref}
@@ -177,6 +178,19 @@
       {\end{minipage}%
     \end{framed}}
 
+  %%% Indications de capsule vidéo
+  \setulcolor{videotag}
+  \setul{1.5pt}{0.7pt}
+  \newcommand{\video}{%
+    $\mathrel{\vcenter{\offinterlineskip%
+        \color{videotag}
+        \fontsize{32}{32}\selectfont
+        \hbox{$\bigcirc$}%
+        \fontsize{24}{22}\selectfont\vskip-21.5pt\hskip5pt
+        \hbox{$\filledmedtriangleright$}}}$}
+  \newcommand{\capsule}[1]{\marginpar{\video}\ul{#1}}
+
+
   %%% =============================================
   %%%  Paramètres pour les sections de code source
   %%% =============================================
@@ -203,6 +217,7 @@
   %%% =======
   \newcommand{\bfhyperpage}[1]{\textbf{\hyperpage{#1}}}
   \renewcommand{\preindexhook}{%
+
     Les numéros de page en caractères gras indiquent les pages où les
     concepts sont introduits, définis ou expliqués.\vskip\onelineskip}
   \newcommand{\Index}[1]{\index{#1|bfhyperpage}}
@@ -246,7 +261,7 @@
   %%% Aide pour la césure
   \hyphenation{con-sole}
 
-%  \includeonly{presentation}
+%  \includeonly{operateurs}
 
 \begin{document}
 
