@@ -35,6 +35,22 @@ package en mémoire avec
 library(rgl)
 @
 
+\begin{framed}
+    \begin{minipage}{0.1\linewidth}
+      \raisebox{-1.5em}[0em][0em]{\HUGE\applekey}
+    \end{minipage}
+    \begin{minipage}[t]{0.85\linewidth}
+      \small%
+      L'utilisation de \code{rgl} sous Mac OS~X, requiert
+      l'application \code{X11.app}, qui n'est plus livrée avec le
+      système depuis la version 10.8 (Mountain Lion). Un serveur et
+      des bibliothèques client X11 pour OS~X Mountain Lion sont
+      disponibles à partir du projet XQuartz. Il suffit de télécharger
+      l'application depuis \url{http://xquartz.macosforge.org/}.
+    \end{minipage}
+  \end{framed}
+
+
 \begin{exercice}
   Calculer cinq nombres pseudo-aléatoires avec chacun des générateurs
   congruentiels ci-dessous. Dans tous les cas, $m = 64$. Choisir

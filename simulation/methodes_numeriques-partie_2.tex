@@ -11,7 +11,7 @@
   \usepackage{paralist}
   \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
-  \usepackage{graphicx,color}
+  \usepackage{graphicx,color,soulutf8}
   \usepackage{MnSymbol,applekeys}      % symboles spéciaux
   \usepackage{expdlist}
   \usepackage{listingsutf8,answers}
@@ -26,6 +26,7 @@
   \definecolor{darkred}{rgb}{0.8,0,0}
   \definecolor{shadecolor}{gray}{0}
   \definecolor{link}{rgb}{0,0,0.4}
+  \definecolor{videotag}{rgb}{0,0,0.75}
 
   %%% Hyperliens
   \usepackage{hyperref}
@@ -189,6 +190,19 @@
   \newcommand{\fonction}[1]{\code{#1}}
   \newcommand{\argument}[1]{\code{#1}}
 
+  %%% Indications de capsule vidéo
+  \setulcolor{videotag}
+  \setul{1.5pt}{0.7pt}
+  \newcommand{\video}{%
+    $\mathrel{\vcenter{\offinterlineskip%
+        \color{videotag}
+        \fontsize{32}{32}\selectfont
+        \hbox{$\bigcirc$}%
+        \fontsize{24}{22}\selectfont\vskip-21.5pt\hskip5pt
+        \hbox{$\filledmedtriangleright$}}}$}
+  \newcommand{\capsule}[1]{\marginpar{\video}\ul{#1}}
+
+
   %%% Aide pour la césure
   \hyphenation{con-gru-en-tiels}
 
@@ -198,7 +212,7 @@
   %%% Numérotation des chapitres
   \setcounter{chapter}{6}
 
-%  \includeonly{pagegarde}
+%  \includeonly{generation}
 
 \begin{document}
 
@@ -225,6 +239,22 @@
 \tableofcontents*
 
 \mainmatter
+
+%% Vignette tirée de xkcd.com
+\pagestyle{empty}
+\begin{vplace}[0.45]
+  \centering
+  \setkeys{Gin}{width=\textwidth}
+  \begin{minipage}{400pt}
+    \includegraphics{xkcd.png} \\
+    \footnotesize\sffamily%
+    Tiré de \href{http://xkcd.com/221/}{XKCD.com}
+  \end{minipage}
+  \setkeys{Gin}{width=0.8\textwidth}
+\end{vplace}
+\cleardoublepage
+
+\pagestyle{companion}
 
 \include{generation}
 \include{simulation}

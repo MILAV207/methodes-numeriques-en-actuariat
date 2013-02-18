@@ -15,7 +15,8 @@
 Habituellement, les applications de la simulation requièrent des
 nombres aléatoires provenant non pas d'une distribution $U(0, 1)$,
 mais plutôt d'une (ou plusieurs) distribution avec fonction de
-répartition $F_X(x)$.
+répartition $F_X(x)$. Nous devrons donc transformer les nombres
+uniformes en des nombres provenant de distributions non-uniformes.
 
 Il existe de très nombreux algorithmes pour générer des nombres
 aléatoires de différentes distributions; voir, par exemple,
@@ -26,10 +27,19 @@ section~\ref{sec:simulation:autres}.
 
 Plusieurs algorithmes de simulation de nombres aléatoires non
 uniformes reposent sur des résultats de transformations de variables
-aléatoires. Pour le lecteur qui ne serait pas à l'aise avec ces
-notions, l'annexe~\ref{chap:rappels_transformations} fournit des
-rappels sur les principales techniques étudiées dans les cours
-d'analyse probabiliste et d'analyse statistique.
+aléatoires. Par exemple:
+\begin{itemize}
+\item la somme de $\alpha$ exponentielles est une loi gamma avec
+  paramètre de forme $\alpha$ entier;
+\item la loi géométrique est la partie entière de l'exponentielle;
+\item la loi $F$ est un ratio de deux khi-carré;
+\item etc.
+\end{itemize}
+Le lecteur qui ne serait pas à l'aise avec les notions de
+transformation de variables aléatoires trouvera à
+l'annexe~\ref{chap:rappels_transformations} des rappels sur les
+principales techniques étudiées dans les cours d'analyse probabiliste
+et d'analyse statistique.
 
 
 \section{Méthode de l'inverse}
@@ -108,7 +118,7 @@ curve(dgamma(x, 5, 1), xlim = c(0, 14), add=TRUE)
   \caption{Représentation graphique de la méthode de l'inverse. À
     intervalles égaux en ordonnée correspondent des intervalles
     différents en abscisse selon la forme de la distribution. La
-    fonction de répartition à gauche correspond à la densité à droite.}
+    fonction de répartition à gauche correspond à la densité de droite.}
   \label{fig:simulation:inverse}
 \end{figure}
 
@@ -250,6 +260,7 @@ nombres uniformes sur $[0, 1)$.
       0,5x - 0,5, & 2 \leq x < 3.
     \end{cases}
   \end{displaymath}
+  \enlargethispage{5mm}
   (Voir la figure~\ref{fig:simulation:mixte}.)
 
   \begin{figure}
@@ -396,15 +407,16 @@ pour tout $x$, alors on a l'algorithme d'acceptation-rejet suivant:
   $x$ que si $c > 1$.
 \end{rem}
 
-L'idée de la méthode d'acceptation-rejet consiste à accepter la «bonne
-proportion» des réalisations de $Y$ comme provenant de $X$. Dans
-l'illustration de la figure~\ref{fig:simulation:acceptation-rejet},
-la densité $f$ à support fini est facilement enveloppée par un
-rectangle. Un nombre simulé de cette distribution (à toutes fins
-pratiques une uniforme, ici) est accepté comme provenant de $f$ dans
-une proportion correspondant au segments en vert, et rejeté dans une
-proportion correspondant au segments en rouge. On voit donc que
-certaines valeurs sont rejetées plus souvent que d'autres.
+L'idée de la \capsule{méthode d'acceptation-rejet} consiste à accepter
+la «bonne proportion» des réalisations de $Y$ comme provenant de $X$.
+Dans l'illustration de la
+figure~\ref{fig:simulation:acceptation-rejet}, la densité $f$ à
+support fini est facilement enveloppée par un rectangle. Un nombre
+simulé de cette distribution (à toutes fins pratiques une uniforme,
+ici) est accepté comme provenant de $f$ dans une proportion
+correspondant aux segments en vert, et rejeté dans une proportion
+correspondant aux segments en rouge. On voit donc que certaines
+valeurs sont rejetées plus souvent que d'autres.
 
 \begin{figure}
   \centering
