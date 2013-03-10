@@ -43,7 +43,7 @@ omet généralement $b$ pour les nombres en base 10.
   \begin{sol}
     L'algorithme de conversion des nombres décimaux en une base $b$ se
     résume essentiellement à ceci pour la partie entière:
-    \begin{enumerate}[label=\arabic*.,labelsep=3pt]
+    \begin{enumerate}[1.]
     \item les chiffres du nombre en base $b$ sont obtenus de droite à
       gauche en prenant le reste de divisions par $b$;
     \item on divise par $b$ d'abord le nombre décimal d'origine, puis
@@ -219,7 +219,7 @@ omet généralement $b$ pour les nombres en base 10.
     \end{displaymath}
     en base $[b_{m-1}\; \dots\; b_0]$ vers la base 10 est la suivante
     (nombre entiers seulement):
-    \begin{enumerate}[label=\arabic*.,labelsep=3pt]
+    \begin{enumerate}[1.]
     \item Poser $x = 0$.
     \item Pour $i = m - 1, m - 2, \dots, 0$, faire les étapes suivantes.
       \begin{enumerate}
@@ -489,12 +489,12 @@ omet généralement $b$ pour les nombres en base 10.
     \end{enumerate}
   \end{sol}
   \begin{rep}
-    \begin{inparaenum}
+    \begin{enumerate}
     \item $\nombre{2,120229508} \times 10^{-20}$ et
       $\nombre{2,120229185} \times 10^{-20}$
       \stepcounter{enumi}
     \item $\nombre{50,062503815}$ et $\nombre{50,062496185}$
-    \end{inparaenum}
+    \end{enumerate}
   \end{rep}
 \end{exercice}
 

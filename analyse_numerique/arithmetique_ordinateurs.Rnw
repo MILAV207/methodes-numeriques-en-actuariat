@@ -34,7 +34,7 @@ pas le bon résultat lors d'opérations arithmétiques simples.
 \footnotetext{\url{https://stat.ethz.ch/mailman/listinfo/r-help/}}
 
 On devine que les créateurs de R n'ont pas négligé une fonctionnalité
-aussi fondamentale pou un langage mathématique que le calcul
+aussi fondamentale pour un langage mathématique que le calcul
 arithmétique. Les supposées erreurs ci-dessus relèvent toutes de la
 représentation interne des nombres dans un ordinateur et d'erreurs
 d'arrondi inhérentes aux opérations arithmétiques avec ces nombres. En

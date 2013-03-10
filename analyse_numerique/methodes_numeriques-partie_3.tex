@@ -8,10 +8,12 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{vgmath,actu,amsmath,amsthm,amsfonts,icomma}
   \usepackage[noae]{Sweave}
-  \usepackage{paralist,enumitem}
+  \usepackage{paralist}
+  \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
-  \usepackage{graphicx,color}
-  \usepackage{MnSymbol,textcomp}       % symboles spéciaux
+  \usepackage{graphicx,color,soulutf8}
+  \usepackage{manfnt}                  % \mantriangleright (puce)
+  \usepackage{marvosym}                % \Forward et \ForwardToEnd
   \usepackage{listingsutf8,answers}
   \usepackage{pdfpages}                % couvertures
   \usepackage{xr}                      % références aux chap. 3 et 6
@@ -22,9 +24,9 @@
 
   %%%  Couleurs
   \definecolor{comments}{rgb}{0.7,0,0}
-  \definecolor{darkred}{rgb}{0.8,0,0}
   \definecolor{shadecolor}{gray}{0}
   \definecolor{link}{rgb}{0,0,0.4}
+  \definecolor{darkred}{rgb}{0.8,0,0}
 
   %%% Hyperliens
   \usepackage{hyperref}
@@ -70,10 +72,10 @@
   \setsecnumdepth{subsection}
 
   %% Listes. Paramétrage avec enumitem.
-  \setenumerate{leftmargin=*,align=left}
-  \setenumerate[2]{label=\alph*)}
-  \setenumerate[3]{label=\roman*),align=right}
-  \setitemize{leftmargin=*,align=left}
+  \setlist[enumerate]{leftmargin=*,align=left}
+  \setlist[enumerate,2]{label=\alph*),labelsep=*,leftmargin=1.5em}
+  \setlist[enumerate,3]{label=\roman*),labelsep=0.5em,align=right}
+  \setlist[itemize]{leftmargin=*,align=left}
 
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
@@ -98,7 +100,7 @@
   %% Options de babel
   \frenchbsetup{CompactItemize=false,%
     ThinSpaceInFrenchNumbers=true,
-    ItemLabeli=$\filledtriangleright$,
+    ItemLabeli=\mantriangleright,
     ItemLabelii=\textendash}
   \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
   \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
@@ -116,13 +118,9 @@
         \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
       \end{shaded}
       \vspace{-0.6\baselineskip}
-      \setlength{\labelsep}{1ex}
-      \settowidth{\labelwidth}{$\filledtriangleright$}
-      \setlength{\leftmargini}{\labelwidth}
-      \addtolength{\leftmargini}{\labelsep}
-      \begin{compactitem}
+      \begin{itemize}[nosep]
         \small}
-      {\end{compactitem}
+      {\end{itemize}
     \end{framed}}
 
   %% Environnements de Sweave
@@ -142,19 +140,17 @@
         \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
         \setlength{\leftmargin}{\labelwidth}
         \addtolength{\leftmargin}{\labelsep}
-        \setenumerate[1]{leftmargin=*,label=\alph*),widest=a}
-        \setenumerate[2]{leftmargin=*,label=\roman*)}}
+        \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
+        \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
       \item}
     {\end{list}}
   \renewenvironment{reponse}[1]{%
-    \begin{enumerate}[label=#1,font=\bfseries]
-      \setenumerate[2]{leftmargin=*,labelsep=0em}
+    \begin{enumerate}[label=\textbf{#1}]
       \item}
     {\end{enumerate}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
   \renewenvironment{solution}[1]{%
-    \begin{enumerate}[label=#1,font=\bfseries]
-      \setenumerate[2]{leftmargin=*,labelsep=0em}
+    \begin{enumerate}[label=\textbf{#1}]
       \item}
     {\end{enumerate}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
@@ -164,7 +160,7 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.07\linewidth}
-        \raisebox{-0.5em}[0em][0em]{\LARGE\color{darkred}\noway}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\ForwardToEnd}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
@@ -201,7 +197,6 @@
   \newcommand{\fonction}[1]{\code{#1}}
   \newcommand{\ieee}[3]{\fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
   \newcommand{\fl}{\mathrm{fl}}
-  \newcommand{\texthl}[1]{\textbf{\color{darkred}{#1}}}
 
   %%% Support pour sous-tableaux et sous-figures
   \newsubfloat{table}
@@ -216,7 +211,7 @@
   %%% Numérotation des chapitres
   \setcounter{chapter}{9}
 
-%  \includeonly{pagegarde,notices}
+%  \includeonly{arithmetique_ordinateurs}
 
 \begin{document}
 
