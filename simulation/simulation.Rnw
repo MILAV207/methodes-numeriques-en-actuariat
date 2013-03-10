@@ -411,12 +411,14 @@ L'idée de la \capsule{méthode d'acceptation-rejet} consiste à accepter
 la «bonne proportion» des réalisations de $Y$ comme provenant de $X$.
 Dans l'illustration de la
 figure~\ref{fig:simulation:acceptation-rejet}, la densité $f$ à
-support fini est facilement enveloppée par un rectangle. Un nombre
+support fini est facilement enveloppée par un rectangle. Un nombre $y$
 simulé de cette distribution (à toutes fins pratiques une uniforme,
 ici) est accepté comme provenant de $f$ dans une proportion
-correspondant aux segments en vert, et rejeté dans une proportion
-correspondant aux segments en rouge. On voit donc que certaines
-valeurs sont rejetées plus souvent que d'autres.
+correspondant au ratio entre la valeur de $f_X(y)$ (les segments verts
+dans la figure) et la valeur de $c g_Y(y)$ (les segments bleus). À
+l'inverse, le nombre $y$ est rejeté selon le ratio de la longueur d'un
+segment rouge sur celle d'un segment bleu. On voit donc que certaines
+valeurs $y$ seront rejetées plus souvent que d'autres.
 
 \begin{figure}
   \centering
@@ -424,12 +426,14 @@ valeurs sont rejetées plus souvent que d'autres.
 plot(NA, xlim = c(0, 1), ylim = c(0, 2), xlab = "y", ylab = "f(y)")
 m <- dbeta(2/3, 3, 2)
 x <- c(0.22, 0.58, 0.83)
-segments(x, 0, x, dbeta(x, 3, 2), col = "green3", lwd = 3)
-segments(x, dbeta(x, 3, 2), x, m, col = "red3", lwd = 3)
+eps <- eps <- 40E-4
+segments(x - eps, 0, x - eps, dbeta(x, 3, 2), col = "green3", lwd = 3)
+segments(x - eps, dbeta(x, 3, 2), x - eps, m, col = "red3", lwd = 3)
+segments(x + eps, 0, x + eps, m, col = "blue3", lwd = 3)
 curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2)
-segments(0, 0, 0, m)
-segments(1, 0, 1, m)
-segments(0, m, 1, m, col = "blue3", lwd = 2)
+segments(0, 0, 0, m, col = "blue3")
+segments(1, 0, 1, m, col = "blue3")
+segments(0, m, 1, m, col = "blue3", lwd = 3)
 text(0.1, m + 0.08, "c g(y)")
 @
   \caption{Illustration de la méthode acceptation-rejet}

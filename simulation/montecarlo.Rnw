@@ -22,9 +22,10 @@ supérieures à un. On ne présente ici que l'idée générale.
 \label{sec:montecarlo:contexte}
 
 Supposons que l'on souhaite calculer l'intégrale
-\begin{equation*}
+\begin{equation}
+  \label{eq:montecarlo:int:depart}
   \theta = \int_a^b h(x)\, dx,
-\end{equation*}
+\end{equation}
 mais que celle-ci est trop compliquée pour être évaluée explicitement.
 On pourrait d'abord faire deux approximations de l'aire sous la
 fonction $h$ à l'aide des sommes de Riemann
@@ -85,7 +86,7 @@ On exprime tout d'abord la fonction $h(x)$ sous la forme
   h(x) = g(x) f(x),
 \end{equation*}
 où $f(x)$ est une densité sur $(a, b)$. Ainsi, par définition de
-l'espérance,
+l'espérance:
 \begin{align*}
   \theta
   &= \int_a^b g(x) f(x)\, dx \\
@@ -94,11 +95,12 @@ l'espérance,
 où $X$ est la variable aléatoire avec fonction de densité de
 probabilité $f(x)$. Par la suite, si $x_1, \dots, x_n$ sont des
 observations simulées de la densité $f(x)$, alors
-\begin{equation*}
+\begin{equation}
+  \label{eq:montecarlo:estimation}
   \hat{\theta}_n = \frac{1}{n} \sum_{i = 1}^n g(x_i)
-\end{equation*}
+\end{equation}
 constitue une estimation de l'intégrale $\theta$.  Par la loi des
-grands nombres $\hat{\theta}_n \stackrel{n \rightarrow
+grands nombres, $\hat{\theta}_n \stackrel{n \rightarrow
   \infty}{\longrightarrow} \theta$.
 
 Par souci de simplicité et parce qu'il est facile d'obtenir un
@@ -107,18 +109,21 @@ U(a, b)$, soit
 \begin{equation*}
   f(x) = \frac{1}{b - a}, \quad a < x < b.
 \end{equation*}
-Dans ce cas, on réécrit l'intégrale sous la forme
-\begin{align*}
+Dans ce cas, on a $g(x) = (b - a) h(x)$ et l'intégrale de départ
+\eqref{eq:montecarlo:int:depart} se réécrit
+\begin{align}
+  \label{eq:montecarlo:int:uniforme}
   \theta
-  &= (b - a) \int_a^b g(x)\, \frac{1}{b - a}\, dx \\
-  &= (b - a) \esp{g(X)},
-\end{align*}
-et
+  &= (b - a) \int_a^b h(x)\, \frac{1}{b - a}\, dx \\
+  \notag
+  &= (b - a) \esp{h(X)}.
+\end{align}
+L'estimation \eqref{eq:montecarlo:estimation} de l'intégrale devient
+alors
 \begin{equation*}
-  \hat{\theta}_n = \frac{b - a}{n} \sum_{i = 1}^n g(x_i),
+  \hat{\theta}_n = \frac{b - a}{n} \sum_{i = 1}^n h(x_i),
 \end{equation*}
-où $x_1, \dots, x_n$ est un échantillon aléatoire d'une loi $U(a, b)$,
-constitue une estimation de l'intégrale.
+où $x_1, \dots, x_n$ est un échantillon aléatoire d'une loi $U(a, b)$.
 
 On remarquera qu'il est équivalent de faire le changement de variable
 \begin{equation*}
@@ -132,19 +137,15 @@ On remarquera qu'il est équivalent de faire le changement de variable
     dx &= (b - a)\, du
   \end{split}
 \end{equation*}
-dans l'intégrale
-\begin{equation*}
-  \theta = \int_a^b g(x) f(x)\, dx.
-\end{equation*}
-On obtient alors
+dans l'intégrale~\eqref{eq:montecarlo:int:uniforme}. On obtient alors
 \begin{align*}
   \theta
-  &= (b - a) \int_0^1 g(a + (b - a)u) f(a + (b - a)u)\, du \\
-  &= (b - a) \esp{g(a + (b - a)U)},
+  &= (b - a) \int_0^1 h(a + (b - a)u) (1)\, du \\
+  &= (b - a) \esp{h(a + (b - a)U)},
 \end{align*}
 où $U \sim U(0, 1)$. Une estimation de l'intégrale est donc
 \begin{equation*}
-  \hat{\theta}_n = \frac{b - a}{n} \sum_{i = 1}^n g(a + (b - a) u_i),
+  \hat{\theta}_n = \frac{b - a}{n} \sum_{i = 1}^n h(a + (b - a) u_i),
 \end{equation*}
 où $u_1, \dots, u_n$ est un échantillon aléatoire d'une loi $U(0, 1)$.
 On doit utiliser la technique du changement de variable lorsque le
@@ -162,10 +163,12 @@ domaine est infini.
   \begin{align*}
     \theta
     &= \int_2^5 x^{11/5} e^{-x/10}\, dx \\
-    &= \frac{\Gamma(\frac{16}{5})}{(\frac{1}{10})^{16/5}} \int_2^5
-    \frac{(\frac{1}{10})^{16/5}}{\Gamma(\frac{16}{5})}\,
-    x^{16/5 - 1} e^{-x/10}\, dx \\
-    &= \frac{\Gamma(\frac{16}{5})}{(\frac{1}{10})^{16/5}}
+    &= \frac{\Gamma\left(\frac{16}{5}\right)}{%
+      \left(\frac{1}{10}\right)^{16/5}}
+    \int_2^5 \frac{\left(\frac{1}{10}\right)^{16/5}}{%
+      \Gamma\left(\frac{16}{5}\right)}\, x^{16/5 - 1} e^{-x/10}\, dx \\
+    &= \frac{\Gamma\left(\frac{16}{5}\right)}{%
+      \left(\frac{1}{10}\right)^{16/5}}
     \left[
       G \left(5; \frac{16}{5}, \frac{1}{10} \right) -
       G \left(2; \frac{16}{5}, \frac{1}{10} \right)
@@ -246,7 +249,7 @@ plot(x, f(x), main = "n = 10 000",
     \theta
     &= \int_0^{5/4} \int_0^{5/4} \sqrt{4 - x^2 - y^2}\, dy\, dx \\
     &= \frac{25}{16} \int_0^{5/4} \int_0^{5/4} \sqrt{4 - x^2 - y^2}
-    \frac{1}{(\frac{5}{4})(\frac{5}{4})}\, dy\, dx \\
+    \frac{1}{\left(\frac{5}{4}\right) \left(\frac{5}{4}\right)}\, dy\, dx \\
     &= \frac{25}{16}\, \Esp{\sqrt{4 - X^2 - Y^2}},
   \end{align*}
   où $X$ et $Y$ sont des variables aléatoires indépendantes

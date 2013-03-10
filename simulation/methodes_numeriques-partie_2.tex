@@ -12,8 +12,9 @@
   \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
   \usepackage{graphicx,color,soulutf8}
-  \usepackage{MnSymbol,applekeys}      % symboles spéciaux
-  \usepackage{expdlist}
+  \usepackage{manfnt}                  % \mantriangleright (puce)
+  \usepackage{marvosym}                % \Forward et \ForwardToEnd
+  \usepackage{applekeys}               % touches Mac
   \usepackage{listingsutf8,answers}
   \usepackage{pdfpages}                % couvertures
   \usepackage{xr}                      % références au chap. 6
@@ -23,10 +24,9 @@
 
   %%%  Couleurs
   \definecolor{comments}{rgb}{0.7,0,0}
-  \definecolor{darkred}{rgb}{0.8,0,0}
+  \definecolor{darkblue}{rgb}{0,0,0.75}
   \definecolor{shadecolor}{gray}{0}
   \definecolor{link}{rgb}{0,0,0.4}
-  \definecolor{videotag}{rgb}{0,0,0.75}
 
   %%% Hyperliens
   \usepackage{hyperref}
@@ -73,10 +73,10 @@
   \setsecnumdepth{subsection}
 
   %% Listes. Paramétrage avec enumitem.
-  \setenumerate{leftmargin=*,align=left}
-  \setenumerate[2]{label=\alph*)}
-  \setenumerate[3]{label=\roman*),align=right}
-  \setitemize{leftmargin=*,align=left}
+  \setlist[enumerate]{leftmargin=*,align=left}
+  \setlist[enumerate,2]{label=\alph*),labelsep=*,leftmargin=1.5em}
+  \setlist[enumerate,3]{label=\roman*),labelsep=0.5em,align=right}
+  \setlist[itemize]{leftmargin=*,align=left}
 
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
@@ -100,7 +100,7 @@
   %% Options de babel
   \frenchbsetup{CompactItemize=false,%
     ThinSpaceInFrenchNumbers=true,
-    ItemLabeli=$\filledtriangleright$,
+    ItemLabeli=\mantriangleright,
     ItemLabelii=\textendash}
   \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
   \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
@@ -119,12 +119,12 @@
       \end{shaded}
       \vspace{-0.6\baselineskip}
       \setlength{\labelsep}{1ex}
-      \settowidth{\labelwidth}{$\filledtriangleright$}
+      \settowidth{\labelwidth}{\mantriangleright}
       \setlength{\leftmargini}{\labelwidth}
       \addtolength{\leftmargini}{\labelsep}
-      \begin{compactitem}
+      \begin{itemize}[nosep]
         \small}
-      {\end{compactitem}
+      {\end{itemize}
     \end{framed}}
 
   %% Environnements de Sweave
@@ -144,17 +144,17 @@
         \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
         \setlength{\leftmargin}{\labelwidth}
         \addtolength{\leftmargin}{\labelsep}
-        \setdefaultenum{a)}{i)}{}{}}\item}
+        \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
+        \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
+      \item}
     {\end{list}}
   \renewenvironment{reponse}[1]{%
-    \begin{enumerate}[label=#1,font=\bfseries]
-      \setenumerate[2]{leftmargin=*,labelsep=0em}
-    \item}
+    \begin{enumerate}[label=\textbf{#1}]
+      \item}
     {\end{enumerate}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
   \renewenvironment{solution}[1]{%
-    \begin{enumerate}[label=#1,font=\bfseries]
-      \setenumerate[2]{leftmargin=*,labelsep=0em}
+    \begin{enumerate}[label=\textbf{#1}]
       \item}
     {\end{enumerate}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
@@ -164,7 +164,7 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.07\linewidth}
-        \raisebox{-0.5em}[0em][0em]{\LARGE\color{darkred}\noway}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\color{darkblue}\ForwardToEnd}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
@@ -191,15 +191,15 @@
   \newcommand{\argument}[1]{\code{#1}}
 
   %%% Indications de capsule vidéo
-  \setulcolor{videotag}
+  \setulcolor{darkblue}
   \setul{1.5pt}{0.7pt}
   \newcommand{\video}{%
     $\mathrel{\vcenter{\offinterlineskip%
-        \color{videotag}
+        \color{darkblue}
         \fontsize{32}{32}\selectfont
         \hbox{$\bigcirc$}%
-        \fontsize{24}{22}\selectfont\vskip-21.5pt\hskip5pt
-        \hbox{$\filledmedtriangleright$}}}$}
+        \fontsize{24}{22}\selectfont\vskip-20.4pt\hskip8.5pt
+        \hbox{\Forward}}}$}
   \newcommand{\capsule}[1]{\marginpar{\video}\ul{#1}}
 
 

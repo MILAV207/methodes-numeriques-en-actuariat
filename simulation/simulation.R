@@ -34,34 +34,37 @@ curve(dexp(x, rate = lambda), add = TRUE)
 ## On trouvera ci-dessous une mise en oeuvre de l'algorithme
 ## d'acceptation-rejet pour simuler des observations d'une
 ## distribution Bêta(3, 2). La procédure est intrinsèquement
-## itérative, alors nous devons utiliser des boucles. Il y
-## aurait plusieurs manières de faire, j'ai décidé de placer
-## une boucle 'repeat' à l'intérieur d'une boucle 'for'.
-rbeta.ac <- function(n)
+## itérative, alors nous devons utiliser une boucle. Il y a
+## diverses manières de faire, j'ai ici utilisé une boucle
+## 'repeat'; une autre mise en oeuvre est présentée dans les
+## exercices.
+##
+## On remarque que le vecteur contenant les résultats est
+## initialisé au début de la fonction pour éviter l'écueil de
+## la «boîte à biscuits» expliqué à la section 4.5 du document
+## de référence de la partie I.
+rbeta.ar <- function(n)
 {
     x <- numeric(n)        # initialisation du contenant
     g <- function(x)       # fonction enveloppante
-        if (x < 0.8) 2.5 * x else 10 - 10 * x
-    G <- function(x)       # son intégrale
-        if (x < 0.8) sqrt(0.8 * x) else 1 - sqrt(0.2 - 0.2 * x)
+        ifelse(x < 0.8, 2.5 * x, 10 - 10 * x)
+    Ginv <- function(x)    # l'inverse de son intégrale
+        ifelse(x < 0.8, sqrt(0.8 * x), 1 - sqrt(0.2 - 0.2 * x))
 
-    for (i in seq_len(n))  # il faut simuler 'n' nombres
+    i <- 0                 # initialisation du compteur
+    repeat
     {
-        repeat   # on peut devoir s'y reprendre plusieurs fois
-        {
-            y <- G(runif(1))
-            if (1.2 * g(y) * runif(1) <= dbeta(y, 3, 2))
-            {
-                x[i] <- y
-                break      # sortir de la boucle repeat
-            }
-        }
+        y <- Ginv(runif(1))
+        if (1.2 * g(y) * runif(1) <= dbeta(y, 3, 2))
+            x[i <- i + 1] <- y # assignation et incrément
+        if (i > n)
+            break          # sortir de la boucle repeat
     }
-    x                                   # retourner x
+    x                      # retourner x
 }
 
 ## Vérification empirique pour voir si ça marche.
-x <- rbeta.ac(1000)
+x <- rbeta.ar(1000)
 hist(x, prob = TRUE)
 curve(dbeta(x, 3, 2), add = TRUE)
 

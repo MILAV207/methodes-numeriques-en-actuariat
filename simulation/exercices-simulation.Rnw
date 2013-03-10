@@ -24,11 +24,11 @@
 %%% Début des exercices
 %%%
 
-Les étudiants jugent souvent les exercices de ce chapitre plus
-difficiles que ceux des autres chapitres. Ils font beaucoup appel à
-des notions de transformations de variables aléatoires qui ont
-pourtant déjà étudiées dans d'autres cours. Pour un rappel des
-principaux résultats dans ce domaine, consulter
+Les étudiants jugent souvent que les exercices de ce chapitre sont
+plus difficiles que ceux des autres chapitres. Les exercices font
+beaucoup appel à des notions de transformations de variables
+aléatoires qui ont pourtant déjà étudiées dans d'autres cours. Pour un
+rappel des principaux résultats dans ce domaine, consulter
 l'annexe~\ref{chap:rappels_transformations}.
 
 \begin{exercice}
@@ -361,12 +361,13 @@ rexp(1, rgamma(1, alpha, lambda))
   \end{displaymath}
   Utiliser une amorce de 12.
   \begin{rep}
-    \Sexpr{round(1000/sqrt(0.3813))},
-    \Sexpr{round(1000/sqrt(0.7881))},
-    \Sexpr{round(1000/sqrt(0.2261))}
+    \Sexpr{round(1000/sqrt(1 - 0.3813))},
+    \Sexpr{round(1000/sqrt(1 - 0.7881))},
+    \Sexpr{round(1000/sqrt(1 - 0.2261))}
   \end{rep}
   \begin{sol}
-    La fonction de répartition est
+    La fonction de répartition de la Pareto translatée$(\alpha,
+    \lambda)$ est
     \begin{align*}
       F(x)
       &= \int_\lambda^x
@@ -384,28 +385,29 @@ rexp(1, rgamma(1, alpha, lambda))
         \frac{\lambda}{(1 - y)^{1/\alpha}}, & 0 < y < 1.
       \end{cases}
     \end{align*}
-    Soit $U \sim U(0, 1)$. Alors
+    Par conséquent, si $U \sim U(0, 1)$, alors
     \begin{displaymath}
-      X = \lambda + \frac{\lambda}{U^{1/\alpha}} \sim
+      X = \frac{\lambda}{(1 - U)^{1/\alpha}} \sim
       \text{Pareto translatée}(\alpha, \lambda).
     \end{displaymath}
     Les trois premières valeurs retournées par le générateur
     \begin{displaymath}
       x_n = (65 x_{n-1} + 1) \bmod \nombre{2048}
     \end{displaymath}
-    avec une amorce de 12 sont:
-    \begin{displaymath}
-      781 \quad 1614 \quad 463.
-    \end{displaymath}
-    En divisant ces nombres par \nombre{2048}, on obtient des nombres
-    dans l'intervalle $(0, 1)$:
+    avec une amorce de 12 sont 781, \nombre{1614} et 463. En divisant
+    ces nombres par \nombre{2048}, on obtient des nombres dans
+    l'intervalle $(0, 1)$:
     \begin{displaymath}
       0,3813 \quad 0,7881 \quad 0,2261.
     \end{displaymath}
     Finalement, les observations de la Pareto$(2, \nombre{1000})$ sont
 <<echo=TRUE>>=
-1000/sqrt(c(0.3813, 0.7881, 0.2261))
+1000/sqrt(1 - c(0.3813, 0.7881, 0.2261))
 @
+    \emph{Remarque:} puisque $1 - U \sim U(0, 1)$ si $U \sim U(0, 1)$,
+    les nombres issus de la transformation $\lambda (1 -
+    U)^{-1/\alpha}$ seraient tout aussi distribués selon une Pareto
+    translatée. Les réponses seraient toutefois différentes.
   \end{sol}
 \end{exercice}
 
@@ -474,19 +476,19 @@ rexp(1, rgamma(1, alpha, lambda))
     \begin{align*}
       f_{X_1,X_2}(x_1, x_2)
       &= f_{U_1, U_2}(u_1, u_2) |J| \\
-      &= \frac{1}{\pi} \quad -1 < x_1 < 1, -\sqrt{1 - x_1^2} < x_2 <
+      &= \frac{1}{\pi}, \quad -1 < x_1 < 1, -\sqrt{1 - x_1^2} < x_2 <
       \sqrt{1 - x_1^2},
     \end{align*}
-    soit une distribution uniforme sur le cercle unité.
+    soit une distribution uniforme sur le disque unité.
 
     Le résultat peut évidemment servir à simuler des points
-    uniformément répartis dans un cercle de rayon 1 centré en $(0,
+    uniformément répartis sur un disque de rayon 1 centré en $(0,
     0)$. La figure \ref{fig:simulation:cercle} illustre d'ailleurs cette
     transformation. Les points $(u_1, u_2)$ du graphique de gauche
     sont tirés aléatoirement sur le carré $(0, 1) \times (0, 1)$. Le
     graphique de droite montre que suite à la tranformation ci-dessus,
     on obtient des points $(x_1, x_2)$ distribués uniformément sur un
-    cercle de rayon centré en $(0, 0)$.
+    disque de rayon 1 centré en $(0, 0)$.
     \begin{figure}
       \centering
 <<echo=FALSE, fig=TRUE, width=10, height=5>>=
@@ -906,19 +908,16 @@ curve(dbeta(x, 3, 2), add = TRUE)
 \begin{Scode}
 simul <- function(n, alpha, beta)
 {
-    M <- dbeta((alpha - 1)/(alpha + beta - 2),
-               alpha, beta)
+    xmax <- (alpha - 1)/(alpha + beta - 2)
+    M <- dbeta(xmax, alpha, beta)
     x <- numeric(n)
-    i <- 1
+    i <- 0
     repeat
     {
         u <- runif(1)
         if (M * runif(1) <= dbeta(u, alpha, beta))
-        {
-            x[i] <- u
-            i <- i + 1
-        }
-        if (i > n)
+            x[i <- i + 1] <- u
+        if (i == n)
             break
     }
     x
