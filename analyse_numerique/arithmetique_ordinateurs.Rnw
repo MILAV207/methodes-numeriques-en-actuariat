@@ -447,15 +447,15 @@ Il existe de nombreuses bases d'usage courant où chaque symbole est
 (potentiellement) exprimé dans une base différente. On a qu'à penser à
 l'heure ou l'ensemble du système de mesure impérial, par exemple. Or,
 il peut s'avérer utile de savoir convertir de et vers une base
-quelconque. Le matériel de cette section se retrouve dans très peu de
+quelconque. Le matériel de cette section se retrouve dans très peu
 d'ouvrages d'analyse numérique ou de statistique numérique. Pourtant,
-la conversion de et vers des bases générales recèle quelques
-applications intéressantes, comme nous le verrons.
+il existe quelques applications intéressantes de la conversion de et vers
+des bases générales, comme nous le verrons.
 
 On peut généraliser la notion de nombre présentée dans les sections
-précédentes à une collection de «symboles» chacun dans une base
-différente. On peut restreindre la discussion aux entiers sans perte
-de généralité. On a donc
+précédentes à une collection de «symboles», chacun dans une base
+différente. On restreint la discussion aux entiers sans perte de
+généralité. On a donc
 \begin{displaymath}
   x = x_{m-1}x_{m-2} \cdots x_1x_0,
 \end{displaymath}
@@ -529,7 +529,7 @@ résultat d'un calcul. L'exemple suivant illustre cette idée.
    obtient précisément la position du 14{\ieme} élément dans la
    matrice. Les opérations $-1$ et $+1$ sont rendues nécessaires par
    le fait que les lignes et les colonnes sont numérotées à partir de
-   1, alors que les systèmes de numération commencent à 0.%
+   1, alors que les systèmes de numération débutent à 0.%
    \qed
 \end{exemple}
 
@@ -555,7 +555,7 @@ bit est b.
 Un \emph{octet} (\emph{byte}) est un groupe de huit bits. Son symbole
 est o ou B. L'octet est l'unité de mesure la plus fréquemment utilisée
 en informatique, en grande partie parce que le codage d'un caractère
-pour de la plupart des langues occidentale requiert un octet; voir la
+dans la plupart des langues occidentales requiert un octet; voir la
 section~\ref{sec:ordinateurs:codage}. Les termes pour de plus grandes
 quantités de bits ou d'octets utilisent généralement les préfixes
 usuels du système international d'unités. Par exemple:
@@ -602,14 +602,14 @@ ingénieurs et les informaticiens sont parvenus à stocker un maximum
 d'information dans un espace limité.
 
 Tel que mentionné précédemment, la capacité de stockage d'un
-ordinateur, bien que vaste de nos jours, demeure limitée. Par
-conséquent, les nombres y sont représentés par un ensemble de $m$
-bits. Habituellement, $m$ est un multiple de 2 et sa valeur détermine
-le type de nombre. Par exemple, des définitions usuelles sont $m = 2^4
-= 16$ pour un entier, $m = 2^5 = 32$ pour un nombre réel en simple
-précision (\emph{float} dans plusieurs langages de programmation) et
-$m = 2^6 = 64$ pour un nombre réel en double précision
-(\emph{double}).
+ordinateur, bien que vaste de nos jours, n'en demeure pas moins
+limitée. Par conséquent, les nombres y sont représentés par un
+ensemble de $m$ bits. Habituellement, $m$ est un multiple de 2 et sa
+valeur détermine le type de nombre. Par exemple, des définitions
+usuelles sont $m = 2^4 = 16$ pour un entier, $m = 2^5 = 32$ pour un
+nombre réel en simple précision (\emph{float} dans plusieurs langages
+de programmation) et $m = 2^6 = 64$ pour un nombre réel en double
+précision (\emph{double}).
 
 Il existe deux grandes façons de représenter les nombres (réels) à
 l'aide de $m$ bits.
@@ -655,12 +655,19 @@ $F$ est un entier binaire. Le bit à gauche de la virgule est appelé le
 \emph{bit caché} puisqu'il est lui aussi implicite et non stocké dans
 l'ordinateur.
 
-Nous décrivons plus en détail la norme pour les nombres en
+Nous décrivons plus en détail la norme pour les nombres réels en
 \emph{double précision} puisque c'est le type avec lequel R travaille
-toujours. Tout d'abord, un nombre en double précision est stocké dans
-un mot de $m = 64$~bits (8~octets) et divisé ainsi: $m_S = 1$ bit pour
-le signe, $m_E = 11$ bits pour l'exposant et $m_F = 52$ bits pour la
-partie fractionnaire de la mantisse. Voir la
+toujours\footnote{%
+  \label{pg:arithmetique:entiers} Il est possible de créer des vrais
+  entiers dans R en ajoutant un suffixe \code{L} à un nombre entier.
+  Ainsi, \code{1L} est un nombre entier dans le sens où
+  \code{is.integer(1L)} est \code{TRUE}. Cela est relativement peu
+  utilisé en programmation normale}. %
+Tout d'abord, un nombre en double précision est stocké dans un mot de
+$m = 64$~bits (8~octets) divisé ainsi de gauche à droite: $m_S = 1$ bit
+pour le signe, $m_E = 11$ bits pour l'exposant et $m_F = 52$ bits pour
+la partie fractionnaire de la mantisse. Le premier bit du mot utilisé
+pour le signe est appelé le \emph{bit fort}. Voir la
 figure~\ref{fig:ordinateurs:double} pour une représentation
 schématique.
 
@@ -841,6 +848,9 @@ les suivantes.
     &= x_{\text{max}} - \varepsilon \times 2^{\nombre{1023}} \\
     &= x_{\text{max}} - 2^{971}.
   \end{align*}
+  Les deux plus petits nombres représentables sont donc distants de
+  $2^{-\nombre{1024}} \approx 10^{-324}$, alors que les deux plus
+  grands le sont de $2^{971} \approx 10^{292}$!
 \end{enumerate}
 
 Tout calcul impliquant un nombre $x > x_{\text{max}}$ ($x <
@@ -919,12 +929,12 @@ Le tableau~\ref{tab:arithmetic:simplified} fournit quelques exemples.
 \subsection{Erreurs d'arrondi ou de troncature}
 \label{sec:ordinateurs:arithmetique:erreurs}
 
-Lors de l'addition et la soustraction de nombres en virgule flottante,
-on rend les exposants égaux en déplaçant les bits de la mantisse du
-plus petit nombre vers la droite. Il en résulte une perte de bits
-significatifs et donc une \emph{erreur d'arrondi}. Dans les cas
-extrêmes où les deux opérandes sont de grandeur très différente, le
-plus petit opérande devient nul suite à la perte de tous ses bits
+Lors de l'addition et de la soustraction de nombres en virgule
+flottante, on rend les exposants égaux en déplaçant les bits de la
+mantisse du plus petit nombre vers la droite. Il en résulte une perte
+de bits significatifs et donc une \emph{erreur d'arrondi}. Dans les
+cas extrêmes où les deux opérandes sont de grandeur très différente,
+le plus petit opérande devient nul suite à la perte de tous ses bits
 significatifs.
 
 La situation pour la multiplication et la division est quelque peu
@@ -1099,8 +1109,10 @@ length(x)/log(prod(x/min(x)))
   On remarquera de plus que cette approche nécessite un grand nombre
   de multiplications (voir la
   section~\ref{sec:ordinateurs:arithmetique:cout}), en plus d'ouvrir
-  la porte à des erreurs d'arrondi. Pour obtenir une réponse on
-  utilisera plutôt une autre formule algébriquement équivalente:
+  la porte à des erreurs d'arrondi.
+
+  Pour obtenir une réponse on utilisera plutôt une autre formule
+  algébriquement équivalente:
   \begin{displaymath}
     \hat{\alpha} = \frac{n}{\sum_{i=1}^n \ln X_i - n \ln X_{(1)}}.
   \end{displaymath}

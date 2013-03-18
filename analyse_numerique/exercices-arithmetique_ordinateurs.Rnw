@@ -259,6 +259,198 @@ omet généralement $b$ pour les nombres en base 10.
 \end{exercice}
 
 \begin{exercice}
+  La plupart des langages de programmation --- dont R, voir la note au
+  bas de la page~\pageref{pg:arithmetique:entiers} --- permettent de
+  définir des nombres entiers «stricts», par opposition à des nombres
+  réels qui s'avèrent simplement être entiers. La représentation de
+  ces nombres entiers est complètement différente de celle de la norme
+  IEEE~754, sauf en ce qui a trait au bit fort, qui sert toujours à
+  stocker le signe du nombre.
+
+  Les nombres entiers sont stockés dans une représentation dite «en
+  complément à deux» \citep{Wikipedia:Complement_deux}. Dans cette
+  notation:
+  \begin{enumerate}[i)]
+  \item un entier positif est représenté en binaire de manière
+    usuelle, avec le bit fort égal à 0;
+  \item pour un entier négatif, on inverse les bits de la
+    représentation de sa valeur absolue et on ajoute 1 au résultat.
+  \end{enumerate}
+  Le bit fort est automatiquement mis à 1 (pour représenter un nombre
+  négatif) par l'opération d'inversion. Les deux opérations ci-dessus
+  sont équivalentes à stocker un nombre négatif $x$ en tant que $2^n -
+  |x|$.
+
+  Par exemple, la représentation sur 8~bits du nombre $5$ est
+  \begin{equation*}
+    \fbox{0}\hspace{2pt}\fbox{0000101}.
+  \end{equation*}
+  Pour représenter $-5$, on inverse ces bits et on ajoute 1:
+  \begin{equation*}
+    \fbox{1}\hspace{2pt}\fbox{1111011}.
+  \end{equation*}
+  On remarque que $11111011_2 = 251_{10} = 2^8 - 5$.
+  \begin{enumerate}
+  \item L'un des avantages de la notation en complément à deux est
+    qu'elle évite d'avoir des représentations pour $+0$ et $-0$. Pour
+    des entiers de 8~bits, $\fbox{0}\hspace{2pt}\fbox{0000000}$
+    correspond tout naturellement à $0$. À quel nombre correspond
+    $\fbox{1}\hspace{2pt}\fbox{0000000}$ selon cette notation?
+  \item Un autre avantage, plus important que celui mentionné en a),
+    de la notation en complément à deux est qu'elle permet d'effectuer
+    les opérations arithmétiques en binaire naturellement. Pour
+    constater ce fait, effectuer directement sur 8~bits l'opération
+    $15 - 5$ en utilisant les notations suivantes:
+    \begin{enumerate}
+    \item la notation naturelle où le bit fort représente le signe et
+      les sept autres bits pour représentent la valeur absolue du
+      nombre;
+    \item la notation en complément à deux.
+    \end{enumerate}
+    Dans les deux cas, ignorer les éventuels dépassements de capacité
+    vers la gauche.
+  \item C'est maintenant le temps d'expliquer le trait d'humour dans
+    le strip de \textsf{XKCD.com} au début du document. Convertir en
+    décimal les représentations en complément à deux des nombres sur
+    8~bits de $\fbox{00000000}$ à $\fbox{11111111}$. Répéter
+    l'exercice sur 16~bits. En fait, convertir non pas tous les
+    nombres, mais bien seulement quelques valeurs clés qui permettront
+    d'observer la séquence des nombres décimaux.
+  \item En plus des types \texttt{Single} et \texttt{Double} pour
+    représenter des nombres en virgule flottante, le VBA dispose des
+    types \texttt{Byte}, \texttt{Integer} et \texttt{Long} pour
+    représenter des nombres entiers. Comme son nom l'indique, le type
+    \texttt{Byte} utilise huit bits d'espace mémoire et ne sert que
+    pour les entiers positifs. Les types \texttt{Integer} et
+    \texttt{Long} requièrent 16 et 32 bits, respectivement, et peuvent
+    contenir des nombres négatifs. La notation en complément à deux
+    est alors utilisée pour ces deux types. Déterminer l'ensemble
+    des entiers représentables pour chacun des types de données
+    \texttt{Byte}, \texttt{Integer} et \texttt{Long}.
+  \end{enumerate}
+  \begin{sol}
+    \begin{enumerate}
+    \item Par la valeur du bit fort, on sait que
+      $\fbox{1}\hspace{2pt}\fbox{0000000}$ est un nombre négatif. Pour
+      retrouver sa valeur absolue, on soustrait d'abord $1$ (ce qui
+      donne $01111111$) et on inverse les bits: $10000000$. Or
+      $10000000_2 = 2^7 = 128$. Le nombre décimal correspondant à
+      $\fbox{1}\hspace{2pt}\fbox{0000000}$ en notation en complément à
+      deux est donc $-128$.
+    \item Tout d'abord, $15_{10} = 1111_2$ et $5_{10} = 101_2$.
+      \begin{enumerate}
+      \item Selon la notation «naturelle», on aurait pour 15 et $-5$
+        les représentations sur 7 bits suivantes, dans l'ordre:
+        \begin{equation*}
+          \fbox{0}\hspace{2pt}\fbox{0001111}
+          \quad \text{et} \quad
+          \fbox{1}\hspace{2pt}\fbox{0000101}.
+        \end{equation*}
+        Or, en additionnant en binaire, on obtient
+        \begin{center}
+          \begin{tabular}{cr}
+                & 0\,0001111 \\
+            $+$ & 1\,0000101 \\
+            \cline{2-2}
+                & 1\,0010100
+          \end{tabular}
+        \end{center}
+        et $10010100_2 = -20_{10} \neq 15 + (-5)$.
+      \item En notation en complément à deux, on a plutôt les
+        représentations suivantes pour 15 et $-5$:
+        \begin{equation*}
+          \fbox{0}\hspace{2pt}\fbox{0001111}
+          \quad \text{et} \quad
+          \fbox{1}\hspace{2pt}\fbox{1111011}.
+        \end{equation*}
+        En additionnant en binaire et en ignorant le neuvième bit qui
+        apparaîtrait à gauche suite à la retenue, on obtient:
+        \begin{center}
+          \begin{tabular}{cr}
+                & 0\,0001111 \\
+            $+$ & 1\,1111011 \\
+            \cline{2-2}
+                & 0\,0001010
+          \end{tabular}
+        \end{center}
+        Toujours en complément à deux, $0001010_2 = 10_{10} = 15 +
+        (-5)$. On voit donc que l'addition en complément à deux donne
+        directement le bon résultat.
+      \end{enumerate}
+    \item Voir les tableaux~\ref{tab:arithmetique:sequences_8bits} et
+      \ref{tab:arithmetique:sequences_16bits}. La troisième colonne
+      des tableaux est obtenue par l'opération $-(2^n - x)$, où $n =
+      8$ ou $n = 16$ et $x$ est la valeur dans la seconde colonne.
+      \begin{table}
+        \centering
+        \caption{Séquences des nombres en notation en complément à
+          deux sur 8 bits}
+        \label{tab:arithmetique:sequences_8bits}
+        \begin{tabular}[t]{crr}
+          \toprule
+               &              & \multicolumn{1}{c}{Valeur en} \\
+          Bits & Valeur brute & complément à deux \\
+          \midrule
+          0000 0000 & 0 & 0 \\
+          0000 0001 & 1 & 1 \\
+          0000 0010 & 2 & 2 \\
+          0111 1110 & 126 & 126 \\
+          0111 1111 & 127 & 127 \\
+          1000 0000 & 128 & $-128$ \\
+          1000 0001 & 129 & $-127$ \\
+          1000 0010 & 130 & $-126$ \\
+          1111 1110 & 254 & $-2$ \\
+          1111 1111 & 255 & $-1$ \\
+          \bottomrule
+        \end{tabular}
+      \end{table}
+      \begin{table}
+        \centering
+        \caption{Séquences des nombres en notation en complément à
+          deux sur 16 bits}
+        \label{tab:arithmetique:sequences_16bits}
+        \begin{tabular}[t]{crr}
+          \toprule
+               &              & \multicolumn{1}{c}{Valeur en} \\
+          Bits & Valeur brute & complément à deux \\
+          \midrule
+          0000 0000 0000 0000 & 0 & 0 \\
+          0000 0000 0000 0001 & 1 & 1 \\
+          0000 0000 0000 0010 & 2 & 2 \\
+          0111 1111 1111 1110 & \nombre{32766} & \nombre{32766} \\
+          0111 1111 1111 1111 & \nombre{32767} & \nombre{32767} \\
+          1000 0000 0000 0000 & \nombre{32768} & $-\nombre{32768}$ \\
+          1000 0000 0000 0001 & \nombre{32769} & $-\nombre{32767}$ \\
+          1000 0000 0000 0010 & \nombre{32770} & $-\nombre{32766}$ \\
+          1111 1111 1111 1110 & \nombre{65534} & $-2$ \\
+          1111 1111 1111 1111 & \nombre{65535} & $-1$ \\
+          \bottomrule
+        \end{tabular}
+      \end{table}
+    \item L'ensemble des nombres admissibles pour le type
+      \texttt{Byte} est $\{0, \dots, 2^8 - 1\} = \{0, \dots, 255\}$.
+      Pour le type \texttt{Integer}, on a de la partie c) que les
+      nombres admissibles sont les entiers $\{-2^{15}, \dots, 2^{15} -
+      1\} = \{-\nombre{32768}, \dots, \nombre{32767}\}$. Par analogie,
+      on trouve que l'ensemble des entiers admissibles pour le type
+      \texttt{Long} est $\{-2^{31}, \dots, 2^{31} - 1\} =
+      \{-\nombre{2147483648}, \dots, \nombre{2147483647}\}$.
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item $-128$
+    \item \begin{inparaenum}[i)] \item $-20$ \item $10$ \end{inparaenum}
+      \stepcounter{enumii}
+    \item Type \texttt{Byte}: $\{0, \dots, 255\}$; %
+      type \texttt{Integer}: $\{-\nombre{32768}, \dots, \nombre{32767}\}$; %
+      \newline
+      type \texttt{Long}: $\{-\nombre{2147483648}, \dots, \nombre{2147483647}\}$
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
   La norme IEEE~754 pour les nombres en virgule flottante $(S,
   E, F)$ en simple précision est le suivant:
   \begin{itemize}
@@ -281,35 +473,8 @@ omet généralement $b$ pour les nombres en base 10.
   \begin{rep}
     $\varepsilon = 2^{-23} = 1,192 \times 10^{-7}$,
     $x_{\max} = (2 - 2^{-23}) \times 2^{127} = 3,403 \times 10^{38}$,
-    $x_{\min} = 2^{-126} = 1,175 \times 10^{-38}$ (nombre normal) ou
-    $x_{\min} = 2^{-149} = 1,401 \times 10^{-45}$ (nombre sous-normal)
-  \end{rep}
-\end{exercice}
-
-\begin{exercice}
-  Outre les types \texttt{Single} et \texttt{Double} pour représenter
-  des nombres en virgule flottante, le VBA dispose également des types
-  \texttt{Integer}, \texttt{Long} et \texttt{Byte} pour représenter
-  des nombres entiers. Comme son nom l'indique, le type \texttt{Byte}
-  utilise huit bits d'espace mémoire et ne sert que pour les entiers
-  positifs. Les types \texttt{Integer} et \texttt{Long} requièrent 16
-  et 32 bits, respectivement, et peuvent contenir des nombres
-  négatifs. En supposant qu'un bit est réservé pour le signe dans ces
-  deux derniers types (ce qui n'est pas exactement le cas), trouver le
-  plus grand nombre admissible pour chaque type de données.
-  \begin{sol}
-    L'étendue des nombres admissibles pour le type \texttt{Byte} est
-    $[0, 2^8 - 1] = [0, 255]$. Les nombres maximaux pour les types
-    \texttt{Integer} et \texttt{Long} sont, respectivement, $2^{15} -
-    1 = \nombre{32767}$ et $2^{31} - 1 = \nombre{2147483647}$.
-    L'étendue est plus grande de 1 pour les nombres négatifs
-    ($-\nombre{32768}$ et $-\nombre{2147483648}$) parce que les
-    nombres sont en fait stockés en compléement à deux; voir
-    \url{http://fr.wikipedia.org/wiki/Complément_à_deux}.
-  \end{sol}
-  \begin{rep}
-    Type \texttt{Byte}: 255; type \texttt{Integer}: \nombre{32767};
-    type \texttt{Long}: \nombre{2147483647}.
+    $x_{\min} = 2^{-126} = 1,175 \times 10^{-38}$ (nombre normalisé) ou
+    $x_{\min} = 2^{-149} = 1,401 \times 10^{-45}$ (nombre dénormalisé)
   \end{rep}
 \end{exercice}
 

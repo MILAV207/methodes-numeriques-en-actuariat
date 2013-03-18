@@ -240,6 +240,22 @@
 
 \mainmatter
 
+%% Vignette tirée de xkcd.com
+\pagestyle{empty}
+\begin{vplace}[0.45]
+  \centering
+  \setkeys{Gin}{width=\textwidth}
+  \begin{minipage}{370pt}
+    \includegraphics{xkcd.png} \\
+    \footnotesize\sffamily%
+    Tiré de \href{http://xkcd.com/571/}{XKCD.com}
+  \end{minipage}
+  \setkeys{Gin}{width=0.8\textwidth}
+\end{vplace}
+\cleardoublepage
+
+\pagestyle{companion}
+
 \include{arithmetique_ordinateurs}
 \include{resolution_equations}
 \include{integration_numerique}
