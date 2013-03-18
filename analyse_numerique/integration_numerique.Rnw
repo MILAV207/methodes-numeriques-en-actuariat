@@ -57,7 +57,7 @@ Un type de polynôme d'approximation que vous connaissez déjà est le
 polynôme (ou développement) de Taylor autour d'un point $x_0$.
 Cependant, les polynômes de Taylor sont conçus pour être précis autour
 de $x_0$ et non sur tout un intervalle. Dans le contexte de
-l'intégration numérique où nous voudrons remplacer la fonction à
+l'intégration numérique, où nous voudrons remplacer la fonction à
 intégrer par un polynôme, nous aurons besoin d'une bonne approximation
 sur tout le domaine d'intégration.
 
@@ -96,7 +96,7 @@ fonction $f(x)$.
     &= f(x_0) \frac{(x - x_1)}{(x_0 - x_1)}
     + f(x_1) \frac{(x - x_0)}{(x_1 - x_0)}.
   \end{align*}
-  Le polynôme de second degré, quant à lui, est
+  Le polynôme de second degré est, quant à lui:
   \begin{align*}
     P_2(x)
     &= f(x_0) L_0(x) + f(x_1) L_1(x) + f(x_2) L_2(x)\\
@@ -111,7 +111,7 @@ fonction $f(x)$.
   On a alors
   \begin{align*}
     P_1(x)
-    &= \frac{1}{2} \frac{(x - 2,75)}{2 - 2,75}
+    &= \frac{1}{2} \frac{(x - 2,75)}{(2 - 2,75)}
     + \frac{1}{2,75} \frac{(x - 2)}{(2,75 - 2)} \\
     &= -\frac{2}{3} (x - 2,75) + \frac{16}{33} (x - 2) \\
     &= -\frac{6}{33}\, x + \frac{171}{198} \\

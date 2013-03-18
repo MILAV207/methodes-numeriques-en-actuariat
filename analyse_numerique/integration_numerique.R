@@ -10,7 +10,7 @@
 ## vecteurs de même longueur. Le package n'est pas livré avec
 ## R, il faut donc l'installer depuis CRAN, puis le charger en
 ## mémoire. [Décommenter la ligne ci-dessous pour installer
-## une seule fois!) le package.]
+## (une seule fois!) le package.]
 #install.packages("polynom", repos = "http://cran.ca.r-project.org")
 library(polynom)
 
