@@ -26,7 +26,7 @@ source("nr.R")
 Ce chapitre passe en revue les méthodes les plus populaires pour
 résoudre numériquement une équation à une variable. Ce problème,
 simple en apparence seulement, survient dans une foule de domaines.
-Nous donnons deux exemples, tiré des mathématiques financières et de
+Débutons par deux exemples, tirés des mathématiques financières et de
 l'inférence statistique.
 
 \begin{exemple}
@@ -71,7 +71,7 @@ l'inférence statistique.
     f(r) = \frac{d}{dr}\, l(r) =
     \sum_{i = 1}^n (\Psi(x_i + r) - \Psi(r) + \ln p) = 0,
   \end{displaymath}
-  où $\Psi(x) = \Gamma(x)^\prime/\Gamma(x)$ est la \emph{fonction
+  où $\Psi(x) = \Gamma^\prime(x)/\Gamma(x)$ est la \emph{fonction
     digamma}. %
   \qed
 \end{exemple}
@@ -205,15 +205,18 @@ converge vers la valeur $x^*$.
 par(mfrow = c(1, 2))
 f <- function(x) x^3 - x^2 - x - 10
 curve(f(x), xlim = c(-10, 10), xlab = "x", ylab = "f(x)", lwd = 2)
+points(Re(polyroot(c(-10, -1, -1, 1))[3]), 0, pch = 19)
 abline(h = 0)
 
 f <- function(x) x^3 - x^2 - x - 0.2
 curve(f(x), xlim = c(-1, 2), xlab = "x", ylab = "f(x)", lwd = 2)
+points(Re(polyroot(c(-0.2, -1, -1, 1))[3]), 0, pch = 19)
 abline(h = 0)
 @
   \caption{Deux exemples de fonctions pour lesquelles on pourrait
     avoir $|f(x_n)| < \varepsilon$ même si $x_n \gg x^*$ ou $x_n \ll
-    x^*$.}
+    x^*$. Le point identifie la véritable racine dans chaque
+    graphique.}
   \label{fig:resolution:critere}
 \end{figure}
 
@@ -235,9 +238,9 @@ abline(h = 0)
   \item le nombre maximal d'itérations $N_{\mathrm{max}}$ (100 par
     défaut);
   \item une valeur booléenne indiquant si les calculs intermédiaires
-    doivent être affichés à l'écran: si l'argument est \code{TRUE},
-    les valeurs de $a$, $b$, $x_n$ et $f(x_n)$ sont affichées à chaque
-    itération.
+    doivent ou non être affichés à l'écran: si l'argument est
+    \code{TRUE}, les valeurs de $a$, $b$, $x_n$ et $f(x_n)$ sont
+    affichées à chaque itération.
   \end{enumerate}
   La fonction retourne une liste dont l'élément \code{\$root} contient
   la réponse et l'élément \code{\$nb.iter} le nombre d'itérations
@@ -467,11 +470,8 @@ point fixe d'une fonction.
 \begin{thm}
   \label{thm:resolution:pointfixe:2}
   Si les deux conditions du théorème~\ref{thm:resolution:pointfixe}
-  sont satisfaites, alors la série $\{x_n\}$ définie par
-  \begin{displaymath}
-    x_n = g(x_{n - 1})
-  \end{displaymath}
-  converge vers un point fixe unique dans $[a, b]$.
+  sont satisfaites, alors la série $\{x_n = g(x_{n - 1})\}$ converge
+  vers un point fixe unique dans $[a, b]$.
 \end{thm}
 
 Tel que mentionné au début de la
@@ -482,7 +482,7 @@ théorème~\ref{thm:resolution:pointfixe:2} nous dit que pour trouver un
 point fixe, le meilleur essai $x_n$ à faire est la valeur de la
 fonction $g$ à l'essai précédent, $g(x_{n - 1})$. La
 figure~\ref{fig:resolution:pointfixe} illustre comment la suite des
-essais succesifs peut converger vers le point fixe.
+essais successifs peut converger vers le point fixe.
 
 \begin{figure}
   \centering
@@ -579,7 +579,7 @@ méthode du point fixe.
   fonction \code{pointfixe} similaire à la fonction \code{bissection}
   présentée à la section \ref{sec:resolution:bissection}. Ses
   arguments sont d'ailleurs les mêmes, à l'exception que les points
-  $a$ et $b$ qui sont remplacés par une valeur de départ $x_0$.
+  $a$ et $b$ sont remplacés par une valeur de départ $x_0$.
 
   \begin{gotoR}
     Exécuter le code informatique de la
@@ -619,12 +619,11 @@ res.pf <- pointfixe(g, start = 0.0375)
   Il est laissé en exercice de vérifier que, dans chacun des cas, la
   racine de $f(x)$ est le point fixe de $g_i(x)$, $i = 1, \dots, 5$.
 
-  Les graphiques des cinq fonctions ci-dessus se trouvent aux figures
-  \ref{fig:resolution:pointfixe_2-1}--\ref{fig:resolution:pointfixe_2-5}.
-  L'examen de ces graphiques permet de déterminer, avant de faire tout
-  calcul, pour quelles fonctions la procédure itérative du point fixe
-  convergera ainsi que les taux de convergence relatif, le cas
-  échéant.
+  Les graphiques des cinq fonctions ci-dessus se trouvent à la
+  figure~\ref{fig:resolution:pointfixe_2}. L'examen de ces graphiques
+  permet de déterminer, avant de faire tout calcul, pour quelles
+  fonctions la procédure itérative du point fixe convergera ainsi que
+  les taux de convergence relatif, le cas échéant.
   \begin{figure}
     \begin{minipage}{0.48\linewidth}
       \centering
@@ -637,8 +636,7 @@ curve(f, add=TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
         lty = "dashed", border = "blue")
 @
-      \caption{Fonction $g_1(x)$}
-      \label{fig:resolution:pointfixe_2-1}
+      \subcaption{fonction $g_1(x)$}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\linewidth}
@@ -650,7 +648,7 @@ curve(f, add=TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
         lty = "dashed", border = "blue")
 @
-      \caption{Fonction $g_2(x)$}
+      \subcaption{fonction $g_2(x)$}
     \end{minipage}
     \newline
     \begin{minipage}{0.48\linewidth}
@@ -662,7 +660,7 @@ curve(f, add=TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
         lty = "dashed", border = "blue")
 @
-      \caption{Fonction $g_3(x)$}
+      \subcaption{fonction $g_3(x)$}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\linewidth}
@@ -674,7 +672,7 @@ curve(f, add=TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
         lty = "dashed", border = "blue")
 @
-      \caption{Fonction $g_4(x)$}
+      \subcaption{fonction $g_4(x)$}
     \end{minipage}
     \newline
     \centering
@@ -687,9 +685,11 @@ curve(f, add=TRUE)
 polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
         lty = "dashed", border = "blue")
 @
-      \caption{Fonction $g_5(x)$}
-      \label{fig:resolution:pointfixe_2-5}
+      \subcaption{fonction $g_5(x)$}
     \end{minipage}
+    \caption{Graphiques des cinq fonctions de
+      l'exemple~\ref{ex:resolution:pointfixe_2}}
+    \label{fig:resolution:pointfixe_2}
   \end{figure}
 
   \begin{gotoR}
@@ -1027,7 +1027,7 @@ curve(f0, add = TRUE)
 
 Le principal inconvénient de la méthode de Newton--Raphson demeure le
 fait de devoir connaître la dérivée de la fonction $f$. Dans les cas
-où celle-ci s'avère difficile et/ou inefficace à calculer, on peut
+où celle-ci s'avère difficile ou inefficace à calculer, on peut
 utiliser la \emph{méthode de la sécante}. Avec cette méthode, plutôt
 que d'utiliser la tangente en un essai pour déterminer la valeur de
 l'essai suivant, on a recours à la sécante entre les deux essais
@@ -1066,7 +1066,6 @@ for (i in 1:(length(x) - 2))
 
 points(x, f(x), pch = 21, bg = "red3")
 @
-  asas
   \caption{Illustration de la méthode de la sécante. Cette méthode
     requiert deux essais initiaux. Dans le graphique, il s'agit, dans
     l'ordre, du point à l'extrême gauche et celui à l'extrême droite.
@@ -1102,7 +1101,7 @@ le système d'équations
 
 La grande majorité des suites logicielles comportent des outils
 d'optimisation de fonctions. Ce document passe en revue les fonctions
-disponibles dans Excel, S-Plus et R.
+disponibles dans Excel et R.
 
 
 \subsection{Solveur de Excel}

@@ -159,10 +159,10 @@ pointfixe(g2, 1.5)
 
 ## Avec les trois autres fonctions, la méthode du point fixe
 ## est extrêmement rapide et précise. Une rapide analyse des
-## graphiques fournis dans les notes de cours nous aurait
-## permis de déterminer avec quelle fonction la convergence
-## serait la plus rapide. En effet, c'est la fonction 'g5' qui
-## a la pente la plus faible près de son point fixe.
+## graphiques fournis dans le chapitre nous aurait permis de
+## déterminer avec quelle fonction la convergence serait la
+## plus rapide. En effet, c'est la fonction 'g5' qui a la
+## pente la plus faible près de son point fixe.
 pointfixe(g3, 1.5)
 pointfixe(g4, 1.5)
 pointfixe(g5, 1.5)
@@ -234,7 +234,7 @@ pointfixe(g, 0.0375, echo = TRUE)
 ## l'exemple.
 f <- function(x) ifelse(x == 2, NA, (4 * x - 7)/(x - 2))
 fp <- function(x) ifelse(x == 2, NA, -1/(x - 2)^2)
-g <- function(x) 4*x^2 - 14*x + 14
+g <- function(x) 4 * x^2 - 14 * x + 14
 
 ## On vérifie que, étant donné la forme des fonctions 'f' et
 ## 'g', la valeur de départ utilisée dans les méthodes de
@@ -376,13 +376,13 @@ f2 <- function(logp, x)
     -sum(dgamma(x, p[1], p[2], log = TRUE))
 }
 nlm(f2, c(0, 0), x = x)
-## ====================
 
 ## Les valeurs obtenues ci-dessus sont toutefois les
 ## estimateurs des logarithmes des paramètres de la loi gamma.
 ## On retrouve les estiamteurs des paramètres en prenant
 ## l'exponentielle des réponses.
 exp(nlm(f2, c(0, 0), x = x)$estimate)
+## ====================
 
 ## FONCTION 'nlminb'
 ##
