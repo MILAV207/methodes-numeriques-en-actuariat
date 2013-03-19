@@ -257,6 +257,22 @@
 
 \mainmatter
 
+%% Vignette tirée de xkcd.com
+\pagestyle{empty}
+\begin{vplace}[0.45]
+  \centering
+  \setkeys{Gin}{width=\textwidth}
+  \begin{minipage}{400pt}
+    \includegraphics{xkcd.png} \\
+    \footnotesize\sffamily%
+    Tiré de \href{http://xkcd.com/184/}{XKCD.com}
+  \end{minipage}
+  \setkeys{Gin}{width=0.8\textwidth}
+\end{vplace}
+\cleardoublepage
+
+\pagestyle{companion}
+
 \include{revision_algebre_lineaire}
 \include{valeurs_propres}
 \include{decomposition_lu}
