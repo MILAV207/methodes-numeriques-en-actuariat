@@ -32,8 +32,7 @@ options(width = 50)
   \label{ex:valeurspropres:base}
   Trouver l'équation caractéristique, les valeurs propres et les bases
   de vecteurs propres des matrices suivantes.  Vérifier les réponses
-  obtenues à l'aide de la fonction \texttt{eigen} de \textsf{R} ou
-  S-Plus.
+  obtenues à l'aide de la fonction \texttt{eigen} de R.
   \begin{enumerate}
     \begin{multicols}{2}
     \item $\begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix}$
@@ -590,7 +589,7 @@ eigen(m)
   \item si la matrice est diagonalisable, trouver la matrice $\mat{P}$
     qui diagonalise $\mat{A}$ et $\mat{P}^{-1} \mat{AP}$;
   \item vérifier les réponses en iv) avec la fonction \texttt{eigen}
-    de \textsf{R} ou S-Plus.
+    de R.
   \end{enumerate}
   \begin{enumerate}
     \begin{multicols}{2}

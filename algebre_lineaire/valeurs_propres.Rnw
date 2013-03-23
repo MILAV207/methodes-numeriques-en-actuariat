@@ -15,7 +15,8 @@ Les valeurs et vecteurs propres sont des caractéristiques liées à une
 matrice carrée. Ces notions admettent une grande variété
 d'interprétations physiques différentes, chacune ancrée dans son
 domaine d'application: géométrie, résolution d'équations
-différentielles, mécanique quantique, finance, etc.
+différentielles, mécanique quantique, finance, \capsule{moteurs de
+  recherche}, etc.
 
 Dans le cadre de ce cours, l'étude des valeurs et vecteurs propres
 demeurera plutôt collée aux définitions de base. Nous ne verrons
@@ -31,14 +32,14 @@ En algèbre vectorielle, le produit par une matrice $\mat{A}$ peut être
 vu comme un opérateur permettant d'appliquer une transformation à un
 vecteur $\mat{x}$. Par exemple:
 \begin{itemize}
-\item la multiplication par un scalaire
+\item La multiplication par un scalaire:
   \begin{equation*}
     \begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix}
     \begin{bmatrix} 1 \\ 2 \end{bmatrix} =
     \begin{bmatrix} 3 \\ 6 \end{bmatrix} =
-    3 \begin{bmatrix} 1 \\ 2 \end{bmatrix};
+    3 \begin{bmatrix} 1 \\ 2 \end{bmatrix}.
   \end{equation*}
-\item la rotation d'un angle $\theta$
+\item La rotation d'un angle $\theta$:
   \begin{equation*}
     \begin{bmatrix}
       \cos \theta & - \sin \theta \\ \sin \theta & \cos \theta
@@ -48,9 +49,9 @@ vecteur $\mat{x}$. Par exemple:
       x \cos \theta - y \sin \theta \\ x \sin \theta + y \cos
       \theta
     \end{bmatrix} =
-    \begin{bmatrix} w \\ z \end{bmatrix};
+    \begin{bmatrix} w \\ z \end{bmatrix}.
   \end{equation*}
-\item la projection sur un autre vecteur
+\item La projection sur un autre vecteur:
   \begin{equation*}
     \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}
     \begin{bmatrix} 2 \\ 1 \end{bmatrix} =
@@ -68,9 +69,9 @@ par(mar = rep(1, 4))
 x <- c(2, 1.75); y <- 1.75 * x
 plot(NA, xlim = c(0, 4), ylim = c(0, 4),
      xlab = "", ylab = "", axes = FALSE)
-arrows(0, 0, y[1], y[2], lwd = 4, col = "blue")
+arrows(0, 0, y[1], y[2], lwd = 4, col = "darkorange")
 text((x[1] + y[1])/2 - 0.1, (x[2] + y[2])/2 + 0.1, labels = "Ax",
-     pos = 3, font = 2, cex = 3, col = "blue")
+     pos = 3, font = 2, cex = 3, col = "darkorange")
 arrows(0, 0, x[1], x[2], lwd = 4, col = "black")
 text(x[1]/2, x[2]/2 + 0.1, labels = "x",
      pos = 3, font = 2, cex = 3, col = "black")
@@ -87,7 +88,7 @@ R <- matrix(c(cos(pi/4), sin(pi/4), -sin(pi/4), cos(pi/4)), nrow = 2)
 x <- c(3.25, 1)
 w <- R %*% x
 arrows(0, 0, x[1], x[2], lwd = 4)
-arrows(0, 0, w[1], w[2], lwd = 4, col = "blue")
+arrows(0, 0, w[1], w[2], lwd = 4, col = "darkorange")
 f <- function(x, r) sqrt(r^2 - x^2)
 xx <- c(1.5, 1.5/x[1])
 ww <- R %*% xx
@@ -98,8 +99,8 @@ text(x[1]/2 + 0.2, x[2]/2, labels = "x",
      pos = 1, font = 2, cex = 3)
 text(x[1], x[2], labels = "(x, y)", pos = 4, cex = 3)
 text(w[1]/2, w[2]/2 + 0.1, labels = "Ax",
-     pos = 2, font = 2, cex = 3, col = "blue")
-text(w[1], w[2], labels = "(w, z)", pos = 4, cex = 3, col = "blue")
+     pos = 2, font = 2, cex = 3, col = "darkorange")
+text(w[1], w[2], labels = "(w, z)", pos = 4, cex = 3, col = "darkorange")
 @
     \subcaption{rotation}
   \end{minipage}
@@ -114,9 +115,9 @@ plot(NA, xlim = c(0, 4), ylim = c(0, 4),
 arrows(o[1], o[2] , x[1], x[2], lwd = 4, col = "black")
 text(x[1]/2, (x[2] + o[2])/2 + 0.1, labels = "x",
      pos = 3, font = 2, cex = 3, col = "black")
-arrows(o[1], o[2], y[1], y[2], lwd = 4, col = "blue")
+arrows(o[1], o[2], y[1], y[2], lwd = 4, col = "darkorange")
 text(y[1]/2, (y[2] + o[2])/2 - 0.1, labels = "Ax",
-     pos = 1, font = 2, cex = 3, col = "blue")
+     pos = 1, font = 2, cex = 3, col = "darkorange")
 len <- 0.25
 segments(y[1], y[2], x[1], x[2], lty = 2)
 segments(y[1] - len, y[2], y[1] - len, y[2] + len)
@@ -124,7 +125,7 @@ segments(y[1] - len, y[2] + len, y[1], y[2] + len)
 @
     \subcaption{projection}
   \end{minipage}
-  \caption{Illustration de trois transformations d'un vecteur
+  \caption{Illustrations de trois transformations d'un vecteur
     $\mat{x}$ que l'on peut représenter par un produit matriciel
     $\mat{A x}$.}
   \label{fig:valeurspropres:transformations}
@@ -148,7 +149,8 @@ cette interprétation du produit matriciel.
 
 Ainsi, par définition, lorsqu'un vecteur propre $\mat{x}$ est
 multiplié par la matrice $\mat{A}$, il est transformé en un multiple
-de lui-même; voir la figure
+de lui-même; voir la figure~\ref{fig:valeurspropres:illustration}.
+
 \begin{figure}
   \begin{minipage}{0.22\linewidth}
 <<echo=FALSE, fig=TRUE>>=
@@ -157,7 +159,7 @@ x <- c(1, 1)
 plot(0, 0, xlim = c(0, 1), ylim = c(0, 1), pch = 19, cex = 3,
      xlab = "", ylab = "", axes = FALSE)
 arrows(0, 0, x[1], x[2], lwd = 8)
-arrows(0, 0, x[1]/2, x[2]/2, lwd = 8, col = "blue")
+arrows(0, 0, x[1]/2, x[2]/2, lwd = 8, col = "darkorange")
 @
     \subcaption{$0 \leq \lambda \leq 1$}
   \end{minipage}
@@ -168,7 +170,7 @@ par(mar = rep(0, 4))
 x <- c(1, 1)/2
 plot(0, 0, xlim = c(0, 1), ylim = c(0, 1), pch = 19, cex = 3,
      xlab = "", ylab = "", axes = FALSE)
-arrows(0, 0, 2 * x[1], 2 * x[2], lwd = 8, col = "blue")
+arrows(0, 0, 2 * x[1], 2 * x[2], lwd = 8, col = "darkorange")
 arrows(0, 0, x[1], x[2], lwd = 8)
 @
     \subcaption{$\lambda \geq 1$}
@@ -181,7 +183,7 @@ x <- c(1, 1)
 plot(0.25, 0.25, xlim = c(0, 1), ylim = c(0, 1), pch = 19, cex = 3,
      xlab = "", ylab = "", axes = FALSE)
 arrows(0.25, 0.25, x[1], x[2], lwd = 8)
-arrows(0.25, 0.25, 0, 0, lwd = 8, col = "blue")
+arrows(0.25, 0.25, 0, 0, lwd = 8, col = "darkorange")
 @
     \subcaption{$-1 \leq \lambda \leq 0$}
   \end{minipage}
@@ -193,13 +195,13 @@ x <- c(1, 1)
 plot(0.75, 0.75, xlim = c(0, 1), ylim = c(0, 1), pch = 19, cex = 3,
      xlab = "", ylab = "", axes = FALSE)
 arrows(0.75, 0.75, x[1], x[2], lwd = 8)
-arrows(0.75, 0.75, 0, 0, lwd = 8, col = "blue")
+arrows(0.75, 0.75, 0, 0, lwd = 8, col = "darkorange")
 @
     \subcaption{$\lambda \leq -1$}
   \end{minipage}
   \caption{Un vecteur propre $\mat{x}$ d'une matrice $\mat{A}$ (en
     noir) est transformé en un multiple $\lambda$ de lui-même lorsque
-    multiplié par $\mat{A}$ (en bleu).}
+    multiplié par $\mat{A}$ (en orange).}
   \label{fig:valeurspropres:illustration}
 \end{figure}
 
@@ -221,16 +223,16 @@ arrows(0.75, 0.75, 0, 0, lwd = 8, col = "blue")
 \begin{rem}
   Le qualificatif «propre» doit être pris dans le sens de «qui
   caractérise». En anglais, les termes les plus souvent utilisés pour
-  «valeur propre» et «vecteur propre» sont, dans l'ordre,
-  \emph{eigenvalue} et \emph{eigenvector}. Ils sont formés à partir du
+  «valeur propre» et «vecteur propre» sont \emph{eigenvalue} et
+  \emph{eigenvector}, dans l'ordre. Ils sont formés à partir du
   préfixe allemand \emph{eigen} plutôt qu'à partir de son équivalent
   anglais \emph{own}, probablement pour des raisons générales
-  d'agrément phonétique.
+  de viabilité phonétique.
 \end{rem}
 
 
 
-\section{Valeurs propres}
+\section{Calcul des valeurs propres}
 \label{sec:valeurspropres:valeurs}
 
 Pour trouver les valeurs propres d'une matrice $\mat{A}$, on doit
@@ -458,15 +460,17 @@ un vecteur propre correspondant.
 \end{proof}
 
 \begin{rem}
-  L'équation caractéristique $\det(\lambda \mat{I} - \mat{A})$ peut
-  aussi fournir cette interprétation de la valeur propre: c'est le
-  nombre de fois qu'il faut «déplacer» la matrice $\mat{A}$ de
-  $\mat{I}$ jusqu'à ce qu'elle devienne singulière.
+  On sait que pour une fonction $y = f(x)$ quelconque, $y = f(x - c)$
+  correspond à une translation de la fonction de $c$ unités vers la
+  gauche. Par analogie, l'équation caractéristique $\det(\lambda
+  \mat{I} - \mat{A})$ fournit cette interprétation de la valeur
+  propre: c'est le nombre de fois qu'il faut «déplacer» la matrice
+  $\mat{A}$ de $\mat{I}$ jusqu'à ce qu'elle devienne singulière.
 \end{rem}
 
 
 
-\section{Vecteurs propres}
+\section{Calcul des vecteurs propres}
 \label{sec:valeurspropres:vecteurs}
 
 Les vecteurs propres de la matrice $\mat{A}$ correspondant à la valeur
@@ -474,23 +478,23 @@ propre $\lambda$ sont les vecteurs non nuls satisfaisant
 \begin{displaymath}
   \mat{A} \mat{x} = \lambda \mat{x}
 \end{displaymath}
-ou, de manière équivalente
+ou, de manière équivalente,
 \begin{displaymath}
   (\lambda \mat{I} - \mat{A}) \mat{x} = \mat{0}.
 \end{displaymath}
-Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$,
+Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$:
 \begin{itemize}
 \item le rang de $\lambda \mat{I} - \mat{A}$ est inférieur à $n$;
 \item il existe une solution $(\lambda \mat{I} - \mat{A}) \mat{x} =
   \mat{0}$ autre que la solution triviale;
 \item le système d'équations homogène comporte une infinité de
-  solutions;
-\item pour chaque valeur propre $\lambda$, on doit trouver une base de
-  $\mathbb{R}^k$, où
-  \begin{displaymath}
-    k = n - \mathrm{rang}(\lambda \mat{I} - \mat{A}).
-  \end{displaymath}
+  solutions.
 \end{itemize}
+Par conséquent, pour chaque valeur propre $\lambda$, on doit trouver
+une base de $\mathbb{R}^k$, où
+\begin{displaymath}
+  k = n - \mathrm{rang}(\lambda \mat{I} - \mat{A}).
+\end{displaymath}
 
 \begin{exemple}
   \label{ex:valeurspropres:vecteurs}
@@ -534,15 +538,15 @@ Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$,
     \end{gather*}
     Par conséquent:
     \begin{itemize}
-    \item la solution est $x_1 = -2 x_3$, $x_2 = x_3$ et $x_3$ est une
-      variable libre;
+    \item la solution du système d'équations est $x_1 = -2 x_3$, $x_2
+      = x_3$ et $x_3$ est une variable libre;
     \item $(-2s, s, s)$ est un vecteur propre correspondant à $\lambda
       = 1$;
     \item en fait, tout vecteur de la forme $(-2, 1, 1)$ est un
-      vecteur propre correspondant à $\lambda = 1$;
-    \item $(-2, 1, 1)$ est une base de vecteurs propres correspondant
-      à $\lambda = 1$.
+      vecteur propre correspondant à $\lambda = 1$.
     \end{itemize}
+    Ainsi, $(-2, 1, 1)$ est une base de vecteurs propres correspondant
+    à $\lambda = 1$.
   \item Cas $\lambda_2 = \lambda_3 = 2$. On a
     \begin{gather*}
       (2 \mat{I} - \mat{A}) \mat{x} = \mat{0} \\
@@ -565,7 +569,7 @@ Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$,
     \end{gather*}
     Par conséquent:
     \begin{itemize}
-    \item la solution est $x_1 = -x_3$ et $x_2$ et $x_3$ sont des
+    \item la solution est $x_1 = -x_3$, $x_2$ et $x_3$ sont des
       variables libres;
     \item $(s, t, -s)$ est un vecteur propre correspondant à $\lambda
       = 2$;
@@ -573,11 +577,11 @@ Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$,
       \begin{displaymath}
         \begin{bmatrix} s \\ t \\ -s  \end{bmatrix} =
         s \begin{bmatrix} 1 \\ 0 \\ -1  \end{bmatrix} +
-        t \begin{bmatrix} 0 \\ 1 \\ 0  \end{bmatrix};
+        t \begin{bmatrix} 0 \\ 1 \\ 0  \end{bmatrix}.
       \end{displaymath}
-    \item $(1, 0, -1)$ et $(0, 1, 0)$ forment une base de vecteurs
-      propres correspondant à $\lambda = 2$.
     \end{itemize}
+    Ainsi $(1, 0, -1)$ et $(0, 1, 0)$ forment une base de vecteurs
+    propres correspondant à $\lambda = 2$.
   \end{enumerate}
   \qed
 \end{exemple}
@@ -621,16 +625,16 @@ dans l'exemple suivant.
   manières différentes de le faire, pour conclure{\dots} qu'aucune méthode
   n'est uniformément meilleure que les autres!
 
-  Cela dit, le calcul est simple si $\mat{A}$ est diagonale.
-  Supposons, sans perte de généralité, que $\mat{A}$ est une matrice
-  $2 \times 2$:
+  Cela dit, le calcul de l'exponentielle de $\mat{A}$ est simple si la
+  matriceest diagonale. Supposons, sans perte de généralité, que
+  $\mat{A}$ est une matrice $2 \times 2$:
   \begin{equation*}
     \mat{A} =
     \begin{bmatrix}
       a_1 & 0 \\ 0 & a_2
     \end{bmatrix}.
   \end{equation*}
-  Alors
+  Ainsi
   \begin{equation*}
     \mat{A}^n =
     \begin{bmatrix}
@@ -655,19 +659,21 @@ dans l'exemple suivant.
       0 & e^{a_2}
     \end{bmatrix}.
   \end{align*}
+  Le calcul de l'exponentielle d'une matrice diagonale se résume donc
+  à prendre l'exponentielle des éléments de la diagonale.
 
-  Supposons maintenant que $\mat{B}$ est une matrice que l'on peut
-  écrire sous la forme
+  Poussons l'idée une étape plus loin. Supposons que $\mat{B}$ est une
+  matrice que l'on peut écrire sous la forme
   \begin{equation*}
     \mat{B} = \mat{P^{-1}} \mat{A} \mat{P},
   \end{equation*}
   où $\mat{A}$ est diagonale. Puisque
   \begin{align*}
     \mat{B}^2
-    &= \mat{P^{-1}} \mat{A} \mat{P} \mat{P^{-1}} \mat{A} \mat{P} \\
+    &= (\mat{P^{-1}} \mat{A} \mat{P})(\mat{P^{-1}} \mat{A} \mat{P}) \\
     &= \mat{P^{-1}} \mat{A}^2 \mat{P}, \\
     \mat{B}^3
-    &= \mat{P^{-1}} \mat{A} \mat{P} \mat{P^{-1}} \mat{A}^2 \mat{P} \\
+    &= (\mat{P^{-1}} \mat{A} \mat{P})(\mat{P^{-1}} \mat{A}^2 \mat{P}) \\
     &= \mat{P^{-1}} \mat{A}^3 \mat{P} \\
     &\vdots \\
     \mat{B}^n &= \mat{P^{-1}} \mat{A}^n \mat{P},
@@ -683,8 +689,9 @@ dans l'exemple suivant.
     \mat{P} \\
     &= \mat{P^{-1}} e^{\mat{A}} \mat{P}.
   \end{align*}
-  Le calcul de l'exponentielle de la matrice $\mat{B}$ est donc simple
-  dans ce cas.%
+  Si l'on peut écrire une matrice $\mat{B}$ sous la forme $\mat{B} =
+  \mat{P^{-1}} \mat{A} \mat{P}$, alors le calcul de son exponentielle
+  sera simple.%
   \qed
 \end{exemple}
 
@@ -722,7 +729,8 @@ vecteurs propres linéairement indépendants.
 
 Supposons qu'une matrice $\mat{A}_{3 \times 3}$ possède trois vecteurs
 propres linéairement indépendants $\mat{p}_1, \dots, \mat{p}_3$ et
-soit
+soit la matrice $\mat{P}$ formée de ces trois vecteurs dans les
+colonnes:
 \begin{align*}
   \mat{P}
   &= [\mat{p}_1\, \mat{p}_2\, \mat{p}_3] \\
@@ -738,6 +746,8 @@ Alors,
 \begin{align*}
   \mat{A} \mat{P}
   &= [\mat{A} \mat{p}_1\, \mat{A} \mat{p}_2\, \mat{A} \mat{p}_3] \\
+  \intertext{et, par définition du vecteur propre,}
+  \mat{A} \mat{P}
   &= [\lambda_1 \mat{p}_1\, \lambda_2 \mat{p}_2\, \lambda_3 \mat{p}_3] \\
   &= [\mat{p}_1\, \mat{p}_2\, \mat{p}_3]
   \begin{bmatrix}
@@ -794,8 +804,10 @@ alors les vecteurs propres sont linéairement indépendants.
 \end{thm}
 
 \begin{rem}
-  Si les valeurs propres ne sont pas distinctes, la matrice peut
-  néanmoins être diagonalisable.
+  La contraposée du théorème précédent indique que si une matrice
+  n'est pas diagonalisable, alors ses valeurs propres ne sont pas
+  distinctes. En revanche, la matrice peut être diagonalisable même si
+  ses valeurs propres ne sont pas distinctes.
 \end{rem}
 
 \begin{exemple}

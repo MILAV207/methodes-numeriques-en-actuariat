@@ -11,8 +11,9 @@
   \usepackage{paralist}
   \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
-  \usepackage{graphicx,color,multicol}
-  \usepackage{MnSymbol,textcomp}       % symboles spéciaux
+  \usepackage{graphicx,color,multicol,soulutf8}
+  \usepackage{manfnt}                  % \mantriangleright (puce)
+  \usepackage{marvosym}                % \Forward et \ForwardToEnd
   \usepackage{listingsutf8,answers}
   \usepackage{pdfpages}                % couvertures
   \usepackage{xr}                      % référence au chap. 3
@@ -46,7 +47,8 @@
                                                Université Laval}
   \date{%
     \fontseries{m}\fontsize{14}{18}\selectfont Notes de cours \textbar\
-                                               Exercices}
+                                               Exercices \textemdash\
+                                               édition 2013}
 
   %%% ===================
   %%%  STYLE DU DOCUMENT
@@ -70,10 +72,10 @@
   \setsecnumdepth{subsection}
 
   %% Listes. Paramétrage avec enumitem.
-  \setenumerate{leftmargin=*,align=left}
-  \setenumerate[2]{label=\alph*)}
-  \setenumerate[3]{label=\roman*),align=right}
-  \setitemize{leftmargin=*,align=left}
+  \setlist[enumerate]{leftmargin=*,align=left}
+  \setlist[enumerate,2]{label=\alph*),labelsep=*,leftmargin=1.5em}
+  \setlist[enumerate,3]{label=\roman*),labelsep=0.5em,align=right}
+  \setlist[itemize]{leftmargin=*,align=left}
 
   %% Noms de fonctions, code, etc.
   \newcommand{\code}[1]{\texttt{#1}}
@@ -98,7 +100,7 @@
   %% Options de babel
   \frenchbsetup{CompactItemize=false,%
     ThinSpaceInFrenchNumbers=true,
-    ItemLabeli=$\filledtriangleright$,
+    ItemLabeli=\mantriangleright,
     ItemLabelii=\textendash}
   \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
   \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
@@ -116,13 +118,9 @@
         \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
       \end{shaded}
       \vspace{-0.6\baselineskip}
-      \setlength{\labelsep}{1ex}
-      \settowidth{\labelwidth}{$\filledtriangleright$}
-      \setlength{\leftmargini}{\labelwidth}
-      \addtolength{\leftmargini}{\labelsep}
-      \begin{compactitem}
+      \begin{itemize}[nosep]
         \small}
-      {\end{compactitem}
+      {\end{itemize}
     \end{framed}}
 
   %% Environnements de Sweave
@@ -142,20 +140,17 @@
         \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
         \setlength{\leftmargin}{\labelwidth}
         \addtolength{\leftmargin}{\labelsep}
-        \setenumerate[1]{leftmargin=*,label=\alph*),widest=a}
-        \setenumerate[2]{leftmargin=*,label=\roman*)}}
+        \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
+        \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
       \item}
     {\end{list}}
   \renewenvironment{reponse}[1]{%
-    \begin{enumerate}[label=#1,font=\bfseries]
-      \setenumerate[2]{leftmargin=*,labelsep=0em}
+    \begin{enumerate}[label=\textbf{#1}]
       \item}
     {\end{enumerate}}
   \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
   \renewenvironment{solution}[1]{%
-    \begin{enumerate}[label=#1,font=\bfseries]
-      \setenumerate[2]{leftmargin=*,labelsep=0em}
-      \setenumerate[3]{leftmargin=*,labelsep=0.4em}
+    \begin{enumerate}[label=\textbf{#1}]
       \item}
     {\end{enumerate}}
   \renewcommand{\solutionparams}{{\thechapter.\theexercice}}
@@ -165,7 +160,7 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.07\linewidth}
-        \raisebox{-0.5em}[0em][0em]{\LARGE\color{darkred}\noway}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\ForwardToEnd}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
@@ -210,7 +205,16 @@
   %%% =====================
   \newcommand{\R}{\mathbb{R}}
   \newcommand{\tr}{\mathrm{tr}}
-  \newcommand{\texthl}[1]{\textbf{\color{darkred}{#1}}}
+
+  %%% Indications de capsule vidéo
+  \setul{1.5pt}{0.7pt}
+  \newcommand{\video}{%
+    $\mathrel{\vcenter{\offinterlineskip%
+        \fontsize{32}{32}\selectfont
+        \hbox{$\bigcirc$}%
+        \fontsize{24}{22}\selectfont\vskip-20.4pt\hskip8.5pt
+        \hbox{\Forward}}}$}
+  \newcommand{\capsule}[1]{\marginpar{\video}\ul{#1}}
 
   %%% Support pour sous-tableaux et sous-figures
   \newsubfloat{figure}
