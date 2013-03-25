@@ -40,12 +40,12 @@ par la méthode des cofacteurs.
 
 L'élément décisif dans la comparaison des temps de calcul de ces
 diverses méthodes de calcul est le nombre d'opérations arithmétiques
-requis. Le tableau \ref{tab:decomposition:nb_oper} présente l'ordre de
-grandeur du nombre de multiplications et divisions (et non le nombre
-exact) nécessaire pour obtenir une réponse avec chacune des méthodes
-ci-dessus. On se concentre sur les multiplications et divisions,
-sachant que ces opérations coûtent plus cher en temps de calcul que
-les additions et soustractions.
+requis. Le tableau~\ref{tab:decomposition:nb_oper} présente l'ordre de
+grandeur (et non le nombre exact) du nombre de multiplications et de
+divisions nécessaires pour obtenir une réponse avec chacune des
+méthodes ci-dessus. On se concentre sur les multiplications et
+divisions, sachant que ces opérations coûtent plus cher en temps de
+calcul que les additions et les soustractions.
 \begin{table}
   \centering
   \begin{tabular}{lc}
@@ -65,10 +65,10 @@ les additions et soustractions.
   \label{tab:decomposition:nb_oper}
 \end{table}
 
-On constate que l'élimination gaussienne avec substitution successive
-et l'élimination de Gauss--Jordan sont les méthodes les plus rapides,
-leur avantage augmentant rapidement avec la taille du système
-d'équations.
+On constate au tableau~\ref{tab:decomposition:nb_oper} que
+l'élimination gaussienne avec substitution successive et l'élimination
+de Gauss--Jordan sont les méthodes les plus rapides, leur avantage
+augmentant rapidement avec la taille du système d'équations.
 
 
 \section{Décomposition LU}
@@ -212,12 +212,12 @@ connu, le vecteur $\mat{x}$ est obtenu en résolvant
   \qed
 \end{exemple}
 
-L'essentiel des calculs se retrouve dans la factorisation de la
-matrice $\mat{A}$ en un produit de matrices triangulaires. Pour
-justifier la technique, supposons que l'on réduit la matrice $\mat{A}$
-sous forme échelonnée par une série d'opérations élémentaires sur les
-lignes. On peut donc trouver des matrices élémentaires $\mat{E}_1,
-\dots, \mat{E}_k$ tel que
+L'essentiel des calculs dans la décomposition $LU$ se trouve dans la
+factorisation de la matrice $\mat{A}$ en un produit de matrices
+triangulaires. Pour justifier la technique, supposons que l'on réduit
+la matrice $\mat{A}$ sous forme échelonnée par une série d'opérations
+élémentaires sur les lignes. On peut donc trouver des matrices
+élémentaires $\mat{E}_1, \dots, \mat{E}_k$ tel que
 \begin{displaymath}
   \mat{E}_k \cdots \mat{E}_1 \mat{A} = \mat{U}.
 \end{displaymath}

@@ -223,7 +223,7 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
       2 & 6 & 0
     \end{bmatrix}, \quad
     \mat{B} =
-    \begin{bmatrix}
+    \begin{bmatrix}[r]
       4 &  1 & 4 & 3 \\
       0 & -1 & 3 & 1 \\
       2 &  7 & 5 & 2
@@ -249,7 +249,7 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
     \begin{bmatrix}
       1 & 2 & 4
     \end{bmatrix}
-    \begin{bmatrix}
+    \begin{bmatrix}[r]
       1 \\ -1 \\ 7
     \end{bmatrix} \\
     &= (1 \cdot 1) + (2 \cdot -1) + (4 \cdot 7) \\
@@ -258,7 +258,7 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
   etc. Le résultat final est
   \begin{equation*}
     \mat{C} =
-    \begin{bmatrix}
+    \begin{bmatrix}[r]
       12 & 27 & 30 & 13 \\
        8 & -4 & 26 & 12
     \end{bmatrix}.

@@ -188,6 +188,15 @@
       {\end{minipage}%
     \end{framed}}
 
+  %% Redéfinition de l'environnement de matrices de amsmath pour
+  %% aligner les colonnes à droite. Pris dans
+  %% <http://texblog.net/latex-archive/maths/matrix-align-left-right/>
+  \makeatletter
+  \renewcommand*\env@matrix[1][r]{\hskip -\arraycolsep
+    \let\@ifnextchar\new@ifnextchar
+    \array{*\c@MaxMatrixCols #1}}
+  \makeatother
+
   %%% =============================================
   %%%  Paramètres pour les sections de code source
   %%% =============================================
@@ -205,6 +214,7 @@
   %%% =====================
   \newcommand{\R}{\mathbb{R}}
   \newcommand{\tr}{\mathrm{tr}}
+  \renewcommand{\mat}[1]{\mathbf{#1}}
 
   %%% Indications de capsule vidéo
   \setul{1.5pt}{0.7pt}

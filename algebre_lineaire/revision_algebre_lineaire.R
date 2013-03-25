@@ -28,14 +28,14 @@ diag(3)
 ## en argument avec des valeurs TRUE (FALSE) aux positions des
 ## éléments sous la diagonale et FALSE (TRUE) aux positions
 ## au-dessus de la diagonale. La diagonale sera dans le
-## premier ou le second groupe selon que l'argument 'diag' est
-## TRUE ou FALSE.
+## premier ou dans le second groupe selon que l'argument
+## 'diag' est TRUE ou FALSE.
 (a <- matrix(1:9, nrow = 3))
 lower.tri(a)
 upper.tri(a, diag = TRUE)
 
-## On utilise principalement les fonctions 'lower.tri' et
-## 'upper.tri' pour extraire les éléments au-dessus ou
+## On utilise les fonctions 'lower.tri' et 'upper.tri'
+## principalement pour extraire les éléments au-dessus ou
 ## au-dessous de la diagonale d'une matrice carrée.
 a[lower.tri(a)]
 a[upper.tri(a)]
@@ -54,7 +54,7 @@ cbind(1:3)
 ## Le produit matriciel s'effectue en R avec l'opérateur
 ## '%*%', et non avec '*', qui fait le produit élément par
 ## élément (une opération qui n'est pas définie en
-## arithmétique matricielle usuelle).
+## arithmétique matricielle usuelle, mais qui l'est dans R).
 (a1 <- matrix(c(1, 2, 2, 6, 4, 0), nrow = 2))
 (a2 <- matrix(c(4, 0, 2, 1, -1, 7, 4, 3, 5, 3, 1, 2), nrow = 3))
 a1 %*% a2
