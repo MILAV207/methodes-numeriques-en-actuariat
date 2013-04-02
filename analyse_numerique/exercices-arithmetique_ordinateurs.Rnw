@@ -180,7 +180,7 @@ omet généralement $b$ pour les nombres en base 10.
     \item $\text{12A}_{16} = 1 \times 16^2 + 2 \times 16 + 10 = 298$
     \item $\text{B41}_{16} = (11 \times 16 + 4) \times 16 + 1 = \nombre{2881}$
     \item $\text{BAFFE}_{16} = ((((11 \times 16 + 10) \times 16) + 15)
-      \times 16) + 15) \times  + 14 = \nombre{765950}$
+      \times 16) + 15) \times 16 + 14 = \nombre{765950}$
     \end{enumerate}
   \end{sol}
   \begin{rep}
@@ -310,12 +310,13 @@ omet généralement $b$ pour les nombres en base 10.
     Dans les deux cas, ignorer les éventuels dépassements de capacité
     vers la gauche.
   \item C'est maintenant le temps d'expliquer le trait d'humour dans
-    le strip de \textsf{XKCD.com} au début du document. Convertir en
-    décimal les représentations en complément à deux des nombres sur
+    le strip de XKCD.com au début du document. Pour ce faire,
+    convertir en décimal les représentations en complément à deux sur
     8~bits de $\fbox{00000000}$ à $\fbox{11111111}$. Répéter
-    l'exercice sur 16~bits. En fait, convertir non pas tous les
-    nombres, mais bien seulement quelques valeurs clés qui permettront
-    d'observer la séquence des nombres décimaux.
+    l'exercice sur 16~bits. (En fait, convertir non pas toutes les
+    représentations, mais bien seulement quelques valeurs clés qui
+    permettront d'observer la séquence des nombres décimaux
+    correspondants.)
   \item En plus des types \texttt{Single} et \texttt{Double} pour
     représenter des nombres en virgule flottante, le VBA dispose des
     types \texttt{Byte}, \texttt{Integer} et \texttt{Long} pour
