@@ -11,8 +11,9 @@
 
 MASTER = methodes_numeriques-partie_1.pdf
 
-# The master document depends on all TeX files
+# The master document depends on all TeX and R files
 RNWFILES = $(wildcard *.Rnw)
+RFILES   = $(wildcard *.R)
 TEXFILES = $(wildcard *.tex)
 
 # The work horses
@@ -28,7 +29,7 @@ tex: $(RNWFILES:.Rnw=.tex)
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
 
-$(MASTER): $(RNWFILES) $(TEXFILES)
+$(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	sed -i ""                           \
 	    -e "/^\\\\item L'annexe/s/^/%/" \
             -e "/^  stratégies ---/s/^/%/"  \
