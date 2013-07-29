@@ -26,7 +26,7 @@ pas le bon résultat lors d'opérations arithmétiques simples.
 
 \begin{gotoR}
   Exécuter le code informatique de la
-  section~\ref{sec:ordinateurs:code} pour voir quelques exemples de
+  \autoref{sec:ordinateurs:code} pour voir quelques exemples de
   calculs simples que R n'arrive apparemment pas à effectuer
   correctement. Tous les exemples sont tirés de messages envoyés à la
   liste de discussion \texttt{r-help}\footnotemark.
@@ -64,13 +64,13 @@ Les ordinateurs ne savent pas faire d'arithmétique à proprement
 parler. Ils ne connaissent que deux états: ouvert (1) et fermé (0).
 Nous en profiterons donc d'abord pour réviser la conversion des
 nombres décimaux vers, et de, n'importe quelle base. Après avoir, à la
-section~\ref{sec:ordinateurs:unites}, introduit les principales unités
+\autoref{sec:ordinateurs:unites}, introduit les principales unités
 de mesure en informatique, nous expliquerons la représentation interne
 des nombres dans un ordinateur en nous concentrant sur la double
 précision. Nous pourrons ainsi justifier que les ordinateurs ne
 peuvent représenter qu'un sous-ensemble des nombres réels, d'où les
 erreurs d'arrondi et de troncature. La
-section~\ref{sec:ordinateurs:arithmetique} explique comment ces
+\autoref{sec:ordinateurs:arithmetique} explique comment ces
 erreurs surviennent. On y donne également quelques pistes pour éviter
 ou pour diminuer l'impact de ces erreurs. Enfin, le chapitre se clôt
 par un survol d'un sujet quelque peu périphérique: la représentation
@@ -249,12 +249,12 @@ conversion de la partie fractionnaire d'un nombre réel.
   \label{ex:ordinateurs:10_vers_b}
   Soit le nombre décimal $23,31$ que l'on convertit en binaire (base
   2) avec un maximum de cinq chiffres après la séparation
-  fractionnaire ($n = 5$). Le tableau~\ref{tab:ordinateurs:10_vers_b}
+  fractionnaire ($n = 5$). Le \autoref{tab:ordinateurs:10_vers_b}
   montre le processus en suivant les étapes de
-  l'algorithme~\ref{algo:ordinateurs:10_vers_b}. On obtient le
+  l'\autoref{algo:ordinateurs:10_vers_b}. On obtient le
   résultat final en combinant la dernière colonne du
-  tableau~\ref{tab:ordinateurs:10_vers_b:a} lue de bas en haut avec la
-  dernière colonne du tableau~\ref{tab:ordinateurs:10_vers_b:b} lue de
+  \autoref{tab:ordinateurs:10_vers_b:a} lue de bas en haut avec la
+  dernière colonne du \autoref{tab:ordinateurs:10_vers_b:b} lue de
   haut en bas. Ainsi, la représentation binaire du $23,31$ limitée à
   cinq chiffres après la virgule est $10111,01001$.
 
@@ -321,7 +321,7 @@ conversion de la partie fractionnaire d'un nombre réel.
     2^3 + 1$ est $1011101001$;
   \item en déplaçant la virgule de cinq positions vers la gauche, on
     obtient $10111,01001$, comme à
-    l'exemple~\ref{ex:ordinateurs:10_vers_b}.
+    l'\autoref{ex:ordinateurs:10_vers_b}.
   \end{enumerate}
   \qed
 \end{exemple}
@@ -334,7 +334,7 @@ base $b$ aura une partie fractionnaire de longueur finie. Ainsi, pour
 obtenir une représentation binaire finie, la partie fractionnaire d'un
 nombre réel doit être un multiple de $\frac{1}{2}, \frac{1}{4},
 \frac{1}{8}, \dots$ Ce n'était pas le cas à
-l'exemple~\ref{ex:ordinateurs:10_vers_b:bis} (la partie fractionnaire
+l'\autoref{ex:ordinateurs:10_vers_b:bis} (la partie fractionnaire
 étant $0,31$), d'où la nécessité de limiter le nombre de chiffres
 après la virgule.
 
@@ -375,14 +375,14 @@ On peut, ici aussi, aisément éviter de devoir convertir la partie
 fractionnaire. Il suffit de déplacer la virgule de $n$ positions vers
 la droite dans le nombre $x_b$ de manière à obtenir un entier, de
 convertir ce nombre en décimal avec les étapes 1 et 2 de
-l'algorithme~\ref{algo:ordinateurs:b_vers_10} et, finalement, de
+l'\autoref{algo:ordinateurs:b_vers_10} et, finalement, de
 diviser le nombre obtenu par $b^n$.
 
 \begin{exemple}
   \label{ex:ordinateurs:b_vers_10}
   Soit le nombre binaire $101011,011$ que l'on convertit en décimal.
-  Le tableau~\ref{tab:ordinateurs:b_vers_10} illustre le processus de
-  conversion selon l'algorithme~\ref{algo:ordinateurs:b_vers_10} (le
+  Le \autoref{tab:ordinateurs:b_vers_10} illustre le processus de
+  conversion selon l'\autoref{algo:ordinateurs:b_vers_10} (le
   chiffre en surbrillance est celui traité lors de chaque étape de
   l'algorithme). Le résultat final est $43,375$.
 
@@ -485,9 +485,9 @@ ici. Il suffit de remplacer chaque mention de $b$ par $b_i$.
   \end{align*}
   À l'inverse, le nombre de jours, heures, minutes et secondes
   correspondant à \nombre{91492} secondes est, en utilisant
-  l'algorithme \ref{algo:ordinateurs:10_vers_b} avec la base $[365\;
+  l'\autoref{algo:ordinateurs:10_vers_b} avec la base $[365\;
   24\; 60\; 60]$: 1 jour, 1 heure, 24 minutes et 52 secondes (voir le
-  tableau~\ref{tab:ordinateurs:10_vers_generale} pour les calculs).
+  \autoref{tab:ordinateurs:10_vers_generale} pour les calculs).
   \begin{table}
     \caption{Conversion d'un nombre décimal dans la base générale $[365\; 24\;
       60\; 60]$.}
@@ -537,7 +537,7 @@ résultat d'un calcul. L'exemple suivant illustre cette idée.
   La fonction \code{arrayInd} de R permet de faire exactement ce qui
   est décrit dans l'exemple précédent, soit retourner les coordonnées
   du $i${\ieme} élément d'un tableau. Voir le code informatique de la
-  section~\ref{sec:ordinateurs:code} pour quelques exemples
+  \autoref{sec:ordinateurs:code} pour quelques exemples
   d'utilisation.
 \end{gotoR}
 
@@ -556,7 +556,7 @@ Un \emph{octet} (\emph{byte}) est un groupe de huit bits. Son symbole
 est o ou B. L'octet est l'unité de mesure la plus fréquemment utilisée
 en informatique, en grande partie parce que le codage d'un caractère
 dans la plupart des langues occidentales requiert un octet; voir la
-section~\ref{sec:ordinateurs:codage}. Les termes pour de plus grandes
+\autoref{sec:ordinateurs:codage}. Les termes pour de plus grandes
 quantités de bits ou d'octets utilisent généralement les préfixes
 usuels du système international d'unités. Par exemple:
 \begin{itemize}
@@ -668,7 +668,7 @@ $m = 64$~bits (8~octets) divisé ainsi de gauche à droite: $m_S = 1$ bit
 pour le signe, $m_E = 11$ bits pour l'exposant et $m_F = 52$ bits pour
 la partie fractionnaire de la mantisse. Le premier bit du mot utilisé
 pour le signe est appelé le \emph{bit fort}. Voir la
-figure~\ref{fig:ordinateurs:double} pour une représentation
+\autoref{fig:ordinateurs:double} pour une représentation
 schématique.
 
 \begin{figure}
@@ -694,7 +694,7 @@ Le décalage est $e = 2^{m_e - 1} - 1 = 2^{10} - 1 = \nombre{1023}$.
 Avec une longueur de mot de 11~bits, les valeurs possibles de $E$ vont
 de $0$ à $2^{11} - 1 = \nombre{2047}$. Cependant, les valeurs $0$ et
 $\nombre{2047}$ sont réservées pour des usages spéciaux; voir le
-tableau~\ref{tab:ordinateurs:special_values}. Par conséquent, les
+\autoref{tab:ordinateurs:special_values}. Par conséquent, les
 valeurs possibles de l'exposant (une fois décalé) pour les nombres en
 double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
 
@@ -726,7 +726,7 @@ double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
 
 \begin{exemple}
   Tel qu'expliqué à la
-  section~\ref{sec:ordinateurs:conversion:10_vers_b}, le nombre
+  \autoref{sec:ordinateurs:conversion:10_vers_b}, le nombre
   $\frac{1}{2}$ possède une représentation binaire exacte:
   \begin{align*}
     \frac{1}{2}
@@ -742,7 +742,7 @@ double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
 
   En revanche, le nombre $\frac{1}{10}$ n'a pas une représentation
   binaire finie. En utilisant
-  l'algorithme~\ref{algo:ordinateurs:10_vers_b}, on trouve (le côté
+  l'\autoref{algo:ordinateurs:10_vers_b}, on trouve (le côté
   droit de l'égalité étant en binaire):
   \begin{align*}
     \frac{1}{10}
@@ -896,7 +896,7 @@ représentation simplifiée
   \fl(x) = (-1)^S \times 10^E \times 0,F,
 \end{equation}
 où $F$ compte cinq chiffres significatifs, dont le dernier est arrondi.
-Le tableau~\ref{tab:arithmetic:simplified} fournit quelques exemples.
+Le \autoref{tab:arithmetic:simplified} fournit quelques exemples.
 
 \begin{table}[tbp]
   \caption{Représentation en virgule flottante simplifiée}
@@ -1108,7 +1108,7 @@ length(x)/log(prod(x/min(x)))
 @ %
   On remarquera de plus que cette approche nécessite un grand nombre
   de multiplications (voir la
-  section~\ref{sec:ordinateurs:arithmetique:cout}), en plus d'ouvrir
+  \autoref{sec:ordinateurs:arithmetique:cout}), en plus d'ouvrir
   la porte à des erreurs d'arrondi.
 
   Pour obtenir une réponse on utilisera plutôt une autre formule
@@ -1135,7 +1135,7 @@ flottante (FPU) intégrée au processeur. Cette unité est évidemment
 très optimisée et, par conséquent, elle accélère beaucoup le calcul en
 virgule flottante. Néanmoins, certaines opérations sont plus coûteuses
 à réaliser que d'autres en termes de temps de calcul. À titre
-indicatif, on trouve au tableau \ref{tab:ordinateurs:cout} le coût
+indicatif, on trouve au \autoref{tab:ordinateurs:cout} le coût
 relatif approximatif de quelques opérations en virgule flottante.
 \begin{table}
   \centering

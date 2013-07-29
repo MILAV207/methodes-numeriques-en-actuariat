@@ -23,7 +23,7 @@ aléatoires de différentes distributions; voir, par exemple,
 \cite{Devroye:random:1986}. Nous n'en étudierons que deux en détail,
 soit la méthode de l'inverse et la méthode d'acceptation-rejet.
 D'autres méthodes populaires en actuariat sont mentionnées à la
-section~\ref{sec:simulation:autres}.
+\autoref{sec:simulation:autres}.
 
 Plusieurs algorithmes de simulation de nombres aléatoires non
 uniformes reposent sur des résultats de transformations de variables
@@ -37,7 +37,7 @@ aléatoires. Par exemple:
 \end{itemize}
 Le lecteur qui ne serait pas à l'aise avec les notions de
 transformation de variables aléatoires trouvera à
-l'annexe~\ref{chap:rappels_transformations} des rappels sur les
+l'\autoref{chap:rappels_transformations} des rappels sur les
 principales techniques étudiées dans les cours d'analyse probabiliste
 et d'analyse statistique.
 
@@ -85,7 +85,7 @@ abscisses telle que donnée par la fonction de quantile. Comme les
 valeurs en $x$ seront plus concentrées là où la pente de la fonction
 de répartition est la plus grande, et vice versa, la distribution en
 abscisse ne sera pas uniforme. Voir la
-figure~\ref{fig:simulation:inverse} pour une représentation
+\autoref{fig:simulation:inverse} pour une représentation
 graphique de ce phénomène.
 
 \begin{figure}
@@ -133,7 +133,7 @@ peut s'avérer aussi efficace que bien d'autres méthodes.
 \begin{rem}
   Dans Excel (et VBA), on doit nécessairement utiliser la méthode de
   l'inverse. Plusieurs fonctions de quantiles sont disponibles
-  (section \ref{sec:simulation:excel_et_al}).
+  (\autoref{sec:simulation:excel_et_al}).
 \end{rem}
 
 
@@ -183,7 +183,7 @@ Weibull, ...) Il faut parfois utiliser d'autres méthodes.
 
   \begin{gotoR}
     Exécuter le code informatique R de la
-    section~\ref{sec:simulation:code} correspondant à cet exemple
+    \autoref{sec:simulation:code} correspondant à cet exemple
     pour une illustration de l'algorithme ci-dessus.
   \end{gotoR}
   \qed
@@ -206,7 +206,7 @@ Supposons une distribution avec un saut en $x_0$ et
 \end{align*}
 Si $a < u < b$, on pose $x = x_0$. Ainsi, $x_0$ sera simulé dans une
 proportion $b - a$ du temps, ce qui correspond à $\Pr[X = x_0]$. Voir
-la figure~\ref{fig:simulation:discrete} pour une illustration.
+la \autoref{fig:simulation:discrete} pour une illustration.
 
 \begin{figure}
   \centering
@@ -261,7 +261,7 @@ nombres uniformes sur $[0, 1)$.
     \end{cases}
   \end{displaymath}
   \enlargethispage{5mm}
-  (Voir la figure~\ref{fig:simulation:mixte}.)
+  (Voir la \autoref{fig:simulation:mixte}.)
 
   \begin{figure}
     \centering
@@ -282,7 +282,7 @@ axis(1, at = 0:3)
 axis(2, at = 0:2/2)
 @
     \caption{Fonction de densité de probabilité (gauche) et fonction de
-      répartition (droite) de l'exemple~\ref{exemple:simulation:mixte}}
+      répartition (droite) de l'\autoref{exemple:simulation:mixte}}
     \label{fig:simulation:mixte}
   \end{figure}
 
@@ -303,7 +303,7 @@ axis(2, at = 0:2/2)
   \begin{gotoR}
     Une mise en oeuvre en R de l'algorithme ci-dessus est présentée
     dans le code informatique de la
-    section~\ref{sec:simulation:code}.
+    \autoref{sec:simulation:code}.
   \end{gotoR}
   \qed
 \end{exemple}
@@ -410,7 +410,7 @@ pour tout $x$, alors on a l'algorithme d'acceptation-rejet suivant:
 L'idée de la \capsule{méthode d'acceptation-rejet} consiste à accepter
 la «bonne proportion» des réalisations de $Y$ comme provenant de $X$.
 Dans l'illustration de la
-figure~\ref{fig:simulation:acceptation-rejet}, la densité $f$ à
+\autoref{fig:simulation:acceptation-rejet}, la densité $f$ à
 support fini est facilement enveloppée par un rectangle. Un nombre $y$
 simulé de cette distribution (à toutes fins pratiques une uniforme,
 ici) est accepté comme provenant de $f$ dans une proportion
@@ -460,8 +460,7 @@ text(0.1, m + 0.08, "c g(y)")
     &= 12 x^2 (1 - x), \quad 0 < x < 1.
   \end{align*}
   On peut inscrire la densité $f(x)$ dans un triangle aux
-  caractéristiques suivantes (voir la figure
-  \ref{fig:simulation:beta-triangle}):
+  caractéristiques suivantes (voir la \autoref{fig:simulation:beta-triangle}):
   \begin{figure}
     \centering
 <<echo=FALSE, fig=TRUE>>=
@@ -568,7 +567,7 @@ Ainsi, on trouvera dans Excel la fonction de densité de probabilité
 (lois continues) ou la fonction de masse de probabilité (lois
 discrètes) et/ou la fonction de répartition et, dans certains cas
 seulement, la fonction de quantile des lois de probabilité présentées
-au tableau \ref{tab:excel}. Les noms anglais des fonctions ont été
+au \autoref{tab:excel}. Les noms anglais des fonctions ont été
 modifiés pour être standardisés dans Excel~2010. On remarquera que les
 traducteurs français ont omis de faire de même.
 
@@ -634,7 +633,7 @@ traducteurs français ont omis de faire de même.
 
 Aucune fonction statistique n'existe dans VBA. On fera donc appel aux
 fonctions de Excel en préfixant les noms de fonctions \emph{anglais}
-du tableau \ref{tab:excel} de la propriété \code{WorksheetFunction}.
+du \autoref{tab:excel} de la propriété \code{WorksheetFunction}.
 En utilisant une structure
 \begin{verbatim}
 With WorksheetFunction
@@ -650,7 +649,7 @@ aux fonctions Excel en les préfixant seulement d'un point.
 \input{rng-lois}
 
 \begin{gotoR}
-  Le code informatique R de la section~\ref{sec:simulation:code}
+  Le code informatique R de la \autoref{sec:simulation:code}
   contient des exemples plus détaillés d'utilisation des fonctions
   mentionnées ci-dessus.
 \end{gotoR}
@@ -672,10 +671,10 @@ en actuariat:
 
 \begin{gotoR}
   Ces techniques sont présentées et illustrées à même le code
-  informatique R de la section~\ref{sec:simulation:code}.
+  informatique R de la \autoref{sec:simulation:code}.
 \end{gotoR}
 
-En terminant, mentionnons que l'annexe~\ref{planification} propose
+En terminant, mentionnons que l'\autoref{planification} propose
 quelques trucs pour bien planifier une étude de simulation en R.
 
 

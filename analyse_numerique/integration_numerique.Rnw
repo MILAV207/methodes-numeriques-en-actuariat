@@ -135,9 +135,9 @@ fonction $f(x)$.
   La fonction \code{poly.calc} du package \pkg{polynom} permet de
   calculer le polynôme d'interpolation de Lagrange de degré $n$ dans
   R. Exécuter le code informatique de la
-  section~\ref{sec:integration:code} correspondant à ce bloc de
+  \autoref{sec:integration:code} correspondant à ce bloc de
   matière pour vérifier les calculs de
-  l'exemple~\ref{ex:integration:Lagrange}.
+  l'\autoref{ex:integration:Lagrange}.
 \end{gotoR}
 
 
@@ -157,7 +157,7 @@ essentiellement par l'approximation de la fonction $f(x)$ sur
 l'intervalle $(x_j, x_{j+1})$ utilisée afin de rendre l'intégrale
 $\int_{x_j}^{x_{j+1}} f(x)\, dx$ simple à calculer.
 
-La figure~\ref{fig:integration:methodes} illustre les procédures
+La \autoref{fig:integration:methodes} illustre les procédures
 d'approximation de quatre méthodes courantes d'intégration numérique.
 
 <<echo=FALSE>>=
@@ -318,7 +318,7 @@ La méthode du point milieu est la plus simple et la plus intuitive
 méthode d'intégration numérique. Les intervalles sont divisés en $m =
 2$ parties et la valeur de la fonction $f$ sur l'intervalle $(x_0,
 x_2)$ est estimée par $f(x_1)$
-(figure~\ref{fig:integration:grosplan:pointmilieu}). Ainsi, on a
+(\autoref{fig:integration:grosplan:pointmilieu}). Ainsi, on a
 l'approximation
 \begin{equation}
   \label{eq:integration:pointmilieu}
@@ -345,13 +345,13 @@ d'interpolation de Lagrange de degré $m$.
 La méthode du trapèze utilise un polynôme du premier degré ($m = 1$)
 pour faire l'approximation de la valeur de $f(x)$ sur l'intervalle
 $(x_0, x_1)$, ce qui est équivalent à une simple interpolation
-linéaire (figure~\ref{fig:integration:grosplan:trapeze}). On a donc
+linéaire (\autoref{fig:integration:grosplan:trapeze}). On a donc
 \begin{equation}
   \label{eq:integration:trapeze}
   \int_{x_0}^{x_1} f(x)\, dx \approx  \frac{h}{2}[f(x_0) + f(x_1)],
 \end{equation}
 où $h = x_1 - x_0$. Contrairement à ce que peut laisser croire la
-figure \ref{fig:integration:methodes}, cette méthode est généralement
+\autoref{fig:integration:methodes}, cette méthode est généralement
 plus précise que la méthode du point milieu.
 
 La formule composée pour l'approximation de $\int_a^b f(x)\, dx$ par
@@ -442,7 +442,7 @@ La méthode d'approximation de Simpson est la plus usuelle des méthodes
 d'intégration numérique, encore que pas nécessairement la plus
 précise. La fonction $f(x)$ est remplacée, sur l'intervalle $(x_0,
 x_2)$, par un polynôme d'interpolation de Lagrange du second degré
-(figure~\ref{fig:integration:grosplan:simpson}). On a donc $m = 2$ et
+(\autoref{fig:integration:grosplan:simpson}). On a donc $m = 2$ et
 on peut démontrer que
 \begin{equation}
   \label{eq:integration:simpson}
@@ -471,7 +471,7 @@ où $h = (b - a)/(2n)$ et $x_j = a + jh$.
 La méthode de Simpson 3/8 constitue une extension de la méthode de
 Simpson où la fonction $f$ est remplacée par un polynôme
 d'interpolation de degré $m = 3$
-(figure~\ref{fig:integration:grosplan:simpson38}). On peut alors
+(\autoref{fig:integration:grosplan:simpson38}). On peut alors
 démontrer que
 \begin{equation}
   \label{eq:integration:simpson38}
@@ -492,7 +492,7 @@ d'intégration numérique présentées ci-dessus.
   mentionnées dans ce chapitre. Cependant, la fonction
   \code{integrate} réalise à peu près la même chose avec un algorithme
   différent. Consulter le code informatique de la
-  section~\ref{sec:integration:code} pour quelques menus exemples.
+  \autoref{sec:integration:code} pour quelques menus exemples.
 \end{gotoR}
 
 \section{Code informatique}

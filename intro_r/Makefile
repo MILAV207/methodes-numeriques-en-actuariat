@@ -31,7 +31,7 @@ tex: $(RNWFILES:.Rnw=.tex)
 
 $(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	sed -i ""                           \
-	    -e "/^\\\\item L'annexe/s/^/%/" \
+	    -e "/^\\\\item L'\\\\autoref/s/^/%/" \
             -e "/^  stratégies ---/s/^/%/"  \
 	    -e "/^  --- pour la/s/^/%/"  \
 	    avance.tex

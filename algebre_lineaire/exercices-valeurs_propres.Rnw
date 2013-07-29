@@ -15,7 +15,7 @@
 \end{Filesave}
 
 \begin{Filesave}{solutions}
-\section*{Chapitre \ref{chap:valeurspropres}}
+\section*{Chapitre \ref*{chap:valeurspropres}}
 \addcontentsline{toc}{section}{Chapitre \protect\ref{chap:valeurspropres}}
 
 \end{Filesave}
@@ -345,8 +345,7 @@ eigen(m)
     \end{bmatrix}.
   \end{displaymath}
   \begin{sol}
-    On va utiliser les résultats de l'exercice
-    \ref{chap:valeurspropres}.\ref{ex:valeurspropres:puissance}. Tout d'abord,
+    On va utiliser les résultats de l'\autoref{ex:valeurspropres:puissance}. Tout d'abord,
     \begin{align*}
       \det(\lambda \mat{I} - \mat{A})
       &= \begin{vmatrix}
@@ -360,7 +359,7 @@ eigen(m)
     = 1$ et $\lambda_3 = -1$. Par conséquent, les valeurs propres de
     $\mat{A}^{25}$ sont $\lambda_1 = \lambda_2 = 1^{25} = 1$ et
     $\lambda_3 = (-1)^{25} = -1$.  Toujours par le résultat de
-    l'exercice \ref{chap:valeurspropres}.\ref{ex:valeurspropres:puissance}, les vecteurs propres
+    l'\autoref{ex:valeurspropres:puissance}, les vecteurs propres
     de $\mat{A}$ correspondant à $\lambda = 1$ et $\lambda = -1$ sont
     également des vecteurs propres de $\mat{A}^{25}$. Or, le système
     d'équations $(\mat{I} - \mat{A}) \mat{x} = \mat{0}$ se réduit à
@@ -499,8 +498,7 @@ eigen(m)
     \end{bmatrix}
   \end{displaymath}
   \begin{sol}
-    On utilise le résultat de l'exercice
-    \ref{chap:valeurspropres}.\ref{ex:valeurspropres:inverse} pour
+    On utilise le résultat de l'\autoref{ex:valeurspropres:inverse} pour
     éviter de devoir calculer l'inverse de la matrice. Le polynôme
     caractéristique de la matrice $\mat{A}$ est
     \begin{align*}
@@ -517,8 +515,7 @@ eigen(m)
     $\lambda_2 = 2$ et $\lambda_3 = -1$. Par conséquent, les valeurs
     propres de $\mat{A}^{-1}$ sont $\lambda_1 = 1$, $\lambda_2 =
     \frac{1}{2}$ et $\lambda_3 = \frac{1}{3}$. Toujours par le
-    résultat de l'exercice
-    \ref{chap:valeurspropres}.\ref{ex:valeurspropres:inverse}, les
+    résultat de l'\autoref{ex:valeurspropres:inverse}, les
     vecteurs propres de $\mat{A}$ correspondant à $\lambda = 1$,
     $\lambda = 2$ et $\lambda = 3$ sont également des vecteurs propres
     de $\mat{A}^{-1}$ correspondant à $\lambda_1 = 1$, $\lambda_2 =

@@ -103,8 +103,8 @@ quelque part dans l'intervalle.
 L'idée de la méthode de bissection consiste à trouver la solution
 $x^*$ par essais successifs en utilisant le point milieu d'intervalles
 de plus en plus petits, mais que l'on sait toujours contenir le point
-cherché. L'algorithme~\ref{algo:resolution:bissection} systématise
-cette idée et la figure~\ref{fig:resolution:bissection} l'illustre
+cherché. L'\autoref{algo:resolution:bissection} systématise
+cette idée et la \autoref{fig:resolution:bissection} l'illustre
 pour quelques itérations de l'algorithme.
 
 \begin{algorithme}[Méthode de la bissection]
@@ -173,26 +173,26 @@ points(x, f(x), pch = c(19, 19, 21), bg = "red3")
   \label{fig:resolution:bissection}
 \end{figure}
 
-L'application de l'algorithme~\ref{algo:resolution:bissection} génère
+L'application de l'\autoref{algo:resolution:bissection} génère
 une suite $\{x_n\}$, $n = 1, 2, \dots$ qui, si tout se passe bien,
 converge vers la valeur $x^*$.
 
 \begin{rems}
   \begin{enumerate}
-  \item À l'étape~\ref{algo:resolution:bissection:signe} de
+  \item À l'étape~\ref*{algo:resolution:bissection:signe} de
     l'algorithme, le produit $f(a)
     f(x_n)$ permet de déterminer si l'on se trouve du même côté de
     l'axe des abscisses aux points $a$ et $x_n$ (produit de deux
     valeurs négatives ou deux valeurs positives) ou de part et d'autre
     de l'axe (produit de valeurs de signes opposés).
-  \item L'étape~\ref{algo:resolution:bissection:test} permet de
+  \item L'étape~\ref*{algo:resolution:bissection:test} permet de
     valider si l'algorithme a convergé vers une réponse. La valeur de
     $\varepsilon$ sera donc en général «petite».
   \item Nous avons utilisé l'erreur relative comme critère d'arrêt à
-    l'étape~\ref{algo:resolution:bissection:test}. Il s'agit en
+    l'étape~\ref*{algo:resolution:bissection:test}. Il s'agit en
     général du meilleur choix. En effet, un critère tel que $|f(x_n)|
     < \varepsilon$ peut être satisfait même si $x_n \gg x^*$ ou $x_n
-    \ll x^*$ (voir la figure~\ref{fig:resolution:critere} pour deux
+    \ll x^*$ (voir la \autoref{fig:resolution:critere} pour deux
     exemples). Quant à l'erreur absolue $|x_n - x_{n - 1}| <
     \varepsilon$, l'inégalité peut être satisfaite même si la suite
     $\{x_n\}$ diverge.
@@ -228,7 +228,7 @@ abline(h = 0)
   14$. Ainsi, $a = 1$ et $b = 2$ constituent des valeurs de départ
   adéquates.
 
-  Le code R de la section~\ref{sec:resolution:code} définit une
+  Le code R de la \autoref{sec:resolution:code} définit une
   fonction \code{bissection} dont les arguments sont:
   \begin{enumerate}
   \item la fonction $f(x)$;
@@ -248,7 +248,7 @@ abline(h = 0)
 
   \begin{gotoR}
     Exécuter le code informatique de la
-    section~\ref{sec:resolution:code} pour définir la fonction
+    \autoref{sec:resolution:code} pour définir la fonction
     \code{bissection} puis résoudre cet exemple.
   \end{gotoR}
 
@@ -285,7 +285,7 @@ res <- bissection(f, 1, 2, TOL=1E-5)
 
   \begin{gotoR}
     Exécuter le code informatique de la
-    section~\ref{sec:resolution:code} correspondant à cet exemple pour
+    \autoref{sec:resolution:code} correspondant à cet exemple pour
     la solution.
   \end{gotoR}
   \qed
@@ -343,13 +343,13 @@ exister sans que ces conditions ne soient remplies.
     b]$ si l'image de la fonction $g$ se trouve aussi dans un
     intervalle $[a, b]$. Cette paire d'intervalles engendre le carré
     en pointillé que l'on retrouve dans les graphiques de la
-    figure~\ref{fig:resolution:demo}.
+    \autoref{fig:resolution:demo}.
 
     En définitive, le premier volet du théorème établit que si la
     fonction continue $g$ entre dans l'intervalle $[a, b]$ par la
     gauche du carré ($g(x) \in [a, b]$) et en ressort par la droite
     (idem), alors elle doit forcément croiser la droite $y = x$.
-    Observons le graphique (a) de la figure~\ref{fig:resolution:demo}:
+    Observons le graphique (a) de la \autoref{fig:resolution:demo}:
     \begin{itemize}
     \item $g(x) \in [a, b]$ pour tout $x \in [a, b]$, donc un point
       fixe existe nécessairement;
@@ -363,7 +363,7 @@ exister sans que ces conditions ne soient remplies.
     empêche la fonction de croiser la droite $y = x$ une première fois
     et de la croiser de nouveau suite à une forte augmentation.
     Comparons les deux fonctions du graphique (b) de la
-    figure~\ref{fig:resolution:demo}:
+    \autoref{fig:resolution:demo}:
     \begin{itemize}
     \item $g^\prime(x) < 1$ pour tout $x \in (a, b)$, donc $g(x)$
       croise $y = x$ en un seul point et le point fixe est unique;
@@ -469,19 +469,19 @@ point fixe d'une fonction.
 
 \begin{thm}
   \label{thm:resolution:pointfixe:2}
-  Si les deux conditions du théorème~\ref{thm:resolution:pointfixe}
+  Si les deux conditions du \autoref{thm:resolution:pointfixe}
   sont satisfaites, alors la série $\{x_n = g(x_{n - 1})\}$ converge
   vers un point fixe unique dans $[a, b]$.
 \end{thm}
 
 Tel que mentionné au début de la
-section~\ref{sec:resolution:bissection}, toutes les méthodes
+\autoref{sec:resolution:bissection}, toutes les méthodes
 numériques --- et la méthode du point fixe ne fait pas exception ---
 procèdent par essais et erreurs, mais de manière systématique. Le
-théorème~\ref{thm:resolution:pointfixe:2} nous dit que pour trouver un
+\autoref{thm:resolution:pointfixe:2} nous dit que pour trouver un
 point fixe, le meilleur essai $x_n$ à faire est la valeur de la
 fonction $g$ à l'essai précédent, $g(x_{n - 1})$. La
-figure~\ref{fig:resolution:pointfixe} illustre comment la suite des
+\autoref{fig:resolution:pointfixe} illustre comment la suite des
 essais successifs peut converger vers le point fixe.
 
 \begin{figure}
@@ -558,32 +558,31 @@ méthode du point fixe.
 
 \begin{rem}
   Comme on peut le déduire des illustrations de la
-  figure~\ref{fig:resolution:pointfixe}, la rapidité de la convergence
+  \autoref{fig:resolution:pointfixe}, la rapidité de la convergence
   est fonction de $g^\prime(x)$: plus la pente est \emph{faible}, plus
   la convergence est \emph{rapide}, et vice versa.
 \end{rem}
 
 \begin{exemple}
   \label{ex:resolution:pointfixe_1}
-  On répète l'exemple~\ref{ex:resolution:bissection_2} à l'aide de la
+  On répète l'\autoref{ex:resolution:bissection_2} à l'aide de la
   méthode du point fixe, soit trouver le taux d'intérêt $i$ tel que
-  $a_{\angl{10}\,i} = 8,2218$. On a déjà déterminé à l'exemple
-  \ref{ex:resolution:bissection_2} que le taux d'intérêt se trouve
+  $a_{\angl{10}\,i} = 8,2218$. On a déjà déterminé à l'\autoref{ex:resolution:bissection_2} que le taux d'intérêt se trouve
   dans l'intervalle $[0,035, 0,040]$. On peut exprimer le problème
   sous forme de point fixe ainsi: trouver la valeur de $i$ tel que
   \begin{displaymath}
     g(i) = \frac{1 - (1 + i)^{-10}}{8,2218} = i.
   \end{displaymath}
 
-  Le code R de la section~\ref{sec:resolution:code} définit une
+  Le code R de la \autoref{sec:resolution:code} définit une
   fonction \code{pointfixe} similaire à la fonction \code{bissection}
-  présentée à la section \ref{sec:resolution:bissection}. Ses
+  présentée à la \autoref{sec:resolution:bissection}. Ses
   arguments sont d'ailleurs les mêmes, à l'exception que les points
   $a$ et $b$ sont remplacés par une valeur de départ $x_0$.
 
   \begin{gotoR}
     Exécuter le code informatique de la
-    section~\ref{sec:resolution:code} correspondant à ce bloc de
+    \autoref{sec:resolution:code} correspondant à ce bloc de
     matière pour définir la fonction \code{pointfixe} puis résoudre
     cet exemple.
   \end{gotoR}
@@ -602,7 +601,7 @@ res.pf <- pointfixe(g, start = 0.0375)
 
 \begin{exemple}
   \label{ex:resolution:pointfixe_2}
-  On répète l'exemple \ref{ex:resolution:bissection_1} à l'aide de la
+  On répète l'\autoref{ex:resolution:bissection_1} à l'aide de la
   méthode du point fixe, à savoir: trouver la racine de $f(x) = x^3 +
   4 x^2 - 10 = 0$ dans l'intervalle $[1, 2]$.
 
@@ -620,7 +619,7 @@ res.pf <- pointfixe(g, start = 0.0375)
   racine de $f(x)$ est le point fixe de $g_i(x)$, $i = 1, \dots, 5$.
 
   Les graphiques des cinq fonctions ci-dessus se trouvent à la
-  figure~\ref{fig:resolution:pointfixe_2}. L'examen de ces graphiques
+  \autoref{fig:resolution:pointfixe_2}. L'examen de ces graphiques
   permet de déterminer, avant de faire tout calcul, pour quelles
   fonctions la procédure itérative du point fixe convergera ainsi que
   les taux de convergence relatif, le cas échéant.
@@ -688,13 +687,13 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
       \subcaption{fonction $g_5(x)$}
     \end{minipage}
     \caption{Graphiques des cinq fonctions de
-      l'exemple~\ref{ex:resolution:pointfixe_2}}
+      l'\autoref{ex:resolution:pointfixe_2}}
     \label{fig:resolution:pointfixe_2}
   \end{figure}
 
   \begin{gotoR}
     Compléter cet exemple en exécutant le code informatique
-    correspondant à la section~\ref{sec:resolution:code}.
+    correspondant à la \autoref{sec:resolution:code}.
   \end{gotoR}
   \qed
 \end{exemple}
@@ -717,7 +716,7 @@ méthode de résolution. Nous privilégierons une approche graphique.
 Dans la méthode de Newton--Raphson, les essais successifs sont
 déterminés en utilisant les points où la tangente de la fonction $f$ à
 l'essai précédent croise l'axe des abscisses; voir la
-figure~\ref{fig:resolution:newtonraphson} pour une illustration.
+\autoref{fig:resolution:newtonraphson} pour une illustration.
 
 \begin{figure}[t]
   \centering
@@ -749,7 +748,7 @@ points(x, f(x), pch = 21, bg = "red3")
 Une première justification mathématique de la méthode va comme suit.
 Soit $\tilde{x}$ un point «près» de la racine $x^*$ et tel que
 $f(\tilde{x}) \neq 0$. Comme on peut le voir à la
-figure~\ref{fig:resolution:newtonraphson}, la tangente de $f$ en
+\autoref{fig:resolution:newtonraphson}, la tangente de $f$ en
 $\tilde{x}$ croise l'abscisse en un point $\hat{x}$ «près» de $x^*$.
 Ainsi, le point $\hat{x}$ est tel que
 \begin{displaymath}
@@ -780,7 +779,7 @@ développement comme négligeables. On obtient alors l'approximation
   x^* \simeq \tilde{x} - \frac{f(\tilde{x})}{f^\prime(\tilde{x})}.
 \end{equation*}
 
-Tel qu'illustré à la figure~\ref{fig:resolution:newtonraphson}, on
+Tel qu'illustré à la \autoref{fig:resolution:newtonraphson}, on
 peut répéter la procédure ci-dessus si le point $\hat{x}$ est trop
 éloigné de la racine $x^*$. On utilise alors $\hat{x}$ comme nouveau
 point où l'on calcule la tengente, et ainsi de suite jusqu'à
@@ -793,7 +792,7 @@ convergence de la série $\{x_n\}$ définie par
   x_n = x_{n - 1} - \frac{f(x_{n - 1})}{f^\prime(x_{n - 1})},
 \end{displaymath}
 avec $x_0$ une valeur de départ quelconque.
-L'algorithme~\ref{algo:resolution:newtonraphson} systématise cette
+L'\autoref{algo:resolution:newtonraphson} systématise cette
 procédure.
 
 \begin{algorithme}[Méthode de Newton--Raphson]
@@ -831,7 +830,7 @@ procédure.
     série $\{x_n\}$ converge vers $x^*$ pour tout $x_0 \in [x^* -
     \delta, x^* + \delta]$. Autrement dit:
     \begin{itemize}
-    \item les hypothèses du théorème~\ref{thm:resolution:pointfixe}
+    \item les hypothèses du \autoref{thm:resolution:pointfixe}
       sont satisfaites;
     \item la méthode de Newton--Raphson fonctionne toujours avec un
       «bon» choix de valeur de départ $x_0$.
@@ -841,12 +840,11 @@ procédure.
 
 \begin{exemple}
   \label{ex:resolution:newtonraphson_1}
-  On reprend l'exemple~\ref{ex:resolution:pointfixe_1} de calcul d'un
+  On reprend l'\autoref{ex:resolution:pointfixe_1} de calcul d'un
   taux de rendement, cette fois à l'aide de la méthode de
   Newton--Raphson. Vous savez peut-être de votre cours de
   mathématiques financières que la méthode de Newton--Raphson est la
-  plus efficace pour résoudre ce genre de problème. La figure
-  \ref{fig:resolution:newtonraphson_1} montre pourquoi elle est plus
+  plus efficace pour résoudre ce genre de problème. La \autoref{fig:resolution:newtonraphson_1} montre pourquoi elle est plus
   efficace que la méthode du point fixe: la fonction
   \begin{equation*}
     g(i) =  i - \frac{f(i)}{f^\prime(i)}
@@ -856,7 +854,7 @@ procédure.
   \begin{equation*}
     g(i) = \frac{1 - v^n}{k}
   \end{equation*}
-  utilisée à l'exemple \ref{ex:resolution:pointfixe_1}.
+  utilisée à l'\autoref{ex:resolution:pointfixe_1}.
   \begin{figure}[t]
     \centering
 <<echo=FALSE, fig=TRUE>>=
@@ -878,13 +876,12 @@ polygon(c(0.035, 0.035, 0.04, 0.04), c(0.035, 0.04, 0.04, 0.035),
   \end{figure}
 
   On a défini en R une fonction \code{nr} similaire à la
-  fonction \code{pointfixe} mentionnée à la section
-  \ref{sec:resolution:pointfixe}, sauf qu'on y a ajouté un argument
+  fonction \code{pointfixe} mentionnée à la \autoref{sec:resolution:pointfixe}, sauf qu'on y a ajouté un argument
   pour la dérivée de la fonction $f(x)$.
 
   \begin{gotoR}
     Exécuter le code informatique de la
-    section~\ref{sec:resolution:code} correspondant à ce bloc de
+    \autoref{sec:resolution:code} correspondant à ce bloc de
     matière pour définir la fonction \code{nr} puis résoudre cet
     exemple. Prendre note comment l'on peut également utiliser la
     fonction \code{pointfixe} pour obtenir le taux de rendement.
@@ -899,7 +896,7 @@ res.nr <- nr(f, fp, 0.0375)
   \Sexpr{res.nr$nb.iter} %$
   itérations pour obtenir un résultat équivalent à celui obtenu par la
   méthode du point fixe avec la fonction $g$ de
-  l'exemple~\ref{ex:resolution:pointfixe_1} en
+  l'\autoref{ex:resolution:pointfixe_1} en
   \Sexpr{res.pf$nb.iter} %$
   itérations. %
   \qed
@@ -907,7 +904,7 @@ res.nr <- nr(f, fp, 0.0375)
 
 \begin{exemple}
   \label{ex:resolution:newtonraphson_2}
-  Revisitons l'exemple \ref{ex:resolution:bissection_1} où l'on
+  Revisitons l'\autoref{ex:resolution:bissection_1} où l'on
   cherche la racine de la fonction $f(x) = x^3 + 4 x^2 - 10$ dans
   l'intervalle $[1, 2]$. On a $f^\prime(x) = 3x^2 + 8 x$, d'où
   $f^\prime(x) \neq 0$ pour tout $x \in [1, 2]$. La méthode de
@@ -917,8 +914,7 @@ res.nr <- nr(f, fp, 0.0375)
     g(x) &= x - \frac{f(x)}{f^\prime(x)} \\
     &= x - \frac{x^3 + 4 x^2 - 10}{3 x^2 + 8 x}.
   \end{align*}
-  Celle-ci est présentée à la figure
-  \ref{fig:resolution:newtonraphson_2}. On constate que la procédure
+  Celle-ci est présentée à la \autoref{fig:resolution:newtonraphson_2}. On constate que la procédure
   itérative de Newton--Raphson convergera rapidement vers une racine
   unique dans l'intervalle $[1, 2]$. En effet:
 <<echo=TRUE>>=
@@ -946,10 +942,10 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
 
   Le lecteur attentif aura remarqué que la fonction $g$ utilisée ici
   était la fonction $g_5$ dans
-  l'exemple~\ref{ex:resolution:pointfixe_2}, celle pour laquelle la
+  l'\autoref{ex:resolution:pointfixe_2}, celle pour laquelle la
   convergence de la méthode du point fixe était la plus rapide. Mettre
   cette constatation en relation avec la première des remarques
-  suivant l'algorithme~\ref{algo:resolution:newtonraphson}, à la
+  suivant l'\autoref{algo:resolution:newtonraphson}, à la
   page~\pageref{algo:resolution:rem}. %
   \qed
 \end{exemple}
@@ -959,8 +955,7 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
   Cet exemple illustre l'importance d'utiliser, pour certaines
   fonctions, une valeur de départ près de la racine. La fonction $f(x)
   = (4x - 7)/(x - 2)$ a une racine en $x = 1,75$ et une asymptote en
-  $x = 2$, ce qui cause quelques soucis. (Voir la figure
-  \ref{fig:resolution:newtonraphson_3-1} pour un graphique de cette
+  $x = 2$, ce qui cause quelques soucis. (Voir la \autoref{fig:resolution:newtonraphson_3-1} pour un graphique de cette
   fonction.)
   \begin{figure}[t]
     \centering
@@ -991,8 +986,7 @@ curve(f, xlim = c(0, 5), lwd = 2, add = TRUE)
     &= x - \frac{f(x)}{f^\prime(x)} \\
     &= 4x^2 - 14x + 14.
   \end{align*}
-  Le graphique de la fonction $g(x)$ ci-dessus se trouve à la figure
-  \ref{fig:resolution:newtonraphson_3-2}. On notera toutefois que le
+  Le graphique de la fonction $g(x)$ ci-dessus se trouve à la \autoref{fig:resolution:newtonraphson_3-2}. On notera toutefois que le
   point fixe en $x = 2$ n'est pas une solution acceptable dans le
   problème d'origine.
 
@@ -1020,7 +1014,7 @@ curve(f0, add = TRUE)
 
   \begin{gotoR}
     Compléter cet exemple en exécutant le code informatique
-    correspondant à la section~\ref{sec:resolution:code}.
+    correspondant à la \autoref{sec:resolution:code}.
   \end{gotoR}
   \qed
 \end{exemple}
@@ -1031,7 +1025,7 @@ où celle-ci s'avère difficile ou inefficace à calculer, on peut
 utiliser la \emph{méthode de la sécante}. Avec cette méthode, plutôt
 que d'utiliser la tangente en un essai pour déterminer la valeur de
 l'essai suivant, on a recours à la sécante entre les deux essais
-précédents; voir la figure~\ref{fig:resolution:secante}. Les valeurs
+précédents; voir la \autoref{fig:resolution:secante}. Les valeurs
 des essais successifs sont alors données par:
 \begin{equation*}
   x_n = x_{n - 1} - \frac{f(x_{n - 1})(x_{n - 1} - x_{n - 2})}{%
@@ -1117,7 +1111,7 @@ R.
 
 \begin{gotoR}
   Des exemples d'utilisation des fonctions R ci-dessus sont fournis
-  dans le code informatique de la section~\ref{sec:resolution:code}.
+  dans le code informatique de la \autoref{sec:resolution:code}.
 \end{gotoR}
 
 
@@ -1137,7 +1131,7 @@ communément, la minimisation de la log-vraisemblance négative
 \end{equation*}
 Les fonctions d'optimisation sont d'ailleurs illustrées dans ce
 contexte dans le code informatique de la
-section~\ref{sec:resolution:code}.
+\autoref{sec:resolution:code}.
 
 En actuariat, nous utilisons principalement des lois de probabilité
 dont les paramètres sont strictement positifs. Or, en pratique, il
@@ -1165,7 +1159,7 @@ de vraisemblance de $\tilde{\theta}$. Il faudra donc veiller à faire
 la transformation inverse pour retrouver l'estimateur de $\theta$.
 
 L'utilisation de l'astuce est illustrée à la
-section~\ref{sec:resolution:code}.
+\autoref{sec:resolution:code}.
 
 
 

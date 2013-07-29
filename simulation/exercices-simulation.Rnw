@@ -15,7 +15,7 @@
 \end{Filesave}
 
 \begin{Filesave}{solutions}
-\section*{Chapitre \ref{chap:simulation}}
+\section*{Chapitre \ref*{chap:simulation}}
 \addcontentsline{toc}{section}{Chapitre \protect\ref{chap:simulation}}
 
 \end{Filesave}
@@ -29,7 +29,7 @@ plus difficiles que ceux des autres chapitres. Les exercices font
 beaucoup appel à des notions de transformations de variables
 aléatoires qui ont pourtant déjà étudiées dans d'autres cours. Pour un
 rappel des principaux résultats dans ce domaine, consulter
-l'annexe~\ref{chap:rappels_transformations}.
+l'\autoref{chap:rappels_transformations}.
 
 \begin{exercice}
   La transformation de Box--Muller est populaire pour simuler des
@@ -147,7 +147,7 @@ hist(x1, prob = TRUE)
 curve(dnorm(x), add = TRUE)
 @
     \end{enumerate}
-    La figure \ref{fig:simulation:boxmuller} illustre d'une autre façon que la
+    La \autoref{fig:simulation:boxmuller} illustre d'une autre façon que la
     transformation de Box--Muller fonctionne bel et bien. Dans le
     graphique de gauche, on a plusieurs couples de points $(u_1, u_2)$
     où chaque composante provient d'une distribution uniforme sur
@@ -181,7 +181,7 @@ contour(x, x, z, xlim = c(-3, 3), ylim = c(-3, 3),
 points(x1, x2, pch = 19, col = col)
 @
       \caption{Démonstration graphique du fonctionnement de la
-        transformation de Box--Muller.}
+        transformation de Box--Muller}
       \label{fig:simulation:boxmuller}
     \end{figure}
   \end{sol}
@@ -250,7 +250,7 @@ points(x1, x2, pch = 19, col = col)
   Faire les vérifications empiriques usuelles de la validité de
   l'algorithme.
   \begin{sol}
-    Voir la fonction R de la figure~\ref{fig:simulation:gamma}. On vérifie
+    Voir la fonction R de la \autoref{fig:simulation:gamma}. On vérifie
     graphiquement la validité de l'algorithme:
 <<echo=TRUE, eval=FALSE>>=
 hist(rgamma2(1000, 5), prob = TRUE)
@@ -281,7 +281,7 @@ rgamma2 <- function(nsim, alpha)
 \end{Scode}
       \end{framed}
       \caption{Fonction de simulation d'une distribution
-        Gamma$(\alpha, 1)$, $\alpha > 1$.}
+        Gamma$(\alpha, 1)$, $\alpha > 1$}
       \label{fig:simulation:gamma}
     \end{figure}
   \end{sol}
@@ -297,7 +297,7 @@ rgamma2 <- function(nsim, alpha)
     \item Si $X \sim \text{Gamma}(\alpha, 1)$, alors $Y = X/\lambda
       \sim \text{Gamma}(\alpha, \lambda)$. On peut donc générer un
       nombre $x$ d'une loi Gamma$(\alpha, 1)$ avec l'algorithme de
-      l'exercice~\ref{chap:simulation}.\ref{ex:simulation:gamma}, puis poser $y =
+      l'\autoref{ex:simulation:gamma}, puis poser $y =
       x/\lambda$.
     \item Si $\alpha$ est entier, on peut générer $\alpha$ nombres
       (indépendants) $x_1, \dots, x_\alpha$ d'une distribution
@@ -483,7 +483,7 @@ rexp(1, rgamma(1, alpha, lambda))
 
     Le résultat peut évidemment servir à simuler des points
     uniformément répartis sur un disque de rayon 1 centré en $(0,
-    0)$. La figure \ref{fig:simulation:cercle} illustre d'ailleurs cette
+    0)$. La \autoref{fig:simulation:cercle} illustre d'ailleurs cette
     transformation. Les points $(u_1, u_2)$ du graphique de gauche
     sont tirés aléatoirement sur le carré $(0, 1) \times (0, 1)$. Le
     graphique de droite montre que suite à la tranformation ci-dessus,
@@ -502,8 +502,7 @@ plot(u1, u2, pch = 19, col = col)
 plot(x1, x2, pch = 19, col = col)
 @
       \caption{Démonstration graphique du fonctionnement de la
-        transformation de l'exercice
-        \ref{chap:simulation}.\ref{ex:simulation:cercle}.}
+        transformation de l'\autoref{ex:simulation:cercle}}
       \label{fig:simulation:cercle}
     \end{figure}
   \end{sol}
@@ -608,7 +607,7 @@ plot(x1, x2, pch = 19, col = col)
       Cet algorithme suppose évidemment qu'une source de nombres
       provenant d'une loi gamma est disponible.
 
-      La figure \ref{fig:simulation:gamma-beta} illustre le fonctionnement de
+      La \autoref{fig:simulation:gamma-beta} illustre le fonctionnement de
       cette transformation. Dans le graphique de gauche, on a un nuage
       de points $(y_1, y_2)$ tirés indépendemment de deux
       distributions gamma de paramètre d'échelle égal à 1. On a
@@ -639,8 +638,7 @@ curve(dbeta(x, 2, 3), xlim = c(0, 1), lwd = 2)
 points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
 @
         \caption{Démonstration graphique du fonctionnement de la
-          transformation de l'exercice
-          \ref{chap:simulation}.\ref{ex:simulation:gamma-beta}.}
+          transformation de l'\autoref{ex:simulation:gamma-beta}}
         \label{fig:simulation:gamma-beta}
       \end{figure}
     \item En R:
@@ -756,11 +754,10 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
   Considérer le problème de simulation d'observations d'une loi
   Bêta$(3, 2)$ à l'aide de la méthode d'acceptation-rejet.
   \begin{enumerate}
-  \item Calculer l'efficacité de l'algorithme développé au problème
-    \ref{chap:simulation}.\ref{ex:simulation:mode} lorsque adapté au
-    cas présent.
+  \item Calculer l'efficacité de l'algorithme développé au
+    l'\autoref{ex:simulation:mode} lorsque adapté au cas présent.
   \item Calculer l'efficacité de l'algorithme développé dans
-    l'exemple~\ref{exemple:simulation:beta}, où l'on a déterminé que
+    l'\autoref{exemple:simulation:beta}, où l'on a déterminé que
     \begin{displaymath}
       f_{X}(x) \leq
       \begin{cases}
@@ -788,8 +785,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
         x = \frac{\alpha - 1}{\alpha + \beta - 2}.
       \end{displaymath}
       Par conséquent, l'efficacité de l'algorithme d'acceptation-rejet
-      décrit à l'exercice
-      \ref{chap:simulation}.\ref{ex:simulation:mode} et consistant à
+      décrit à l'\autoref{ex:simulation:mode} et consistant à
       borner la densité par un rectangle de hauteur $M$ est
       \begin{align*}
         \frac{1}{M}
@@ -805,17 +801,16 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
       Avec $\alpha = 3$ et $\beta = 2$, on obtient une efficacité de
       $9/16$.
     \item On a trouvé $c = 1,2$ dans
-      l'exemple~\ref{exemple:simulation:beta}, d'où une efficacité de
+      l'\autoref{exemple:simulation:beta}, d'où une efficacité de
       $1/c = 5/6$. Cet algorithme est évidemment plus efficace puisque
       la surface de l'enveloppe de la densité bêta est nettement plus
       petite.
     \item On utilise l'algorithme développé à
-      l'exemple~\ref{exemple:simulation:beta}. Une première mise en
+      l'\autoref{exemple:simulation:beta}. Une première mise en
       {\oe}uvre de l'algorithme en R est fournie dans le code
-      informatique de la section~\ref{sec:simulation:code}. La
-      figure~\ref{fig:simulation:rbeta.ar2} en propose une autre. On
-      propose aussi une mise en {\oe}uvre VBA à la figure
-      \ref{fig:simulation:betasim}.
+      informatique de la \autoref{sec:simulation:code}. La
+      \autoref{fig:simulation:rbeta.ar2} en propose une autre. On
+      propose aussi une mise en {\oe}uvre VBA à la \autoref{fig:simulation:betasim}.
       \begin{figure}[t]
         \centering
         \begin{framed}
@@ -840,7 +835,7 @@ rbeta.ar2 <- function(n)
 }
 \end{Scode}
         \end{framed}
-        \caption{Code R de la fonction \code{rbeta.ar2}.}
+        \caption{Code R de la fonction \code{rbeta.ar2}}
         \label{fig:simulation:rbeta.ar2}
       \end{figure}
       \begin{figure}
@@ -886,7 +881,7 @@ Function betasim()
 End Function
 \end{Scode}
         \end{framed}
-        \caption{Code VBA de la fonction \code{betasim}.}
+        \caption{Code VBA de la fonction \code{betasim}}
         \label{fig:simulation:betasim}
       \end{figure}
       On peut vérifier l'exactitude la fonction \code{rbeta.ar2} avec
@@ -901,7 +896,7 @@ curve(dbeta(x, 3, 2), add = TRUE)
 
 \begin{exercice}
   \label{ex:simulation:rejet}
-  La fonction R de la figure~\ref{fig:simulation:fonction} permet de
+  La fonction R de la \autoref{fig:simulation:fonction} permet de
   simuler des observations de la distribution Bêta$(\alpha, \beta)$.
     \begin{figure}[t]
       \begin{framed}
@@ -925,8 +920,7 @@ simul <- function(n, alpha, beta)
 \end{Scode}
       \end{framed}
       \caption{Fonction de simulation d'une loi Bêta$(\alpha, \beta)$
-        pour l'exercice
-        \ref{chap:simulation}.\ref{ex:simulation:rejet}.}
+        pour l'\autoref{ex:simulation:rejet}}
       \label{fig:simulation:fonction}
     \end{figure}
   \begin{enumerate}
@@ -977,16 +971,15 @@ options(op)
   \end{rep}
   \begin{sol}
     \begin{enumerate}
-    \item On reconnaît l'algorithme d'acceptation-rejet de l'exercice
-      \ref{chap:simulation}.\ref{ex:simulation:mode}.
+    \item On reconnaît l'algorithme d'acceptation-rejet de
+      l'\autoref{ex:simulation:mode}.
     \item On doit simuler deux observations d'une loi Bêta$(2, 3)$
       dont la fonction de densité de probabilité est
       \begin{displaymath}
         f(x) = 12 x (1 - x)^2, \quad 0 < x < 1.
       \end{displaymath}
       Le mode de cette densité se trouve en $x = 1/3$ (voir la
-      solution de l'exercice
-      \ref{chap:simulation}.\ref{ex:simulation:beta}) et la valeur de
+      solution de l'\autoref{ex:simulation:beta}) et la valeur de
       ce mode est $M = f(1/3) = 16/9$. Pour obtenir le résultat de
       l'appel de la fonction \code{simul}, il faut s'assurer
       d'utiliser les nombres uniformes dans le bon ordre. Quatre

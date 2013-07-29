@@ -36,7 +36,7 @@ toujours des références de choix.
 Le langage R contient à peu près tous les outils nécessaires pour la
 manipulation et le traitement des vecteurs et matrices. La plupart des
 fonctions pertinentes ont déjà été introduites dans le
-\autoref{operateurs} de la partie~I, mais nous offrons néanmoins
+\autoref*{operateurs} de la partie~I, mais nous offrons néanmoins
 une nouvelle présentation dans le code informatique de la
 \autoref{sec:revision:code}.
 

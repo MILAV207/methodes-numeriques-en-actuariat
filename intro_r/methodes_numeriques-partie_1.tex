@@ -25,7 +25,15 @@
 
   %%% Hyperliens
   \usepackage{hyperref}
-  \hypersetup{colorlinks,allcolors=link}
+  \hypersetup{colorlinks,allcolors=link,
+    pdftitle={Méthodes numériques en actuariat - Partie I Introduction
+      à la programmation en R},
+    pdfauthor={Vincent Goulet}}
+  \renewcommand{\appendixautorefname}{annexe}
+  \renewcommand{\figureautorefname}{figure}
+  \renewcommand{\tableautorefname}{tableau}
+  \newcommand{\exempleautorefname}{exemple}
+  \newcommand{\exerciceautorefname}{exercice}
 
   %%% ============
   %%%  Page titre
@@ -120,9 +128,14 @@
   %% Exercices et réponses
   \Newassociation{rep}{reponse}{reponses}
   \newcounter{exercice}[chapter]
+  \renewcommand{\theexercice}{\thechapter.\arabic{exercice}}
   \newenvironment{exercice}{%
-    \begin{list}{\bfseries \thechapter.\arabic{exercice}}{%
+    \begin{list}{}{%
         \refstepcounter{exercice}
+        \hypertarget{ex:\theexercice}{}
+        \Writetofile{reponses}{\protect\hypertarget{rep:\theexercice}{}}
+        \renewcommand{\makelabel}{%
+          \bfseries\protect\hyperlink{rep:\theexercice}{\theexercice}}
         \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
         \setlength{\leftmargin}{\labelwidth}
         \addtolength{\leftmargin}{\labelsep}
@@ -131,15 +144,9 @@
       \item}
     {\end{list}}
   \renewenvironment{reponse}[1]{%
-    \begin{enumerate}[label=\textbf{#1}]
+    \begin{enumerate}[label=\bfseries\protect\hyperlink{ex:#1}{#1}]
       \item}
     {\end{enumerate}}
-  % \renewenvironment{reponse}[1]{%
-  %   \begin{enumerate}[label=#1,font=\bfseries]
-  %     \setenumerate[2]{leftmargin=*,labelsep=0em}
-  %     \item}
-  %   {\end{enumerate}}
-  \renewcommand{\reponseparams}{{\thechapter.\theexercice}}
 
   %% Listes de commandes
   \newenvironment{ttscript}[1]{%

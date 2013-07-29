@@ -19,7 +19,7 @@ omet généralement $b$ pour les nombres en base 10.
 \end{Filesave}
 
 \begin{Filesave}{solutions}
-\section*{Chapitre \ref{chap:ordinateurs}}
+\section*{Chapitre \ref*{chap:ordinateurs}}
 \addcontentsline{toc}{section}{Chapitre \protect\ref{chap:ordinateurs}}
 
 \noindent
@@ -197,7 +197,7 @@ omet généralement $b$ pour les nombres en base 10.
   \begin{enumerate}
   \item Utiliser l'algorithme de conversion des nombres en base $b$
     vers la base 10 et les idées de
-    l'exemple~\ref{ex:ordinateurs:position_dans_matrice} pour trouver
+    l'\autoref{ex:ordinateurs:position_dans_matrice} pour trouver
     une formule générale donnant la position de l'élément $a_{ijk}$
     d'un tableau de dimensions $I \times J \times K$ dans l'ordre de
     la liste des éléments du tableau. Utiliser l'ordre
@@ -208,7 +208,7 @@ omet généralement $b$ pour les nombres en base 10.
   \item Répéter la partie a) en utilisant l'ordre R, où le tableau
     est plutôt rempli dans l'ordre $a_{111}, a_{211}, \dots, a_{I11},
     a_{121}, a_{221}, \dots$.  Comparer la réponse avec celle de
-    l'exercice~\ref{operateurs}.\ref{exercice:operateurs:ijk}~b) de la
+    l'\autoref*{exercice:operateurs:ijk}~b) de la
     partie~I.
   \end{enumerate}
   \begin{sol}
@@ -246,7 +246,7 @@ omet généralement $b$ pour les nombres en base 10.
         = i + I (j - 1 + J (k - 1))
       \end{displaymath}
       soit la même réponse qu'à
-      l'exercice~\ref{operateurs}.\ref{exercice:operateurs:ijk}~b) de
+      l'\autoref*{exercice:operateurs:ijk}~b) de
       la partie~I.
     \end{enumerate}
   \end{sol}
@@ -468,7 +468,7 @@ omet généralement $b$ pour les nombres en base 10.
   nombres en simple précision. Comparer les résultats avec les limites
   du type \texttt{Single} en VBA.
   \begin{sol}
-    Voir la section~\ref{sec:ordinateurs:ieee}. Les calculs sont
+    Voir la \autoref{sec:ordinateurs:ieee}. Les calculs sont
     exactement les mêmes que pour les nombres en double précision.
   \end{sol}
   \begin{rep}
@@ -608,9 +608,9 @@ omet généralement $b$ pour les nombres en base 10.
 \end{exercice}
 
 \begin{exercice}
-  Trouver, pour les nombres des parties a) et c) de l'exercice
-  \ref{chap:ordinateurs}.\ref{ex:ordinateurs:ieee}, le nombre suivant
-  et le nombre précédent en représentation binaire.
+  Trouver, pour les nombres des parties a) et c) de
+  l'\autoref{ex:ordinateurs:ieee}, le nombre suivant et le nombre
+  précédent en représentation binaire.
   \begin{sol}
     \begin{enumerate}
     \item Le nombre suivant est
