@@ -22,7 +22,7 @@ linéaire normalement étudiés au collège: matrice, déterminant,
 inverse, vecteur, espace vectoriel et relations avec les systèmes
 d'équations linéaires. Nous tâchons d'insister sur l'établissement de
 liens entre les différentes notions passées en revue. À ce titre, le
-théorème~\ref{thm:revision:unification} en fin de chapitre est
+\autoref{thm:revision:unification} en fin de chapitre est
 particulièrement important puisqu'il unifie un grand nombre de
 résultats.
 
@@ -36,9 +36,9 @@ toujours des références de choix.
 Le langage R contient à peu près tous les outils nécessaires pour la
 manipulation et le traitement des vecteurs et matrices. La plupart des
 fonctions pertinentes ont déjà été introduites dans le
-chapitre~\ref{operateurs} de la partie~I, mais nous offrons néanmoins
+\autoref{operateurs} de la partie~I, mais nous offrons néanmoins
 une nouvelle présentation dans le code informatique de la
-section~\ref{sec:revision:code}.
+\autoref{sec:revision:code}.
 
 
 \section{Matrices}
@@ -312,12 +312,11 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
       2 & 3
     \end{bmatrix}.
   \end{equation*}
-  Il est laissé en exercice de vérifier les propriétés du théorème
-  \ref{thm:revision:arithmetique}. On remarquera que $\mat{AB}$ est
-  défini, mais pas $\mat{BA}$, ce qui vérifie la propriété 3, mais
+  Il est laissé en exercice de vérifier les propriétés du
+  \autoref{thm:revision:arithmetique}. On remarquera que $\mat{AB}$
+  est défini, mais pas $\mat{BA}$, ce qui vérifie la propriété 3, mais
   empêche de faire les opérations des propriétés 6 et 8. On remarquera
-  de plus que $\mat{BC} \neq \mat{CB}$.
-  \qed
+  de plus que $\mat{BC} \neq \mat{CB}$. \qed
 \end{exemple}
 
 
@@ -478,7 +477,7 @@ avec les définitions évidentes pour $\mat{A}$, $\mat{x}$ et $\mat{b}$.
 
 Tout système d'équations linéaires comporte ou bien une seule
 solution, ou bien aucune solution, ou bien une infinité de solutions.
-La figure \ref{fig:revision:solutions} illustre ces trois possibilités
+La \autoref{fig:revision:solutions} illustre ces trois possibilités
 pour un système à deux équations et deux inconnues, de même que pour
 un système à trois équations et trois inconnues.
 
@@ -706,9 +705,9 @@ Ces opérations sont appelées \emph{opérations élémentaires sur les lignes}.
 
 \subsection{Élimination gaussienne}
 
-La procédure suivie pour résoudre le système d'équations de l'exemple
-\ref{ex:revision:gaussienne} s'apparente à l'\emph{élimination
-  gaussienne}.  Plus précisément, l'élimination gaussienne consiste à
+La procédure suivie pour résoudre le système d'équations de
+l'\autoref{ex:revision:gaussienne} s'apparente à l'\emph{élimination
+  gaussienne}. Plus précisément, l'élimination gaussienne consiste à
 appliquer des opérations élémentaires à la matrice augmentée
 correspondant à un système d'équations linéaires jusqu'à ce que la
 partie gauche de celle-ci se trouve sous forme \emph{échelonnée},
@@ -831,7 +830,7 @@ L'élimination gaussienne et l'élimination de Gauss--Jordan se prêtent
 bien à la mise en oeuvre informatique de méthodes de résolution de
 grands systèmes d'équations linéaires. Un algorithme efficace prendra
 toutefois soin de minimiser les erreurs d'arrondi ainsi que le nombre
-d'opérations. Nous étudierons au chapitre~\ref{chap:decomposition} la
+d'opérations. Nous étudierons au \autoref{chap:decomposition} la
 méthode la plus souvent retenue pour résoudre les systèmes d'équations
 linéaires.
 
@@ -898,7 +897,7 @@ principale propriété est formalisée dans le théorème suivant.
 \end{thm}
 
 \begin{exemple}
-  On exprime la solution de l'exemple \ref{ex:revision:gaussienne} à
+  On exprime la solution de l'\autoref{ex:revision:gaussienne} à
   l'aide de matrices élémentaires. À chaque opération sur les lignes
   de la matrice augmentée correspond une matrice élémentaire.
   \begin{enumerate}
@@ -1256,8 +1255,8 @@ inverse de $\mat{B}$.
   \end{align*}
   Pour le second résultat, il faut démontrer que $(\mat{A}^{-1})^T
   \mat{A}^T = \mat{A}^T (\mat{A}^{-1})^T = \mat{I}$. Or, par le
-  résultat 4 du théorème \ref{thm:revision:transposee} (page
-  \pageref{thm:revision:transposee}),
+  résultat 4 du \autoref{thm:revision:transposee}
+  (\autopageref{thm:revision:transposee}),
   \begin{gather*}
     (\mat{A}^{-1})^T \mat{A}^T =
     (\mat{A} \mat{A}^{-1})^T =
@@ -1283,13 +1282,12 @@ les matrices élémentaires.
 \subsection{Calcul de l'inverse}
 
 La manière la plus usuelle de calculer l'inverse d'une matrice repose
-sur l'utilisation du déterminant, qui sera présenté à la section
-\ref{sec:revision:determinant}. D'ici là, on peut également calculer l'inverse
-d'une matrice par une méthode similaire à l'élimination de
-Gauss--Jordan.
+sur l'utilisation du déterminant, qui sera présenté à la
+\autoref{sec:revision:determinant}. D'ici là, on peut également
+calculer l'inverse d'une matrice par une méthode similaire à
+l'élimination de Gauss--Jordan.
 
-On peut en effet démontrer (et ce fait sera confirmé dans le théorème
-\ref{thm:revision:unification}) que si la matrice $\mat{A}$ est
+On peut en effet démontrer (et ce fait sera confirmé dans le \autoref{thm:revision:unification}) que si la matrice $\mat{A}$ est
 inversible, alors on peut trouver des matrices élémentaires
 $\mat{E}_1, \dots, \mat{E}_k$ tel que
 \begin{equation*}
@@ -1532,8 +1530,7 @@ les cofacteurs de cette ligne ou colonne.
 \end{thm}
 
 \begin{exemple}
-  On calcule le déterminant de la matrice de l'exemple
-  \ref{ex:revision:cofacteur}.  En faisant le calcul à partir de la
+  On calcule le déterminant de la matrice de l'\autoref{ex:revision:cofacteur}.  En faisant le calcul à partir de la
   première ligne, on a
   \begin{align*}
     \det(\mat{A})
@@ -1562,7 +1559,7 @@ les cofacteurs de cette ligne ou colonne.
 
 \subsection{Propriétés du déterminant}
 
-Du théorème \ref{thm:revision:determinant}, il est clair que si une
+Du \autoref{thm:revision:determinant}, il est clair que si une
 matrice contient une ligne ou une colonne complète de zéros, alors son
 déterminant est nul.
 
@@ -1603,7 +1600,7 @@ de $\mat{A}$ et est notée $\mathrm{adj}(\mat{A})$.
 
 \begin{exemple}
   Il est laissé en exercice de vérifier que la matrice adjointe de la
-  matrice de l'exemple \ref{ex:revision:cofacteur} est
+  matrice de l'\autoref{ex:revision:cofacteur} est
   \begin{equation*}
     \begin{bmatrix}
        16 & -24 &  26 \\
@@ -1669,7 +1666,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \end{thm}
 
 \begin{gotoR}
-  Le code informatique de la section~\ref{sec:revision:code} passe en
+  Le code informatique de la \autoref{sec:revision:code} passe en
   revue les fonctions d'algèbre linéaire offertes dans R.
 \end{gotoR}
 

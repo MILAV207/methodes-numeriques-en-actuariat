@@ -58,7 +58,7 @@ vecteur $\mat{x}$. Par exemple:
     \begin{bmatrix} 2 \\ 0 \end{bmatrix}.
   \end{equation*}
 \end{itemize}
-Voir la figure~\ref{fig:valeurspropres:transformations} pour des
+Voir la \autoref{fig:valeurspropres:transformations} pour des
 illustrations des transformations ci-dessus.
 
 \begin{figure}
@@ -149,7 +149,7 @@ cette interprétation du produit matriciel.
 
 Ainsi, par définition, lorsqu'un vecteur propre $\mat{x}$ est
 multiplié par la matrice $\mat{A}$, il est transformé en un multiple
-de lui-même; voir la figure~\ref{fig:valeurspropres:illustration}.
+de lui-même; voir la \autoref{fig:valeurspropres:illustration}.
 
 \begin{figure}
   \begin{minipage}{0.22\linewidth}
@@ -252,7 +252,7 @@ pour $\mat{x} \neq \mat{0}$. Par conséquent, $\lambda$ est une valeur
 propre de $\mat{A}$ si, et seulement si, il existe une solution autre
 que la solution triviale à ce système d'équations homogène.
 
-Or, par le théorème \ref{thm:revision:unification}, il existe une
+Or, par le \autoref{thm:revision:unification}, il existe une
 solution de $(\lambda \mat{I} - \mat{A}) \mat{x} = \mat{0}$ autre que
 la solution triviale si, et seulement si, $\det(\lambda \mat{I} -
 \mat{A}) = 0$. Par conséquent:
@@ -411,7 +411,7 @@ matrice carrée.
 Du théorème précédent, il découle que si une valeur propre d'une
 matrice est nulle, alors son déterminant est nul et la matrice est
 singulière. Cette observation nous permet d'ajouter un énoncé au
-théorème~\ref{thm:revision:unification}.
+\autoref{thm:revision:unification}.
 
 \begin{thm}
   \label{thm:valeurspropres:unification}
@@ -712,7 +712,7 @@ Nous établirons qu'une matrice est diagonalisable si elle possède $n$
 vecteurs propres linéairement indépendants.
 
 \begin{exemple}
-  À l'exemple \ref{ex:valeurspropres:vecteurs}, on a obtenu que les
+  À l'\autoref{ex:valeurspropres:vecteurs}, on a obtenu que les
   vecteurs propres de la matrice $\mat{A}$ sont
   \begin{align*}
     \mat{p}_1 &= \begin{bmatrix} -2 \\ 1 \\  1 \end{bmatrix} &
@@ -794,7 +794,7 @@ suivant.
   \end{displaymath}
 \end{thm}
 
-La remarque qui suit l'exemple \ref{ex:valeurspropres:vecteurs}
+La remarque qui suit l'\autoref{ex:valeurspropres:vecteurs}
 établissait que si toutes les valeurs propres sont différentes
 (multiplicité 1), alors on a un total de $n$ vecteurs propres.
 
@@ -824,7 +824,7 @@ alors les vecteurs propres sont linéairement indépendants.
       1 & 0 &  3
     \end{bmatrix}
   \end{displaymath}
-  de l'exemple \ref{ex:valeurspropres:vecteurs} sont $\lambda_1 = 1$
+  de l'\autoref{ex:valeurspropres:vecteurs} sont $\lambda_1 = 1$
   et $\lambda_2 = \lambda_3 = 2$. Néanmoins, les trois vecteurs
   propres forment une base de $\mathbb{R}^3$. Par conséquent,
   \begin{align*}
@@ -907,7 +907,7 @@ alors les vecteurs propres sont linéairement indépendants.
 \begin{gotoR}
   On calcule les valeurs et vecteurs propres dans R avec la fonction
   \code{eigen}. Voir le code informatique de la
-  section~\ref{sec:revision:code} pour les détails.
+  \autoref{sec:revision:code} pour les détails.
 \end{gotoR}
 
 
