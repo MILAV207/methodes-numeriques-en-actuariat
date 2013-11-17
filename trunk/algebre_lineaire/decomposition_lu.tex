@@ -1,0 +1,265 @@
+\chapter{Méthodes de résolution de systèmes d'équations linéaires}
+\label{chap:decomposition}
+
+\begin{objectifs}
+\item Comparer la rapidité des méthodes usuelles de résolutions des
+  systèmes d'équations linéaires.
+\item Calculer la solution d'un système d'équations linéaires par la
+  décomposition $LU$.
+\end{objectifs}
+
+L'utilisation des matrices de loin la plus fréquente en actuariat
+consiste à résoudre des systèmes d'équations linéaires du type
+\begin{displaymath}
+  \mat{A} \mat{x} = \mat{b}.
+\end{displaymath}
+Nous avons jusqu'à maintenant étudié diverses façons --- toutes
+équivalentes d'un point de vue mathématique --- d'obtenir la solution
+\begin{displaymath}
+  \mat{x} = \mat{A}^{-1} \mat{b}.
+\end{displaymath}
+On peut maintenant se demander laquelle est la plus efficace d'un
+point de vue informatique, surtout lorsque le système compte un grand
+nombre d'équations.
+
+
+\section{Comparaison du nombre d'opérations}
+\label{sec:decomposition:nombre_operations}
+
+Les principales méthodes de résolution d'un système d'équations
+linéaires sont:
+\begin{enumerate}
+\item l'élimination gaussienne avec substitution successive;
+\item l'élimination de Gauss--Jordan;
+\item le calcul de $\mat{A}^{-1}$, puis de $\mat{x} = \mat{A}^{-1}
+  \mat{b}$.
+\end{enumerate}
+Le calcul de $\mat{A}^{-1}$ peut quant à lui s'effectuer par
+transformation de $[\mat{A}|\mat{I}]$ en $[\mat{I}|\mat{A}^{-1}]$, ou
+par la méthode des cofacteurs.
+
+L'élément décisif dans la comparaison des temps de calcul de ces
+diverses méthodes de calcul est le nombre d'opérations arithmétiques
+requis. Le \autoref{tab:decomposition:nb_oper} présente l'ordre de
+grandeur (et non le nombre exact) du nombre de multiplications et de
+divisions nécessaires pour obtenir une réponse avec chacune des
+méthodes ci-dessus. On se concentre sur les multiplications et
+divisions, sachant que ces opérations coûtent plus cher en temps de
+calcul que les additions et les soustractions.
+\begin{table}
+  \centering
+  \begin{tabular}{lc}
+    \toprule
+    Méthode & Nombre d'opérations \\
+    \midrule
+    Élimination gaussienne & $n^3/3$ \\
+    Élimination de Gauss--Jordan & $n^3/3$ \\
+    Transformation de $[\mat{A}|\mat{I}]$ en $[\mat{I}|\mat{A}^{-1}]$ &
+    $n^3$ \\
+    Calcul de $\mat{x} = \mat{A}^{-1} \mat{b}$ & $n^3$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Nombre approximatif de multiplications et divisions pour
+    résoudre le système d'équations à $n$ équations et $n$ inconnues
+    $\mat{A} \mat{x} = \mat{b}$}
+  \label{tab:decomposition:nb_oper}
+\end{table}
+
+On constate au \autoref{tab:decomposition:nb_oper} que
+l'élimination gaussienne avec substitution successive et l'élimination
+de Gauss--Jordan sont les méthodes les plus rapides, leur avantage
+augmentant rapidement avec la taille du système d'équations.
+
+
+\section{Décomposition LU}
+\label{sec:decomposition:decomposition}
+
+Le principal inconvénient des méthodes d'élimination réside dans le
+fait qu'il faut connaître le vecteur des coefficients $\mat{b}$ au
+moment d'effectuer les calculs. Si l'on souhaite résoudre le système
+$\mat{Ax} = \mat{b}$ pour un nouveau vecteur $\mat{b}$, il faut
+répéter la procédure depuis le début.
+
+Les principales routines de résolution de systèmes d'équations
+linéaires disponibles dans les divers outils informatiques (R, Maple,
+Matlab, Mathematica, etc.) reposent donc plutôt sur la technique de la
+décomposition $LU$, une variante de l'élimination gaussienne ne
+nécessitant pas de connaître d'avance le vecteur $\mat{b}$.
+
+L'idée est très simple: si la matrice $\mat{A}$ peut être factorisée
+en un produit de matrices $n \times n$
+\begin{displaymath}
+  \mat{A} = \mat{L} \mat{U},
+\end{displaymath}
+où $\mat{L}$ est une matrice triangulaire inférieure et $\mat{U}$ une
+matrice triangulaire supérieure, alors on obtient le système
+d'équations linéaires
+\begin{equation}
+  \mat{L} \mat{U} \mat{x} = \mat{b}.
+  \label{eq:decomposition:LUx}
+\end{equation}
+Or, en posant
+\begin{equation}
+  \mat{U} \mat{x} = \mat{y}
+  \label{eq:decomposition:Ux}
+\end{equation}
+on peut réécrire \eqref{eq:decomposition:LUx} comme
+\begin{equation}
+  \mat{L} \mat{y} = \mat{b}.
+\end{equation}
+La solution $\mat{y}$ de ce dernier système d'équations est simple à
+obtenir par substitutions successives. De même, une fois $\mat{y}$
+connu, le vecteur $\mat{x}$ est obtenu en résolvant
+\eqref{eq:decomposition:Ux}, toujours par simples substitutions.
+
+\begin{exemple}
+  Soit le système d'équations linéaires
+  \begin{displaymath}
+    \begin{bmatrix}
+       2 &  6 & 2 \\
+      -3 & -8 & 0 \\
+       4 &  9 & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+      x_1 \\ x_2 \\ x_3
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      2 \\ 2 \\ 3
+    \end{bmatrix}.
+  \end{displaymath}
+  On peut démontrer que
+  \begin{displaymath}
+    \mat{A} =
+    \begin{bmatrix}
+       2 &  6 & 2 \\
+      -3 & -8 & 0 \\
+       4 &  9 & 2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+       2 &  0 & 0 \\
+      -3 &  1 & 0 \\
+       4 & -3 & 7
+    \end{bmatrix}
+    \begin{bmatrix}
+      1 & 3 & 1 \\
+      0 & 1 & 3 \\
+      0 & 0 & 1
+    \end{bmatrix},
+  \end{displaymath}
+  soit $\mat{A} = \mat{L} \mat{U}$ avec
+  \begin{align*}
+    \mat{L} &=
+    \begin{bmatrix}
+       2 &  0 & 0 \\
+      -3 &  1 & 0 \\
+       4 & -3 & 7
+    \end{bmatrix} \\
+    \intertext{et}
+    \mat{U} &=
+    \begin{bmatrix}
+      1 & 3 & 1 \\
+      0 & 1 & 3 \\
+      0 & 0 & 1
+    \end{bmatrix}.
+  \end{align*}
+  On a donc $\mat{A} \mat{x} = \mat{L} \mat{U} \mat{x} =
+  \mat{b}$. En posant $\mat{U} \mat{x} = \mat{y}$, on réécrit le
+  système d'équations sous la forme $\mat{L} \mat{y} = \mat{b}$, soit
+  \begin{displaymath}
+    \begin{bmatrix}
+       2 &  0 & 0 \\
+      -3 &  1 & 0 \\
+       4 & -3 & 7
+    \end{bmatrix}
+    \begin{bmatrix}
+      y_1 \\ y_2 \\ y_3
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      2 \\ 2 \\ 3
+    \end{bmatrix}.
+  \end{displaymath}
+  Par substitution successive, on trouve
+  \begin{align*}
+    y_1 &= 1 \\
+    y_2 &= 2 + 3 y_1 = 5 \\
+    y_3 &= \frac{3 - 4 y_1 + 3 y_2}{7} = 2.
+  \end{align*}
+  Pour trouver la solution du système d'équations original, il suffit
+  maintenant de résoudre $\mat{U} \mat{x} = \mat{y}$, soit
+  \begin{displaymath}
+    \begin{bmatrix}
+      1 & 3 & 1 \\
+      0 & 1 & 3 \\
+      0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      x_1 \\ x_2 \\ x_3
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1 \\ 5 \\ 2
+    \end{bmatrix}.
+  \end{displaymath}
+  On obtient alors
+  \begin{align*}
+    x_3 &= 2 \\
+    x_2 &= 5 - 3 x_3 = -1 \\
+    x_1 &= 1 - 3 x_2 - x_3 = 2.
+  \end{align*}
+  \qed
+\end{exemple}
+
+L'essentiel des calculs dans la décomposition $LU$ se trouve dans la
+factorisation de la matrice $\mat{A}$ en un produit de matrices
+triangulaires. Pour justifier la technique, supposons que l'on réduit
+la matrice $\mat{A}$ sous forme échelonnée par une série d'opérations
+élémentaires sur les lignes. On peut donc trouver des matrices
+élémentaires $\mat{E}_1, \dots, \mat{E}_k$ tel que
+\begin{displaymath}
+  \mat{E}_k \cdots \mat{E}_1 \mat{A} = \mat{U}.
+\end{displaymath}
+Par le \autoref{thm:revision:matrices_elementaires}, l'inverse
+d'une matrice élémentaire existe et est également une matrice
+élémentaire, d'où
+\begin{displaymath}
+  \mat{A} = \mat{E}_1^{-1} \cdots \mat{E}_k^{-1} \mat{U}
+\end{displaymath}
+et donc
+\begin{displaymath}
+  \mat{L} = \mat{E}_1^{-1} \cdots \mat{E}_k^{-1}.
+\end{displaymath}
+Cette dernière matrice est triangulaire inférieure \emph{à condition
+  de ne pas échanger des lignes} lors de la réduction de $\mat{A}$
+vers $\mat{U}$.  Il existe un algorithme simple pour construire la
+matrice $\mat{L}$ sans devoir effectuer le produit des matrices
+élémentaires inverses; consulter \citet[section 9.9]{Anton:linear:8e:2000}.
+
+Le nombre d'opérations de la décomposition $LU$ est du même ordre que
+les méthodes d'élimination. Par contre, on remarquera que la
+factorisation est tout à fait indépendante du vecteur $\mat{b}$. Une
+fois la factorisation connue, on peut donc résoudre plusieurs systèmes
+d'équations différents utilisant tous la même matrice de coefficients
+$\mat{A}$ sans devoir répéter une grande partie des calculs.
+
+\begin{rem}
+  Plusieurs progiciels mathématiques ont recours à LAPACK\footnote{%
+    \emph{Linear Algebra PACKage};
+    \url{http://www.netlib.org/lapack}.} %
+  pour les calculs d'algèbre linéaire numérique. Cette bibliothèque
+  est elle-même basée sur LINPACK, dont les origines remontent aux
+  années 1970. La bibliothèque est écrite en Fortran, un autre très
+  ancien langage de programmation, toujours utilisé pour le calcul
+  scientifique. D'ailleurs, au moins une particularité de ce langage
+  demeure visible en R. En effet, c'est du Fortran que vient cette
+  habitude de remplir les matrices par colonne\dots
+\end{rem}
+
+\input{exercices-decomposition_lu}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "methodes_numeriques-partie_4"
+%%% End:

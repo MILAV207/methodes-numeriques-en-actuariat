@@ -1,0 +1,1687 @@
+\chapter{Révision d'algrèbre linéaire}
+\label{chap:revision}
+
+\begin{objectifs}
+\item Utiliser les principaux opérateurs de l'arithmétique
+  matricielle, dont la somme, le produit, la transposée et la trace.
+\item Exprimer un système d'équations linéaires sous forme matricielle
+  et le résoudre par élimination gaussienne ainsi que par produit de
+  matrices élémentaires.
+\item Vérifier si des éléments d'un espace vectoriel sont
+  linéairement indépendants.
+\item Définir les propriétés de l'inverse d'une matrice.
+\item Définir les propriétés du déterminant d'une matrice.
+\item Calculer l'inverse d'une matrice à partir de matrices
+  élémentaires ainsi que par la méthode de la matrice adjointe.
+\item Déterminer le rang d'une matrice.
+\item Établir les liens entre les concepts ci-dessus.
+\end{objectifs}
+
+Ce chapitre vise à réviser les éléments fondamentaux d'algèbre
+linéaire normalement étudiés au collège: matrice, déterminant,
+inverse, vecteur, espace vectoriel et relations avec les systèmes
+d'équations linéaires. Nous tâchons d'insister sur l'établissement de
+liens entre les différentes notions passées en revue. À ce titre, le
+\autoref{thm:revision:unification} en fin de chapitre est
+particulièrement important puisqu'il unifie un grand nombre de
+résultats.
+
+Le texte ne prétend à aucune exhaustivité; le lecteur devrait donc
+consulter, au besoin, l'un des nombreux livres d'introduction à
+l'algèbre linéaire disponibles en librairie ou à la bibliothèque. Les
+éditions successives de \cite{Anton:linear:8e:2000} ont longtemps
+servi pour les examens professionnels d'actuariat et constituent
+toujours des références de choix.
+
+Le langage R contient à peu près tous les outils nécessaires pour la
+manipulation et le traitement des vecteurs et matrices. La plupart des
+fonctions pertinentes ont déjà été introduites dans le
+\autoref*{operateurs} de la partie~I, mais nous offrons néanmoins
+une nouvelle présentation dans le code informatique de la
+\autoref{sec:revision:code}.
+
+
+\section{Matrices}
+\label{sec:revision:matrices}
+
+Une matrice est un tableau rectangulaire de nombres. Les matrices
+seront généralement représentées par des lettres majuscules et leurs
+éléments par des minuscules. Ainsi,
+\begin{equation*}
+  \mat{A} =
+  \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots &      & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+  \end{bmatrix}
+\end{equation*}
+est une matrice $m \times n$ composée des éléments $a_{ij}$, $i = 1,
+\dots, m$, $j = 1, \dots, n$. De manière plus compacte, on écrira parfois
+\begin{align*}
+  \mat{A} &= [a_{ij}]_{m \times n} \\
+  \intertext{ou simplement}
+  \mat{A} &= [a_{ij}]
+\end{align*}
+lorsque les dimensions de la matrices sont claires par le contexte.
+
+
+\subsection{Matrice carrée}
+
+Lorsqu'une matrice compte autant de lignes que de colonnes ($m = n$),
+la matrice est dite \emph{carrée}. Dans un tel cas, les éléments
+$a_{ii}$, $i = 1, \dots, n$ forment la \emph{diagonale} de la matrice.
+
+
+\subsection{Matrice symétrique}
+
+Si $a_{ij} = a_{ji}$ pour tout $i$, $j$, alors la matrice carrée
+$\mat{A}$ est \emph{symétrique}. Par exemple,
+\begin{equation*}
+  \begin{bmatrix}
+    2 & 3 & 4 & 5 \\
+    3 & 1 & 0 & 6 \\
+    4 & 0 & 2 & 7 \\
+    5 & 6 & 7 & 1
+  \end{bmatrix}
+\end{equation*}
+constitue une matrice symétrique.
+
+
+\subsection{Matrices triangulaires et diagonales}
+
+Une matrice carrée dont tous les éléments sous la diagonale sont nuls
+est une matrice \emph{triangulaire supérieure}. À l'inverse, une
+matrice carrée dont tous les éléments au-dessus de la diagonale sont
+nuls est une matrice \emph{triangulaire inférieure}. Ainsi,
+\begin{equation*}
+  \begin{bmatrix}
+    2 & 3 & 4 & 5 \\
+    0 & 1 & 0 & 6 \\
+    0 & 0 & 2 & 7 \\
+    0 & 0 & 0 & 1
+  \end{bmatrix}
+\end{equation*}
+est une matrice triangulaire supérieure, alors que
+\begin{equation*}
+  \begin{bmatrix}
+    2 & 0 & 0 & 0 \\
+    3 & 1 & 0 & 0 \\
+    4 & 0 & 2 & 0 \\
+    5 & 6 & 7 & 1
+  \end{bmatrix}
+\end{equation*}
+est triangulaire inférieure.
+
+Une matrice à la fois triangulaire inférieure et triangulaire
+supérieure ne comporte que des zéros à l'extérieur de la diagonale et
+est appelée une matrice \emph{diagonale}, comme par exemple
+\begin{equation*}
+  \begin{bmatrix}
+    2 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 2 & 0 \\
+    0 & 0 & 0 & 1
+  \end{bmatrix}.
+\end{equation*}
+
+
+\subsection{Matrice identité et matrice zéro}
+
+La matrice diagonale dont tous les éléments de la diagonale sont égaux
+à 1 est appelée la \emph{matrice identité}.  Celle-ci joue un rôle
+spécial important en algèbre matricielle. Elle est généralement notée
+$\mat{I}$:
+\begin{equation*}
+  \mat{I}_{3 \times 3} =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1 \\
+  \end{bmatrix}.
+\end{equation*}
+
+Finalement, la matrice constituée entièrement de 0 est appelée
+\emph{matrice zéro} ou \emph{matrice nulle}. Elle est généralement notée
+$\mat{0}$:
+\begin{equation*}
+  \mat{0}_{3 \times 3} =
+  \begin{bmatrix}
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+  \end{bmatrix}.
+\end{equation*}
+
+La matrice nulle est tout-à-fait différente du scalaire 0.
+
+
+\subsection{Vecteur ligne et vecteur colonne}
+
+Les matrices ne comptant qu'une seule ligne ou une seule colonne
+portent un nom spécial. Une matrice $1 \times n$ est appelée
+\emph{vecteur ligne} et une matrice $m \times 1$ est appelée
+\emph{vecteur colonne} ou parfois simplement \emph{vecteur}. Ces deux
+types de matrices sont généralement notées par des lettres minuscules
+et leurs éléments sont numérotés par un seul indice:
+\begin{equation*}
+  \mat{a} =
+  \begin{bmatrix}
+    a_1 & a_2 & \cdots & a_n
+  \end{bmatrix}, \quad
+  \mat{b} =
+  \begin{bmatrix}
+    b_1 \\ b_2 \\ \vdots \\ b_m
+  \end{bmatrix}.
+\end{equation*}
+
+
+
+\section{Arithmétique matricielle}
+\label{sec:revision:arithmetique}
+
+Cette section récapitule l'essentiel des règles d'arithmétique
+matricielle. On gardera à l'esprit que ces règles sont parfois fort
+différentes de celles de l'arithmétique des nombres, notamment au
+chapitre du produit matriciel.
+
+
+\subsection{Égalité, somme et différence}
+
+Soit $\mat{A} = [a_{ij}]$ et $\mat{B} = [b_{ij}]$ deux matrices de
+mêmes dimensions et $c$, une constante (scalaire). Alors,
+\begin{enumerate}
+\item $\mat{A} = \mat{B}$ si, et seulement si, $a_{ij} = b_{ij}$
+  pour tout $i$ et tout $j$;
+\item $\mat{A} + \mat{B} = [a_{ij} + b_{ij}]$;
+\item $\mat{A} - \mat{B} = [a_{ij} - b_{ij}]$;
+\item $c \mat{A} = [c a_{ij}]$.
+\end{enumerate}
+
+
+\subsection{Produit}
+
+Le produit entre deux matrices, $\mat{AB}$, est défini seulement
+si le nombre de colonnes de la matrice $\mat{A}$ est égal au nombre de
+lignes de la matrice $\mat{B}$. Le résultat du produit est une matrice
+dont l'élément en position $(i, j)$ correspond au produit scalaire
+entre la ligne $i$ de la matrice $\mat{A}$ et la colonne $j$ de la
+matrice $\mat{B}$. Autrement dit, soit $\mat{A}_{m \times p}$ et
+$\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
+\mat{B}$ est défini et
+\begin{equation*}
+  \mat{AB} = \left[ \sum_{k = 1}^p a_{ik} b_{kj} \right]_{m
+    \times n}.
+\end{equation*}
+
+\begin{exemple}
+  Soit les matrices
+  \begin{equation*}
+    \mat{A} =
+    \begin{bmatrix}
+      1 & 2 & 4 \\
+      2 & 6 & 0
+    \end{bmatrix}, \quad
+    \mat{B} =
+    \begin{bmatrix}[r]
+      4 &  1 & 4 & 3 \\
+      0 & -1 & 3 & 1 \\
+      2 &  7 & 5 & 2
+    \end{bmatrix}.
+  \end{equation*}
+  La matrice $\mat{A}$ compte trois colonnes, soit autant que le
+  nombre de lignes de la matrice $\mat{B}$. Le produit $\mat{A}
+  \mat{B}$ est donc défini. Le résultat sera une matrice $\mat{C}$ de
+  deux lignes et quatre colonnes. On a
+  \begin{align*}
+    c_{11}
+    &=
+    \begin{bmatrix}
+      1 & 2 & 4
+    \end{bmatrix}
+    \begin{bmatrix}
+      4 \\ 0 \\ 2
+    \end{bmatrix} \\
+    &= (1 \cdot 4) + (2 \cdot 0) + (4 \cdot 2) \\
+    &= 12, \displaybreak[0] \\
+    c_{12}
+    &=
+    \begin{bmatrix}
+      1 & 2 & 4
+    \end{bmatrix}
+    \begin{bmatrix}[r]
+      1 \\ -1 \\ 7
+    \end{bmatrix} \\
+    &= (1 \cdot 1) + (2 \cdot -1) + (4 \cdot 7) \\
+    &= 27,
+  \end{align*}
+  etc. Le résultat final est
+  \begin{equation*}
+    \mat{C} =
+    \begin{bmatrix}[r]
+      12 & 27 & 30 & 13 \\
+       8 & -4 & 26 & 12
+    \end{bmatrix}.
+  \end{equation*}
+  On remarquera que le produit $\mat{BA}$ n'est pas défini, ce qui
+  illustre que le produit matriciel n'est pas commutatif.
+  \qed
+\end{exemple}
+
+\begin{thm}[Propriétés de l'arithmétique matricielle]
+  \label{thm:revision:arithmetique}
+  Soit $\mat{A}$, $\mat{B}$ et $\mat{C}$ des matrices de dimensions
+  telles que les opérations ci-dessous sont définies, et soit $a$ et
+  $b$, des constantes.
+  \begin{enumerate}
+  \item $\mat{A} + \mat{B} = \mat{B} + \mat{A}$ (commutativité de l'addition)
+  \item $\mat{A} + (\mat{B} + \mat{C}) = (\mat{A} + \mat{B}) + \mat{C}$
+    (associativité de l'addition)
+  \item $\mat{AB} \neq \mat{BA}$ en général
+  \item $\mat{A(BC)} = \mat{(AB)C}$ (associativité de la multiplication)
+  \item $\mat{A(B + C)} = \mat{AB} + \mat{AC}$ (distributivité par la gauche)
+  \item $\mat{(B + C)A} = \mat{BA} + \mat{CA}$ (distributivité par la droite)
+  \item $\mat{A(B - C)} = \mat{AB} - \mat{AC}$
+  \item $\mat{(B - C)A} = \mat{BA} - \mat{CA}$
+  \item $a(\mat{B} + \mat{C}) = a\mat{B} + a\mat{C}$
+  \item $a(\mat{B} - \mat{C}) = a\mat{B} - a\mat{C}$
+  \item $(a + b)\mat{C} = a\mat{C} + b\mat{C}$
+  \item $(a - b)\mat{C} = a\mat{C} - b\mat{C}$
+  \item $a(b\mat{C}) = (ab)\mat{C}$
+  \item $a(\mat{BC}) = (a\mat{B})\mat{C} = \mat{B}(a\mat{C})$
+  \end{enumerate}
+\end{thm}
+
+\begin{exemple}
+  Soit $a = 5$, $b = 2$ et
+  \begin{equation*}
+    \mat{A} =
+    \begin{bmatrix}
+      1 & 2 \\
+      3 & 4 \\
+      0 & 1
+    \end{bmatrix}, \quad
+    \mat{B} =
+    \begin{bmatrix}
+      4 & 3 \\
+      2 & 1
+    \end{bmatrix}, \quad
+    \mat{C} =
+    \begin{bmatrix}
+      1 & 0 \\
+      2 & 3
+    \end{bmatrix}.
+  \end{equation*}
+  Il est laissé en exercice de vérifier les propriétés du
+  \autoref{thm:revision:arithmetique}. On remarquera que $\mat{AB}$
+  est défini, mais pas $\mat{BA}$, ce qui vérifie la propriété 3, mais
+  empêche de faire les opérations des propriétés 6 et 8. On remarquera
+  de plus que $\mat{BC} \neq \mat{CB}$. \qed
+\end{exemple}
+
+
+\subsection{Rôles la matrice identité et de la matrice zéro}
+
+La matrice identité joue, en arithmétique matricielle,  le rôle du
+nombre 1 en arithmétique usuelle. Ainsi,
+\begin{equation*}
+  \mat{A}_{m \times n} \mat{I}_n = \mat{I}_m \mat{A}_{m \times n} = \mat{A}.
+\end{equation*}
+
+De même, la matrice zéro joue un rôle similaire à celui du 0 en
+arithmétique.
+\begin{thm}[Propriétés de la matrice zéro]
+  \label{thm:revision:zero}
+  En supposant que les matrices sont de dimensions appropriées pour
+  que les opérations soient définies, les propriétés ci-dessous sont
+  valides en arithmétique matricielle.
+  \begin{enumerate}
+  \item $\mat{A} + \mat{0} = \mat{0} + \mat{A} = \mat{A}$
+  \item $\mat{A} - \mat{A} = \mat{0}$
+  \item $\mat{0} - \mat{A} = - \mat{A}$
+  \item $\mat{A0} = \mat{0}$ et $\mat{0A} = \mat{0}$
+  \end{enumerate}
+\end{thm}
+
+L'exemple suivant illustre toutefois les limites aux similitudes entre
+les deux systèmes arithmétiques.
+
+\begin{exemple}
+  Soit les matrices
+  \begin{equation*}
+    \mat{A} =
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & 2
+    \end{bmatrix}, \quad
+    \mat{B} =
+    \begin{bmatrix}
+      1 & 1 \\
+      3 & 4
+    \end{bmatrix}, \quad
+    \mat{C} =
+    \begin{bmatrix}
+      2 & 5 \\
+      3 & 4
+    \end{bmatrix}, \quad
+    \mat{D} =
+    \begin{bmatrix}
+      3 & 7 \\
+      0 & 0
+    \end{bmatrix}.
+  \end{equation*}
+  On vérifie aisément que
+  \begin{equation*}
+    \mat{AB} = \mat{AC} =
+    \begin{bmatrix}
+      3 & 4 \\
+      6 & 8
+    \end{bmatrix},
+  \end{equation*}
+  d'où $\mat{AB} = \mat{AC}$ n'implique pas nécessairement $\mat{B} =
+  \mat{C}$. De même, on vérifie que $\mat{AD} = \mat{0}$ même si
+  $\mat{A} \neq \mat{0}$ et $\mat{D} \neq \mat{0}$.
+  \qed
+\end{exemple}
+
+
+\subsection{Trace}
+
+La \emph{trace} d'une matrice carrée $\mat{A}_{n \times n}$, notée
+$\tr(\mat{A})$, est égale à la somme des éléments de la
+diagonale:
+\begin{equation*}
+  \tr(\mat{A}) = \sum_{i = 1}^n a_{ii}.
+\end{equation*}
+
+
+\subsection{Transposée}
+
+La \emph{transposée} d'une matrice $\mat{A}$ est la matrice obtenue en
+échangeant les lignes et les colonnes de $\mat{A}$. Elle est
+généralement notée $\mat{A}^T$ ou $\mat{A}^\prime$:
+\begin{equation*}
+  \mat{A} = [a_{ij}] \Rightarrow \mat{A}^T = [a_{ji}].
+\end{equation*}
+
+\begin{thm}[Propriétés de la transposée]
+  \label{thm:revision:transposee}
+  Soit $\mat{A}$, $\mat{B}$ et $\mat{C}$ des matrices de dimensions
+  telles que les opérations ci-dessous sont définies, et soit $k$ une
+  constante.
+  \begin{enumerate}
+  \item $(\mat{A}^T)^T = \mat{A}$
+  \item $(\mat{A} + \mat{B})^T = \mat{A}^T + \mat{B}^T$
+  \item $(k \mat{A})^T = k \mat{A}^T$
+  \item $(\mat{AB})^T = \mat{B}^T \mat{A}^T$
+  \item $\mat{A}^T \mat{A}$ et $\mat{A} \mat{A}^T$ sont symétriques.
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  On ne démontre que les propriétés 4 et 5. En premier lieu, soit
+  $\mat{A}_{m \times p}$ et $\mat{B}_{p \times m}$ des matrices,
+  $\mat{C} = (\mat{A} \mat{B})^T$ et $\mat{D} = \mat{B}_{m \times p}^T
+  \mat{A}_{p \times m}^T$. L'élément $c_{ij}$ de la matrice $\mat{C}$
+  est égal à l'élément en position $(j, i)$ du produit $\mat{AB}$,
+  d'où
+  \begin{equation*}
+    c_{ij} = \sum_{k = 1}^p a_{jk} b_{ki}.
+  \end{equation*}
+  De plus, puisque $\mat{A}^T = [a_{ji}]$ et $\mat{B}^T = [b_{ji}]$
+  \begin{equation*}
+    d_{ij} = \sum_{k = 1}^p b_{ki} a_{jk},
+  \end{equation*}
+  d'où $c_{ij} = d_{ij}$ pour tout $i = 1, \dots, m$ et $j = 1, \dots,
+  m$ et, donc, $\mat{C} = \mat{D}$.
+
+  D'autre part, par la propriété 4,
+  \begin{align*}
+    (\mat{A}^T \mat{A})^T
+    &= \mat{A}^T (\mat{A}^T)^T \\
+    &= \mat{A}^T \mat{A},
+  \end{align*}
+  d'où $\mat{A}^T \mat{A}$ est une matrice symétrique. On procède de
+  même pour le second résultat de la propriété 5.
+\end{proof}
+
+
+\section{Lien avec les systèmes d'équations linéaires}
+\label{sec:revision:syseq}
+
+L'application de loin la plus fréquente des matrices est la
+représentation et la résolution de systèmes d'équations linéaires.
+Soit le système à trois équations et trois inconnues
+\begin{align*}
+  a_{11} x_1 + a_{12} x_2 + a_{13} x_3 &= b_1 \\
+  a_{21} x_1 + a_{22} x_2 + a_{23} x_3 &= b_2 \\
+  a_{31} x_1 + a_{32} x_2 + a_{33} x_3 &= b_3.
+\end{align*}
+On peut représenter ce système sous la forme d'une équation
+matricielle avec
+\begin{gather*}
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} \\
+    a_{21} & a_{22} & a_{23} \\
+    a_{31} & a_{32} & a_{33}
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_1 \\ x_2 \\ x_3
+  \end{bmatrix} =
+  \begin{bmatrix}
+    b_1 \\ b_2 \\ b_3
+  \end{bmatrix}, \\
+  \intertext{soit}
+  \mat{A x} = \mat{b},
+\end{gather*}
+avec les définitions évidentes pour $\mat{A}$, $\mat{x}$ et $\mat{b}$.
+
+Tout système d'équations linéaires comporte ou bien une seule
+solution, ou bien aucune solution, ou bien une infinité de solutions.
+La \autoref{fig:revision:solutions} illustre ces trois possibilités
+pour un système à deux équations et deux inconnues, de même que pour
+un système à trois équations et trois inconnues.
+
+\begin{rem}
+  Un système avec plus d'inconnues qu'il n'y a d'équations ($m < n$)
+  ne peut avoir qu'aucune ou une infinité de solutions. (Il est, par
+  exemple, impossible d'avoir un seul point commun entre deux plans.)
+\end{rem}
+
+\SweaveOpts{width=3,height=3}
+
+\begin{figure}[t]
+  \centering
+  (a) \quad
+  \begin{minipage}[c]{0.4\linewidth}
+<<echo=FALSE, fig=TRUE, width=5, height=3>>=
+par(mar = c(2, 2, 1, 1))
+f <- function(x) 2 * x + 2
+g <- function(x) -3 * x + 12
+curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
+curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
+@
+  \end{minipage}
+  \begin{minipage}[c]{0.4\linewidth}
+    \scalebox{1.5}{\includegraphics{unique_3d}}
+  \end{minipage}
+  \newline
+  (b) \quad
+  \begin{minipage}[c]{0.4\linewidth}
+<<echo=FALSE, fig=TRUE, width=5, height=3>>=
+par(mar = c(2, 2, 1, 1))
+f <- function(x) 2 * x + 2
+g <- function(x) 2 * x + 4
+curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
+curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
+@
+  \end{minipage}
+  \begin{minipage}[c]{0.4\linewidth}
+    \scalebox{1.5}{\includegraphics{aucune_3d}}
+  \end{minipage}
+  \newline
+  (c) \quad
+  \begin{minipage}[c]{0.4\linewidth}
+<<echo=FALSE, fig=TRUE, width=5, height=3>>=
+par(mar = c(2, 2, 1, 1))
+f <- function(x) 2 * x + 2
+g <- function(x) 2 * x + 2.07
+curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
+curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
+@
+  \end{minipage}
+  \begin{minipage}[c]{0.4\linewidth}
+    \scalebox{1.5}{\includegraphics{infinite_3d}}
+  \end{minipage}
+  \newline
+  \caption{Solutions possibles de systèmes d'équations linéaires à
+    deux et trois variables: (a) une seule solution;(b) aucune
+    solution; (c) infinité de solutions.}
+  \label{fig:revision:solutions}
+\end{figure}
+
+
+\subsection{Résolution d'un système d'équations linéaires}
+
+De manière plus compacte et appropriée pour l'élimination gaussienne
+(voir plus bas), le système d'équation $\mat{Ax} = \mat{b}$ peut aussi
+être représenté sous forme d'une \emph{matrice augmentée}
+\begin{equation*}
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & b_1 \\
+    a_{21} & a_{22} & a_{23} & b_2 \\
+    a_{31} & a_{32} & a_{33} & b_3
+  \end{bmatrix}.
+\end{equation*}
+
+Pour résoudre un système d'équations linéaires, on remplace
+généralement le système donné par un autre système équivalent, mais
+plus simple à résoudre. Ce nouveau système est obtenu par diverses
+opérations:
+\begin{enumerate}
+\item multiplication d'une équation par une constante;
+\item échange de deux équations;
+\item addition d'un multiple d'une équation à une autre.
+\end{enumerate}
+
+Puisque les lignes d'une matrice augmentée correspondent aux équations
+d'un système d'équations, les opérations ci-dessus se traduisent
+naturellement en opérations sur les lignes de la matrice augmentée:
+\begin{enumerate}
+\item multiplication d'une ligne par une constante;
+\item échange de deux lignes;
+\item addition d'un multiple d'une ligne à une autre.
+\end{enumerate}
+Ces opérations sont appelées \emph{opérations élémentaires sur les lignes}.
+
+\begin{exemple}
+  \label{ex:revision:gaussienne}
+  Soit le système d'équations
+  \begin{align*}
+     x +  y + 2z &= 9 \\
+    2x + 4y - 3z &= 1 \\
+    3x + 6y - 5z &= 0.
+  \end{align*}
+  La procédure de résolution classique du système d'équations se
+  trouve dans la colonne de gauche, alors que la procédure utilisant
+  la matrice augmentée se trouve dans la colonne de droite.
+  \begin{adjustwidth}{\parindent}{\parindent}
+    \begin{minipage}[t]{0.48\linewidth}
+      Système d'équations original:
+      \begin{align*}
+        x +  y + 2z &= 9 \\
+        2x + 4y - 3z &= 1 \\
+        3x + 6y - 5z &= 0.
+      \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+      Matrice augmentée originale:
+      \begin{align*}
+        \begin{bmatrix}
+          1 & 1 &  2 & 9 \\
+          2 & 4 & -3 & 1 \\
+          3 & 6 & -5 & 0
+        \end{bmatrix}
+      \end{align*}
+    \end{minipage} \\[12pt]
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-2$ fois la première équation à la seconde et $-3$
+      fois la première à la troisième:
+      \begin{align*}
+        x +  y +  2z &=   9 \\
+            2y -  7z &= -17 \\
+            3y - 11z &= -27.
+      \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-2$ fois la première ligne à la seconde et $-3$
+      fois la première à la troisième:
+      \begin{align*}
+        \begin{bmatrix}
+          1 & 1 &   2 & 9 \\
+          0 & 2 &  -7 & -17 \\
+          0 & 3 & -11 & -27
+        \end{bmatrix}
+      \end{align*}
+    \end{minipage} \\[12pt]
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-\frac{3}{2}$ fois la seconde équation à la
+      troisième:
+      \begin{align*}
+        x +  y +  2z &=   9 \\
+            2y -  7z &= -17 \\
+      - \frac{1}{2}z &= -\frac{3}{2}.
+      \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-\frac{3}{2}$ fois la seconde ligne à la troisième:
+      \begin{align*}
+        \begin{bmatrix}
+          1 & 1 &   2 & 9 \\
+          0 & 2 &  -7 & -17 \\
+          0 & 0 & -\frac{1}{2} & -\frac{3}{2}
+        \end{bmatrix}
+      \end{align*}
+    \end{minipage} \\[12pt]
+  \end{adjustwidth}
+
+  À cette étape on peut déjà résoudre facilement le système
+  d'équations par substitution successive: la troisième équation nous
+  donne $z = 3$, la seconde $2y - 7(3) = -17 \Rightarrow y = 2$ et la
+  première, $x + 2 + 2(3) = 9 \Rightarrow x = 1$.
+
+  On peut aussi continuer les opérations élémentaires jusqu'à obtenir
+  un système trivial.
+
+  \begin{adjustwidth}{\parindent}{\parindent}
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-14$ fois la troisième équation à la seconde et $4$
+      fois la troisième à la première:
+      \begin{align*}
+        x +  y  &=  3 \\
+             2y &= 4 \\
+          -\frac{1}{2}z &= -\frac{3}{2}.
+      \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-14$ fois la troisième ligne à la seconde et $4$
+      fois la troisième à la première:
+      \begin{align*}
+        \begin{bmatrix}
+          1 & 1 &  0 & 3 \\
+          0 & 2 &  0 & 4 \\
+          0 & 0 & -\frac{1}{2} & -\frac{3}{2}
+        \end{bmatrix}
+      \end{align*}
+    \end{minipage} \\[12pt]
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-\frac{1}{2}$ fois la seconde équation à la première:
+      \begin{align*}
+        x &=  1 \\
+       2y &= 4 \\
+       -\frac{1}{2}z &= -\frac{3}{2}.
+      \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+      Additionner $-\frac{1}{2}$ fois la seconde ligne à la première:
+      \begin{align*}
+        \begin{bmatrix}
+          1 & 0 &  0 & 1 \\
+          0 & 2 &  0 & 4 \\
+          0 & 0 & -\frac{1}{2} & -\frac{3}{2}
+        \end{bmatrix}
+      \end{align*}
+    \end{minipage}
+  \end{adjustwidth}
+  On obtient la même réponse que ci-dessus avec ce dernier système
+  d'équations.
+  \qed
+\end{exemple}
+
+
+\subsection{Élimination gaussienne}
+
+La procédure suivie pour résoudre le système d'équations de
+l'\autoref{ex:revision:gaussienne} s'apparente à l'\emph{élimination
+  gaussienne}. Plus précisément, l'élimination gaussienne consiste à
+appliquer des opérations élémentaires à la matrice augmentée
+correspondant à un système d'équations linéaires jusqu'à ce que la
+partie gauche de celle-ci se trouve sous forme \emph{échelonnée},
+c'est-à-dire:
+\begin{enumerate}
+\item si une ligne n'est pas constituée uniquement de zéros, alors le
+  premier élément non nul de cette ligne est un 1;
+\item les lignes composées uniquement de zéros sont groupées au bas de
+  la matrice;
+\item pour toutes les lignes adjacentes non composées uniquement de
+  zéros, le premier 1 suivant des zéros apparaît plus à droite dans la
+  ligne du dessous.
+\end{enumerate}
+
+\begin{exemple}
+  Les matrices suivantes sont échelonnées (le symbole $*$ représente
+  un nombre quelconque):
+  \begin{gather*}
+    \begin{bmatrix}
+      1 & * & * & * \\
+      0 & 1 & * & * \\
+      0 & 0 & 1 & * \\
+      0 & 0 & 0 & 1
+    \end{bmatrix}, \quad
+    \begin{bmatrix}
+      1 & * & * & * \\
+      0 & 1 & * & * \\
+      0 & 0 & 1 & * \\
+      0 & 0 & 0 & 0
+    \end{bmatrix}, \quad
+    \begin{bmatrix}
+      1 & * & * & * \\
+      0 & 1 & * & * \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0
+    \end{bmatrix}, \quad
+    \begin{bmatrix}
+      1 & * & * & * & * \\
+      0 & 1 & * & * & * \\
+      0 & 0 & 0 & 1 & * \\
+      0 & 0 & 0 & 0 & 0
+    \end{bmatrix}.
+  \end{gather*} \qed
+\end{exemple}
+
+Si on ajoute l'exigence que le premier 1 suivant des zéros d'une
+colonne ne soit lui-même suivi que de zéros, alors la matrice est
+résultante est sous forme \emph{échelonnée réduite}. La procédure de
+résolution du système d'équations linéaires est alors appelée
+\emph{élimination de Gauss--Jordan}.
+
+\begin{exemple}
+  Les matrices suivantes sont sous forme échelonnée réduite:
+  \begin{gather*}
+    \begin{bmatrix}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1
+    \end{bmatrix}, \quad
+    \begin{bmatrix}
+      1 & 0 & 0 & * \\
+      0 & 1 & 0 & * \\
+      0 & 0 & 1 & * \\
+      0 & 0 & 0 & 0
+    \end{bmatrix}, \quad
+    \begin{bmatrix}
+      1 & 0 & * & * \\
+      0 & 1 & * & * \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0
+    \end{bmatrix}, \quad
+    \begin{bmatrix}
+      1 & 0 & * & 0 & * \\
+      0 & 1 & * & 0 & * \\
+      0 & 0 & 0 & 1 & * \\
+      0 & 0 & 0 & 0 & 0
+    \end{bmatrix}.
+  \end{gather*} \qed
+\end{exemple}
+
+\begin{exemple}
+  La matrice échelonnée réduite d'un système d'équations linéaires est
+  la suivante:
+  \begin{equation*}
+    \begin{bmatrix}
+      1 & 0 & 0 & 4 & -1 \\
+      0 & 1 & 0 & 2 &  6 \\
+      0 & 0 & 1 & 3 &  2
+    \end{bmatrix}.
+  \end{equation*}
+  Le système d'équations compte plus d'inconnues que d'équations. On
+  sait donc qu'il aura une infinité de solutions. Le système
+  correspondant à la matrice échelonnée réduite est
+  \begin{align*}
+    x_1 + 4 x_4 &= -1 \\
+    x_2 + 2 x_4 &= 6 \\
+    x_3 + 3 x_4 &= 2,
+  \end{align*}
+  soit
+  \begin{align*}
+    x_1 &= -1 - 4 x_4 \\
+    x_2 &= 6 - 2 x_4 \\
+    x_3 &= 2 - 3 x_4.
+  \end{align*}
+  Afin d'exprimer l'ensemble de solutions, on a recours à une (ou
+  plusieurs, le cas échéant) \emph{variable libre} égale à une valeur
+  quelconque. Ici, on choisira tout naturellement de poser $x_4 =
+  t$. Ainsi, on a la solution générale
+  \begin{align*}
+    x_1 &= -1 - 4 t, &
+    x_2 &= 6 - 2 t, &
+    x_3 &= 2 - 3 t, &
+    x_4 &= t.
+  \end{align*}
+  \qed
+\end{exemple}
+
+L'élimination gaussienne et l'élimination de Gauss--Jordan se prêtent
+bien à la mise en oeuvre informatique de méthodes de résolution de
+grands systèmes d'équations linéaires. Un algorithme efficace prendra
+toutefois soin de minimiser les erreurs d'arrondi ainsi que le nombre
+d'opérations. Nous étudierons au \autoref{chap:decomposition} la
+méthode la plus souvent retenue pour résoudre les systèmes d'équations
+linéaires.
+
+
+\subsection{Matrices élémentaires}
+
+Les opérations élémentaires réalisées sur une matrice peuvent être
+représentées comme un produit entre une \emph{matrice élémentaire} et
+la matrice (dans cet ordre). Une matrice élémentaire $n \times n$ est
+le résultat d'une --- et une seule --- opération sur les lignes de la
+matrice identité $\mat{I}_n$.
+
+Par exemple, soit la matrice
+\begin{equation*}
+  \mat{A} =
+  \begin{bmatrix}
+    1 & 2 \\
+    3 & 4
+  \end{bmatrix}.
+\end{equation*}
+Pour intervertir les deux lignes de $\mat{A}$, on peut faire le
+produit
+\begin{equation*}
+  \begin{bmatrix}
+    0 & 1 \\
+    1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & 2 \\
+    3 & 4
+  \end{bmatrix} =
+  \begin{bmatrix}
+    3 & 4 \\
+    1 & 2
+  \end{bmatrix}.
+\end{equation*}
+Pour additionner à la première ligne 2 fois la seconde, on peut faire
+le produit
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2 \\
+    0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & 2 \\
+    3 & 4
+  \end{bmatrix} =
+  \begin{bmatrix}
+    7 & 10 \\
+    3 & 4
+  \end{bmatrix}.
+\end{equation*}
+Les matrices les plus à gauche dans les produits ci-dessus sont des
+matrices élémentaires.
+
+Les matrices élémentaires sont généralement notées $\mat{E}$. Leur
+principale propriété est formalisée dans le théorème suivant.
+
+\begin{thm}
+  Soit $\mat{E}$ une matrice obtenue en faisant une opération sur les
+  lignes de la matrice identité. Alors $\mat{E} \mat{A}$ est la
+  matrice obtenue en faisant la même opération sur la matrice
+  $\mat{A}$.
+\end{thm}
+
+\begin{exemple}
+  On exprime la solution de l'\autoref{ex:revision:gaussienne} à
+  l'aide de matrices élémentaires. À chaque opération sur les lignes
+  de la matrice augmentée correspond une matrice élémentaire.
+  \begin{enumerate}
+  \item Additionner $-2$ fois la première ligne à la seconde:
+    \begin{equation*}
+      \mat{E}_1 =
+      \begin{bmatrix}
+        1 & 0 & 0 \\
+        -2 & 1 & 0 \\
+        0 & 0 & 1
+      \end{bmatrix}.
+    \end{equation*}
+  \item Additionner $-3$ fois la première ligne à la troisième:
+    \begin{equation*}
+      \mat{E}_2 =
+      \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        -3 & 0 & 1
+      \end{bmatrix}.
+    \end{equation*}
+  \item Additionner $-\frac{3}{2}$ fois la seconde ligne à la
+    troisième:
+    \begin{equation*}
+      \mat{E}_3 =
+      \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & -\frac{3}{2} & 1
+      \end{bmatrix}.
+    \end{equation*}
+  \end{enumerate}
+  Il est laissé en exercice de vérifier que
+  \begin{equation*}
+    \mat{E}_3 \mat{E}_2 \mat{E}_1
+    \begin{bmatrix}
+      1 & 1 &  2 & 9 \\
+      2 & 4 & -3 & 1 \\
+      3 & 6 & -5 & 0
+    \end{bmatrix} =
+    \begin{bmatrix}
+      1 & 1 &   2 & 9 \\
+      0 & 2 &  -7 & -17 \\
+      0 & 0 & -\frac{1}{2} & -\frac{3}{2}
+    \end{bmatrix}.
+  \end{equation*}
+  \qed
+\end{exemple}
+
+Les matrices élémentaires seront utiles lorsque nous étudierons la
+décomposition $LU$.
+
+
+\subsection{Systèmes d'équations homogènes}
+
+Un système d'équations linéaires est dit \emph{homogène} lorsque
+$\mat{b} = \mat{0}$, c'est-à-dire de la forme
+\begin{align*}
+  a_{11} x_1 + \dots + a_{1n} x_n &= 0 \\
+  a_{21} x_1 + \dots + a_{2n} x_n &= 0 \\
+  &\;\;\vdots \\
+  a_{m1} x_1 + \dots + a_{mn} x_n &= 0.
+\end{align*}
+Tout système d'équations homogène compte au moins une solution, la
+\emph{solution triviale} $x_1 = \dots = x_n = 0$. Par conséquent, de
+tels systèmes peuvent n'admettre que la solution triviale ou une
+infinité de solutions.
+
+\begin{thm}
+  Tout système d'équations homogène composé de plus d'inconnues que
+  d'équations $(m < n)$ a une infinité de solutions.
+\end{thm}
+
+
+
+\section{Lien avec les espaces vectoriels}
+\label{sec:revision:vecteurs}
+
+L'algèbre vectorielle sera peu étudiée dans ce cours, mais il est
+néanmoins utile de mentionner brièvement la relation entre les
+matrices et les espaces vectoriels.
+
+De manière très générale, un \emph{espace vectoriel} est un ensemble
+d'objets pour lequel sont définis un opérateur d'addition et un
+opérateur de produit par un scalaire, tous deux satisfaisant un
+certain nombre de conditions.
+
+\begin{definition}[Espace vectoriel]
+  Soit $V$ un ensemble non vide d'objets. Si les axiomes ci-dessous
+  sont satisfaits pour tous objets $\mat{u}$, $\mat{v}$ et $\mat{w}$
+  de $V$ et tous scalaires $k$ et $l$, alors $V$ est un espace
+  vectoriel.
+  \begin{enumerate}
+  \item Si $\mat{u} \in V$ et $\mat{v} \in V$, alors $\mat{u} +
+    \mat{v} \in V$.
+  \item $\mat{u} + \mat{v} = \mat{v} + \mat{u}$
+  \item $\mat{u} + (\mat{v} + \mat{w}) = (\mat{u} + \mat{v}) + \mat{w}$
+  \item Il existe un objet $\mat{0} \in V$ tel que $\mat{u} + \mat{0}
+    = \mat{0} + \mat{u} = \mat{u}$ pour tout $\mat{u} \in V$.
+  \item Pour tout $\mat{u} \in V$, il existe un objet $-\mat{u}$ tel
+    que $\mat{u} + (-\mat{u}) = (-\mat{u}) + \mat{u} = \mat{0}$.
+  \item Si $k$ est un scalaire et $\mat{u} \in V$, alors $k \mat{u}
+    \in V$.
+  \item $k(\mat{u} + \mat{v}) = k \mat{u} + k \mat{v}$
+  \item $(k + l) \mat{u} = k \mat{u} + l \mat{u}$
+  \item $k (l \mat{u}) = (kl) \mat{u}$
+  \item $1 \mat{u} = \mat{u}$
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Produit scalaire]
+  Soit $\mat{u}$, $\mat{v}$ et $\mat{w}$ des éléments d'un espace
+  vectoriel $V$ et $k$, un scalaire. Un produit scalaire dans $V$ est
+  une fonction $\pscal{\mat{u}}{\mat{v}}$ associant un nombre réel aux
+  éléments $\mat{u}$ et $\mat{v}$ de $V$ et respectant les axiomes
+  suivants:
+  \begin{enumerate}
+  \item $\pscal{\mat{u}}{\mat{v}} = \pscal{\mat{v}}{\mat{u}}$
+    (symétrie)
+  \item $\pscal{\mat{u} + \mat{v}}{\mat{w}} = \pscal{\mat{u}}{\mat{w}}
+    + \pscal{\mat{v}}{\mat{w}}$ (distributivité)
+  \item $\pscal{k \mat{u}}{\mat{v}} = k \pscal{\mat{u}}{\mat{v}}$
+  \item $\pscal{\mat{v}}{\mat{v}} \geq 0$ et $\pscal{\mat{v}}{\mat{v}}
+    = 0$ si, et seulement si, $\mat{v} = 0$.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Norme]
+  La norme (longueur) d'un vecteur $\mat{u}$, notée $\| \mat{u} \|$,
+  est la racine carrée du produit scalaire du vecteur avec lui-même:
+  \begin{equation*}
+    \| \mat{u} \| = \sqrt{\pscal{\mat{u}}{\mat{u}}}.
+  \end{equation*}
+\end{definition}
+
+\begin{definition}[Espace pré-hilbertien]
+  Un espace pré-hilbertien (\emph{inner product space}) est un espace
+  vectoriel muni d'un produit scalaire.
+\end{definition}
+
+\begin{definition}[Orthogonalité]
+  Deux éléments $\mat{u}$ et $\mat{v}$ d'un espace pré-hilbertien sont
+  orthogonaux si $\pscal{\mat{u}}{\mat{v}} = 0$.
+\end{definition}
+
+\begin{exemple}
+  L'espace euclidien $\mathbb{R}^n$ est un espace pré-hilbertien pour
+  lequel l'addition et le produit par un scalaire sont respectivement
+  définis par
+  \begin{align*}
+    \mat{u} + \mat{v} &= [u_i + v_i] \\
+    \intertext{et}
+    k \mat{v} &= [k v_i],
+  \end{align*}
+  où $\mat{u} = (u_1, \dots, u_n)$ et $\mat{v} = (v_1, \dots, v_n)$
+  sont deux vecteurs et $k$ est une constante. De plus, le produit
+  scalaire dans $\mathbb{R}^n$ est défini ainsi:
+  \begin{equation*}
+    \pscal{\mat{u}}{\mat{v}} = \mat{u}^T \mat{v} = \sum_{i = 1}^n u_i v_i.
+  \end{equation*}
+  Par conséquent, la norme d'un vecteur dans $\mathbb{R}^n$ est la
+  racine carrée de la somme des composantes au carré ou, si l'on préfère:
+  \begin{equation*}
+    \| \mat{u} \|^2 = \sum_{i = 1}^n u_i^2.
+  \end{equation*}
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  L'ensemble des variables aléatoires de second moment fini forme un
+  espace pré-hilbertien communément noté $\mathcal{L}^2$. En effet, la
+  somme $X + Y$ de deux variables aléatoires de second moment fini
+  ainsi que $k X$ sont des variables aléatoires de second moment fini.
+  De plus, le produit scalaire est défini ainsi dans cet espace:
+  \begin{equation*}
+    \pscal{X}{Y} = \esp{XY}.
+  \end{equation*}
+  La notion d'orthogonalité est donc liée à celle d'indépendance
+  stochastique dans cet espace. %
+  \qed
+\end{exemple}
+
+On peut voir la matrice
+\begin{equation*}
+  \mat{A} =
+  \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1m} \\
+    a_{21} & a_{22} & \cdots & a_{2m} \\
+    \vdots & \vdots &      & \vdots \\
+    a_{n1} & a_{n2} & \cdots & a_{nm}
+  \end{bmatrix}
+\end{equation*}
+comme la réunion dans un même objet des coordonnées (dans un espace à
+$n$ dimensions) de $m$ vecteurs $\mat{a}_1, \dots, \mat{a}_m$:
+\begin{equation*}
+  \mat{A} =
+  \begin{bmatrix}
+    \mat{a}_1 & \mat{a}_2 & \cdots & \mat{a}_m
+  \end{bmatrix},
+\end{equation*}
+où $\mat{a}_i = (a_{1i}, \dots, a_{ni})$. Les règles de l'arithmétique
+matricielle nous fournissent donc une arithmétique pour les espaces
+vectoriels.
+
+La principale notion d'algèbre vectorielle qui nous sera utile ici est
+celle d'indépendance linéaire.
+
+Soit $V = \{\mat{v}_1, \dots, \mat{v}_n\}$ un ensemble de vecteurs non
+nuls. Si la seule solution de l'équation vectorielle
+\begin{equation*}
+  k_1 \mat{v}_1 + \dots + k_n \mat{v}_n = \mat{0}
+\end{equation*}
+est la solution triviale $k_1 = 0, \dots, k_n = 0$, alors $V$ est un
+ensemble \emph{linéairement indépendant}. S'il existe une autre
+solution que la solution triviale à l'équation, alors $V$ est un
+ensemble \emph{linéairement dépendant}.
+
+Lorsque $V = \{\mat{v}_1, \dots, \mat{v}_n\}$ est un ensemble de
+vecteurs linéairement indépendants, on dit que $V$ forme une
+\emph{base} pour l'espace vectoriel.
+
+\begin{exemple}
+  Soit $\mat{v}_1 = (2, -1, 0, 3)$, $\mat{v}_2 = (1, 2, 5, -1)$ et
+  $\mat{v}_3 = (7, -1, 5, 8)$. Ces trois vecteurs sont linéairement
+  dépendants puisque $3 \mat{v}_1 + \mat{v}_2 - \mat{v}_3 = \mat{0}$.
+  Ils ne peuvent donc pas servir de base pour $\mathbb{R}^4$.
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  Les vecteurs $\mat{i} = (1, 0, 0)$, $\mat{j} = (0, 1, 0)$ et
+  $\mat{k} = (0, 0, 1)$ sont linéairement indépendants puisque
+  \begin{align*}
+    k_1 \mat{i} + k_2 \mat{j} + k_3 \mat{k}
+    &= (k_1, 0, 0) + (0, k_2, 0) + (0, 0, k_3) \\
+    &= (k_1, k_2, k_3) \\
+    &= (0, 0, 0)
+  \end{align*}
+  seulement si $k_1 = k_2 = k_3 = 0$. Ces vecteurs forment une base
+  pour l'espace $\mathbb{R}^3$.
+  \qed
+\end{exemple}
+
+Pour établir le lien entre l'indépendance linéaire et les matrices,
+supposons un ensemble de trois vecteurs $V = \{\mat{v}_1, \mat{v}_2,
+\mat{v}_3\}$, où $\mat{v}_i = (v_{1i}, v_{2i}, v_{3i})$. Les vecteurs
+sont linéairement indépendants si
+\begin{equation*}
+  k_1 \mat{v}_1 + k_2 \mat{v}_2 + k_3 \mat{v}_3 = \mat{0},
+\end{equation*}
+soit
+\begin{equation*}
+  k_1 (v_{11}, v_{21}, v_{31}) +
+  k_2 (v_{12}, v_{22}, v_{32}) +
+  k_3 (v_{13}, v_{23}, v_{33})
+  = (0, 0, 0)
+\end{equation*}
+ou
+\begin{equation*}
+  (k_1 v_{11} + k_2 v_{12} + k_3 v_{13},
+   k_1 v_{21} + k_2 v_{22} + k_3 v_{23},
+   k_1 v_{31} + k_2 v_{32} + k_3 v_{33})
+  = (0, 0, 0) \\
+\end{equation*}
+ou encore, exprimé sous forme matricielle,
+\begin{equation*}
+  \begin{bmatrix}
+    v_{11} & v_{12} & v_{13} \\
+    v_{21} & v_{22} & v_{23} \\
+    v_{31} & v_{32} & v_{33}
+  \end{bmatrix}
+  \begin{bmatrix}
+    k_1 \\ k_2 \\ k_3
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    0 \\ 0 \\ 0
+  \end{bmatrix}.
+\end{equation*}
+Ainsi, un ensemble de vecteurs est linéairement indépendant si la
+seule solution de l'équation homogène $\mat{Ax} = \mat{0}$, où les
+colonnes de $\mat{A}$ sont formées des coordonnées des vecteurs, est
+la solution triviale.
+
+
+
+\section{Inverse d'une matrice}
+\label{sec:revision:inverse}
+
+En arithmétique usuelle, l'inverse d'un nombre $x$ est le nombre $y$
+tel que $x y = 1$. Par habitude, nous écrivons simplement $y = 1/x$ ou
+$y = x^{-1}$. L'inverse d'une matrice est définie de manière
+similaire, sauf que l'opérateur de division n'existe pas en
+arithmétique matricielle. On prendra donc garde de ne \emph{jamais}
+écrire une telle abomination:
+\begin{equation*}
+  \mat{AB} = \mat{C} \Rightarrow \mat{A} = \frac{\mat{C}}{\mat{B}}.
+\end{equation*}
+Si l'on veut isoler la matrice $\mat{A}$ dans l'équation $\mat{AB} =
+\mat{C}$, on ne peut que multiplier de part et d'autre par la matrice
+inverse de $\mat{B}$.
+
+\begin{definition}[Inverse d'une matrice]
+  Soit $\mat{A}$ une matrice carrée. S'il existe une matrice $\mat{B}$
+  tel que
+  \begin{equation*}
+    \mat{AB} = \mat{BA} = \mat{I},
+  \end{equation*}
+  alors $\mat{A}$ est inversible, $\mat{B}$ est la matrice inverse ---
+  ou simplement inverse --- de $\mat{A}$ et cette dernière est notée
+  $\mat{A}^{-1}$. S'il n'existe pas de matrice $\mat{B}$ satisfaisant
+  l'égalité ci-dessus, alors $\mat{A}$ est dite singulière ou
+  non-inversible.
+\end{definition}
+
+\begin{exemple}
+  Soit l'équation $\mat{AB} = \mat{C}$. Pour isoler $\mat{A}$, il faut
+  multiplier de part et d'autre de l'égalité par
+  $\mat{B}^{-1}$. Attention, cependant: le produit matriciel n'étant
+  pas commutatif, le produit doit se faire par la droite:
+  \begin{equation*}
+    (\mat{AB}) \mat{B}^{-1} = \mat{C} \mat{B}^{-1} \Leftrightarrow
+    \mat{A} (\mat{B} \mat{B}^{-1}) = \mat{C} \mat{B}^{-1} \Leftrightarrow
+    \mat{A} = \mat{C} \mat{B}^{-1}.
+  \end{equation*}
+  Pour isoler $\mat{B}$, on devra multiplier de part et d'autre de
+  l'égalité par $\mat{A}^{-1}$, mais cette fois par la gauche:
+  \begin{equation*}
+    \mat{A}^{-1} (\mat{AB}) = \mat{A}^{-1} \mat{C} \Leftrightarrow
+    (\mat{A}^{-1} \mat{A}) \mat{B} = \mat{A}^{-1} \mat{C} \Leftrightarrow
+    \mat{B} = \mat{A}^{-1} \mat{C}.
+  \end{equation*}
+  \qed
+\end{exemple}
+
+\begin{thm}
+  \label{thm:revision:inverse}
+  Soit $\mat{A}$ et $\mat{B}$ des matrices inversibles de mêmes
+  dimensions. Alors on a les résultats suivants.
+  \begin{enumerate}
+  \item $(\mat{AB})^{-1} = \mat{B}^{-1} \mat{A}^{-1}$
+  \item $(\mat{A}^{-1})^T = (\mat{A}^T)^{-1}$
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  Pour le premier résultat, on doit vérifier que
+  $(\mat{AB})(\mat{AB})^{-1} = \mat{I}$. Or,
+  \begin{align*}
+    (\mat{AB})(\mat{AB})^{-1}
+    &= (\mat{AB})\mat{B}^{-1} \mat{A}^{-1} \\
+    &= \mat{A} (\mat{B}\mat{B}^{-1}) \mat{A}^{-1} \\
+    &= \mat{A} \mat{I} \mat{A}^{-1} \\
+    &= \mat{A} \mat{A}^{-1} \\
+    &= \mat{I}.
+  \end{align*}
+  Pour le second résultat, il faut démontrer que $(\mat{A}^{-1})^T
+  \mat{A}^T = \mat{A}^T (\mat{A}^{-1})^T = \mat{I}$. Or, par le
+  résultat 4 du \autoref{thm:revision:transposee}
+  (\autopageref{thm:revision:transposee}),
+  \begin{gather*}
+    (\mat{A}^{-1})^T \mat{A}^T =
+    (\mat{A} \mat{A}^{-1})^T =
+    \mat{I}^T = \mat{I} \\
+    \intertext{et}
+    \mat{A}^T (\mat{A}^{-1})^T =
+    (\mat{A}^{-1} \mat{A})^T =
+    \mat{I}^T = \mat{I},
+  \end{gather*}
+  puisque la matrice identité est symétrique.
+\end{proof}
+
+On a également le résultat suivant, utile lorsque l'on travaille avec
+les matrices élémentaires.
+
+\begin{thm}
+  \label{thm:revision:matrices_elementaires}
+  Toute matrice élémentaire est inversible et son inverse est aussi
+  une matrice élémentaire.
+\end{thm}
+
+
+\subsection{Calcul de l'inverse}
+
+La manière la plus usuelle de calculer l'inverse d'une matrice repose
+sur l'utilisation du déterminant, qui sera présenté à la
+\autoref{sec:revision:determinant}. D'ici là, on peut également
+calculer l'inverse d'une matrice par une méthode similaire à
+l'élimination de Gauss--Jordan.
+
+On peut en effet démontrer (et ce fait sera confirmé dans le \autoref{thm:revision:unification}) que si la matrice $\mat{A}$ est
+inversible, alors on peut trouver des matrices élémentaires
+$\mat{E}_1, \dots, \mat{E}_k$ tel que
+\begin{equation*}
+  \mat{E}_k \cdots \mat{E}_1 \mat{A} = \mat{I}.
+\end{equation*}
+Par conséquent,
+\begin{equation*}
+  \mat{A}^{-1} = \mat{E}_k \cdots \mat{E}_1 \mat{I},
+\end{equation*}
+ce qui signifie que l'on peut obtenir l'inverse de $\mat{A}$ en
+appliquant aux lignes de la matrice identité les opérations
+élémentaires nécessaires pour convertir $\mat{A}$ en la matrice
+identité.
+
+\begin{exemple}
+  \label{ex:revision:inverse_par_op_elementaires}
+  Soit la matrice
+  \begin{equation*}
+    \mat{A} =
+    \begin{bmatrix}
+      1 & 2 & 3 \\
+      2 & 5 & 3 \\
+      1 & 0 & 8
+    \end{bmatrix}.
+  \end{equation*}
+  L'idée pour calculer l'inverse de cette matrice consiste à convertir
+  $\mat{A}$ en la matrice identité par une suite d'opérations
+  élémentaires et à appliquer simultanément ces opérations à la
+  matrice identité. Pour ce faire, on joint côte à côte les matrices
+  $\mat{A}$ et $\mat{I}$ dans une nouvelle matrice
+  \begin{equation*}
+    \setlength{\arraycolsep}{0.5em}
+    [\mat{A} | \mat{I}] =
+    \left[
+      \begin{array}{rrr|rrr}
+        1 & 2 & 3 &  1 & 0 & 0 \\
+        2 & 5 & 3 &  0 & 1 & 0 \\
+        1 & 0 & 8 &  0 & 0 & 1 \\
+      \end{array}
+    \right].
+  \end{equation*}
+  Suite aux opérations élémentaires, on obtiendra
+  \begin{equation*}
+    [\mat{I} | \mat{A}^{-1}].
+  \end{equation*}
+  La procédure est la suivante:
+  \begin{enumerate}
+  \item Additionner $-2$ fois la première ligne à la seconde et $-1$
+    fois à la troisième:
+    \begin{equation*}
+      \setlength{\arraycolsep}{0.5em}
+      \left[
+        \begin{array}{rrr|rrr}
+          1 &  2 &  3 &   1 &  0 &  0 \\
+          0 &  1 & -3 &  -2 &  1 &  0 \\
+          0 & -2 &  5 &  -1 &  0 &  1
+        \end{array}
+      \right]
+    \end{equation*}
+  \item Additionner 2 fois la seconde ligne à la troisième, puis
+    multiplier celle-ci par $-1$:
+    \begin{equation*}
+      \left[
+        \begin{array}{rrr|rrr}
+          1 &  2 &  3 &   1 &  0 &  0 \\
+          0 &  1 & -3 &  -2 &  1 &  0 \\
+          0 &  0 &  1 &   5 & -2 &  -1 \\
+        \end{array}
+      \right].
+    \end{equation*}
+  \item Additionner 3 fois la troisième ligne à la seconde et $-3$
+    fois à la première:
+    \begin{equation*}
+      \left[
+        \begin{array}{rrr|rrr}
+          1 &  2 &  0 &  -14 &  6 &  3 \\
+          0 &  1 &  0 &   13 & -5 & -3 \\
+          0 &  0 &  1 &    5 & -2 & -1 \\
+        \end{array}
+      \right].
+    \end{equation*}
+  \item Additionner $-2$ fois la seconde ligne à la première:
+    \begin{equation*}
+      \left[
+        \begin{array}{rrr|rrr}
+          1 &  0 &  0 &  -40 & 16 &  9 \\
+          0 &  1 &  0 &   13 & -5 & -3 \\
+          0 &  0 &  1 &    5 & -2 & -1 \\
+        \end{array}
+      \right].
+    \end{equation*}
+  \end{enumerate}
+  Par conséquent,
+  \begin{equation*}
+    \mat{A}^{-1} =
+    \begin{bmatrix}
+      -40 & 16 &  9 \\
+       13 & -5 & -3 \\
+        5 & -2 & -1
+    \end{bmatrix}.
+  \end{equation*}
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  Soit la matrice
+  \begin{equation*}
+    \mat{A} =
+    \begin{bmatrix}
+       1 & 6 &  4 \\
+       2 & 4 & -1 \\
+      -1 & 2 &  5
+    \end{bmatrix}.
+  \end{equation*}
+  Il est laissé en exercice de vérifier que la procédure d'élimination
+  pour les deuxième et troisième lignes donne
+  \begin{equation*}
+    \left[
+      \begin{array}{rrr|rrr}
+        1 &  6 &  4 &  1 &  0 &  0 \\
+        0 & -8 &  9 & -2 &  1 &  0 \\
+        0 &  0 &  0 & -1 &  1 &  1 \\
+      \end{array}
+    \right].
+  \end{equation*}
+  Comme on obtient une ligne complète de zéros du côté gauche, la
+  matrice est singulière.
+  \qed
+\end{exemple}
+
+\subsection{Résolution de systèmes d'équations par l'inverse}
+
+Outre l'élimination gaussienne et l'élimination de Gauss--Jordan, les
+systèmes d'équations linéaires de la forme $\mat{Ax} = \mat{b}$
+peuvent être résolus avec l'inverse de $\mat{A}$, lorsqu'elle existe.
+
+\begin{thm}
+  \label{thm:revision:sol.inverse}
+  Si la matrice $\mat{A}$ est inversible, alors le système d'équations
+  linéaires $\mat{Ax} = \mat{b}$ a une solution unique et celle-ci est
+  donnée par
+  \begin{equation*}
+    \mat{x} = \mat{A}^{-1} \mat{b}.
+  \end{equation*}
+\end{thm}
+
+Ce résultat ne peut évidemment être utilisé que lorsque le système
+d'équations compte autant d'inconnues que d'équations, c'est-à-dire
+lorsque la matrice $\mat{A}$ est carrée.  Dans le cas contraire, il
+faut utiliser les méthodes d'élimination pour trouver la solution du
+système d'équations.
+
+
+
+\section{Déterminant}
+\label{sec:revision:determinant}
+
+La fonction déterminant, notée $\det(\cdot)$, associe un nombre réel à
+une matrice carrée $\mat{A}$.
+
+Il y a différentes façons de présenter le déterminant, nous ne
+retiendrons que celle basée sur les cofacteurs. Pour ce faire, on
+définit tout d'abord le déterminant d'une matrice $2 \times 2$, ainsi
+que son inverse. La justification de ce second résultat viendra plus
+loin.
+
+\begin{thm}
+  \label{thm:revision:det.2x2}
+  Soit $\mat{A} = \bigl( \begin{smallmatrix} a&b \\ c&d
+  \end{smallmatrix} \bigr)$. Alors
+  \begin{align*}
+    \det(\mat{A})
+    &=
+    \begin{vmatrix}
+      a & b \\ c & d
+    \end{vmatrix} = ad - bc \\
+    \intertext{et}
+    \mat{A}^{-1}
+    &= \frac{1}{ad - bc}
+    \begin{bmatrix}
+      d & -b \\ -c & a
+    \end{bmatrix}.
+  \end{align*}
+\end{thm}
+
+Soit $\mat{A} = [a_{ij}]_{n \times n}$ une matrice carrée. Le
+\emph{mineur de l'élément $a_{ij}$}, noté $M_{ij}$, est le déterminant
+de la sous-matrice résultante après avoir éliminé la ligne $i$ et la
+colonne $j$ de la matrice $\mat{A}$. De plus, le \emph{cofacteur de
+  l'élément $a_{ij}$} est $C_{ij} = (-1)^{i + j} M_{ij}$.
+
+\begin{exemple}
+  \label{ex:revision:cofacteur}
+  Soit
+  \begin{equation*}
+    \mat{A} =
+    \begin{bmatrix}
+      3 & 1 & -4 \\
+      2 & 5 &  6 \\
+      1 & 4 &  8
+    \end{bmatrix}.
+  \end{equation*}
+  Une fois la première ligne et la première colonne éliminées de la
+  matrice $\mat{A}$, on a
+  \begin{equation*}
+    M_{11} =
+    \begin{vmatrix}
+      5 & 6 \\ 4 & 8
+    \end{vmatrix} = 16,
+  \end{equation*}
+  d'où $C_{11} = (-1)^2 M_{11} = M_{11} = 16$. De même, après avoir
+  éliminé la troisième ligne et la deuxième colonne, on obtient
+  \begin{equation*}
+    M_{32} =
+    \begin{vmatrix}
+      3 & -4 \\ 2 & 6
+    \end{vmatrix} = 26
+  \end{equation*}
+  et $C_{32} = (-1)^{3+2} M_{32} = - M_{32} = -26$.
+  \qed
+\end{exemple}
+
+Le déterminant d'une matrice $\mat{A}$ est le produit scalaire entre
+les éléments d'une ligne ou d'une colonne quelconque de la matrice et
+les cofacteurs de cette ligne ou colonne.
+
+\begin{thm}
+  \label{thm:revision:determinant}
+  Soit $\mat{A}$ une matrice carrée $n \times n$. Alors, pour tout $1
+  \leq i \leq n$ et $1 \leq j \leq n$,
+  \begin{align*}
+    \det(\mat{A})
+    &= a_{i1} C_{i1} + a_{i2} C_{i2} + \dots + a_{in} C_{in} \\
+    &= \sum_{j = 1}^n a_{ij} C_{ij} \\
+    \intertext{ou}
+    \det(\mat{A})
+    &= a_{1j} C_{1j} + a_{2j} C_{2j} + \dots + a_{nj} C_{nj} \\
+    &= \sum_{i = 1}^n a_{ij} C_{ij}.
+  \end{align*}
+\end{thm}
+
+\begin{exemple}
+  On calcule le déterminant de la matrice de l'\autoref{ex:revision:cofacteur}.  En faisant le calcul à partir de la
+  première ligne, on a
+  \begin{align*}
+    \det(\mat{A})
+    &= 3 (-1)^2 \begin{vmatrix} 5 & 6 \\ 4 & 8 \end{vmatrix}
+    + (-1)^3 \begin{vmatrix} 2 & 6 \\ 1 & 8 \end{vmatrix}
+    + (-4) (-1)^4 \begin{vmatrix} 2 & 5 \\ 1 & 4 \end{vmatrix} \\
+    &= 3 \begin{vmatrix} 5 & 6 \\ 4 & 8 \end{vmatrix}
+    - \begin{vmatrix} 2 & 6 \\ 1 & 8 \end{vmatrix}
+    -4 \begin{vmatrix} 2 & 5 \\ 1 & 4 \end{vmatrix} \\
+    &= 3(16) - 10 - 4(3) \\
+    &= 26.
+  \end{align*}
+  On obtient la même réponse avec un développement selon la deuxième
+  colonne:
+  \begin{align*}
+    \det(\mat{A})
+    &= - \begin{vmatrix} 2 & 6 \\ 1 & 8 \end{vmatrix}
+    + 5 \begin{vmatrix} 3 & -4 \\ 1 & 8 \end{vmatrix}
+    - 4 \begin{vmatrix} 3 & -4 \\ 2 & 6 \end{vmatrix} \\
+    &= -10 + 5(28) - 4(26) \\
+    &= 26.
+  \end{align*}
+  \qed
+\end{exemple}
+
+
+\subsection{Propriétés du déterminant}
+
+Du \autoref{thm:revision:determinant}, il est clair que si une
+matrice contient une ligne ou une colonne complète de zéros, alors son
+déterminant est nul.
+
+De plus, si $\mat{A}$ est une matrice triangulaire (ou diagonale),
+alors son déterminant est égal au produit des éléments de la
+diagonale:
+\begin{equation*}
+  \det(\mat{A}) = \prod_{i=1}^n a_{ii}.
+\end{equation*}
+
+Le théorème suivant énonce quelques autres propriétés de la fonction
+déterminant.
+
+\begin{thm}
+  \label{thm:revision:prop.determinant}
+  Soit $\mat{A}$ une matrice $n \times n$ inversible.
+  \begin{enumerate}
+  \item $\det(\mat{A}^T) = \det(\mat{A})$
+  \item $\det(k\mat{A}) = k^n \det(\mat{A})$
+  \item $\det(\mat{A} + \mat{B}) \neq \det(\mat{A}) + \det(\mat{B})$
+    en général.
+  \item $\det(\mat{A}\mat{B}) = \det(\mat{A}) \det(\mat{B})$
+  \item $\det(\mat{A}^{-1}) = \det(\mat{A})^{-1}$
+  \end{enumerate}
+\end{thm}
+
+
+\subsection{Calcul de l'inverse avec la matrice adjointe}
+
+La manière de loin la plus usuelle de calculer l'inverse d'une matrice
+--- à la main du moins --- est intimement liée aux notions de
+cofacteur et de déterminant.
+
+Avant toute chose, on définit $[C_{ij}]_{n \times n}$, la
+\emph{matrice des cofacteurs} de la matrice $\mat{A}$. La transposée
+de cette matrice des cofacteurs est appelée la \emph{matrice adjointe}
+de $\mat{A}$ et est notée $\mathrm{adj}(\mat{A})$.
+
+\begin{exemple}
+  Il est laissé en exercice de vérifier que la matrice adjointe de la
+  matrice de l'\autoref{ex:revision:cofacteur} est
+  \begin{equation*}
+    \begin{bmatrix}
+       16 & -24 &  26 \\
+      -10 &  28 & -26 \\
+        3 & -11 &  13
+    \end{bmatrix}.
+  \end{equation*}
+  \qed
+\end{exemple}
+
+\begin{thm}
+  \label{thm:revision:inverse.adjointe}
+  Si $\mat{A}$ est une matrice inversible, alors
+  \begin{equation*}
+    \mat{A}^{-1} = \frac{1}{\det(\mat{A})}\, \mathrm{adj}(\mat{A}).
+  \end{equation*}
+\end{thm}
+
+
+
+\section{Rang}
+\label{sec:revision:rang}
+
+Le \emph{rang} d'une matrice $\mat{A}_{m \times n}$ correspond au
+nombre de lignes ou de colonnes linéairement indépendantes dans cette
+matrice. Évidemment,
+\begin{equation*}
+  \mathrm{rang}(\mat{A}) \leq \min(m, n).
+\end{equation*}
+Lorsqu'il y a égalité, on dit de la matrice qu'elle est de rang
+complet.
+
+
+
+\section{Unification des résultats}
+\label{sec:revision:unification}
+
+Le théorème suivant unifie un grand nombre de résultats et de concepts
+présentés dans les sections précédentes. En ce sens, il fait le
+sommaire des plus importants résultats à connaître en algèbre linéaire.
+
+\begin{thm}
+  \label{thm:revision:unification}
+  Soit $\mat{A}$ une matrice $n \times n$. Les énoncés suivants
+  sont équivalents.
+  \begin{enumerate}[widest=10]
+  \item $\mat{A}$ est inversible.
+  \item $\det(\mat{A}) \neq 0$
+  \item $\mathrm{rang}(\mat{A}) = n$
+  \item La seule solution de $\mat{Ax} = \mat{0}$ est la solution
+    triviale.
+  \item Le système d'équations $\mat{Ax} = \mat{b}$ a une solution
+    pour tout vecteur $\mat{b}$ et celle-ci est unique.
+  \item $\mat{A}$ peut être exprimée comme un produit de matrices
+    élémentaires.
+  \item Les vecteurs lignes de $\mat{A}$ sont linéairement
+    indépendants.
+  \item Les vecteurs colonnes de $\mat{A}$ sont linéairement
+    indépendants.
+  \item Les vecteurs lignes de $\mat{A}$ forment une base de $\mathbb{R}^n$.
+  \item Les vecteurs colonnes de $\mat{A}$ forment une base de $\mathbb{R}^n$.
+  \end{enumerate}
+\end{thm}
+
+\begin{gotoR}
+  Le code informatique de la \autoref{sec:revision:code} passe en
+  revue les fonctions d'algèbre linéaire offertes dans R.
+\end{gotoR}
+
+
+
+\section{Code informatique}
+\label{sec:revision:code}
+
+\lstinputlisting[firstline=3]{revision_algebre_lineaire.R}
+
+\vfill
+
+\input{exercices-revision_algebre_lineaire}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "methodes_numeriques-partie_4"
+%%% End:
