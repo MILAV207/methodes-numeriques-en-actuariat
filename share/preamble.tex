@@ -1,0 +1,274 @@
+\documentclass[letterpaper,11pt]{memoir}
+  \usepackage{natbib,url}
+  \usepackage[english,francais]{babel}
+  \usepackage[autolanguage]{numprint}
+  \usepackage{vgmath,actuarialangle,amsmath,amsthm,icomma}
+  \usepackage[noae]{Sweave}
+  \usepackage{paralist}
+  \usepackage[shortlabels]{enumitem}
+  \usepackage{textpos}
+  \usepackage{graphicx,soulutf8}
+  \usepackage{manfnt}                  % \mantriangleright (puce)
+  \usepackage{marvosym}                % \Forward et \ForwardToEnd
+  \usepackage{metalogo}                % \XeLaTeX logo
+  \usepackage{applekeys}               % touches Mac
+  \usepackage{fourier-orns}            % \danger
+  \usepackage{answers,listings}
+  \usepackage{pdfpages}                % couvertures
+  \usepackage{xr}
+
+  %%% =========================
+  %%%  Page titre (sauf titre)
+  %%% =========================
+  \author{%
+    \bfseries\fontsize{16}{20}\selectfont Vincent Goulet \\
+    \mdseries\fontsize{14}{18}\selectfont Professeur titulaire \textbar\
+                                          École d'actuariat \textbar\
+                                          Université Laval}
+  \date{%
+    \mdseries\fontsize{14}{18}\selectfont Notes de cours \textbar\
+                                          Exercices \textemdash\
+                                          édition 2014}
+
+  %%% ===================
+  %%%  Style du document
+  %%% ===================
+
+  %% Polices de caractères
+  \usepackage{fontspec}
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX}
+  \setmainfont[Scale=0.92,Numbers=OldStyle]{Lucida Bright OT}
+  \setmathfont[Scale=0.92]{Lucida Bright Math OT}
+  \setsansfont[Scale=1.0,Numbers=OldStyle]{Myriad Pro}
+  \setmonofont[Scale=0.88]{Bitstream Vera Sans Mono}
+  \newfontfamily\fullcaps[Letters=Uppercase,Numbers=Uppercase]{Myriad Pro}
+  \usepackage{microtype}
+
+  %% Couleurs
+  \usepackage{xcolor}
+  \definecolor{comments}{rgb}{0.7,0,0}
+  \definecolor{shadecolor}{gray}{0}
+  \definecolor{link}{rgb}{0,0.4,0.6}   % ~RoyalBlue de dvips
+  \definecolor{url}{rgb}{0.6,0,0}      % rouge-brun
+  \definecolor{citation}{rgb}{0,0.5,0} % vert foncé
+
+  %% Hyperliens
+  \usepackage{hyperref}
+  \hypersetup{colorlinks, linktocpage,
+    urlcolor=url, linkcolor=link, citecolor=citation,
+    bookmarksopen, bookmarksnumbered, bookmarksdepth=subsubsection,
+    pdfauthor={Vincent Goulet}}
+  \renewcommand{\appendixautorefname}{annexe}
+  \renewcommand{\figureautorefname}{figure}
+  \renewcommand{\tableautorefname}{tableau}
+  \newcommand{\thmautorefname}{théorème}
+  \newcommand{\exempleautorefname}{exemple}
+  \newcommand{\definitionautorefname}{définition}
+  \newcommand{\exerciceautorefname}{exercice}
+
+  %% Table des matières (inspirée de classicthesis.sty)
+  \renewcommand{\cftchapterleader}{\hspace{1.5em}}
+  \renewcommand{\cftchapterafterpnum}{\cftparfillskip}
+  \renewcommand{\cftsectionleader}{\hspace{1.5em}}
+  \renewcommand{\cftsectionafterpnum}{\cftparfillskip}
+
+  %% Titres des chapitres
+  \chapterstyle{hangnum}
+  \renewcommand{\chaptitlefont}{\normalfont\Huge\sffamily\bfseries\raggedright}
+
+  %% Marges, entêtes et pieds de page
+  \setlength{\marginparsep}{7mm}
+  \setlength{\marginparwidth}{13mm}
+  \setlength{\headwidth}{\textwidth}
+  \addtolength{\headwidth}{\marginparsep}
+  \addtolength{\headwidth}{\marginparwidth}
+
+  %% Titres des sections et sous-sections
+  \setsecheadstyle{\normalfont\Large\sffamily\bfseries\raggedright}
+  \setsubsecheadstyle{\normalfont\large\sffamily\bfseries\raggedright}
+  \maxsecnumdepth{subsection}
+  \setsecnumdepth{subsection}
+
+  %% Listes. Paramétrage avec enumitem.
+  \setlist[enumerate]{leftmargin=*,align=left}
+  \setlist[enumerate,2]{label=\alph*),labelsep=*,leftmargin=1.5em}
+  \setlist[enumerate,3]{label=\roman*),labelsep=0.5em,align=right}
+  \setlist[itemize]{leftmargin=*,align=left}
+
+  %% Options de babel
+  \frenchbsetup{CompactItemize=false,%
+    ThinSpaceInFrenchNumbers=true,
+    ItemLabeli=\mantriangleright,
+    ItemLabelii=\textendash}
+  \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
+  \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
+
+  %%% =========================
+  %%%  Nouveaux environnements
+  %%% =========================
+
+  %% Environnements d'exemples et al.
+  \theoremstyle{plain}
+  \newtheorem{algorithme}{Algorithme}[chapter]
+  \newtheorem{thm}{Théorème}[chapter]
+
+  \theoremstyle{definition}
+  \newtheorem{exemple}{Exemple}[chapter]
+  \newtheorem{definition}{Définition}[chapter]
+  \newtheorem*{astuce}{Astuce}
+
+  \theoremstyle{remark}
+  \newtheorem*{remarque}{Remarque}
+  \newtheorem*{remarques}{Remarques}
+  \newenvironment{rem}{\begin{remarque} \mbox{}}{\end{remarque}}
+  \newenvironment{rems}{\begin{remarques} \mbox{}}{\end{remarques}}
+
+  %% Listes d'objectifs au début des chapitres
+  \newenvironment{objectifs}{%
+    \noindent
+    \begin{framed}
+      \vspace{-1.33\baselineskip}
+      \begin{shaded}
+        \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
+      \end{shaded}
+      \vspace{-0.6\baselineskip}
+      \begin{itemize}[nosep]
+        \small\sffamily}
+      {\end{itemize}
+    \end{framed}}
+
+  %% Environnements de Sweave
+  \DefineVerbatimEnvironment{Sinput}{Verbatim}{xleftmargin=\parindent}
+  \DefineVerbatimEnvironment{Soutput}{Verbatim}{xleftmargin=\parindent}
+  \DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=\parindent}
+  \fvset{listparameters={\setlength{\topsep}{0pt}}}
+  \renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+
+  %% Exercices et réponses
+  \Newassociation{sol}{solution}{solutions}
+  \Newassociation{rep}{reponse}{reponses}
+  \newcounter{exercice}[chapter]
+  \renewcommand{\theexercice}{\thechapter.\arabic{exercice}}
+  \newenvironment{exercice}{%
+    \begin{list}{}{%
+        \refstepcounter{exercice}
+        \hypertarget{ex:\theexercice}{}
+        \Writetofile{solutions}{\protect\hypertarget{sol:\theexercice}{}}
+        \renewcommand{\makelabel}{%
+          \bfseries\protect\hyperlink{sol:\theexercice}{\theexercice}}
+        \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
+        \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
+      \item}
+    {\end{list}}
+  \renewenvironment{solution}[1]{%
+    \begin{list}{}{%
+        \renewcommand{\makelabel}{%
+          \bfseries\protect\hyperlink{ex:#1}{#1}}
+        \settowidth{\labelwidth}{\bfseries #1}
+        \setlength{\leftmargin}{\labelwidth}
+        \addtolength{\leftmargin}{\labelsep}
+        \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
+        \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
+      \item}
+    {\end{list}}
+  \renewenvironment{reponse}[1]{%
+    \begin{enumerate}[label=\textbf{#1}]
+      \item}
+    {\end{enumerate}}
+  % \renewenvironment{reponse}[1]{%
+  %   \begin{enumerate}[label=\bfseries\protect\hyperlink{ex:#1}{#1}]
+  %     \item}
+  %   {\end{enumerate}}
+
+  %% Remarques importantes
+  \newenvironment{important}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.1\linewidth}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\danger}
+      \end{minipage}
+      \begin{minipage}[t]{0.85\linewidth}}
+      {\end{minipage}%
+    \end{framed}}
+
+  %% Changements au fil de la lecture
+  \newenvironment{gotoR}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.07\linewidth}
+        \raisebox{-0.5em}[0em][0em]{\LARGE\ForwardToEnd}
+      \end{minipage}
+      \begin{minipage}[t]{0.88\linewidth}\sffamily}
+      {\end{minipage}%
+    \end{framed}}
+
+  %% Redéfinition de l'environnement de matrices de amsmath pour
+  %% aligner les colonnes à droite. Pris dans
+  %% <http://texblog.net/latex-archive/maths/matrix-align-left-right/>
+  \makeatletter
+  \renewcommand*\env@matrix[1][r]{\hskip -\arraycolsep
+    \let\@ifnextchar\new@ifnextchar
+    \array{*\c@MaxMatrixCols #1}}
+  \makeatother
+
+  %%% =====================
+  %%%  Nouvelles commandes
+  %%% =====================
+
+  %% Noms de fonctions, code, etc.
+  \newcommand{\code}[1]{\texttt{#1}}
+  \newcommand{\pkg}[1]{\textbf{#1}}
+
+  %% Indications de capsule vidéo
+  \setul{1.5pt}{0.7pt}
+  \newcommand{\video}{%
+    $\mathrel{\vcenter{\offinterlineskip%
+        \bfseries\fontsize{32}{32}\selectfont
+        \hbox{$\bigcirc$}%
+        \fontsize{24}{22}\selectfont\vskip-19pt\hskip9pt
+        \hbox{\Forward}}}$}
+  \newcommand{\capsule}[1]{\marginpar{\video}\ul{#1}}
+
+  %% Ensembles
+  \newcommand{\R}{\mathbb{R}}
+
+  %% Arithmétique des ordinateurs
+  \newcommand{\ieee}[3]{\fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
+  \newcommand{\fl}{\mathrm{fl}}
+
+  %% Algèbre linéaire
+  \newcommand{\tr}{\mathrm{tr}}
+  \renewcommand{\mat}[1]{\mathbf{#1}}
+
+  %%% =========================
+  %%%  Sections de code source
+  %%% =========================
+  \lstloadlanguages{R}
+  \lstset{language=R,
+    extendedchars=true,
+    inputencoding=utf8/latin1,
+    basicstyle=\small\ttfamily,
+    commentstyle=\color{comments}\slshape,
+    keywordstyle=\mdseries,
+    showstringspaces=false}
+
+  %%% =======
+  %%%  Varia
+  %%% =======
+
+  %% Sous-figures
+  \newsubfloat{figure}
+
+  %% Style de la bibliographie
+  \bibliographystyle{francais}
+
+  %% Aide pour la césure
+  \hyphenation{%
+    con-sole
+    cons-tante
+    hexa-dé-ci-mal
+    con-gru-en-tiels}

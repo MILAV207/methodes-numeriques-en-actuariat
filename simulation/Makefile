@@ -17,7 +17,7 @@ TEXFILES = $(wildcard *.tex)
 
 # The work horses
 SWEAVE = LANG="fr_CA.UTF-8" R CMD SWEAVE --encoding="utf-8"
-TEXI2DVI = texi2dvi -b --pdf
+TEXI2DVI = LATEX=xelatex texi2dvi -b
 RM = rm -rf
 
 .PHONY: tex pdf clean

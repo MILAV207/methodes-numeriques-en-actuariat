@@ -1052,22 +1052,22 @@ options(op)
         g_Y(x)
         &=
         \begin{cases}
-          \D \frac{x^{\alpha - 1}}{(1/\alpha) + (1/e)}, & 0 \leq x \leq 1 \\
-          \D \frac{e^{-x}}{(1/\alpha) + (1/e)}, & x > 1,
+          \dfrac{x^{\alpha - 1}}{(1/\alpha) + (1/e)}, & 0 \leq x \leq 1 \\
+          \dfrac{e^{-x}}{(1/\alpha) + (1/e)}, & x > 1,
         \end{cases} \\
         G_Y(x)
         &=
         \begin{cases}
-          \D \frac{e}{\alpha + e}\, x^\alpha, & 0 \leq x \leq 1 \\
-          \D 1 - \frac{e^{-x}}{(1/\alpha) + (1/e)}, & x > 1,
+          \dfrac{e}{\alpha + e}\, x^\alpha, & 0 \leq x \leq 1 \\
+          1 - \dfrac{e^{-x}}{(1/\alpha) + (1/e)}, & x > 1,
         \end{cases} \\
         \intertext{et}
         G_Y^{-1}(x)
         &=
         \begin{cases}
-          \D \left( \frac{\alpha + e}{e}\, x \right)^{1/\alpha},
+          \left( \dfrac{\alpha + e}{e}\, x \right)^{1/\alpha},
           & 0 \leq x \leq e/(\alpha + e) \\
-          \D - \ln [((1/\alpha) + (1/e))(1 - x)],
+          - \ln [((1/\alpha) + (1/e))(1 - x)],
           & e/(\alpha + e) < x \leq 1.
         \end{cases}
       \end{align*}
