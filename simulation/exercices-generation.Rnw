@@ -9,7 +9,7 @@
 
 \begin{Filesave}{solutions}
 \section*{Chapitre \ref*{chap:generation}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:generation}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:generation}}
 
 \end{Filesave}
 
@@ -133,8 +133,9 @@ rand(n = 5, a = 11, c = 0, m = 64, seed = 19)
   \end{enumerate}
   \begin{sol}
     \begin{enumerate}
-    \item On utilise de nouveau la fonction \code{rand} de
-      la \autoref{fig:generation:rand}. Le graphique de la \autoref{fig:generation:a=17} a été créé avec les commandes
+    \item On utilise de nouveau la fonction \code{rand} de la
+      \autoref{fig:generation:rand}. Le graphique de la
+      \autoref{fig:generation:a=17} a été créé avec les commandes
 <<echo=TRUE, eval=FALSE>>=
 x <- rand(n = 500, a = 17, c = 0, m = 2^13 - 1, seed = 19)
 plot(x[-length(x)], x[-1],

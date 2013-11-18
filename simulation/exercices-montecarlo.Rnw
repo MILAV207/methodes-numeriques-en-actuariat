@@ -16,7 +16,7 @@
 
 \begin{Filesave}{solutions}
 \section*{Chapitre \ref*{chap:montecarlo}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:montecarlo}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:montecarlo}}
 
 \end{Filesave}
 
