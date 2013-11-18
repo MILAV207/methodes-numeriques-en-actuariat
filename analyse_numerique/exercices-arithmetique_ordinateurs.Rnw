@@ -20,7 +20,7 @@ omet généralement $b$ pour les nombres en base 10.
 
 \begin{Filesave}{solutions}
 \section*{Chapitre \ref*{chap:ordinateurs}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:ordinateurs}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:ordinateurs}}
 
 \noindent
 La notation $x_{b}$ signifie que le nombre $x$ est en base $b$. On
@@ -35,10 +35,10 @@ omet généralement $b$ pour les nombres en base 10.
 \begin{exercice}
   Convertir les nombres décimaux suivants en base 6, puis en binaire.
   \begin{enumerate}
-  \item 119
-  \item 343
-  \item 96
-  \item 43
+  \item $119$
+  \item $343$
+  \item $96$
+  \item $43$
   \end{enumerate}
   \begin{sol}
     L'algorithme de conversion des nombres décimaux en une base $b$ se
@@ -165,10 +165,10 @@ omet généralement $b$ pour les nombres en base 10.
 \begin{exercice}
   Convertir les nombres hexadécimaux suivants en nombres décimaux.
   \begin{enumerate}
-  \item A1B
-  \item 12A
-  \item B41
-  \item BAFFE
+  \item $\text{A1B}$
+  \item $\text{12A}$
+  \item $\text{B41}$
+  \item $\text{BAFFE}$
   \end{enumerate}
   \begin{sol}
     On fait les deux premières conversions à l'aide de la définition
@@ -185,10 +185,10 @@ omet généralement $b$ pour les nombres en base 10.
   \end{sol}
   \begin{rep}
     \begin{inparaenum}
-    \item \nombre{2587}
-    \item 298
-    \item \nombre{2881}
-    \item \nombre{765950}
+    \item $\nombre{2587}$
+    \item $298$
+    \item $\nombre{2881}$
+    \item $\nombre{765950}$
     \end{inparaenum}
   \end{rep}
 \end{exercice}
@@ -272,11 +272,11 @@ omet généralement $b$ pour les nombres en base 10.
   notation:
   \begin{enumerate}[i)]
   \item un entier positif est représenté en binaire de manière
-    usuelle, avec le bit fort égal à 0;
+    usuelle, avec le bit fort égal à $0$;
   \item pour un entier négatif, on inverse les bits de la
-    représentation de sa valeur absolue et on ajoute 1 au résultat.
+    représentation de sa valeur absolue et on ajoute $1$ au résultat.
   \end{enumerate}
-  Le bit fort est automatiquement mis à 1 (pour représenter un nombre
+  Le bit fort est automatiquement mis à $1$ (pour représenter un nombre
   négatif) par l'opération d'inversion. Les deux opérations ci-dessus
   sont équivalentes à stocker un nombre négatif $x$ en tant que $2^n -
   |x|$.
@@ -285,7 +285,7 @@ omet généralement $b$ pour les nombres en base 10.
   \begin{equation*}
     \fbox{0}\hspace{2pt}\fbox{0000101}.
   \end{equation*}
-  Pour représenter $-5$, on inverse ces bits et on ajoute 1:
+  Pour représenter $-5$, on inverse ces bits et on ajoute $1$:
   \begin{equation*}
     \fbox{1}\hspace{2pt}\fbox{1111011}.
   \end{equation*}
@@ -340,7 +340,7 @@ omet généralement $b$ pour les nombres en base 10.
       deux est donc $-128$.
     \item Tout d'abord, $15_{10} = 1111_2$ et $5_{10} = 101_2$.
       \begin{enumerate}
-      \item Selon la notation «naturelle», on aurait pour 15 et $-5$
+      \item Selon la notation «naturelle», on aurait pour $15$ et $-5$
         les représentations sur 7 bits suivantes, dans l'ordre:
         \begin{equation*}
           \fbox{0}\hspace{2pt}\fbox{0001111}
@@ -358,7 +358,7 @@ omet généralement $b$ pour les nombres en base 10.
         \end{center}
         et $10010100_2 = -20_{10} \neq 15 + (-5)$.
       \item En notation en complément à deux, on a plutôt les
-        représentations suivantes pour 15 et $-5$:
+        représentations suivantes pour $15$ et $-5$:
         \begin{equation*}
           \fbox{0}\hspace{2pt}\fbox{0001111}
           \quad \text{et} \quad
@@ -456,9 +456,9 @@ omet généralement $b$ pour les nombres en base 10.
   E, F)$ en simple précision est le suivant:
   \begin{itemize}
   \item longueur totale de $m = 32$ bits;
-  \item 1 bit pour le signe $S$ (valeur de 0 pour un nombre positif);
-  \item 8 bits pour l'exposant $E$, avec un biais de 127;
-  \item 23 bits pour la partie fractionnaire $F$.
+  \item $1$ bit pour le signe $S$ (valeur de 0 pour un nombre positif);
+  \item $8$ bits pour l'exposant $E$, avec un biais de $127$;
+  \item $23$ bits pour la partie fractionnaire $F$.
   \end{itemize}
   Un nombre $x$ est donc représenté comme
   \begin{displaymath}
@@ -484,8 +484,8 @@ omet généralement $b$ pour les nombres en base 10.
   flottante en simple précision selon la norme IEEE~754.
   \begin{enumerate}
   \item $-\nombre{1234}$
-  \item 55
-  \item \nombre{8191}
+  \item $55$
+  \item $\nombre{8191}$
   \item $-10$
   \item $\frac{2}{3}$
   \item $\frac{1}{100}$

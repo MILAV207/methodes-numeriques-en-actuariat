@@ -17,23 +17,6 @@
   \usepackage{pdfpages}                % couvertures
   \usepackage{xr}
 
-  %%% =========================
-  %%%  Page titre (sauf titre)
-  %%% =========================
-  \title{%
-    \bfseries\fontsize{42}{33}\selectfont {\fullcaps ACT 2002} \\
-    \mdseries\fontsize{32}{33}\selectfont Méthodes numériques \\
-                                          en actuariat}
-  \author{%
-    \bfseries\fontsize{16}{20}\selectfont Vincent Goulet \\
-    \mdseries\fontsize{14}{18}\selectfont Professeur titulaire \textbar\
-                                          École d'actuariat \textbar\
-                                          Université Laval}
-  \date{%
-    \mdseries\fontsize{14}{18}\selectfont Notes de cours \textbar\
-                                          Exercices \textemdash\
-                                          édition 2014}
-
   %%% ===================
   %%%  Style du document
   %%% ===================
@@ -233,7 +216,7 @@
     $\mathrel{\vcenter{\offinterlineskip%
         \bfseries\fontsize{32}{32}\selectfont
         \hbox{$\bigcirc$}%
-        \fontsize{24}{22}\selectfont\vskip-19pt\hskip9pt
+        \fontsize{22}{22}\selectfont\vskip-18.2pt\hskip8.8pt
         \hbox{\Forward}}}$}
   \newcommand{\capsule}[1]{\marginpar{\video}\ul{#1}}
 
@@ -243,11 +226,9 @@
   %% Traitement du titre de partie
   \makeatletter
   \newcommand{\@parttitle}{}
-  \newcommand{\parttitle}[1]{#1}
-  \newcommand{\theparttitle}{\parttitle}
+  \newcommand{\parttitle}[1]{\renewcommand{\@parttitle}{#1}}
+  \newcommand{\theparttitle}{\@parttitle}
   \makeatother
-
-
 
   %%% =========================
   %%%  Sections de code source
@@ -278,3 +259,21 @@
     cons-tante
     hexa-dé-ci-mal
     con-gru-en-tiels}
+
+  %%% ======================================
+  %%%  Page titre (sauf titre de la partie)
+  %%% ======================================
+  \renewcommand{\year}{2014}
+  \title{%
+    \bfseries\fontsize{42}{33}\selectfont {\fullcaps ACT 2002} \\
+    \mdseries\fontsize{32}{33}\selectfont Méthodes numériques \\
+                                          en actuariat}
+  \author{%
+    \bfseries\fontsize{16}{20}\selectfont Vincent Goulet \\
+    \mdseries\fontsize{14}{18}\selectfont Professeur titulaire \textbar\
+                                          École d'actuariat \textbar\
+                                          Université Laval}
+  \date{%
+    \mdseries\fontsize{14}{18}\selectfont Notes de cours \textbar\
+                                          Exercices \textemdash\
+                                          édition \year}

@@ -16,7 +16,7 @@
 
 \begin{Filesave}{solutions}
 \section*{Chapitre \ref*{chap:valeurspropres}}
-\addcontentsline{toc}{section}{Chapitre \protect\ref{chap:valeurspropres}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:valeurspropres}}
 
 \end{Filesave}
 
@@ -882,6 +882,6 @@ eigen(m)
 
 
 %%% Local Variables:
-%%% mode: latex
+%%% mode: noweb
 %%% TeX-master: methodes_numeriques-partie_4
 %%% End:
