@@ -20,6 +20,10 @@
   %%% =========================
   %%%  Page titre (sauf titre)
   %%% =========================
+  \title{%
+    \bfseries\fontsize{42}{33}\selectfont {\fullcaps ACT 2002} \\
+    \mdseries\fontsize{32}{33}\selectfont Méthodes numériques \\
+                                          en actuariat}
   \author{%
     \bfseries\fontsize{16}{20}\selectfont Vincent Goulet \\
     \mdseries\fontsize{14}{18}\selectfont Professeur titulaire \textbar\
@@ -191,7 +195,7 @@
       \begin{minipage}{0.1\linewidth}
         \raisebox{-0.5em}[0em][0em]{\LARGE\danger}
       \end{minipage}
-      \begin{minipage}[t]{0.85\linewidth}}
+      \begin{minipage}[t]{0.88\linewidth}\sffamily}
       {\end{minipage}%
     \end{framed}}
 
@@ -236,13 +240,14 @@
   %% Ensembles
   \newcommand{\R}{\mathbb{R}}
 
-  %% Arithmétique des ordinateurs
-  \newcommand{\ieee}[3]{\fbox{#1}\hspace{2pt}\fbox{#2}\hspace{2pt}\fbox{#3}}
-  \newcommand{\fl}{\mathrm{fl}}
+  %% Traitement du titre de partie
+  \makeatletter
+  \newcommand{\@parttitle}{}
+  \newcommand{\parttitle}[1]{#1}
+  \newcommand{\theparttitle}{\parttitle}
+  \makeatother
 
-  %% Algèbre linéaire
-  \newcommand{\tr}{\mathrm{tr}}
-  \renewcommand{\mat}[1]{\mathbf{#1}}
+
 
   %%% =========================
   %%%  Sections de code source
@@ -260,7 +265,8 @@
   %%%  Varia
   %%% =======
 
-  %% Sous-figures
+  %% Sous-tableaux et figures
+  \newsubfloat{table}
   \newsubfloat{figure}
 
   %% Style de la bibliographie
