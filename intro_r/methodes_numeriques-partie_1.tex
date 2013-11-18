@@ -1,23 +1,14 @@
 \input{../share/preamble}
   \usepackage{wasysym}         % \leadsto
 
-  %%% ===================
   %%%  Titre du document
-  %%% ===================
-  \title{%
-    \bfseries\fontsize{42}{33}\selectfont {\fullcaps ACT 2002} \\
-    \mdseries\fontsize{32}{33}\selectfont Méthodes numériques \\
-                                          en actuariat \\[20mm]
+  \parttitle{%
     \bfseries\fontsize{36}{36}\selectfont Partie I \\
     \mdseries\fontsize{32}{36}\selectfont Programmation en R}
-  \hypersetup{pdftitle={Méthodes numériques en actuariat - Partie I Introduction
-      à la programmation en R}}
+  \hypersetup{pdftitle={Méthodes numériques en actuariat - Partie I
+      Programmation en R}}
 
-  %%% =========================
-  %%%  Nouveaux environnements
-  %%% =========================
-
-  %% Listes de commandes
+  %%% Listes de commandes
   \newenvironment{ttscript}[1]{%
     \begin{list}{}{%
         \setlength{\labelsep}{1.5ex}
@@ -29,9 +20,9 @@
         \renewcommand{\makelabel}[1]{\fbox{##1}\hfill}}}
     {\end{list}}
 
-  %% Chapitre Opérateurs: environnements pour placer côte à côte des
-  %% définitions de fonctions (utilisant ttscript ci-dessus) et un
-  %% petit exemple.
+  %%% Chapitre Opérateurs: environnements pour placer côte à côte des
+  %%% définitions de fonctions (utilisant ttscript ci-dessus) et un
+  %%% petit exemple.
   \newenvironment{operateur}[1]{%
     \noindent
     \begin{minipage}[t]{0.65\linewidth}
@@ -46,9 +37,7 @@
     \begin{description}[style=nextline,font=\mdseries\ttfamily]}
     {\end{description}}
 
-  %%% =====================================================
-  %%%  Paramètres additionels pour sections de code source
-  %%% =====================================================
+  %%% Paramètres additionels pour sections de code source
   \lstdefinelanguage{Renhanced}[]{R}{%
     morekeywords={colMeans,colSums,head,is.na,is.null,mapply,ms,na.rm,%
       nlmin,replicate,row.names,rowMeans,rowSums,sys.time,system.time,%
@@ -60,9 +49,7 @@
     index=[1][keywords],
     indexstyle=\indexfonction}
 
-  %%% =======
-  %%%  Index
-  %%% =======
+  %%% Index
   \newcommand{\bfhyperpage}[1]{\textbf{\hyperpage{#1}}}
   \renewcommand{\preindexhook}{%
 
