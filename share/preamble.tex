@@ -12,7 +12,6 @@
   \usepackage{marvosym}                % \Forward et \ForwardToEnd
   \usepackage{metalogo}                % \XeLaTeX logo
   \usepackage{applekeys}               % touches Mac
-  \usepackage{fourier-orns}            % \danger
   \usepackage{answers,listings}
   \usepackage{pdfpages}                % couvertures
   \usepackage{xr}
@@ -176,9 +175,9 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.1\linewidth}
-        \raisebox{-0.5em}[0em][0em]{\LARGE\danger}
+        \raisebox{-22pt}[0em][0em]{\bfseries\fontsize{40}{22}\selectfont !}
       \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}\sffamily}
+      \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
     \end{framed}}
 
@@ -237,7 +236,7 @@
   \lstset{language=R,
     extendedchars=true,
     inputencoding=utf8/latin1,
-    basicstyle=\small\ttfamily,
+    basicstyle=\small\ttfamily\NoAutoSpacing,
     commentstyle=\color{comments}\slshape,
     keywordstyle=\mdseries,
     showstringspaces=false}
@@ -255,8 +254,10 @@
 
   %% Aide pour la césure
   \hyphenation{%
+    puis-que
     con-sole
     cons-tante
+    con-naî-tre
     hexa-dé-ci-mal
     con-gru-en-tiels}
 
