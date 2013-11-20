@@ -126,7 +126,7 @@ rand(n = 5, a = 11, c = 0, m = 64, seed = 19)
   \begin{enumerate}
   \item Écrire une fonction R faisant la mise en oeuvre du générateur
     congruentiel multiplicatif avec $m = 2^{13} - 1$ et $a = 17$.
-    Générer 500 nombres pseudo-aléatoire, puis faire un graphique des
+    Générer $500$ nombres pseudo-aléatoire, puis faire un graphique des
     paires $(x_i, x_{i+1})$. Sur combien de lignes les points sont-ils
     alignés?
   \item Répéter la partie a) avec $a = 85$.
@@ -193,12 +193,12 @@ plot(x[-length(x)], x[-1],
   donné les deux autres valeurs. On se contente de constater cet état
   de fait graphiquement.
   \begin{enumerate}
-  \item Générer une suite $\{x_i\}$ de longueur \nombre{20002} avec le
+  \item Générer une suite $\{x_i\}$ de longueur $\nombre{20002}$ avec le
     générateur RANDU et poser $u_i = 2^{-31} x_i$. Pour tous les
     triplets $(u_i, u_{i+1}, u_{i+2})$, sélectionner les cas où $0,5
     \leq u_{i + 1} \leq 0,51$ et faire un graphique de $u_{i+2}$ en
     fonction de $u_i$. Commenter le graphique obtenu.
-  \item Générer une suite $\{x_i\}$ de longueur \nombre{1002} avec le
+  \item Générer une suite $\{x_i\}$ de longueur $\nombre{1002}$ avec le
     générateur RANDU. À l'aide de R, placer les triplets $(u_i,
     u_{i+1}, u_{i+2})$ dans un graphique en trois dimensions avec la
     fonction \code{plot3d} du package \code{rgl}, puis faire pivoter

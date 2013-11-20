@@ -80,7 +80,7 @@ La fonction de répartition inverse, $F_X^{-1}$, est aussi appelée
 
 La méthode de l'inverse consiste à choisir un nombre uniformément sur
 l'axe des ordonnées d'une fonction de répartition (donc un nombre
-entre 0 et 1) et à trouver la valeur correspondante sur l'axe des
+entre $0$ et $1$) et à trouver la valeur correspondante sur l'axe des
 abscisses telle que donnée par la fonction de quantile. Comme les
 valeurs en $x$ seront plus concentrées là où la pente de la fonction
 de répartition est la plus grande, et vice versa, la distribution en
@@ -402,7 +402,7 @@ pour tout $x$, alors on a l'algorithme d'acceptation-rejet suivant:
 \end{enumerate}
 
 \begin{rem}
-  Puisque, par définition, l'aire sous les densités $f$ et $g$ vaut 1
+  Puisque, par définition, l'aire sous les densités $f$ et $g$ vaut $1$
   dans les deux cas on ne peut avoir $c g_Y(x) \geq f_X(x)$ pour tout
   $x$ que si $c > 1$.
 \end{rem}
