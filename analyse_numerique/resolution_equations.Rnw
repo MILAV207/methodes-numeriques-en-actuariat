@@ -31,7 +31,7 @@ l'inférence statistique.
 
 \begin{exemple}
   Un investisseur est disposé à payer $k$~\$ aujourd'hui en retour
-  d'une série de $n$ versements de 1~\$, le premier dans un an. Pour
+  d'une série de $n$ versements de $1$~\$, le premier dans un an. Pour
   déterminer le taux de rendement qu'il exige, on doit trouver la
   valeur de $i$ tel que $a_{\angl{n}\, i} = k$ ou, énoncé autrement,
   la valeur de $i$ tel que
@@ -235,7 +235,7 @@ abline(h = 0)
   \item la valeur de $a$;
   \item la valeur de $b$;
   \item la valeur de $\varepsilon$ ($10^{-6}$ par défaut);
-  \item le nombre maximal d'itérations $N_{\mathrm{max}}$ (100 par
+  \item le nombre maximal d'itérations $N_{\mathrm{max}}$ ($100$ par
     défaut);
   \item une valeur booléenne indiquant si les calculs intermédiaires
     doivent ou non être affichés à l'écran: si l'argument est
@@ -278,7 +278,7 @@ res <- bissection(f, 1, 2, TOL=1E-5)
 
 \begin{exemple}
   \label{ex:resolution:bissection_2}
-  La valeur présente d'une série de 10 paiements de fin d'année est
+  La valeur présente d'une série de dix paiements de fin d'année est
   $8,2218$. Pour déterminer le taux d'intérêt (ou taux de rendement,
   selon le point de vue), on cherche $i$ tel que $f(i) =
   a_{\angl{10}\, i} - 8,2218 = 0$.
@@ -457,7 +457,8 @@ box()
 @
       \subcaption{unicité du point fixe}
     \end{minipage}
-    \caption{Exemples de graphiques permettant de faire la démonstration du théorème du point fixe}
+    \caption{Exemples de graphiques permettant de faire la
+      démonstration du théorème du point fixe}
     \label{fig:resolution:demo}
     \setkeys{Gin}{width=0.8\textwidth}
   \end{figure}
@@ -567,9 +568,11 @@ méthode du point fixe.
   \label{ex:resolution:pointfixe_1}
   On répète l'\autoref{ex:resolution:bissection_2} à l'aide de la
   méthode du point fixe, soit trouver le taux d'intérêt $i$ tel que
-  $a_{\angl{10}\,i} = 8,2218$. On a déjà déterminé à l'\autoref{ex:resolution:bissection_2} que le taux d'intérêt se trouve
-  dans l'intervalle $[0,035, 0,040]$. On peut exprimer le problème
-  sous forme de point fixe ainsi: trouver la valeur de $i$ tel que
+  $a_{\angl{10}\,i} = 8,2218$. On a déjà déterminé à
+  l'\autoref{ex:resolution:bissection_2} que le taux d'intérêt se
+  trouve dans l'intervalle $[0,035, 0,040]$. On peut exprimer le
+  problème sous forme de point fixe ainsi: trouver la valeur de $i$
+  tel que
   \begin{displaymath}
     g(i) = \frac{1 - (1 + i)^{-10}}{8,2218} = i.
   \end{displaymath}
@@ -699,8 +702,7 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
 \end{exemple}
 
 
-\section[Méthode de Newton--Raphson]{%
-  Méthode de Newton-Raphson}         % MyriadPro n'aime pas --
+\section{Méthode de Newton--Raphson}
 \label{sec:resolution:newtonraphson}
 
 La méthode de Newton--Raphson est l'une des plus populaires et
@@ -773,7 +775,7 @@ Toujours en supposant que $\tilde{x}$ est près de $x^*$, on a
   f(x^*) = 0 = f(\tilde{x}) + (x^* - \tilde{x}) f^\prime(\tilde{x}) +
   \frac{(x^* - \tilde{x})^2}{2} f^{\prime\prime}(\tilde{x}) + \dots,
 \end{equation*}
-où l'on peut considérer les termes de puissance 2 et plus dans le
+où l'on peut considérer les termes de puissance $2$ et plus dans le
 développement comme négligeables. On obtient alors l'approximation
 \begin{equation*}
   x^* \simeq \tilde{x} - \frac{f(\tilde{x})}{f^\prime(\tilde{x})}.
@@ -840,12 +842,13 @@ procédure.
 
 \begin{exemple}
   \label{ex:resolution:newtonraphson_1}
-  On reprend l'\autoref{ex:resolution:pointfixe_1} de calcul d'un
-  taux de rendement, cette fois à l'aide de la méthode de
-  Newton--Raphson. Vous savez peut-être de votre cours de
-  mathématiques financières que la méthode de Newton--Raphson est la
-  plus efficace pour résoudre ce genre de problème. La \autoref{fig:resolution:newtonraphson_1} montre pourquoi elle est plus
-  efficace que la méthode du point fixe: la fonction
+  On reprend l'\autoref{ex:resolution:pointfixe_1} de calcul d'un taux
+  de rendement, cette fois à l'aide de la méthode de Newton--Raphson.
+  Vous savez peut-être de votre cours de mathématiques financières que
+  la méthode de Newton--Raphson est la plus efficace pour résoudre ce
+  genre de problème. La \autoref{fig:resolution:newtonraphson_1}
+  montre pourquoi elle est plus efficace que la méthode du point fixe:
+  la fonction
   \begin{equation*}
     g(i) =  i - \frac{f(i)}{f^\prime(i)}
   \end{equation*}
@@ -875,16 +878,17 @@ polygon(c(0.035, 0.035, 0.04, 0.04), c(0.035, 0.04, 0.04, 0.035),
     \label{fig:resolution:newtonraphson_1}
   \end{figure}
 
-  On a défini en R une fonction \code{nr} similaire à la
-  fonction \code{pointfixe} mentionnée à la \autoref{sec:resolution:pointfixe}, sauf qu'on y a ajouté un argument
-  pour la dérivée de la fonction $f(x)$.
+  On a défini en R une fonction \code{nr} similaire à la fonction
+  \code{pointfixe} mentionnée à la \autoref{sec:resolution:pointfixe},
+  sauf qu'on y a ajouté un argument pour la dérivée de la fonction
+  $f(x)$.
 
   \begin{gotoR}
-    Exécuter le code informatique de la
-    \autoref{sec:resolution:code} correspondant à ce bloc de
-    matière pour définir la fonction \code{nr} puis résoudre cet
-    exemple. Prendre note comment l'on peut également utiliser la
-    fonction \code{pointfixe} pour obtenir le taux de rendement.
+    Exécuter le code informatique de la \autoref{sec:resolution:code}
+    correspondant à ce bloc de matière pour définir la fonction
+    \code{nr} puis résoudre cet exemple. Prendre note comment l'on
+    peut également utiliser la fonction \code{pointfixe} pour obtenir
+    le taux de rendement.
   \end{gotoR}
 
 <<echo=FALSE>>=
@@ -914,9 +918,10 @@ res.nr <- nr(f, fp, 0.0375)
     g(x) &= x - \frac{f(x)}{f^\prime(x)} \\
     &= x - \frac{x^3 + 4 x^2 - 10}{3 x^2 + 8 x}.
   \end{align*}
-  Celle-ci est présentée à la \autoref{fig:resolution:newtonraphson_2}. On constate que la procédure
-  itérative de Newton--Raphson convergera rapidement vers une racine
-  unique dans l'intervalle $[1, 2]$. En effet:
+  Celle-ci est présentée à la
+  \autoref{fig:resolution:newtonraphson_2}. On constate que la
+  procédure itérative de Newton--Raphson convergera rapidement vers
+  une racine unique dans l'intervalle $[1, 2]$. En effet:
 <<echo=TRUE>>=
 f <- function(x) x^3 + 4*x^ 2 - 10
 fp <- function(x) 3*x^2 + 8 * x
@@ -955,8 +960,9 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
   Cet exemple illustre l'importance d'utiliser, pour certaines
   fonctions, une valeur de départ près de la racine. La fonction $f(x)
   = (4x - 7)/(x - 2)$ a une racine en $x = 1,75$ et une asymptote en
-  $x = 2$, ce qui cause quelques soucis. (Voir la \autoref{fig:resolution:newtonraphson_3-1} pour un graphique de cette
-  fonction.)
+  $x = 2$, ce qui cause quelques soucis. (Voir la
+  \autoref{fig:resolution:newtonraphson_3-1} pour un graphique de
+  cette fonction.)
   \begin{figure}[t]
     \centering
 <<echo=FALSE, fig=TRUE>>=
@@ -986,8 +992,9 @@ curve(f, xlim = c(0, 5), lwd = 2, add = TRUE)
     &= x - \frac{f(x)}{f^\prime(x)} \\
     &= 4x^2 - 14x + 14.
   \end{align*}
-  Le graphique de la fonction $g(x)$ ci-dessus se trouve à la \autoref{fig:resolution:newtonraphson_3-2}. On notera toutefois que le
-  point fixe en $x = 2$ n'est pas une solution acceptable dans le
+  Le graphique de la fonction $g(x)$ ci-dessus se trouve à la
+  \autoref{fig:resolution:newtonraphson_3-2}. On notera toutefois que
+  le point fixe en $x = 2$ n'est pas une solution acceptable dans le
   problème d'origine.
 
   \begin{figure}[t]
@@ -1164,7 +1171,7 @@ L'utilisation de l'astuce est illustrée à la
 
 
 \section{Outils additionnels}
-\label{sec:resolutio:plus}
+\label{sec:resolution:plus}
 
 Les packages disponible sur CRAN fournissent plusieurs autres outils
 d'optimisation pour R. Pour un bon résumé des options disponibles,
@@ -1184,7 +1191,8 @@ consulter la \emph{CRAN Task View} consacrée à l'optimisation:
 \input{exercices-resolution_equations}
 
 %%% Local Variables:
-%%% mode: latex
+%%% mode: noweb
+%%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% coding: utf-8
 %%% End:
