@@ -261,7 +261,7 @@ res <- bissection(f, 1, 2, TOL=1E-5)
   Après \Sexpr{res$nb.iter} %$
   itérations de la fonction \code{bissection}, la réponse obtenue est,
   à neuf décimales, %
-  \nombre{\Sexpr{format(res$root, digits = 10, decimal.mark = ",")}}. %$
+  $\nombre{\Sexpr{format(res$root, digits = 10, decimal.mark = ",")}}$. %$
   L'erreur d'approximation est au maximum de
   \begin{displaymath}
     |x^* - x_{17}| < |b_{18} - a_{18}| =

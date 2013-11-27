@@ -301,7 +301,7 @@ axis(2, at = 0:2/2)
     \end{displaymath}
   \end{enumerate}
   \begin{gotoR}
-    Une mise en oeuvre en R de l'algorithme ci-dessus est présentée
+    Une mise en {\oe}uvre en R de l'algorithme ci-dessus est présentée
     dans le code informatique de la
     \autoref{sec:simulation:code}.
   \end{gotoR}
@@ -373,8 +373,8 @@ axis(2, at = 0:2/2)
 
 \begin{rem}
   La méthode de l'inverse pour les distributions discrètes à support
-  fini est facile à mettre en oeuvre dans Excel avec la fonction
-  \texttt{RECHERCHEV()}.
+  fini est facile à mettre en {\oe}uvre dans Excel à l'aide de la
+  fonction \texttt{RECHERCHEV()}.
 \end{rem}
 
 
@@ -571,7 +571,7 @@ au \autoref{tab:excel}. Les noms anglais des fonctions ont été
 modifiés pour être standardisés dans Excel~2010. On remarquera que les
 traducteurs français ont omis de faire de même.
 
-\begin{table}
+\begin{table}[t]
   \centering
   \begin{tabularx}{\linewidth}{lp{17ex}X}
     \toprule

@@ -14,7 +14,7 @@
 
 \noindent
 La notation $x_{b}$ signifie que le nombre $x$ est en base $b$. On
-omet généralement $b$ pour les nombres en base 10.
+omet généralement $b$ pour les nombres en base $10$.
 
 \end{Filesave}
 
@@ -24,7 +24,7 @@ omet généralement $b$ pour les nombres en base 10.
 
 \noindent
 La notation $x_{b}$ signifie que le nombre $x$ est en base $b$. On
-omet généralement $b$ pour les nombres en base 10.
+omet généralement $b$ pour les nombres en base $10$.
 
 \end{Filesave}
 
@@ -48,7 +48,7 @@ omet généralement $b$ pour les nombres en base 10.
       gauche en prenant le reste de divisions par $b$;
     \item on divise par $b$ d'abord le nombre décimal d'origine, puis
       la partie entière de la division précédente, jusqu'à ce que
-      celle-ci soit égale à 0.
+      celle-ci soit égale à $0$.
     \end{enumerate}
     On a donc les résultats suivants.
     \begin{enumerate}
@@ -76,9 +76,10 @@ omet généralement $b$ pour les nombres en base 10.
         \end{align*}
         d'où $119 \equiv 1110111_2$.
       \end{minipage}
+      \medskip
     \item
       \begin{minipage}[t]{0.48\linewidth}
-        Conversion en base 6:
+        Conversion en base $6$:
         \begin{align*}
           343 \div 6 &= 57 \text{ reste } 1 \\
            57 \div 6 &= 9 \text{ reste } 3 \\
@@ -103,9 +104,10 @@ omet généralement $b$ pour les nombres en base 10.
         \end{align*}
         d'où $119 \equiv 101010111_2$.
       \end{minipage}
+      \medskip
     \item
       \begin{minipage}[t]{0.48\linewidth}
-        Conversion en base 6:
+        Conversion en base $6$:
         \begin{align*}
           96 \div 6 &= 16 \text{ reste } 0 \\
           16 \div 6 &= 2 \text{ reste } 4 \\
@@ -127,9 +129,10 @@ omet généralement $b$ pour les nombres en base 10.
         \end{align*}
         d'où $96 \equiv 1100000_2$.
       \end{minipage}
+      \medskip
     \item
       \begin{minipage}[t]{0.48\linewidth}
-        Conversion en base 6:
+        Conversion en base $6$:
         \begin{align*}
           43 \div 6 &= 7 \text{ reste } 1 \\
            7 \div 6 &= 1 \text{ reste } 1 \\
@@ -165,20 +168,20 @@ omet généralement $b$ pour les nombres en base 10.
 \begin{exercice}
   Convertir les nombres hexadécimaux suivants en nombres décimaux.
   \begin{enumerate}
-  \item $\text{A1B}$
-  \item $\text{12A}$
-  \item $\text{B41}$
+  \item $\text{A}1\text{B}$
+  \item $12\text{A}$
+  \item $\text{B}41$
   \item $\text{BAFFE}$
   \end{enumerate}
   \begin{sol}
     On fait les deux premières conversions à l'aide de la définition
     d'un nombre hexadécimal, puis les deux dernières à l'aide de
     l'algorithme de conversion des nombres en base $b$ vers la base
-    10.
+    $10$.
     \begin{enumerate}
-    \item $\text{A1B}_{16} = 10 \times 16^2 + 1 \times 16 + 11 = \nombre{2587}$
-    \item $\text{12A}_{16} = 1 \times 16^2 + 2 \times 16 + 10 = 298$
-    \item $\text{B41}_{16} = (11 \times 16 + 4) \times 16 + 1 = \nombre{2881}$
+    \item $\text{A}1\text{B}_{16} = 10 \times 16^2 + 1 \times 16 + 11 = \nombre{2587}$
+    \item $12\text{A}_{16} = 1 \times 16^2 + 2 \times 16 + 10 = 298$
+    \item $\text{B}41_{16} = (11 \times 16 + 4) \times 16 + 1 = \nombre{2881}$
     \item $\text{BAFFE}_{16} = ((((11 \times 16 + 10) \times 16) + 15)
       \times 16) + 15) \times 16 + 14 = \nombre{765950}$
     \end{enumerate}
@@ -196,16 +199,16 @@ omet généralement $b$ pour les nombres en base 10.
 \begin{exercice}
   \begin{enumerate}
   \item Utiliser l'algorithme de conversion des nombres en base $b$
-    vers la base 10 et les idées de
+    vers la base $10$ et les idées de
     l'\autoref{ex:ordinateurs:position_dans_matrice} pour trouver
     une formule générale donnant la position de l'élément $a_{ijk}$
     d'un tableau de dimensions $I \times J \times K$ dans l'ordre de
     la liste des éléments du tableau. Utiliser l'ordre
-    lexicographique, où le tableau est rempli dans l'ordre
+    lexicographique où le tableau est rempli dans l'ordre
     \begin{equation*}
       a_{111}, a_{112}, \dots, a_{11K}, a_{121}, a_{122}, \dots
     \end{equation*}
-  \item Répéter la partie a) en utilisant l'ordre R, où le tableau
+  \item Répéter la partie a) en utilisant l'ordre R où le tableau
     est plutôt rempli dans l'ordre $a_{111}, a_{211}, \dots, a_{I11},
     a_{121}, a_{221}, \dots$.  Comparer la réponse avec celle de
     l'\autoref*{exercice:operateurs:ijk}~b) de la
@@ -213,11 +216,11 @@ omet généralement $b$ pour les nombres en base 10.
   \end{enumerate}
   \begin{sol}
     La généralisation de l'algorithme de conversion des nombres en
-    base $b$ vers la base 10 à la conversion d'un nombre
+    base $b$ vers la base $10$ à la conversion d'un nombre
     \begin{displaymath}
       x = x_{m-1}x_{m-2} \cdots x_1x_0
     \end{displaymath}
-    en base $[b_{m-1}\; \dots\; b_0]$ vers la base 10 est la suivante
+    en base $[b_{m-1}\; \dots\; b_0]$ vers la base $10$ est la suivante
     (nombre entiers seulement):
     \begin{enumerate}[1.]
     \item Poser $x = 0$.
@@ -232,15 +235,15 @@ omet généralement $b$ pour les nombres en base 10.
     \begin{enumerate}
     \item On trouve la position de l'élément $a_{ijk}$ dans l'ordre de
       la liste des éléments du tableau en convertissant le nombre $[i
-      - 1\; j - 1\; k - 1]$ de la base $[I\; J\; K]$ à la base 10,
-      puis à additionnant 1. À l'aide de l'algorithme ci-dessus, on
+      - 1\; j - 1\; k - 1]$ de la base $[I\; J\; K]$ à la base $10$,
+      puis à additionnant $1$. À l'aide de l'algorithme ci-dessus, on
       obtient
       \begin{displaymath}
         [((i - 1) \times J + j - 1) \times K + k - 1] + 1
         = k + K (j - 1 + J (i - 1))
       \end{displaymath}
     \item Dans l'ordre R, on convertit le nombre $[k - 1\; j - 1\; i -
-      1]$ exprimé dans la base $[K\; J\; I]$ en base 10. On obtient alors
+      1]$ exprimé dans la base $[K\; J\; I]$ en base $10$. On obtient alors
       \begin{displaymath}
         [((k - 1) \times J + j - 1) \times I + i - 1] + 1
         = i + I (j - 1 + J (k - 1))
@@ -283,19 +286,19 @@ omet généralement $b$ pour les nombres en base 10.
 
   Par exemple, la représentation sur 8~bits du nombre $5$ est
   \begin{equation*}
-    \fbox{0}\hspace{2pt}\fbox{0000101}.
+    \fbox{$0$}\hspace{2pt}\fbox{$0000101$}.
   \end{equation*}
   Pour représenter $-5$, on inverse ces bits et on ajoute $1$:
   \begin{equation*}
-    \fbox{1}\hspace{2pt}\fbox{1111011}.
+    \fbox{$1$}\hspace{2pt}\fbox{$1111011$}.
   \end{equation*}
   On remarque que $11111011_2 = 251_{10} = 2^8 - 5$.
   \begin{enumerate}
   \item L'un des avantages de la notation en complément à deux est
     qu'elle évite d'avoir des représentations pour $+0$ et $-0$. Pour
-    des entiers de 8~bits, $\fbox{0}\hspace{2pt}\fbox{0000000}$
+    des entiers de 8~bits, \fbox{$0$}\hspace{2pt}\fbox{$0000000$}
     correspond tout naturellement à $0$. À quel nombre correspond
-    $\fbox{1}\hspace{2pt}\fbox{0000000}$ selon cette notation?
+    \fbox{$1$}\hspace{2pt}\fbox{$0000000$} selon cette notation?
   \item Un autre avantage, plus important que celui mentionné en a),
     de la notation en complément à deux est qu'elle permet d'effectuer
     les opérations arithmétiques en binaire naturellement. Pour
@@ -312,7 +315,7 @@ omet généralement $b$ pour les nombres en base 10.
   \item C'est maintenant le temps d'expliquer le trait d'humour dans
     le strip de XKCD.com au début du document. Pour ce faire,
     convertir en décimal les représentations en complément à deux sur
-    8~bits de $\fbox{00000000}$ à $\fbox{11111111}$. Répéter
+    8~bits de \fbox{$00000000$} à \fbox{$11111111$}. Répéter
     l'exercice sur 16~bits. (En fait, convertir non pas toutes les
     représentations, mais bien seulement quelques valeurs clés qui
     permettront d'observer la séquence des nombres décimaux
@@ -323,7 +326,7 @@ omet généralement $b$ pour les nombres en base 10.
     représenter des nombres entiers. Comme son nom l'indique, le type
     \texttt{Byte} utilise huit bits d'espace mémoire et ne sert que
     pour les entiers positifs. Les types \texttt{Integer} et
-    \texttt{Long} requièrent 16 et 32 bits, respectivement, et peuvent
+    \texttt{Long} requièrent $16$ et $32$~bits, respectivement, et peuvent
     contenir des nombres négatifs. La notation en complément à deux
     est alors utilisée pour ces deux types. Déterminer l'ensemble
     des entiers représentables pour chacun des types de données
@@ -332,46 +335,46 @@ omet généralement $b$ pour les nombres en base 10.
   \begin{sol}
     \begin{enumerate}
     \item Par la valeur du bit fort, on sait que
-      $\fbox{1}\hspace{2pt}\fbox{0000000}$ est un nombre négatif. Pour
+      \fbox{$1$}\hspace{2pt}\fbox{$0000000$} est un nombre négatif. Pour
       retrouver sa valeur absolue, on soustrait d'abord $1$ (ce qui
       donne $01111111$) et on inverse les bits: $10000000$. Or
       $10000000_2 = 2^7 = 128$. Le nombre décimal correspondant à
-      $\fbox{1}\hspace{2pt}\fbox{0000000}$ en notation en complément à
+      \fbox{$1$}\hspace{2pt}\fbox{$0000000$} en notation en complément à
       deux est donc $-128$.
     \item Tout d'abord, $15_{10} = 1111_2$ et $5_{10} = 101_2$.
       \begin{enumerate}
       \item Selon la notation «naturelle», on aurait pour $15$ et $-5$
-        les représentations sur 7 bits suivantes, dans l'ordre:
-        \begin{equation*}
-          \fbox{0}\hspace{2pt}\fbox{0001111}
-          \quad \text{et} \quad
-          \fbox{1}\hspace{2pt}\fbox{0000101}.
-        \end{equation*}
+        les représentations sur 7~bits suivantes, dans l'ordre:
+        \begin{center}
+          \fbox{$0$}\hspace{2pt}\fbox{$0001111$}
+          \quad et \quad
+          \fbox{$1$}\hspace{2pt}\fbox{$0000101$}.
+        \end{center}
         Or, en additionnant en binaire, on obtient
         \begin{center}
           \begin{tabular}{cr}
-                & 0\,0001111 \\
-            $+$ & 1\,0000101 \\
+                & $0\,0001111$ \\
+            $+$ & $1\,0000101$ \\
             \cline{2-2}
-                & 1\,0010100
+                & $1\,0010100$
           \end{tabular}
         \end{center}
         et $10010100_2 = -20_{10} \neq 15 + (-5)$.
       \item En notation en complément à deux, on a plutôt les
         représentations suivantes pour $15$ et $-5$:
-        \begin{equation*}
-          \fbox{0}\hspace{2pt}\fbox{0001111}
-          \quad \text{et} \quad
-          \fbox{1}\hspace{2pt}\fbox{1111011}.
-        \end{equation*}
+        \begin{center}
+          \fbox{$0$}\hspace{2pt}\fbox{$0001111$}
+          \quad et \quad
+          \fbox{$1$}\hspace{2pt}\fbox{$1111011$}.
+        \end{center}
         En additionnant en binaire et en ignorant le neuvième bit qui
         apparaîtrait à gauche suite à la retenue, on obtient:
         \begin{center}
           \begin{tabular}{cr}
-                & 0\,0001111 \\
-            $+$ & 1\,1111011 \\
+                & $0\,0001111$ \\
+            $+$ & $1\,1111011$ \\
             \cline{2-2}
-                & 0\,0001010
+                & $0\,0001010$
           \end{tabular}
         \end{center}
         Toujours en complément à deux, $0001010_2 = 10_{10} = 15 +
@@ -385,23 +388,23 @@ omet généralement $b$ pour les nombres en base 10.
       \begin{table}
         \centering
         \caption{Séquences des nombres en notation en complément à
-          deux sur 8 bits}
+          deux sur 8~bits}
         \label{tab:arithmetique:sequences_8bits}
         \begin{tabular}[t]{crr}
           \toprule
                &              & \multicolumn{1}{c}{Valeur en} \\
           Bits & Valeur brute & complément à deux \\
           \midrule
-          0000 0000 & 0 & 0 \\
-          0000 0001 & 1 & 1 \\
-          0000 0010 & 2 & 2 \\
-          0111 1110 & 126 & 126 \\
-          0111 1111 & 127 & 127 \\
-          1000 0000 & 128 & $-128$ \\
-          1000 0001 & 129 & $-127$ \\
-          1000 0010 & 130 & $-126$ \\
-          1111 1110 & 254 & $-2$ \\
-          1111 1111 & 255 & $-1$ \\
+          $0000\; 0000$ & $0$ & $0$ \\
+          $0000\; 0001$ & $1$ & $1$ \\
+          $0000\; 0010$ & $2$ & $2$ \\
+          $0111\; 1110$ & $126$ & $126$ \\
+          $0111\; 1111$ & $127$ & $127$ \\
+          $1000\; 0000$ & $128$ & $-128$ \\
+          $1000\; 0001$ & $129$ & $-127$ \\
+          $1000\; 0010$ & $130$ & $-126$ \\
+          $1111\; 1110$ & $254$ & $-2$ \\
+          $1111\; 1111$ & $255$ & $-1$ \\
           \bottomrule
         \end{tabular}
       \end{table}
@@ -415,27 +418,36 @@ omet généralement $b$ pour les nombres en base 10.
                &              & \multicolumn{1}{c}{Valeur en} \\
           Bits & Valeur brute & complément à deux \\
           \midrule
-          0000 0000 0000 0000 & 0 & 0 \\
-          0000 0000 0000 0001 & 1 & 1 \\
-          0000 0000 0000 0010 & 2 & 2 \\
-          0111 1111 1111 1110 & \nombre{32766} & \nombre{32766} \\
-          0111 1111 1111 1111 & \nombre{32767} & \nombre{32767} \\
-          1000 0000 0000 0000 & \nombre{32768} & $-\nombre{32768}$ \\
-          1000 0000 0000 0001 & \nombre{32769} & $-\nombre{32767}$ \\
-          1000 0000 0000 0010 & \nombre{32770} & $-\nombre{32766}$ \\
-          1111 1111 1111 1110 & \nombre{65534} & $-2$ \\
-          1111 1111 1111 1111 & \nombre{65535} & $-1$ \\
+          $0000\; 0000\; 0000\; 0000$ & $0$ & 0 \\
+          $0000\; 0000\; 0000\; 0001$ & $1$ & 1 \\
+          $0000\; 0000\; 0000\; 0010$ & $2$ & 2 \\
+          $0111\; 1111\; 1111\; 1110$ & $\nombre{32766}$ & $\nombre{32766}$ \\
+          $0111\; 1111\; 1111\; 1111$ & $\nombre{32767}$ & $\nombre{32767}$ \\
+          $1000\; 0000\; 0000\; 0000$ & $\nombre{32768}$ & $-\nombre{32768}$ \\
+          $1000\; 0000\; 0000\; 0001$ & $\nombre{32769}$ & $-\nombre{32767}$ \\
+          $1000\; 0000\; 0000\; 0010$ & $\nombre{32770}$ & $-\nombre{32766}$ \\
+          $1111\; 1111\; 1111\; 1110$ & $\nombre{65534}$ & $-2$ \\
+          $1111\; 1111\; 1111\; 1111$ & $\nombre{65535}$ & $-1$ \\
           \bottomrule
         \end{tabular}
       \end{table}
     \item L'ensemble des nombres admissibles pour le type
-      \texttt{Byte} est $\{0, \dots, 2^8 - 1\} = \{0, \dots, 255\}$.
+      \texttt{Byte} est
+      \begin{equation*}
+        \{0, \dots, 2^8 - 1\} = \{0, \dots, 255\}.
+      \end{equation*}
       Pour le type \texttt{Integer}, on a de la partie c) que les
-      nombres admissibles sont les entiers $\{-2^{15}, \dots, 2^{15} -
-      1\} = \{-\nombre{32768}, \dots, \nombre{32767}\}$. Par analogie,
-      on trouve que l'ensemble des entiers admissibles pour le type
-      \texttt{Long} est $\{-2^{31}, \dots, 2^{31} - 1\} =
-      \{-\nombre{2147483648}, \dots, \nombre{2147483647}\}$.
+      nombres admissibles sont les entiers
+      \begin{equation*}
+        \{-2^{15}, \dots, 2^{15} - 1\} =
+        \{-\nombre{32768}, \dots, \nombre{32767}\}.
+      \end{equation*}
+      Par analogie, on trouve que l'ensemble des entiers admissibles
+      pour le type \texttt{Long} est
+      \begin{equation*}
+        \{-2^{31}, \dots, 2^{31} - 1\} =
+        \{-\nombre{2147483648}, \dots, \nombre{2147483647}\}.
+      \end{equation*}
     \end{enumerate}
   \end{sol}
   \begin{rep}
@@ -456,9 +468,9 @@ omet généralement $b$ pour les nombres en base 10.
   E, F)$ en simple précision est le suivant:
   \begin{itemize}
   \item longueur totale de $m = 32$ bits;
-  \item $1$ bit pour le signe $S$ (valeur de 0 pour un nombre positif);
-  \item $8$ bits pour l'exposant $E$, avec un biais de $127$;
-  \item $23$ bits pour la partie fractionnaire $F$.
+  \item 1 bit pour le signe $S$ (valeur de $0$ pour un nombre positif);
+  \item 8 bits pour l'exposant $E$, avec un biais de $127$;
+  \item 23 bits pour la partie fractionnaire $F$.
   \end{itemize}
   Un nombre $x$ est donc représenté comme
   \begin{displaymath}
@@ -674,6 +686,7 @@ omet généralement $b$ pour les nombres en base 10.
 
 
 %%% Local Variables:
-%%% mode: latex
+%%% mode: noweb
+%%% engine: xetex
 %%% TeX-master: "exercices_methodes_numeriques-partie_3"
 %%% End:

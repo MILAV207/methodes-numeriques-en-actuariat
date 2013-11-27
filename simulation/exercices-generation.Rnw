@@ -35,20 +35,14 @@ faut ensuite charger le package en mémoire avec
 library(rgl)
 @
 
-\begin{framed}
-  \begin{minipage}{0.1\linewidth}
-    \raisebox{-1.5em}[0em][0em]{\HUGE\applekey}
-  \end{minipage}
-  \begin{minipage}[t]{0.85\linewidth}
-    \small%
-    L'utilisation de \code{rgl} sous Mac OS~X, requiert
-    l'application \code{X11.app}, qui n'est plus livrée avec le
-    système depuis la version 10.8 (Mountain Lion). Un serveur et
-    des bibliothèques client X11 pour OS~X Mountain Lion sont
-    disponibles à partir du projet XQuartz. Il suffit de télécharger
-    l'application depuis \url{http://xquartz.macosforge.org/}.
-  \end{minipage}
-\end{framed}
+\begin{osx}
+  L'utilisation de \code{rgl} sous Mac OS~X, requiert l'application
+  \code{X11.app}, qui n'est plus livrée avec le système depuis la
+  version 10.8 (Mountain Lion). Un serveur et des bibliothèques client
+  X11 pour OS~X Mountain Lion sont disponibles à partir du projet
+  XQuartz. Il suffit de télécharger l'application depuis
+  \url{http://xquartz.macosforge.org/}.
+\end{osx}
 
 
 \begin{exercice}
@@ -124,7 +118,7 @@ rand(n = 5, a = 11, c = 0, m = 64, seed = 19)
 
 \begin{exercice}
   \begin{enumerate}
-  \item Écrire une fonction R faisant la mise en oeuvre du générateur
+  \item Composer une fonction R faisant la mise en {\oe}uvre du générateur
     congruentiel multiplicatif avec $m = 2^{13} - 1$ et $a = 17$.
     Générer $500$ nombres pseudo-aléatoire, puis faire un graphique des
     paires $(x_i, x_{i+1})$. Sur combien de lignes les points sont-ils

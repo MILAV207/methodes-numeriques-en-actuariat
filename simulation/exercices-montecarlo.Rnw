@@ -147,7 +147,7 @@ u <- runif(1e6)
 \end{exercice}
 
 \begin{exercice}
-  Soit $X_1, \dots, X_{25}$ un échantillon aléatoire de taille 25
+  Soit $X_1, \dots, X_{25}$ un échantillon aléatoire de taille $25$
   d'une distribution $N(0, 1)$ et soit $X_{(1)} \leq \dots \leq
   X_{(25)}$ les statistiques d'ordre de cet échantillon, c'est-à-dire
   les données de l'échantillon triées en ordre croissant. Estimer

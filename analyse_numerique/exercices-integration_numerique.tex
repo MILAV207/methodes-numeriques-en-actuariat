@@ -34,13 +34,13 @@
   \item Simpson 3/8 ($m = 3$)
   \end{enumerate}
   \begin{sol}
-    On fait le cas de la méthode Simpsons seulement, la procédure à
+    On fait le cas de la méthode Simpson seulement, la procédure à
     suivre dans les autres cas étant tout à fait similaire.
 
     On souhaite développer la
     formule~\eqref{eq:integration:simpson:comp} à partir de
     l'approximation sur un sous intervalle donnée par
-    l'équation\eqref{eq:integration:simpson} pour l'intervalle $[x_0,
+    l'équation~\eqref{eq:integration:simpson} pour l'intervalle $[x_0,
     x_2]$. De manière plus générale, nous avons
     \begin{equation*}
       \int_{x_{2j}}^{x_{2(j + 1)}} f(x)\, dx \approx
@@ -58,7 +58,9 @@
       \left[
         f(x_0) +
         \sum_{j = 1}^{n - 1} f(x_{2j}) +
-        4 \sum_{j = 0}^{n - 1} f(x_{2j + 1}) +
+        4 \sum_{j = 0}^{n - 1} f(x_{2j + 1})
+      \right. \\
+      &\phantom{=}  + \left.
         \sum_{j = 0}^{n - 2} f(x_{2(j + 1)}) +
         f(x_{2n})
       \right] \\
@@ -122,11 +124,11 @@
         \frac{0,5}{2} [(-2/4) + (-2/3,5)] = -0.267857 \\
         \intertext{Simpson:}
         \int_0^{0,5} \frac{2}{x - 4}\, dx &\approx
-        \frac{0,25}{3} [(-2/4) + 4(-2/3,75) + (-2/3,5)] = -0,267064 \\
+        \frac{0,25}{3} [(-2/4) + 4(-2/3,75) + (-2/3,5)] \\
+        &= -0,267064 \\
         \intertext{Simpson 3/8:}
         \int_0^{0,5} \frac{2}{x - 4}\, dx &\approx
-        \frac{3(0,5/3)}{8} [(-2/4) + 3(-12/23) + 3(12/22) + (-2/3,5)]
-        \\
+        \frac{3(0,5/3)}{8} [(-2/4) + 3(-12/23) + 3(12/22) + (-2/3,5)] \\
         &= -0,267063
       \end{align*}
     \item Point milieu:
@@ -138,7 +140,8 @@
         \frac{0,5}{2} [0 + (1,5)^2 \ln 1,5] = 0,228074 \\
         \intertext{Simpson:}
         \int_1^{1,5} x^2 \ln x\, dx &\approx
-        \frac{0,25}{3} [0 + 4 (1,25)^2 \ln 1,25 + (1,5)^2 \ln 1,5] = 0,192245 \\
+        \frac{0,25}{3} [0 + 4 (1,25)^2 \ln 1,25 + (1,5)^2 \ln 1,5] \\
+        &= 0,192245 \\
         \intertext{Simpson 3/8:}
         \int_1^{1,5} x^2 \ln x\, dx &\approx
         \frac{3(0,5/3)}{8} [0 + (7/6)^2 \ln (7/6) + (4/3)^2 \ln (4/3) \\
@@ -153,20 +156,23 @@
         \frac{\pi/4}{2} [0 + e^{3\pi/4} \sin (\pi/2)] = 4,143260 \\
         \intertext{Simpson:}
         \int_0^{\pi/4} e^{3x} \sin 2x\, dx &\approx
-        \frac{\pi/8}{3} [0 + 4 e^{3\pi/8} \sin (\pi/4) + e^{3\pi/4} \sin (\pi/2)] = 2,583696 \\
+        \frac{\pi/8}{3} [0 + 4 e^{3\pi/8} \sin (\pi/4) + e^{3\pi/4}
+        \sin (\pi/2)] \\
+        &= 2,583696 \\
         \intertext{Simpson 3/8:}
         \int_0^{\pi/4} e^{3x} \sin 2x\, dx &\approx
-        \frac{3(\pi/12)}{8} [0 + 3 e^{3\pi/12} \sin (\pi/6) + 3
-        e^{3\pi/6} \sin (\pi/3) \\
-        &\phantom{\approx} + e^{3\pi/4} \sin (\pi/2)] = 2,585789
+        \frac{3(\pi/12)}{8} [0 + 3 e^{3\pi/12} \sin (\pi/6) \\
+        &\phantom{\approx} + 3 e^{3\pi/6} \sin (\pi/3) +
+        e^{3\pi/4} \sin (\pi/2)] \\
+        &= 2,585789
       \end{align*}
     \end{enumerate}
   \end{sol}
 \end{exercice}
 
 \begin{exercice}
-  L'approximation de $\int_0^2 f(x)\, dx$ avec $n = 1$ donne 4 avec la
-  méthode du trapèze et 2 avec la méthode de Simpson. Déterminer la
+  L'approximation de $\int_0^2 f(x)\, dx$ avec $n = 1$ donne $4$ avec la
+  méthode du trapèze et $2$ avec la méthode de Simpson. Déterminer la
   valeur de $f(1)$.
   \begin{rep}
     $\frac{1}{2}$
@@ -195,7 +201,8 @@
 \input{reponses-integration_numerique}
 
 %%% Local Variables:
-%%% mode: latex
+%%% mode: noweb
+%%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% coding: utf-8
 %%% End:

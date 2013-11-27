@@ -38,7 +38,7 @@ d'approximation de Weierstrass établit que l'on peut faire
 l'approximation de toute fonction continue par un polynôme de degré
 suffisant. Formellement, soit
 \begin{equation*}
-  P_n(x) = a_0 + a_1 x + \dots a_{n - 1} x^{n - 1} + a_n x^n
+  P_n(x) = a_0 + a_1 x + \dots + a_{n - 1} x^{n - 1} + a_n x^n
 \end{equation*}
 un polynôme de degré $n$. Si $f$ est une fonction continue sur un
 intervalle $[a, b]$, alors pour tout $\varepsilon > 0$ il existe un
@@ -114,8 +114,10 @@ fonction $f(x)$.
     &= \frac{1}{2} \frac{(x - 2,75)}{(2 - 2,75)}
     + \frac{1}{2,75} \frac{(x - 2)}{(2,75 - 2)} \\
     &= -\frac{2}{3} (x - 2,75) + \frac{16}{33} (x - 2) \\
-    &= -\frac{6}{33}\, x + \frac{171}{198} \\
-    \intertext{et}
+    &= -\frac{6}{33}\, x + \frac{171}{198}
+  \end{align*}
+  et
+  \begin{align*}
     P_2(x)
     &= \frac{1}{2} \frac{(x - 2,75)(x - 4)}{(2 - 2,75)(2 - 4)}
     + \frac{1}{2,75} \frac{(x - 2)(x - 4)}{(2,75 - 2)(2,75 - 4)} \\
@@ -135,9 +137,8 @@ fonction $f(x)$.
   La fonction \code{poly.calc} du package \pkg{polynom} permet de
   calculer le polynôme d'interpolation de Lagrange de degré $n$ dans
   R. Exécuter le code informatique de la
-  \autoref{sec:integration:code} correspondant à ce bloc de
-  matière pour vérifier les calculs de
-  l'\autoref{ex:integration:Lagrange}.
+  \autoref{sec:integration:code} correspondant à ce bloc de matière
+  pour vérifier les calculs de l'\autoref{ex:integration:Lagrange}.
 \end{gotoR}
 
 
@@ -280,7 +281,8 @@ box()
 @
     \subcaption{Simpson 3/8 \label{fig:integration:methodes:simpson38}}
   \end{minipage}
-  \caption{Comparaison de quatre méthodes d'intégration numérique}
+  \caption{Procédures d'approximation de quatre méthodes d'intégration
+    numérique}
   \label{fig:integration:methodes}
 \end{figure}
 
@@ -505,7 +507,8 @@ d'intégration numérique présentées ci-dessus.
 \input{exercices-integration_numerique}
 
 %%% Local Variables:
-%%% mode: latex
+%%% mode: noweb
+%%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% coding: utf-8
 %%% End:

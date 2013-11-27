@@ -47,10 +47,13 @@
     pdfauthor={Vincent Goulet}}
   \renewcommand{\appendixautorefname}{annexe}
   \renewcommand{\figureautorefname}{figure}
+  \newcommand{\subfigureautorefname}{figure}
   \renewcommand{\tableautorefname}{tableau}
+  \newcommand{\subtableautorefname}{tableau}
   \newcommand{\thmautorefname}{théorème}
   \newcommand{\exempleautorefname}{exemple}
   \newcommand{\definitionautorefname}{définition}
+  \newcommand{\algorithmeautorefname}{algorithme}
   \newcommand{\exerciceautorefname}{exercice}
 
   %% Table des matières (inspirée de classicthesis.sty)
@@ -79,7 +82,7 @@
   %% Listes. Paramétrage avec enumitem.
   \setlist[enumerate]{leftmargin=*,align=left}
   \setlist[enumerate,2]{label=\alph*),labelsep=*,leftmargin=1.5em}
-  \setlist[enumerate,3]{label=\roman*),labelsep=0.5em,align=right}
+  \setlist[enumerate,3]{label=\roman*),labelsep=*,leftmargin=1.5em,align=right}
   \setlist[itemize]{leftmargin=*,align=left}
 
   %% Options de babel
@@ -181,6 +184,17 @@
       {\end{minipage}%
     \end{framed}}
 
+  %% Remarques spécifiques OS X
+  \newenvironment{osx}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.1\linewidth}
+        \raisebox{-1.5em}[0em][0em]{\HUGE\applekey}
+      \end{minipage}
+      \begin{minipage}[t]{0.88\linewidth}}
+      {\end{minipage}%
+    \end{framed}}
+
   %% Changements au fil de la lecture
   \newenvironment{gotoR}{%
     \begin{framed}%
@@ -257,6 +271,8 @@
     puis-que
     con-sole
     cons-tante
+    nom-bre
+    con-tenu
     con-naî-tre
     hexa-dé-ci-mal
     con-gru-en-tiels}

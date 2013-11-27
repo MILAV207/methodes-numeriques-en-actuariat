@@ -82,17 +82,17 @@ interne des caractères.
 
 La \emph{base}, dans un système de numération, est le nombre de
 symboles (habituellement les chiffres) qui pourront servir à exprimer
-des nombres. L'humain s'est habitué à compter en base 10, le système
+des nombres. L'humain s'est habitué à compter en base $10$, le système
 \emph{décimal}, où les symboles sont $0, 1, \dots, 9$. De nos jours,
-la grande majorité des ordinateurs travaillent toutefois en base 2, le
+la grande majorité des ordinateurs travaillent toutefois en base $2$, le
 système \emph{binaire}. Les autres système d'usage courant,
-principalement en informatique, sont l'\emph{octal} (base 8) et
-l'\emph{hexadécimal} (base 16). Dans ce dernier système, les symboles
-utilisés pour les nombres 10--15 sont généralement les lettres A--F.
+principalement en informatique, sont l'\emph{octal} (base $8$) et
+l'\emph{hexadécimal} (base $16$). Dans ce dernier système, les symboles
+utilisés pour les nombres $10$--$15$ sont généralement les lettres A--F.
 (C'est pourquoi l'on retrouve ces six lettres sur le pavé des
 calculatrices scientifiques).
 
-Cette section étudie la conversion des nombres entre la base 10 et une
+Cette section étudie la conversion des nombres entre la base $10$ et une
 autre base quelconque.
 
 \subsection{Notation et définitions}
@@ -114,7 +114,7 @@ d'un nombre, celle-ci est identifiée en indice du nombre par un nombre
 décimal. Par exemple, $10011_2$ est le nombre binaire $10011$.
 
 \begin{exemple}
-  Soit le nombre décimal 348. Selon la notation ci-dessus, on a $x_0 =
+  Soit le nombre décimal $348$. Selon la notation ci-dessus, on a $x_0 =
   8$, $x_1 = 4$, $x_2 = 3$ et $b = 10$. En effet,
   \begin{displaymath}
     348 = 3 \times 10^2 + 4 \times 10^1 + 8 \times 10^0.
@@ -203,11 +203,11 @@ la valeur
 résultat de l'opération modulo, notée $r = a \bmod d$.
 
 On remarquera que le premier chiffre en partant de la droite d'un
-entier décimal est le reste de la division de ce nombre par 10, que le
-second chiffre est le reste de la division par 10 du quotient de la
+entier décimal est le reste de la division de ce nombre par $10$, que le
+second chiffre est le reste de la division par $10$ du quotient de la
 division précédente, et ainsi de suite. La conversion d'un nombre
 décimal en une base $b$ implique simplement de diviser par $b$ plutôt
-que par 10 et de déterminer le symbole dans la base $b$ correspondant
+que par $10$ et de déterminer le symbole dans la base $b$ correspondant
 au reste de chaque division.
 
 L'algorithme suivant reprend ses idées sous forme plus formelle et en
@@ -215,9 +215,9 @@ ajoutant le traitement de la partie fractionnaire. Nous démontrerons
 plus loin qu'il n'est pas réellement nécessaire de savoir effectuer la
 conversion de la partie fractionnaire d'un nombre réel.
 
-\begin{algorithme}[Conversion de la base 10 vers la base $b$]
+\begin{algorithme}[Conversion de la base $10$ vers la base $b$]
   \label{algo:ordinateurs:10_vers_b}
-  Soit $x$ un nombre réel en base 10.
+  Soit $x$ un nombre réel en base $10$.
   \begin{enumerate}
   \item Poser $i \leftarrow 0$ et $v \leftarrow \lfloor x \rfloor$.
   \item Répéter les étapes suivantes jusqu'à ce que $v = 0$:
@@ -248,7 +248,7 @@ conversion de la partie fractionnaire d'un nombre réel.
 \begin{exemple}
   \label{ex:ordinateurs:10_vers_b}
   Soit le nombre décimal $23,31$ que l'on convertit en binaire (base
-  2) avec un maximum de cinq chiffres après la séparation
+  $2$) avec un maximum de cinq chiffres après la séparation
   fractionnaire ($n = 5$). Le \autoref{tab:ordinateurs:10_vers_b}
   montre le processus en suivant les étapes de
   l'\autoref{algo:ordinateurs:10_vers_b}. On obtient le
@@ -259,16 +259,17 @@ conversion de la partie fractionnaire d'un nombre réel.
   cinq chiffres après la virgule est $10111,01001$.
 
   \begin{table}[tbp]
-    \caption{Conversion du nombre décimal $23,31$ en binaire.}
     \label{tab:ordinateurs:10_vers_b}
+    \caption{Conversion du nombre décimal $23,31$ en binaire.}
     \begin{minipage}[t]{0.45\linewidth}
       \subcaption{partie entière}
       \label{tab:ordinateurs:10_vers_b:a}
-      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}crrcc}
+      \begin{tabular*}{\linewidth}{%
+          @{\extracolsep{\fill}}>{$}c<{$}>{$}r<{$}>{$}r<{$}>{$}c<{$}>{$}c<{$}}
         \toprule
-        $i$ &
+        i &
         \multicolumn{1}{c}{$v$} &
-        $\lfloor v/2 \rfloor$ & $v \bmod 2$ & $x_i$ \\
+        \lfloor v/2 \rfloor & v \bmod 2 & x_i \\
         \midrule
         0 & 23 & 11 & 1 & 1 \\
         1 & 11 &  5 & 1 & 1 \\
@@ -282,9 +283,9 @@ conversion de la partie fractionnaire d'un nombre réel.
     \begin{minipage}[t]{0.45\linewidth}
       \subcaption{partie fractionnaire}
       \label{tab:ordinateurs:10_vers_b:b}
-      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ccccc}
+      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}*{5}{>{$}c<{$}}}
         \toprule
-        $i$ & $v$ & $2v$ & $\lfloor 2v \rfloor$ & $x_{-i}$ \\
+        i & v & 2v & \lfloor 2v \rfloor & x_{-i} \\
         \midrule
         1 & 0,31 & 0,62 & 0 & 0 \\
         2 & 0,62 & 1,24 & 1 & 1 \\
@@ -319,8 +320,8 @@ conversion de la partie fractionnaire d'un nombre réel.
   \item $23,31 \times 2^5 = 23,31 \times 32 = 745,92$;
   \item la représentation binaire de $745 = 2^9 + 2^7 + 2^6 + 2^5 +
     2^3 + 1$ est $1011101001$;
-  \item en déplaçant la virgule de cinq positions vers la gauche, on
-    obtient $10111,01001$, comme à
+  \item enfin, en déplaçant la virgule de cinq positions vers la
+    gauche, on obtient $10111,01001$, comme à
     l'\autoref{ex:ordinateurs:10_vers_b}.
   \end{enumerate}
   \qed
@@ -341,12 +342,12 @@ après la virgule.
 \subsection{Conversion en décimal}
 \label{sec:ordinateurs:conversion:b_vers_10}
 
-La conversion d'un nombre en base $b$ vers la base 10 repose
+La conversion d'un nombre en base $b$ vers la base $10$ repose
 essentiellement sur la définition \eqref{eq:ordinateurs:def_base},
 mais avec chaque symbole $x_i$ remplacé pour son équivalent décimal.
 Un algorithme de conversion est le suivant.
 
-\begin{algorithme}[Conversion de la base $b$ vers la base 10]
+\begin{algorithme}[Conversion de la base $b$ vers la base $10$]
   \label{algo:ordinateurs:b_vers_10}
   Soit $x$
   \begin{displaymath}
@@ -393,7 +394,7 @@ diviser le nombre obtenu par $b^n$.
   \qed
 
   \begin{table}[tbp]
-    \caption{Conversion d'un nombre binaire en décimal}
+    \caption{Conversion du nombre binaire $101011,011$ en décimal}
     \label{tab:ordinateurs:b_vers_10}
     \begin{minipage}[t]{0.45\linewidth}
       \subcaption{partie entière}
@@ -401,25 +402,25 @@ diviser le nombre obtenu par $b^n$.
         \toprule
         $i$ & $d_i$ & $x$ \\
         \midrule
-        5 & \texthl{1}01011,011 &  1 \\
-        4 & 1\texthl{0}1011,011 &  2 \\
-        3 & 10\texthl{1}011,011 &  5 \\
-        2 & 101\texthl{0}11,011 & 10 \\
-        1 & 1010\texthl{1}1,011 & 21 \\
-        0 & 10101\texthl{1},011 & 43 \\
+        $5$ & \texthl{$1$}$01011,011$ &  $ 1$ \\
+        $4$ & $1$\texthl{$0$}$1011,011$ & $ 2$ \\
+        $3$ & $10$\texthl{$1$}$011,011$ & $ 5$ \\
+        $2$ & $101$\texthl{$0$}$11,011$ & $10$ \\
+        $1$ & $1010$\texthl{$1$}$1,011$ & $21$ \\
+        $0$ & $10101$\texthl{$1$}$,011$ & $43$ \\
         \bottomrule
       \end{tabular*}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\linewidth}
       \subcaption{partie fractionnaire}
-      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ccr}
+      \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ccD{.}{,}{1.3}}
         \toprule
-        $i$ & $d_{-i}$ & $y$ \\
+        $i$ & $d_{-i}$ & y \\
         \midrule
-        3 & 101011,01\texthl{1} & 0,5   \\
-        2 & 101011,0\texthl{1}1 & 0,75  \\
-        1 & 101011,\texthl{0}11 & 0,375 \\
+        $3$ & $101011,01$\texthl{$1$}   & 0.5   \\
+        $2$ & $101011,0$\texthl{$1$}$1$ & 0.75  \\
+        $1$ & $101011,$\texthl{$0$}$11$ & 0.375 \\
         \bottomrule
       \end{tabular*}
     \end{minipage}
@@ -429,7 +430,7 @@ diviser le nombre obtenu par $b^n$.
 
 \begin{exemple}
   Soit le nombre hexadécimal $\mathrm{AC}2,3\mathrm{D}8$. On peut le
-  convertir en base 10 à partir de la définition:
+  convertir en base $10$ à partir de la définition:
   \begin{align*}
     \mathrm{AC}2,3\mathrm{D}8
     &= 10 \times 16^2 + 12 \times 16 + 2 + 3 \times 16^{-1} + 13
@@ -476,29 +477,29 @@ ici. Il suffit de remplacer chaque mention de $b$ par $b_i$.
   Le jour de l'année et l'heure du jour est un «nombre» exprimé en
   base $[365\; 24\; 60\; 60]$. En utilisant directement
   l'équation~\eqref{eq:ordinateurs:def_base_gen}, le nombre de
-  secondes correspondant à 1 jour, 2 heures, 33 minutes et 20 secondes
-  est
+  secondes correspondant à 1~jour, 2~heures, 33~minutes et 20~secondes
+  est:
   \begin{align*}
     1 \text{ j } 2 \text{ h } 33 \text{ min } 20 \text{ sec}
     &= 1 \times (24)(60)(60) + 2 \times (60)(60) + 33 \times 60 + 20 \\
-    &= 95,600 \text{ secondes}.
+    &= \nombre{95600} \text{ secondes}.
   \end{align*}
   À l'inverse, le nombre de jours, heures, minutes et secondes
   correspondant à \nombre{91492} secondes est, en utilisant
-  l'\autoref{algo:ordinateurs:10_vers_b} avec la base $[365\;
-  24\; 60\; 60]$: 1 jour, 1 heure, 24 minutes et 52 secondes (voir le
-  \autoref{tab:ordinateurs:10_vers_generale} pour les calculs).
+  l'\autoref{algo:ordinateurs:10_vers_b} avec la base $[365\; 24\;
+  60\; 60]$: 1~jour, 1~heure, 24~minutes et 52~secondes (voir
+  le \autoref{tab:ordinateurs:10_vers_generale} pour les calculs).
   \begin{table}
-    \caption{Conversion d'un nombre décimal dans la base générale $[365\; 24\;
-      60\; 60]$.}
+    \caption{Conversion du nombre décimal $\nombre{91492}$ dans la
+      base générale $[365\; 24\; 60\; 60]$.}
     \label{tab:ordinateurs:10_vers_generale}
     \centering
-    \begin{tabular}{crrrcc}
+    \begin{tabular}{>{$}c<{$}>{$}r<{$}>{$}r<{$}>{$}r<{$}>{$}c<{$}>{$}c<{$}}
       \toprule
-      $i$ &
+      i &
       \multicolumn{1}{c}{$v$} &
       \multicolumn{1}{c}{$b_i$} &
-      $\lfloor v/b_i \rfloor$ & $v \bmod b_i$ & $x_i$ \\
+      \lfloor v/b_i \rfloor & v \bmod b_i & x_i \\
       \midrule
       0 & \nombre{91492} &  60 & \nombre{1524} & 52 & 52 \\
       1 &  \nombre{1524} &  60 &           25  & 24 & 24 \\
@@ -525,11 +526,11 @@ résultat d'un calcul. L'exemple suivant illustre cette idée.
     13 \div 5 &= 2 \text{ reste } 3 \quad\Rightarrow\quad x_0 = 3 \\
      2 \div 4 &= 0 \text{ reste } 2 \quad\Rightarrow\quad x_1 = 2,
    \end{align*}
-   soit le «nombre» $(2, 3)$. En additionnant 1 à ce résultat, on
+   soit le «nombre» $(2, 3)$. En additionnant $1$ à ce résultat, on
    obtient précisément la position du 14{\ieme} élément dans la
    matrice. Les opérations $-1$ et $+1$ sont rendues nécessaires par
    le fait que les lignes et les colonnes sont numérotées à partir de
-   1, alors que les systèmes de numération débutent à 0.%
+   $1$, alors que les systèmes de numération débutent à $0$.%
    \qed
 \end{exemple}
 
@@ -546,10 +547,10 @@ résultat d'un calcul. L'exemple suivant illustre cette idée.
 \section{Unités de mesure}
 \label{sec:ordinateurs:unites}
 
-Les ordinateurs que nous utilisons couramment fonctionnent en base 2.
+Les ordinateurs que nous utilisons couramment fonctionnent en base $2$.
 La plus petite quantité d'information qu'un ordinateur peut traiter
 est un \emph{bit} (compression de l'anglais \emph{binary digit}). En
-informatique, un bit est égal à \fbox{0} ou à \fbox{1}. Le symbole du
+informatique, un bit est égal à \fbox{$0$} ou à \fbox{$1$}. Le symbole du
 bit est b.
 
 Un \emph{octet} (\emph{byte}) est un groupe de huit bits. Son symbole
@@ -560,9 +561,9 @@ dans la plupart des langues occidentales requiert un octet; voir la
 quantités de bits ou d'octets utilisent généralement les préfixes
 usuels du système international d'unités. Par exemple:
 \begin{itemize}
-\item 1 kilooctet (ko) est $2^{10} = 1,024$ octets;
-\item 1 mégaoctet (Mo) est $2^{20} = 1,048,576$ octets;
-\item 1 gigaoctet (Go) est $2^{30} = 1,073,741,824$ octets.
+\item $1$ kilooctet (ko) est $2^{10} = \nombre{1 024}$ octets;
+\item $1$ mégaoctet (Mo) est $2^{20} = \nombre{1 048 576}$ octets;
+\item $1$ gigaoctet (Go) est $2^{30} = \nombre{1 073 741 824}$ octets.
 \end{itemize}
 On voit que cette pratique fort répandue entraîne des distorsions par
 rapport aux définitions usuelles de kilo, méga, giga, etc., et que
@@ -581,10 +582,10 @@ pour montrer son produit sous un jour favorable. Deux exemples:
   télécharger un fichier.
 \item Les fabricants de disques durs divisent la capacité réelle de
   leurs disques par $10^9$ pour l'exprimer en gigaoctets. Ainsi, un
-  disque dont la capacité annoncée est de 100 Go ne peut contenir, en
-  fait, que $100 \times 10^9 \div 2^{30} = 93,132$ Go de données.
+  disque dont la capacité annoncée est de $100$~Go ne peut contenir, en
+  fait, que $100 \times 10^9 \div 2^{30} = 93,132$~Go de données.
   Cette confusion serait éliminée si les fabricants affichaient plutôt
-  une capacité de $93,132$ gibioctets. Moins vendeur...
+  une capacité de $93,132$ gibioctets. Moins vendeur\dots
 \end{enumerate}
 
 
@@ -593,7 +594,7 @@ pour montrer son produit sous un jour favorable. Deux exemples:
 \label{sec:ordinateurs:ieee}
 
 Cette section décrit la manière standard de représenter les nombres
-réels dans les ordinateurs d'usage courant. Il est nécessaire de
+réels dans les ordinateurs d'usage courant. Il est utile de
 connaître les grandes lignes afin de comprendre pourquoi les nombres
 réels n'ont pas tous une représentation exacte dans un ordinateur et
 comment surviennent et se propagent les erreurs d'arrondi. L'étude du
@@ -604,7 +605,7 @@ d'information dans un espace limité.
 Tel que mentionné précédemment, la capacité de stockage d'un
 ordinateur, bien que vaste de nos jours, n'en demeure pas moins
 limitée. Par conséquent, les nombres y sont représentés par un
-ensemble de $m$ bits. Habituellement, $m$ est un multiple de 2 et sa
+ensemble de $m$ bits. Habituellement, $m$ est un multiple de $2$ et sa
 valeur détermine le type de nombre. Par exemple, des définitions
 usuelles sont $m = 2^4 = 16$ pour un entier, $m = 2^5 = 32$ pour un
 nombre réel en simple précision (\emph{float} dans plusieurs langages
@@ -662,7 +663,7 @@ toujours\footnote{%
   entiers dans R en ajoutant un suffixe \code{L} à un nombre entier.
   Ainsi, \code{1L} est un nombre entier dans le sens où
   \code{is.integer(1L)} est \code{TRUE}. Cela est relativement peu
-  utilisé en programmation normale}. %
+  utilisé en programmation normale.}. %
 Tout d'abord, un nombre en double précision est stocké dans un mot de
 $m = 64$~bits (8~octets) divisé ainsi de gauche à droite: $m_S = 1$ bit
 pour le signe, $m_E = 11$ bits pour l'exposant et $m_F = 52$ bits pour
@@ -708,13 +709,13 @@ double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
     $F$ & Représentation binaire & Valeur spéciale \\
     \midrule
     $0$ & $0$ & $0$ &
-      \ieee{0}{00000000000}{00 $\cdots$ 00} & $0$ \\
+      \ieee{0}{00000000000}{00 \cdots 00} & $0$ \\
     $1$ & $0$ & $0$ &
-      \ieee{1}{00000000000}{00 $\cdots$ 00} & $-0$ \\
+      \ieee{1}{00000000000}{00 \cdots 00} & $-0$ \\
     $0$ & $\nombre{2047}$ & $0$ &
-      \ieee{0}{11111111111}{00 $\cdots$ 00} & $+\infty$ \\
+      \ieee{0}{11111111111}{00 \cdots 00} & $+\infty$ \\
     $1$ & $\nombre{2047}$ & $0$ &
-      \ieee{1}{11111111111}{00 $\cdots$ 00} & $-\infty$ \\
+      \ieee{1}{11111111111}{00 \cdots 00} & $-\infty$ \\
     $0 \text{ ou } 1$ & $\nombre{2047}$ & $F \neq 0$ &
       \ieee{$S$}{11111111111}{\hspace{1.2em} $F$ \hspace{1.2em}} &
       \code{NaN}$^a$ \\
@@ -737,7 +738,7 @@ double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
   1111111110_2$, la représentation interne de $\frac{1}{2}$ selon la
   norme IEEE~754 est
   \begin{center}
-    \ieee{0}{01111111110}{00 $\cdots$ 00}.
+    \ieee{0}{01111111110}{00 \cdots 00}.
   \end{center}
 
   En revanche, le nombre $\frac{1}{10}$ n'a pas une représentation
@@ -754,7 +755,7 @@ double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
   Or, $\nombre{1019}_{10} = 1111111011_2$, d'où la représentation
   interne finie de $\frac{1}{10}$ est
   \begin{center}
-    \ieee{0}{01111111011}{1001 $\cdots$ 1001}.
+    \ieee{0}{01111111011}{1001 \cdots 1001}.
   \end{center}
   Si l'on reconvertit ce nombre en décimal, on obtient
   \begin{equation*}
@@ -778,7 +779,7 @@ les suivantes.
   que l'exposant $E = \nombre{2047}$ est réservé, on a
   \begin{align*}
     x_{\text{max}}
-    &= \ieee{0}{11111111110}{11 $\cdots$ 11} \\
+    &= \ieee{0}{11111111110}{11 \cdots 11} \\
     &= (-1)^0 \times 2^{\nombre{1023}} \times 1,11\cdots11 \\
     &= 2^{\nombre{1023}} \times (2 - 2^{-52}) \\
     &= \nombre{1,797693} \times 10^{308}.
@@ -787,19 +788,19 @@ les suivantes.
   représentable. Parce que l'exposant $E = 0$ est réservé, on a
   \begin{align*}
     x_{\text{min}}
-    &= \ieee{0}{00000000001}{00 $\cdots$ 00} \\
+    &= \ieee{0}{00000000001}{00 \cdots 00} \\
     &= (-1)^0 \times 2^{\nombre{-1022}} \times 1,00\cdots00 \\
     &= 2^{\nombre{-1022}} \\
     &= \nombre{2,225074} \times 10^{-308}.
   \end{align*}
-  Afin de rendre la transition vers 0 moins abrupte, la norme IEEE~754
-  définit également des nombres \emph{dénormalisés}. Ceux-ci sont
-  identifiés par $E = 0$ et une partie fractionnaire $F$ non nulle.
-  Cependant, par définition, les nombres dénormalisés ont $E - e =
-  -\nombre{1022}$ et leur bit caché est $0$. Par conséquent, le plus
-  petit nombre dénormalisé est stocké sous la forme
+  Afin de rendre la transition vers $0$ moins abrupte, la norme
+  IEEE~754 définit également des nombres \emph{dénormalisés}. Ceux-ci
+  sont identifiés par $E = 0$ et une partie fractionnaire $F$ non
+  nulle. Cependant, par définition, les nombres dénormalisés ont $E -
+  e = -\nombre{1022}$ et leur bit caché est $0$. Par conséquent, le
+  plus petit nombre dénormalisé est stocké sous la forme
   \begin{equation*}
-    \ieee{0}{00000000000}{00 $\cdots$ 01}
+    \ieee{0}{00000000000}{00 \cdots 01}
   \end{equation*}
   et sa valeur est
   \begin{align*}
@@ -833,9 +834,9 @@ les suivantes.
   \times 10^{-16}$.
 \item Tout nombre $x$ représente en fait un intervalle de
   $\mathbb{R}$. Par exemple, tout nombre dans l'intervalle $[1, 1 +
-  \varepsilon)$ est représenté par le nombre 1 dans l'ordinateur.
+  \varepsilon)$ est représenté par le nombre $1$ dans l'ordinateur.
 \item On a un ensemble fini de nombres pour représenter $\mathbb{R}$.
-  Or, cet ensemble est plus dense près de 0 que pour les grandes
+  Or, cet ensemble est plus dense près de $0$ que pour les grandes
   valeurs. En effet, le nombre suivant $x_{\text{min}}$ est
   \begin{align*}
     x_{\text{min}}^+
@@ -848,9 +849,9 @@ les suivantes.
     &= x_{\text{max}} - \varepsilon \times 2^{\nombre{1023}} \\
     &= x_{\text{max}} - 2^{971}.
   \end{align*}
-  Les deux plus petits nombres représentables sont donc distants de
-  $2^{-\nombre{1024}} \approx 10^{-324}$, alors que les deux plus
-  grands le sont de $2^{971} \approx 10^{292}$!
+  L'écart entre les deux plus petits nombres représentables est donc de
+  $2^{-\nombre{1024}} \approx 10^{-324}$, alors que celui entre les deux plus
+  grands est de $2^{971} \approx 10^{292}$!
 \end{enumerate}
 
 Tout calcul impliquant un nombre $x > x_{\text{max}}$ ($x <
@@ -859,7 +860,7 @@ Habituellement, cela entraîne l'arrêt immédiat des calculs et un
 résultat de $+\infty$ ($-\infty$). À l'autre bout du spectre, un
 calcul impliquant un nombre $x < x_{\text{min}}$ entraîne un
 \emph{soupassement de capacité} et le résultat est habituellement
-considéré égal à 0.
+considéré égal à $0$.
 
 R conserve dans une liste nommée \code{.Machine} les
 valeurs mentionnées ci-dessus --- ainsi que plusieurs autres --- pour
@@ -907,9 +908,9 @@ Le \autoref{tab:arithmetic:simplified} fournit quelques exemples.
     \multicolumn{2}{c}{$x$} &
     \multicolumn{2}{c}{$\fl(x)$} \\
     \midrule
-    2&5        & 0&$25000 \times 10^1$ \\
-    $-42$&182  & $-0$&$42182 \times 10^2$ \\
-    0&214356   & 0&$21436 \times 10^0$ \\
+    $2$&$5$       & $0$&$25000 \times 10^1$ \\
+    $-42$&$182$  & $-0$&$42182 \times 10^2$ \\
+    $0$&$214356$ & $0$&$21436 \times 10^0$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1075,12 +1076,11 @@ des soupassements de capacité et d'améliorer la précision des calculs.
   On peut démontrer que l'estimateur du maximum de vraisemblance de
   $\alpha$ est
   \begin{equation*}
-    \hat{\alpha} = \frac{n}{%
-      \ln \big( \frac{X_1 \cdots X_n}{X_{(1)}^n} \big)},
+    \hat{\alpha} = \frac{n}{\ln (X_1 \cdots X_n/X_{(1)}^n)},
   \end{equation*}
   où $X_{(1)} = \min (X_1, \dots, X_n)$. Soit \code{x} un objet R
-  contenant un échantillon de \nombre{1000} valeurs d'une distribution
-  Pareto translatée de moyenne \nombre{5000} (le contenu de cet objet
+  contenant un échantillon de $\nombre{1000}$ valeurs d'une distribution
+  Pareto translatée de moyenne $\nombre{5000}$ (le contenu de cet objet
   n'est pas affiché ici pour des raisons évidentes). Le calcul de
   l'estimateur $\hat{\alpha}$ directement par la formule entraîne
   rapidement un dépassement de capacité, tant lors du produit $X_1
@@ -1099,7 +1099,7 @@ length(x)/log(prod(x)/min(x)^length(x))
   Selon la grandeur des données dans l'échantillon, la formule
   équivalente
   \begin{displaymath}
-    \hat{\alpha} = \frac{n}{\ln \prod_{i = 1}^n \frac{X_i}{X_{(1)}}}
+    \hat{\alpha} = \frac{n}{\ln \prod_{i = 1}^n X_i/X_{(1)}}
   \end{displaymath}
   peut éviter le dépassement de capacité. Elle n'est toutefois d'aucun
   secours dans le présent exemple:
@@ -1145,11 +1145,11 @@ relatif approximatif de quelques opérations en virgule flottante.
     \toprule
     Opération arithmétique & Coût relatif \\
     \midrule
-    Addition et soustraction & 1,0 \\
-    Multiplication           & 1,3 \\
-    Division                 & 3,0 \\
-    Racine carrée            & 4,0 \\
-    Logarithme               & 15,4 \\
+    Addition et soustraction & $1,0$ \\
+    Multiplication           & $1,3$ \\
+    Division                 & $3,0$ \\
+    Racine carrée            & $4,0$ \\
+    Logarithme               & $15,4$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1188,14 +1188,15 @@ d'information, mieux connu sous son acronyme ASCII \citep{ASCII}. La
 norme ASCII définit des codes numériques pour 128 caractères, soit 95
 affichables (lettres, chiffres, symboles divers et l'espace) et 33 non
 affichables (essentiellement des caractères de contrôle tels que saut
-de ligne, retour de chariot ou espacement arrière). Par exemple, les
-lettres majuscules A--Z occupent les cases 65--90 (1000001--1011010 en
-binaire) alors que les lettres minuscules a--z occupent les cases
-97--122 (1100001--1101010 en binaire). Ainsi, on constate que les
-versions majuscule et minuscule d'une même lettre ne diffèrent, dans
-leur représentation binaire, que par leur second bit le plus
-significatif. Le changement de casse est donc une opération très
-simple et rapide.
+de ligne, retour de chariot ou espacement arrière).
+
+À titre d'exemple, les lettres majuscules A--Z occupent les cases
+$65$--$90$ ($1000001$--$1011010$ en binaire) alors que les lettres
+minuscules a--z occupent les cases $97$--$122$ ($1100001$--$1101010$
+en binaire). On constate que les versions majuscule et minuscule d'une
+même lettre ne diffèrent, dans leur représentation binaire, que par
+leur second bit le plus significatif. Le changement de casse d'une
+lettre ou d'un mot est donc une opération très simple et rapide.
 
 La représentation ASCII ne requiert en soi que sept bits. Néanmoins,
 on a rapidement codé les caractères sur un octet (huit bits) puisqu'il
@@ -1245,6 +1246,7 @@ voir \cite{Ripley:Rnews:2005a}.
 \input{exercices-arithmetique_ordinateurs}
 
 %%% Local Variables:
-%%% mode: latex
+%%% mode: noweb
+%%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% End:

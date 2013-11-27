@@ -359,11 +359,11 @@ rexp(1, rgamma(1, alpha, lambda))
   \begin{displaymath}
     x_n = (65 x_{n-1} + 1) \bmod \nombre{2048}.
   \end{displaymath}
-  Utiliser une amorce de 12.
+  Utiliser une amorce de $12$.
   \begin{rep}
-    \Sexpr{round(1000/sqrt(1 - 0.3813))},
-    \Sexpr{round(1000/sqrt(1 - 0.7881))},
-    \Sexpr{round(1000/sqrt(1 - 0.2261))}
+    $\nombre{\Sexpr{round(1000/sqrt(1 - 0.3813))}}$,
+    $\nombre{\Sexpr{round(1000/sqrt(1 - 0.7881))}}$,
+    $\nombre{\Sexpr{round(1000/sqrt(1 - 0.2261))}}$
   \end{rep}
   \begin{sol}
     La fonction de répartition de la Pareto translatée$(\alpha,
@@ -394,8 +394,8 @@ rexp(1, rgamma(1, alpha, lambda))
     \begin{displaymath}
       x_n = (65 x_{n-1} + 1) \bmod \nombre{2048}
     \end{displaymath}
-    avec une amorce de 12 sont 781, \nombre{1614} et 463. En divisant
-    ces nombres par \nombre{2048}, on obtient des nombres dans
+    avec une amorce de $12$ sont $781$, $\nombre{1614}$ et $463$. En divisant
+    ces nombres par $\nombre{2048}$, on obtient des nombres dans
     l'intervalle $(0, 1)$:
     \begin{displaymath}
       0,3813 \quad 0,7881 \quad 0,2261.
@@ -421,7 +421,7 @@ rexp(1, rgamma(1, alpha, lambda))
     X_2 &= \sqrt{U_1} \sin(2 \pi U_2).
   \end{align*}
   Démontrer que la distribution conjointe de $X_1$ et $X_2$ est
-  uniforme sur le disque de rayon de 1 centré en $(x_1, x_2) = (0,
+  uniforme sur le disque de rayon de $1$ centré en $(x_1, x_2) = (0,
   0)$. À quoi ce résultat peut-il servir?
   \begin{sol}
     On a la transformation
@@ -456,17 +456,17 @@ rexp(1, rgamma(1, alpha, lambda))
       J
       &=
       \begin{vmatrix}
-        \frac{\partial u_1}{\partial x_1} &
-        \frac{\partial u_1}{\partial x_2} \\
-        \frac{\partial u_2}{\partial x_1} &
-        \frac{\partial u_2}{\partial x_2}
+        \dfrac{\partial u_1}{\partial x_1} &
+        \dfrac{\partial u_1}{\partial x_2} \\[8pt]
+        \dfrac{\partial u_2}{\partial x_1} &
+        \dfrac{\partial u_2}{\partial x_2}
       \end{vmatrix} \\
       &=
       \begin{vmatrix}
         2 x_1 &
-        2 x_2 \\
-        -\frac{1}{2\pi} \frac{x_2}{x_1^2 + x_2^2} &
-        \frac{1}{2\pi} \frac{x_1}{x_1^2 + x_2^2},
+        2 x_2 \\[6pt]
+        -\dfrac{1}{2\pi} \dfrac{x_2}{x_1^2 + x_2^2} &
+        \dfrac{1}{2\pi} \dfrac{x_1}{x_1^2 + x_2^2},
       \end{vmatrix} \\
       &=
       \frac{1}{\pi}.
@@ -482,13 +482,13 @@ rexp(1, rgamma(1, alpha, lambda))
     soit une distribution uniforme sur le disque unité.
 
     Le résultat peut évidemment servir à simuler des points
-    uniformément répartis sur un disque de rayon 1 centré en $(0,
+    uniformément répartis sur un disque de rayon $1$ centré en $(0,
     0)$. La \autoref{fig:simulation:cercle} illustre d'ailleurs cette
-    transformation. Les points $(u_1, u_2)$ du graphique de gauche
+    transformation. Les points $(u_1, u_2)$ dans le graphique de gauche
     sont tirés aléatoirement sur le carré $(0, 1) \times (0, 1)$. Le
     graphique de droite montre que suite à la tranformation ci-dessus,
     on obtient des points $(x_1, x_2)$ distribués uniformément sur un
-    disque de rayon 1 centré en $(0, 0)$.
+    disque de rayon $1$ centré en $(0, 0)$.
     \begin{figure}
       \centering
 <<echo=FALSE, fig=TRUE, width=10, height=5>>=
@@ -562,10 +562,10 @@ plot(x1, x2, pch = 19, col = col)
         J
         &=
         \begin{vmatrix}
-          \frac{\partial y_1}{\partial x_1} &
-          \frac{\partial y_1}{\partial x_2} \\
-          \frac{\partial y_2}{\partial x_1} &
-          \frac{\partial y_2}{\partial x_2}
+          \dfrac{\partial y_1}{\partial x_1} &
+          \dfrac{\partial y_1}{\partial x_2} \\[8pt]
+          \dfrac{\partial y_2}{\partial x_1} &
+          \dfrac{\partial y_2}{\partial x_2}
         \end{vmatrix} \\
         &=
         \begin{vmatrix}
@@ -674,7 +674,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
   \begin{rep}
     \begin{inparaenum}
     \item $1/c$
-    \item Géométrique$(1/c)$ commençant à 1
+    \item Géométrique$(1/c)$ commençant à $1$
     \item $c$
     \end{inparaenum}
   \end{rep}
@@ -684,7 +684,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
       \begin{align*}
         \Pr \left[ U \leq \frac{f_X(Y)}{c g_Y(Y)} \right]
         &= \int_{-\infty}^\infty
-        \Pr \left[ U \leq \frac{f_X(Y)}{c g_Y(Y)}|Y = y \right]
+        \Pr \left[ U \leq \frac{f_X(Y)}{c g_Y(Y)}|Y = y \right] %|
         g_Y(y)\, dy \\
         &= \int_{-\infty}^\infty
         \frac{f_X(Y)}{c g_Y(Y)}\, g_Y(y)\, dy \displaybreak[0] \\
@@ -754,8 +754,8 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
   Considérer le problème de simulation d'observations d'une loi
   Bêta$(3, 2)$ à l'aide de la méthode d'acceptation-rejet.
   \begin{enumerate}
-  \item Calculer l'efficacité de l'algorithme développé au
-    l'\autoref{ex:simulation:mode} lorsque adapté au cas présent.
+  \item Calculer l'efficacité de l'algorithme développé à
+    l'\autoref{ex:simulation:mode} pour le cas présent.
   \item Calculer l'efficacité de l'algorithme développé dans
     l'\autoref{exemple:simulation:beta}, où l'on a déterminé que
     \begin{displaymath}
@@ -765,7 +765,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
         12 - 12 x, & 0,8 \leq x < 1.
       \end{cases}
     \end{displaymath}
-  \item Faire la mise en oeuvre en R et/ou VBA de l'algorithme le plus
+  \item Faire la mise en oeuvre informatique de l'algorithme le plus
     efficace entre celui de la partie a) et celui de la partie b).
     Vérifier la fonction en superposant l'histogramme d'un grand
     échantillon obtenu avec cette fonction et la vraie fonction de
@@ -1108,7 +1108,7 @@ options(op)
   Gamma$(\alpha, 1)$ avec $\alpha \geq 1$:
   \begin{enumerate}[1.]
   \item Simuler deux observations indépendantes $v_1$ et $v_2$ d'une
-    loi Exponentielle$(1)$.
+    loi exponentielle de moyenne $1$.
   \item Si $v_2 < (\alpha - 1)(v_1 - \ln v_1 - 1)$, poser $x =
     \alpha v_1$. Sinon, retourner à l'étape 1.
   \end{enumerate}

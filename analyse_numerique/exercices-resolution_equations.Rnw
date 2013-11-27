@@ -179,11 +179,11 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
 \begin{exercice}
   \label{ex:resolution:sqrt(2)}
   Déterminer la valeur numérique de $\sqrt{2}$ à l'aide de la méthode
-  de bissection dans l'intervalle $[0, 2] $ avec 10 itérations.
+  de bissection dans l'intervalle $[0, 2] $ avec dix itérations.
   Comparer avec la vraie valeur.
   \begin{sol}
     On trouve la racine de $f(x) = x^2 - 2$ dans l'intervalle $[0, 2]$
-    par la méthode de bissection avec un maximum de 10 itérations. Le
+    par la méthode de bissection avec un maximum de dix itérations. Le
     \autoref{tab:resolution:sqrt(2)} contient les valeurs
     successives de $a$, $b$, $x = (a + b)/2$ et $f(x)$.
     \begin{table}[t]
@@ -191,7 +191,7 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
       \caption{\normalfont Valeurs successives de la méthode de
         bissection pour l'\autoref{ex:resolution:sqrt(2)}}
       \label{tab:resolution:sqrt(2)}
-      \begin{tabular}{rllll}
+      \begin{tabular}{>{$}r<{$}D{.}{,}{1.10}D{.}{,}{1.10}D{.}{,}{1.10}D{.}{,}{1.10}}
         \toprule
         \multicolumn{1}{c}{$n$} &
         \multicolumn{1}{c}{$a_n$} &
@@ -199,16 +199,16 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
         \multicolumn{1}{c}{$x_n$} &
         \multicolumn{1}{c}{$f(x_n)$} \\
         \midrule
-        1 & 0 & 2 & 1 & $-1$ \\
-        2 & 1,00 & 2,00 & 1,50 & 0,25 \\
-        3 & 1,0000 &  1,5000 &  1,2500 & $-0,4375$ \\
-        4 & 1,250000 &  1,500000 &  1,375000 & $-0,109375$ \\
-        5 & 1,37500000 & 1,50000000 & 1,43750000 & 0,06640625 \\
-        6 & 1,37500000 &  1,43750000 &  1,40625000 & $-0,02246094$ \\
-        7 & 1,40625000 & 1,43750000 & 1,42187500 & 0,02172852 \\
-        8 & 1,4062500000 &  1,4218750000 &  1,4140625000 & $-0,0004272461$ \\
-        9 & 1,41406250 & 1,42187500 & 1,41796875 & 0,01063538 \\
-        10 & 1,41406250 & 1,41796875 & 1,41601562 & 0,00510025 \\
+        1 & 0 & 2 & 1 & -1 \\
+        2 & 1.00 & 2.00 & 1.50 & 0.25 \\
+        3 & 1.0000 &  1.5000 &  1.2500 & -0.4375 \\
+        4 & 1.250000 &  1.500000 &  1.375000 & -0.109375 \\
+        5 & 1.37500000 & 1.50000000 & 1.43750000 & 0.06640625 \\
+        6 & 1.37500000 &  1.43750000 &  1.40625000 & -0.02246094 \\
+        7 & 1.40625000 & 1.43750000 & 1.42187500 & 0.02172852 \\
+        8 & 1.4062500000 &  1.4218750000 &  1.4140625000 & -0.0004272461 \\
+        9 & 1.41406250 & 1.42187500 & 1.41796875 & 0.01063538 \\
+        10 & 1.41406250 & 1.41796875 & 1.41601562 & 0.00510025 \\
         \bottomrule
       \end{tabular}
     \end{table}
@@ -247,8 +247,7 @@ secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
 \end{exercice}
 
 \begin{exercice}
-  Considérer la fonction $g(x) = 2^{-x}$ sur l'intervalle $[0,
-  1]$.
+  Soit la fonction $g(x) = 2^{-x}$ sur l'intervalle $[0, 1]$.
   \begin{enumerate}
   \item Vérifier si les hypothèses du
     \autoref{thm:resolution:pointfixe} quant à l'existence et
@@ -373,7 +372,9 @@ polygon(c(0, 0, 1, 1), c(0, 1, 1, 0), lty = 2, border = "blue")
   \begin{sol}
     En premier lieu, on remarque que les fonctions $g_1$, $g_2$ et
     $g_3$ sont développées à partir de l'équation $x^3 = 21$ pour
-    calculer $\sqrt[3]{21}$ par la méthode du point fixe. La \autoref{fig:resolution:racinecubique} présente ces trois fonctions.
+    calculer $\sqrt[3]{21}$ par la méthode du point fixe. La
+    \autoref{fig:resolution:racinecubique} présente ces trois
+    fonctions.
     \begin{figure}
       \centering
       \begin{minipage}[t]{0.32\linewidth}
@@ -584,7 +585,7 @@ tri <- function(CF, erreur.max = 1E-6)
     nr(f, fp, start = 0.05, TOL = erreur.max)$root
 }
 \end{Scode}
-      \end{framed}
+      \end{framed} %$
       \caption{Fonction R de calcul du taux de rendement interne d'une
         série de flux financiers}
       \label{fig:resolution:tri}
@@ -654,7 +655,7 @@ End Function
 \begin{exercice}
   \label{ex:resolution:gamma}
   \begin{enumerate}
-  \item Écrire une fonction R pour estimer par la méthode du maximum
+  \item Composer une fonction R pour estimer par la méthode du maximum
     de vraisemblance le paramètre $\theta$ d'une loi gamma de
     paramètre de forme $\alpha = 3$ et de paramètre d'échelle $\theta
     = 1/\lambda$ --- de moyenne $3 \theta$, donc --- à partir d'un
@@ -825,7 +826,9 @@ End Function
     \end{displaymath}
     Cette fonction satisfait les hypothèses pour l'existence et
     l'unicité d'un point fixe, mais sa pente est toutefois près de 1,
-    donc la convergence sera lente; voir la \autoref{fig:resolution:a_angle:g2}. Enfin, on peut considérer la fonction
+    donc la convergence sera lente; voir la
+    \autoref{fig:resolution:a_angle:g2}. Enfin, on peut considérer la
+    fonction
     \begin{align*}
       g_3(i)
       &= i - \frac{f(i)}{f^\prime(i)} \\
@@ -992,7 +995,8 @@ exp(optim(c(log(2), log(1000)), f, x = x)$par)
 \input{reponses-resolution_equations}
 
 %%% Local Variables:
-%%% mode: latex
+%%% mode: noweb
+%%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% coding: utf-8
 %%% End:
