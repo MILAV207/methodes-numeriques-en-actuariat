@@ -49,10 +49,9 @@
 \cleartorecto
 \tableofcontents*
 
-\mainmatter
-
 %% Vignette tirée de xkcd.com
-\pagestyle{empty}
+\cleartoverso
+\thispagestyle{empty}
 \begin{vplace}[0.45]
   \centering
   \setkeys{Gin}{width=\textwidth}
@@ -63,9 +62,8 @@
   \end{minipage}
   \setkeys{Gin}{width=0.8\textwidth}
 \end{vplace}
-\cleardoublepage
 
-\pagestyle{companion}
+\mainmatter
 
 \include{arithmetique_ordinateurs}
 \include{resolution_equations}
