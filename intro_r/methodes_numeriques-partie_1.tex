@@ -91,6 +91,7 @@
 
 \begin{document}
 
+%\midsloppy
 \frontmatter
 
 \pagestyle{empty}
@@ -111,10 +112,28 @@
 \pagestyle{companion}
 
 \include{introduction-partie_1}
+
 \cleartorecto
 \tableofcontents*
 
+%% Vignette tirée de xkcd.com
+\cleartoverso
+\thispagestyle{empty}
+\begin{vplace}[0.45]
+  \centering
+  \setkeys{Gin}{width=\textwidth}
+  \begin{minipage}{351pt}
+    \includegraphics{compiling.png} \\
+    \footnotesize\sffamily%
+    Tiré de \href{http://xkcd.com/303/}{XKCD.com}
+  \end{minipage}
+  \setkeys{Gin}{width=0.8\textwidth}
+\end{vplace}
+
+%\pagestyle{companion}
+
 \mainmatter
+
 \include{presentation}
 \include{bases}
 \include{operateurs}
