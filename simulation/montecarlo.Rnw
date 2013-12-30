@@ -2,8 +2,8 @@
 \label{chap:montecarlo}
 
 \begin{objectifs}
-\item Définir le principe calcul de la valeur d'une intégrale définie
-  à l'aide de nombres aléatoires.
+\item Définir le principe du calcul de la valeur d'une intégrale
+  définie à l'aide de nombres aléatoires.
 \item Calculer la valeur d'une intégrale définie par la méthode Monte
   Carlo.
 \end{objectifs}

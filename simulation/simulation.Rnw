@@ -25,15 +25,14 @@ soit la méthode de l'inverse et la méthode d'acceptation-rejet.
 D'autres méthodes populaires en actuariat sont mentionnées à la
 \autoref{sec:simulation:autres}.
 
-Plusieurs algorithmes de simulation de nombres aléatoires non
-uniformes reposent sur des résultats de transformations de variables
-aléatoires. Par exemple:
+Plusieurs algorithmes de simulation de nombres non uniformes reposent
+sur des résultats de transformations de variables aléatoires. Par
+exemple:
 \begin{itemize}
 \item la somme de $\alpha$ exponentielles est une loi gamma avec
   paramètre de forme $\alpha$ entier;
 \item la loi géométrique est la partie entière de l'exponentielle;
-\item la loi $F$ est un ratio de deux khi-carré;
-\item etc.
+\item la loi $F$ est un ratio de deux khi-carré; etc.
 \end{itemize}
 Le lecteur qui ne serait pas à l'aise avec les notions de
 transformation de variables aléatoires trouvera à

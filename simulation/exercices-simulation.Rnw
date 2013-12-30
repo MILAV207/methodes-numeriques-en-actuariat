@@ -780,7 +780,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
   \begin{sol}
     \begin{enumerate}
     \item On démontre facilement que le mode $M$ d'une distribution
-      Bêta$(\alpha, \beta)$ se trouve en
+      bêta de paramètres $\alpha$ et $\beta$ se trouve en
       \begin{displaymath}
         x = \frac{\alpha - 1}{\alpha + \beta - 2}.
       \end{displaymath}
@@ -1153,7 +1153,8 @@ options(op)
       \right].
     \end{gather*}
     Or, tant la distribution de $-\ln U$ que celle de $Y/\alpha$ est
-    une Exponentielle$(1)$, d'où l'algorithme donné dans l'énoncé.
+    une exponentielle de moyenne $1$, d'où l'algorithme donné dans
+    l'énoncé.
   \end{sol}
 \end{exercice}
 
