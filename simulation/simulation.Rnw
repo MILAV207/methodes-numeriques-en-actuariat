@@ -626,7 +626,7 @@ traducteurs français ont omis de faire de même.
     \bottomrule
   \end{tabularx}
   \caption{Liste des fonctions relatives à des lois de probabilité
-    dans Excel 2010.}
+    depuis Excel 2010.}
   \label{tab:excel}
 \end{table}
 

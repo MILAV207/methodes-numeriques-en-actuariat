@@ -291,29 +291,30 @@ La fonction à utiliser dans Microsoft Excel pour obtenir un nombre
 aléatoire dans l'intervalle $(0, 1)$ est \code{ALEA()} (dans la
 version française) ou \code{RAND()} (dans la version anglaise).
 
-Dans les versions 2003 et 2007, Microsoft Excel utilise le générateur
-de nombres aléatoire Whichmann--Hill. Ce générateur a longtemps été
-considéré comme le meilleur disponible, mais a été supplanté ces
-dernières années. Microsoft prétend que la période du générateur
-Whichmann--Hill est $10^{13}$, mais omet alors de tenir compte de
-littérature démontrant qu'elle est plutôt de $6,95 \times 10^{12}
-\approx 2^{43}$, ce qui est aujourd'hui considéré trop court.
+L'historique de Microsoft dans la mise eu {\oe}uvre de générateurs de
+nombres aléatoires pour Excel n'est pas reluisant. Au fil des ans,
+plusieurs articles scientifiques ont démontré les lacunes de la
+fonction \code{RAND()}.
 
-La mise en {\oe}uvre du générateur Whichmann--Hill dans Excel 2003
-avait le fâcheux défaut de pouvoir générer des nombres négatifs. Ce
-défaut a été corrigé dans le \emph{Service Pack} 1 de Office 2003
-(voir \url{http://support.microsoft.com/kb/834520}). La version 2007
-du générateur est identique à la version 2003 corrigée (voir
-\url{http://support.microsoft.com/kb/828795}).
+Par exemple, dans les versions 2003 et 2007, Microsoft Excel utilisait
+le générateur de nombres aléatoire Whichmann--Hill. Ce générateur a
+longtemps été considéré comme le meilleur disponible, mais a été
+supplanté ces dernières années. Microsoft prétendait que la période du
+générateur Whichmann--Hill est $10^{13}$, mais omettait de tenir
+compte de littérature démontrant qu'elle est plutôt de $6,95 \times
+10^{12} \approx 2^{43}$, une période désormais considérée trop courte.
 
-Consulter \cite{McCullough:Excel2007:2008} pour une discussion
-détaillée de la génération de nombres aléatoires et d'autres
-procédures statistiques dans Excel 2007, ainsi que les références
-mentionnées dans cet article pour les version précédentes de Excel. De
-plus, \citet{McCullough:MENTWH:2008} démontrent que le générateur de
-Excel ne saurait être véritablement celui de Whichmann--Hill. Les
-auteurs écrivent en conclusion:
+De plus, la mise en {\oe}uvre du générateur Whichmann--Hill dans Excel
+2003 avait le fâcheux défaut de pouvoir générer des nombres négatifs.
+Ce défaut a plus tard été corrigé par un \emph{Service Pack} 1 de
+Office 2003 ainsi que dans la version 2007.
 
+L'article de \cite{McCullough:Excel2007:2008} demeure une référence
+sur les lacunes observées dans la génération de nombres aléatoires et
+les procédures statistiques dans Excel 2007. De plus,
+\citet{McCullough:MENTWH:2008} démontrent que le générateur de Excel
+ne saurait être véritablement celui de Whichmann--Hill. Les auteurs
+écrivent en conclusion:
 \begin{quote}
   Twice Microsoft has attempted to implement the dozen lines of code
   that define the Wichmann and Hill (1982) RNG\footnote{%
@@ -325,17 +326,23 @@ auteurs écrivent en conclusion:
   period that is not known to pass any standard tests of randomness.
 \end{quote}
 
+Les critiques relevées dans les articles ci-dessus ont poussé
+Microsoft à améliorer la précision des procédures statistiques depuis
+Excel 2010 \citep{Microsoft:Excel2010:2009}. Microsoft affirme
+également utiliser un nouveau générateur de nombres aléatoires pour la
+fonction \code{RAND()}. Seulement, plusieurs années après le lancement
+du produit, il demeure difficile d'obtenir des détails qui
+permettraient de dissiper tout doute sur la qualité des nombres
+aléatoires fournis pas Excel.
 
 
 \subsection{Générateur de VBA}
 
-\begin{sloppypar}
-  La fonction \code{RND()} de VBA génère un nombre aléatoire. Selon
-  l'article 231847 de la base de connaissances Microsoft
-  (\url{http://support.microsoft.com/kb/231847}),
-  le générateur de nombres aléatoires utilisé par la fonction
-  \code{RND()} est un simple générateur congruentiel linéaire.
-\end{sloppypar}
+La fonction \code{RND()} de VBA génère un nombre aléatoire. Selon
+l'article 231847 de la base de connaissances Microsoft
+(\url{http://support.microsoft.com/kb/231847}), le générateur de
+nombres aléatoires utilisé par la fonction \code{RND()} est un simple
+générateur congruentiel linéaire.
 
 Étant donné l'avancement actuel des connaissances dans le domaine des
 générateurs de nombres pseudo-aléatoires, un tel générateur est tout à
