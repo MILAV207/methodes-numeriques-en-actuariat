@@ -1082,9 +1082,9 @@ points(x, f(x), pch = 21, bg = "red3")
 \label{sec:resolution:fonctions}
 
 Les méthodes de bissection, du point fixe, de Newton--Raphson et
-consorts permettent de résoudre des équations à une variable de la
-forme $f(x) = 0$ ou $g(x) = x$. Il existe également des versions de
-ces méthodes pour les systèmes à plusieurs variables comme
+autres permettent de résoudre des équations à une variable de la forme
+$f(x) = 0$ ou $g(x) = x$. Il existe également des versions de ces
+méthodes pour les systèmes à plusieurs variables comme
 \begin{align*}
   f_1(x_1, x_2, x_3) &= 0 \\
   f_2(x_1, x_2, x_3) &= 0 \\

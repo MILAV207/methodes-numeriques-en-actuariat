@@ -46,8 +46,9 @@ effet, un des plus célèbres principes de programmation proposés par
 \end{center}
 D'ailleurs, les auteurs des faux rapports de bogues dans
 \texttt{r-help} sont invariablement renvoyés à l'\href{http://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f}{entrée 7.31} de la
-foire aux questions de R\footnote{%
-  \url{http://cran.r-project.org/doc/FAQ/R-FAQ.html}}.
+foire aux questions\footnote{%
+  \url{http://cran.r-project.org/doc/FAQ/R-FAQ.html}} %
+de R.
 
 Pour quiconque travaille régulièrement avec un ordinateur pour faire
 du calcul scientifique, connaître globalement le fonctionnement
@@ -381,10 +382,10 @@ diviser le nombre obtenu par $b^n$.
 
 \begin{exemple}
   \label{ex:ordinateurs:b_vers_10}
-  Soit le nombre binaire $101011,011$ que l'on convertit en décimal.
-  Le \autoref{tab:ordinateurs:b_vers_10} illustre le processus de
-  conversion selon l'\autoref{algo:ordinateurs:b_vers_10} (le
-  chiffre en surbrillance est celui traité lors de chaque étape de
+  On convertit le nombre binaire $101011,011$ en décimal. Le
+  \autoref{tab:ordinateurs:b_vers_10} illustre le processus de
+  conversion selon l'\autoref{algo:ordinateurs:b_vers_10} (le chiffre
+  en surbrillance est celui traité lors de chaque étape de
   l'algorithme). Le résultat final est $43,375$.
 
   De manière équivalente, mais plus simple, on peut déplacer la
@@ -444,14 +445,14 @@ diviser le nombre obtenu par $b^n$.
 \subsection{Conversion avec des bases générales}
 \label{sec:ordinateurs:conversion:bases_generales}
 
-Il existe de nombreuses bases d'usage courant où chaque symbole est
-(potentiellement) exprimé dans une base différente. On a qu'à penser à
-l'heure ou l'ensemble du système de mesure impérial, par exemple. Or,
-il peut s'avérer utile de savoir convertir de et vers une base
+Il existe de nombreuses bases de numération d'usage courant où chaque
+symbole est (potentiellement) exprimé dans une base différente. On a
+qu'à penser à l'heure ou à l'ensemble du système de mesure impérial.
+Or, il peut s'avérer utile de savoir convertir de et vers une base
 quelconque. Le matériel de cette section se retrouve dans très peu
 d'ouvrages d'analyse numérique ou de statistique numérique. Pourtant,
-il existe quelques applications intéressantes de la conversion de et vers
-des bases générales, comme nous le verrons.
+il existe quelques applications intéressantes de la conversion de et
+vers des bases générales, comme nous le verrons.
 
 On peut généraliser la notion de nombre présentée dans les sections
 précédentes à une collection de «symboles», chacun dans une base
@@ -484,11 +485,12 @@ ici. Il suffit de remplacer chaque mention de $b$ par $b_i$.
     &= 1 \times (24)(60)(60) + 2 \times (60)(60) + 33 \times 60 + 20 \\
     &= \nombre{95600} \text{ secondes}.
   \end{align*}
-  À l'inverse, le nombre de jours, heures, minutes et secondes
-  correspondant à \nombre{91492} secondes est, en utilisant
-  l'\autoref{algo:ordinateurs:10_vers_b} avec la base $[365\; 24\;
-  60\; 60]$: 1~jour, 1~heure, 24~minutes et 52~secondes (voir
-  le \autoref{tab:ordinateurs:10_vers_generale} pour les calculs).
+  Si l'on fait la conversion en sens inverse, le nombre de jours,
+  heures, minutes et secondes correspondant à \nombre{91492} secondes
+  est, en utilisant l'\autoref{algo:ordinateurs:10_vers_b} avec la
+  base $[365\; 24\; 60\; 60]$: 1~jour, 1~heure, 24~minutes et
+  52~secondes (voir le \autoref{tab:ordinateurs:10_vers_generale} pour
+  les calculs).
   \begin{table}
     \caption{Conversion du nombre décimal $\nombre{91492}$ dans la
       base générale $[365\; 24\; 60\; 60]$.}

@@ -52,9 +52,9 @@ options(width = 55, digits = 5)
   \item $e^x - x^2 + 3x - 2 = 0$ pour $0 \leq x \leq 1$
   \end{enumerate}
   \begin{sol}
-    Les solutions suivantes ont été obtenues à l'aide de nos fonctions
-    de résolution d'équations à une variable. Les valeurs
-    intermédiaires sont affichées pour montrer la convergence. La
+    Les solutions suivantes utilisent nos fonctions de résolution
+    d'équations à une variable. Les valeurs intermédiaires sont
+    affichées pour montrer la convergence. La
     \autoref{fig:resolution:toutes} contient les graphiques des cinq
     fonctions pour les intervalles mentionnés dans l'énoncé.
     \begin{figure}
