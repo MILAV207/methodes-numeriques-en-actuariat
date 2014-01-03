@@ -499,6 +499,7 @@ f <- function(x) 2 * x + 2
 g <- function(x) -3 * x + 12
 curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
 curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
+points(2, 6, pch = 19, cex = 1.5)
 @
   \end{minipage}
   \begin{minipage}[c]{0.4\linewidth}
@@ -528,14 +529,17 @@ g <- function(x) 2 * x + 2.07
 curve(f, xlim = c(0, 5), xlab = "", ylab = "", col = "blue", lwd = 4)
 curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
 @
+  \footnotesize\hspace*{1em}%
+  (droites superposées)
   \end{minipage}
   \begin{minipage}[c]{0.4\linewidth}
     \scalebox{1.5}{\includegraphics{infinite_3d}}
   \end{minipage}
   \newline
   \caption{Solutions possibles de systèmes d'équations linéaires à
-    deux et trois variables: (a) une seule solution;(b) aucune
-    solution; (c) infinité de solutions.}
+    deux et trois variables: (a) une seule solution; (b) aucune
+    solution; (c) infinité de solutions. La ou les solutions sont
+    illustrées par un point ou une droite en noir, lorsque possible.}
   \label{fig:revision:solutions}
 \end{figure}
 
