@@ -71,7 +71,7 @@
       \end{align*}
       Par substitution successive, on obtient $x_3 = 5$, $x_2 = 2 - 2(5)
       = -8$ et $x_1 = 7 + (3)(-8) - 4(5) = -37$.
-    \item Le système est sous-déterminé: il compte plus d'inconnues
+    \item Le système est sous-déterminé puisqu'il compte plus d'inconnues
       que d'équations. Il y a donc une infinité de solutions. Le
       système d'équations correspondant est
       \begin{align*}
@@ -930,7 +930,7 @@
         \end{bmatrix}.
       \end{displaymath}
       La troisième ligne n'étant pas un multiple de la deuxième, on
-      constate que la seule solution du système d'équations homogène
+      cons\-tate que la seule solution du système d'équations homogène
       $\mat{A} \mat{x} = \mat{0}$ est la solution triviale. Par
       conséquent, les trois vecteurs sont linéairement indépendants et
       ne se trouvent pas dans un plan. On pourrait également vérifier
@@ -976,12 +976,13 @@
   inversible et trouver son inverse.
   \begin{sol}
     On peut interpréter la condition $\prod_{i=1}^n a_{ii} \neq 0$
-    comme le fait que $\det(\mat{A}) \neq 0$, ou comme le fait qu'il
-    n'y aucun zéro sur la diagonale et, par conséquent, aucune ligne
-    de zéros dans la matrice. Dans un cas comme dans l'autre, cela
-    signifie que l'inverse existe. En utilisant la technique
-    consistant à transformer la matrice $[\mat{A}|\mat{I}]$ en
-    $[\mat{I}|\mat{A}^{-1}]$, on voit immédiatement que
+    comme le fait que le déterminant de la matrice est non nul, ou
+    comme le fait qu'il n'y aucun zéro sur la diagonale et, par
+    conséquent, aucune ligne de zéros dans la matrice. Dans un cas
+    comme dans l'autre, cela signifie que l'inverse existe. En
+    utilisant la technique consistant à transformer la matrice
+    $[\mat{A}|\mat{I}]$ en $[\mat{I}|\mat{A}^{-1}]$, on voit
+    immédiatement que
     \begin{displaymath}
       \mat{A} =
       \begin{bmatrix}
@@ -1435,7 +1436,7 @@
 
 \begin{exercice}
   Trouver l'inverse des matrices suivantes, où $k, k_1, \dots k_4$
-  sont des constantes non nulles.
+  sont des cons\-tantes non nulles.
   \begin{multicols}{3}
     \begin{enumerate}
     \item $%
@@ -1486,9 +1487,10 @@
           k_4^{-1} & 0 & 0 & 0
         \end{bmatrix}.
       \end{displaymath}
+      \pagebreak[3]
     \item On utilise la méthode de l'\autoref{ex:revision:inverse_par_op_elementaires}.
       \setlength{\ocolumnsep}{\columnsep}
-      \setlength{\columnsep}{-86pt}
+      \setlength{\columnsep}{-120pt}
       \begin{multicols}{2}
         Matrice de départ \\
         \columnbreak

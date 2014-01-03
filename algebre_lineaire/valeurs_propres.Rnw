@@ -630,7 +630,7 @@ dans l'exemple suivant.
   n'est uniformément meilleure que les autres!
 
   Cela dit, le calcul de l'exponentielle de $\mat{A}$ est simple si la
-  matriceest diagonale. Supposons, sans perte de généralité, que
+  matrice est diagonale. Supposons, sans perte de généralité, que
   $\mat{A}$ est une matrice $2 \times 2$:
   \begin{equation*}
     \mat{A} =
@@ -664,7 +664,7 @@ dans l'exemple suivant.
     \end{bmatrix}.
   \end{align*}
   Le calcul de l'exponentielle d'une matrice diagonale se résume donc
-  à prendre l'exponentielle des éléments de la diagonale.
+  à calculer l'exponentielle des éléments de la diagonale.
 
   Poussons l'idée une étape plus loin. Supposons que $\mat{B}$ est une
   matrice que l'on peut écrire sous la forme
@@ -795,11 +795,11 @@ suivant.
 \end{thm}
 
 La remarque qui suit l'\autoref{ex:valeurspropres:vecteurs}
-établissait que si toutes les valeurs propres sont différentes
-(multiplicité 1), alors on a un total de $n$ vecteurs propres.
-
+établissait que si toutes les valeurs propres sont distinctes
+(multiplicité $1$), alors on a un total de $n$ vecteurs propres.
 Or, on peut démontrer que si les valeurs propres sont distinctes,
-alors les vecteurs propres sont linéairement indépendants.
+alors les vecteurs propres sont linéairement indépendants. Il en
+découle le théorème suivant.
 
 \begin{thm}
   \label{thm:valeurspropres:diagonalisable2}

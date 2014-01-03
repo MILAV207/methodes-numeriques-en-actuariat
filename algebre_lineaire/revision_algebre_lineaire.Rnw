@@ -158,7 +158,7 @@ La matrice nulle est tout-à-fait différente du scalaire 0.
 
 \subsection{Vecteur ligne et vecteur colonne}
 
-Les matrices ne comptant qu'une seule ligne ou une seule colonne
+Les matrices comptant une seule ligne ou une seule colonne
 portent un nom spécial. Une matrice $1 \times n$ est appelée
 \emph{vecteur ligne} et une matrice $m \times 1$ est appelée
 \emph{vecteur colonne} ou parfois simplement \emph{vecteur}. Ces deux
@@ -705,13 +705,13 @@ Ces opérations sont appelées \emph{opérations élémentaires sur les lignes}.
 
 \subsection{Élimination gaussienne}
 
-La procédure suivie pour résoudre le système d'équations de
-l'\autoref{ex:revision:gaussienne} s'apparente à l'\emph{élimination
-  gaussienne}. Plus précisément, l'élimination gaussienne consiste à
-appliquer des opérations élémentaires à la matrice augmentée
-correspondant à un système d'équations linéaires jusqu'à ce que la
-partie gauche de celle-ci se trouve sous forme \emph{échelonnée},
-c'est-à-dire:
+La procédure de la matrice augmentée utilisée pour résoudre le système
+d'équations de l'\autoref{ex:revision:gaussienne} s'apparente à
+l'\emph{élimination gaussienne}. Plus précisément, l'élimination
+gaussienne consiste à appliquer des opérations élémentaires à la
+matrice augmentée correspondant à un système d'équations linéaires
+jusqu'à ce que la partie gauche de celle-ci se trouve sous forme
+\emph{échelonnée}, c'est-à-dire:
 \begin{enumerate}
 \item si une ligne n'est pas constituée uniquement de zéros, alors le
   premier élément non nul de cette ligne est un 1;
@@ -731,26 +731,27 @@ c'est-à-dire:
       0 & 1 & * & * \\
       0 & 0 & 1 & * \\
       0 & 0 & 0 & 1
-    \end{bmatrix}, \quad
+    \end{bmatrix}, \;
     \begin{bmatrix}
       1 & * & * & * \\
       0 & 1 & * & * \\
       0 & 0 & 1 & * \\
       0 & 0 & 0 & 0
-    \end{bmatrix}, \quad
+    \end{bmatrix}, \;
     \begin{bmatrix}
       1 & * & * & * \\
       0 & 1 & * & * \\
       0 & 0 & 0 & 0 \\
       0 & 0 & 0 & 0
-    \end{bmatrix}, \quad
+    \end{bmatrix}, \;
     \begin{bmatrix}
       1 & * & * & * & * \\
       0 & 1 & * & * & * \\
       0 & 0 & 0 & 1 & * \\
       0 & 0 & 0 & 0 & 0
     \end{bmatrix}.
-  \end{gather*} \qed
+  \end{gather*}
+  \qed
 \end{exemple}
 
 Si on ajoute l'exigence que le premier 1 suivant des zéros d'une
@@ -767,26 +768,27 @@ résolution du système d'équations linéaires est alors appelée
       0 & 1 & 0 & 0 \\
       0 & 0 & 1 & 0 \\
       0 & 0 & 0 & 1
-    \end{bmatrix}, \quad
+    \end{bmatrix}, \;
     \begin{bmatrix}
       1 & 0 & 0 & * \\
       0 & 1 & 0 & * \\
       0 & 0 & 1 & * \\
       0 & 0 & 0 & 0
-    \end{bmatrix}, \quad
+    \end{bmatrix}, \;
     \begin{bmatrix}
       1 & 0 & * & * \\
       0 & 1 & * & * \\
       0 & 0 & 0 & 0 \\
       0 & 0 & 0 & 0
-    \end{bmatrix}, \quad
+    \end{bmatrix}, \;
     \begin{bmatrix}
       1 & 0 & * & 0 & * \\
       0 & 1 & * & 0 & * \\
       0 & 0 & 0 & 1 & * \\
       0 & 0 & 0 & 0 & 0
     \end{bmatrix}.
-  \end{gather*} \qed
+  \end{gather*}
+  \qed
 \end{exemple}
 
 \begin{exemple}
@@ -867,7 +869,7 @@ produit
     1 & 2
   \end{bmatrix}.
 \end{equation*}
-Pour additionner à la première ligne 2 fois la seconde, on peut faire
+Pour additionner à la première ligne $2$ fois la seconde, on peut faire
 le produit
 \begin{equation*}
   \begin{bmatrix}
@@ -948,7 +950,7 @@ principale propriété est formalisée dans le théorème suivant.
 \end{exemple}
 
 Les matrices élémentaires seront utiles lorsque nous étudierons la
-décomposition $LU$.
+décomposition $LU$ au \autoref{chap:decomposition}.
 
 
 \subsection{Systèmes d'équations homogènes}
@@ -1039,7 +1041,7 @@ certain nombre de conditions.
 \end{definition}
 
 \begin{definition}[Orthogonalité]
-  Deux éléments $\mat{u}$ et $\mat{v}$ d'un espace pré-hilbertien sont
+  Deux éléments $\mat{u}$ et $\mat{v}$ d'un espace pré-hil\-ber\-tien sont
   orthogonaux si $\pscal{\mat{u}}{\mat{v}} = 0$.
 \end{definition}
 
@@ -1287,19 +1289,20 @@ sur l'utilisation du déterminant, qui sera présenté à la
 calculer l'inverse d'une matrice par une méthode similaire à
 l'élimination de Gauss--Jordan.
 
-On peut en effet démontrer (et ce fait sera confirmé dans le \autoref{thm:revision:unification}) que si la matrice $\mat{A}$ est
+En effet, on peut démontrer que si la matrice $\mat{A}$ est
 inversible, alors on peut trouver des matrices élémentaires
 $\mat{E}_1, \dots, \mat{E}_k$ tel que
 \begin{equation*}
   \mat{E}_k \cdots \mat{E}_1 \mat{A} = \mat{I}.
 \end{equation*}
+(Ce fait sera confirmé dans le \autoref{thm:revision:unification}.)
 Par conséquent,
 \begin{equation*}
   \mat{A}^{-1} = \mat{E}_k \cdots \mat{E}_1 \mat{I},
 \end{equation*}
 ce qui signifie que l'on peut obtenir l'inverse de $\mat{A}$ en
 appliquant aux lignes de la matrice identité les opérations
-élémentaires nécessaires pour convertir $\mat{A}$ en la matrice
+élémentaires nécessaires pour convertir $\mat{A}$ en matrice
 identité.
 
 \begin{exemple}
@@ -1434,11 +1437,11 @@ peuvent être résolus avec l'inverse de $\mat{A}$, lorsqu'elle existe.
   \end{equation*}
 \end{thm}
 
-Ce résultat ne peut évidemment être utilisé que lorsque le système
+Le résultat ci-dessus ne peut évidemment servir que lorsque le système
 d'équations compte autant d'inconnues que d'équations, c'est-à-dire
-lorsque la matrice $\mat{A}$ est carrée.  Dans le cas contraire, il
-faut utiliser les méthodes d'élimination pour trouver la solution du
-système d'équations.
+lorsque la matrice $\mat{A}$ est carrée. Dans le cas contraire, il
+faut utiliser les méthodes d'élimination pour résoudre le système
+d'équations.
 
 
 

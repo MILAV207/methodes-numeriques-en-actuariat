@@ -255,7 +255,7 @@ eigen(m)
         \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix} =
         \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \end{bmatrix},
       \end{displaymath}
-      soit $x_1 = 2s$, $x_2 = 3s$, $x_3 = s$ et $x_4 = t$. Or, $(2s,
+      soit $x_1 = 2s$, $x_2 = 3s$, $x_3 = s$ et $x_4 = t$. Or, on a que $(2s,
       3s, s, t) = s(2, 3, 1, 0) + t (0, 0, 0, 1)$. Une base de
       vecteurs propres correspondant à $\lambda = 1$ est donc composée
       des vecteurs $(2, 3, 1, 0)$ et $(0, 0, 0, 1)$.  Deuxièmement, le
