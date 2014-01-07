@@ -4,7 +4,7 @@
 \begin{objectifs}
 \item Résoudre une équation à une variable à l'aide des méthodes de la
   bissection, du point fixe et de Newton-Raphson.
-\item Faire un choix parmi l'une des méthodes ci-dessous pour résoudre
+\item Faire un choix parmi l'une des méthodes ci-dessus pour résoudre
   un problème donné.
 \item Déterminer si une fonction admet un point fixe dans un
   intervalle donné.
