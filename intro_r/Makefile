@@ -9,6 +9,16 @@
 # Further adjustments Vincent Goulet
 # April 2008
 
+# Correspondances url des capsules sur YouTube.
+#  Présentation			http://youtu.be/LTOOBBGDuek
+#  Anatomie			http://youtu.be/xiNnHegDau8
+#  Installation packages	http://youtu.be/DL48oi2RKjM
+#  Fichiers configuration	http://youtu.be/IsyQn7d2Ao0
+#  Fonction order		http://youtu.be/pPLxbuEZmkA
+#  Fonction outer		http://youtu.be/Ht04UiHnU_0
+#  Indiçage			http://youtu.be/sMd1IyTg-ic
+#  Fonction apply		http://youtu.be/EN-a8bTefNk
+
 MASTER = methodes_numeriques-partie_1.pdf
 
 # The master document depends on all TeX and R files
