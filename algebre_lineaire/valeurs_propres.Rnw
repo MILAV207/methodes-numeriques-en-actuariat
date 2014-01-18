@@ -15,8 +15,9 @@ Les valeurs et vecteurs propres sont des caractéristiques liées à une
 matrice carrée. Ces notions admettent une grande variété
 d'interprétations physiques différentes, chacune ancrée dans son
 domaine d'application: géométrie, résolution d'équations
-différentielles, mécanique quantique, finance, \capsule{moteurs de
-  recherche}, etc.
+différentielles, mécanique quantique, finance, %
+\capsule{http://youtu.be/VM4IRctyjOk}{moteurs de recherche}, %
+etc.
 
 Dans le cadre de ce cours, l'étude des valeurs et vecteurs propres
 demeurera plutôt collée aux définitions de base. Nous ne verrons

@@ -61,7 +61,9 @@ suivantes, entre autres:
 \item optimiser le code informatique.
 \end{itemize}
 
-Les ordinateurs ne savent pas faire d'arithmétique à proprement
+Ce chapitre se penche sur les grands principes de l'%
+\capsule{http://youtu.be/arithmetique}{arithmétique des ordinateurs}. %
+En fait, les ordinateurs ne savent pas faire d'arithmétique à proprement
 parler. Ils ne connaissent que deux états: ouvert (1) et fermé (0).
 Nous en profiterons donc d'abord pour réviser la conversion des
 nombres décimaux vers, et de, n'importe quelle base. Après avoir, à la

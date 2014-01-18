@@ -29,6 +29,9 @@ tex: $(RNWFILES:.Rnw=.tex)
 	$(SWEAVE) '$<'
 
 $(MASTER): $(RNWFILES) $(TEXFILES)
+	sed -i "" \
+	    -e "s:youtu.be/google:youtu.be/VM4IRctyjOk:" \
+	    valeurs_propres.tex
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 clean:

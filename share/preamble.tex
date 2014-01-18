@@ -45,6 +45,7 @@
     urlcolor=url, linkcolor=link, citecolor=citation,
     bookmarksopen, bookmarksnumbered, bookmarksdepth=subsubsection,
     pdfauthor={Vincent Goulet}}
+  \setlength{\XeTeXLinkMargin}{1pt}
   \renewcommand{\appendixautorefname}{annexe}
   \renewcommand{\figureautorefname}{figure}
   \newcommand{\subfigureautorefname}{figure}
@@ -226,13 +227,9 @@
   %% Indications de capsule vidéo
   \setul{1.5pt}{0.7pt}
   \newcommand{\video}{%
-    \includegraphics{../share/YouTubeArrow3}}
-    % $\mathrel{\vcenter{\offinterlineskip%
-    %     \bfseries\fontsize{32}{32}\selectfont
-    %     \hbox{$\bigcirc$}%
-    %     \fontsize{22}{22}\selectfont\vskip-18.2pt\hskip8.8pt
-    %     \hbox{\Forward}}}$}
-  \newcommand{\capsule}[1]{\marginpar{\video}\ul{#1}}
+    \includegraphics[height=22pt,keepaspectratio]{../share/YouTubeArrow3}}
+  \newcommand{\capsule}[2]{\href{#1}{#2}\marginpar{%
+      \href{#1}{\XeTeXLinkBox{\raisebox{-14pt}[0em][0em]{\video}}}}}
 
   %% Raccourcis usuels vg
   \newcommand{\pt}{{\scriptscriptstyle \Sigma}}

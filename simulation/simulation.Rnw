@@ -406,18 +406,19 @@ pour tout $x$, alors on a l'algorithme d'acceptation-rejet suivant:
   $x$ que si $c > 1$.
 \end{rem}
 
-L'idée de la \capsule{méthode d'acceptation-rejet} consiste à accepter
-la «bonne proportion» des réalisations de $Y$ comme provenant de $X$.
-Dans l'illustration de la
-\autoref{fig:simulation:acceptation-rejet}, la densité $f$ à
-support fini est facilement enveloppée par un rectangle. Un nombre $y$
-simulé de cette distribution (à toutes fins pratiques une uniforme,
-ici) est accepté comme provenant de $f$ dans une proportion
-correspondant au ratio entre la valeur de $f_X(y)$ (les segments verts
-dans la figure) et la valeur de $c g_Y(y)$ (les segments bleus). À
-l'inverse, le nombre $y$ est rejeté selon le ratio de la longueur d'un
-segment rouge sur celle d'un segment bleu. On voit donc que certaines
-valeurs $y$ seront rejetées plus souvent que d'autres.
+L'idée de la %
+\capsule{http://youtu.be/acceptation-rejet}{méthode d'acceptation-rejet} %
+consiste à accepter la «bonne proportion» des réalisations de $Y$
+comme provenant de $X$. Dans l'illustration de la
+\autoref{fig:simulation:acceptation-rejet}, la densité $f$ à support
+fini est facilement enveloppée par un rectangle. Un nombre $y$ simulé
+de cette distribution (à toutes fins pratiques une uniforme, ici) est
+accepté comme provenant de $f$ dans une proportion correspondant au
+ratio entre la valeur de $f_X(y)$ (les segments verts dans la figure)
+et la valeur de $c g_Y(y)$ (les segments bleus). À l'inverse, le
+nombre $y$ est rejeté selon le ratio de la longueur d'un segment rouge
+sur celle d'un segment bleu. On voit donc que certaines valeurs $y$
+seront rejetées plus souvent que d'autres.
 
 \begin{figure}
   \centering

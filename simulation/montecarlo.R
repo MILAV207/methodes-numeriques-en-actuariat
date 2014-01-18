@@ -73,7 +73,8 @@ persp(x, y, outer(x, y, f), main = "Vraie fonction",
 ## la projection utilisée par 'persp'.
 u <- runif(1e2, 0, 1.25)
 v <- runif(1e2, 0, 1.25)
-res <- persp(x, y, matrix(NA, length(x), length(y)), main = "n = 100",
+res <- persp(x, y, matrix(NA, length(x), length(y)),
+             main = "n = 100",
              zlim = c(0, 2), theta = 120, phi = 30,
              zlab = "z", ticktype = "detailed")
 points(trans3d(u, v, f(u, v), pm = res),
@@ -81,7 +82,8 @@ points(trans3d(u, v, f(u, v), pm = res),
 
 u <- runif(1e3, 0, 1.25)
 v <- runif(1e3, 0, 1.25)
-res <- persp(x, y, matrix(NA, length(x), length(y)), main = "n = 1000",
+res <- persp(x, y, matrix(NA, length(x), length(y)),
+             main = "n = 1000",
              zlim = c(0, 2), theta = 120, phi = 30,
              zlab = "z", ticktype = "detailed")
 points(trans3d(u, v, f(u, v), pm = res),
@@ -89,7 +91,8 @@ points(trans3d(u, v, f(u, v), pm = res),
 
 u <- runif(1e4, 0, 1.25)
 v <- runif(1e4, 0, 1.25)
-res <- persp(x, y, matrix(NA, length(x), length(y)), main = "n = 10 000",
+res <- persp(x, y, matrix(NA, length(x), length(y)),
+             main = "n = 10 000",
              zlim = c(0, 2), theta = 120, phi = 30,
              zlab = "z", ticktype = "detailed")
 points(trans3d(u, v, f(u, v), pm = res),

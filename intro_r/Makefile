@@ -10,14 +10,16 @@
 # April 2008
 
 # Correspondances url des capsules sur YouTube.
-#  Présentation			http://youtu.be/LTOOBBGDuek
-#  Anatomie			http://youtu.be/xiNnHegDau8
-#  Installation packages	http://youtu.be/DL48oi2RKjM
-#  Fichiers configuration	http://youtu.be/IsyQn7d2Ao0
-#  Fonction order		http://youtu.be/pPLxbuEZmkA
-#  Fonction outer		http://youtu.be/Ht04UiHnU_0
-#  Indiçage			http://youtu.be/sMd1IyTg-ic
-#  Fonction apply		http://youtu.be/EN-a8bTefNk
+#
+#  TITRE ABRÉGÉ  	  CHAPITRE	ACT-2002			INTRO R
+#  Présentation		  presentation	http://youtu.be/LTOOBBGDuek	http://youtu.be/PSQIKSKw_ys
+#  Indiçage		  bases		http://youtu.be/sMd1IyTg-ic	http://youtu.be/cQUjdwgTyz4
+#  Fonction order	  operateurs	http://youtu.be/pPLxbuEZmkA	http://youtu.be/uC-zkzwsCVY
+#  Fonction outer	  operateurs	http://youtu.be/Ht04UiHnU_0	http://youtu.be/cyPUAnieWHw
+#  Fonction apply	  avance	http://youtu.be/EN-a8bTefNk	http://youtu.be/8UQN6RRnsFA
+#  Anatomie		  emacs+ess	http://youtu.be/xiNnHegDau8	http://youtu.be/KtmFDm2AKM4
+#  Fichiers configuration emacs+ess	http://youtu.be/IsyQn7d2Ao0	http://youtu.be/jdtjBBkfhO0
+#  Installation packages  packages	http://youtu.be/DL48oi2RKjM	http://youtu.be/mL6iNzjHMKE
 
 MASTER = methodes_numeriques-partie_1.pdf
 
@@ -45,8 +47,30 @@ $(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
             -e "/^  stratégies ---/s/^/%/"  \
 	    -e "/^  --- pour la/s/^/%/"  \
 	    avance.tex
+	sed -E -i "" \
+	    -e "s:youtu.be/(presentation|PSQIKSKw_ys):youtu.be/LTOOBBGDuek:" \
+	    presentation.tex
+	sed -E -i "" \
+	    -e "s:youtu.be/(indicage|cQUjdwgTyz4):youtu.be/sMd1IyTg-ic:" \
+	    bases.tex
+	sed -E -i "" \
+	    -e "s:youtu.be/(order|uC-zkzwsCVY):youtu.be/pPLxbuEZmkA:" \
+	    -e "s:youtu.be/(outer|cyPUAnieWHw):youtu.be/Ht04UiHnU_0:" \
+	    operateurs.tex
+	sed -E -i "" \
+	    -e "s:youtu.be/(apply|8UQN6RRnsFA):youtu.be/EN-a8bTefNk:" \
+	    avance.tex
+	sed -E -i "" \
+	    -e "s:youtu.be/(anatomie|KtmFDm2AKM4):youtu.be/xiNnHegDau8:" \
+	    -e "s:youtu.be/(configuration|jdtjBBkfhO0):youtu.be/IsyQn7d2Ao0:" \
+	    emacs+ess.tex
+	sed -E -i "" \
+	    -e "s:youtu.be/(packages|mL6iNzjHMKE):youtu.be/DL48oi2RKjM:" \
+	    packages.tex
+	sed -i "" \
+	    -e "s:youtu.be/(anatomie|KtmFDm2AKM4):youtu.be/xiNnHegDau8:" \
+	    emacs+ess.tex
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
-
 clean:
 	$(RM) $(RNWFILES:.Rnw=.tex) \
 	*-[0-9][0-9][0-9].eps \

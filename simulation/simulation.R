@@ -149,7 +149,8 @@ table(x)                   # tableau de fréquences
 ## simulation est simple:
 ##
 ## 1. Simuler un nombre theta de la distribution de Theta.
-## 2. Simuler une valeur x de la distribution de X|Theta = theta.
+## 2. Simuler une valeur x de la distribution de
+##    X|Theta = theta.
 ##
 ## Ce qu'il importe de remarquer dans l'algorithme ci-dessus,
 ## c'est que le paramètre de mélange (theta) change pour

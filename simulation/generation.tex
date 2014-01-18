@@ -197,8 +197,9 @@ où $0 \leq x_i < m$ et
 \item $x_0$ (un nombre quelconque) est l'\emph{amorce} («\emph{seed}»).
 \end{itemize}
 
-Lorsque $c = 0$, on parle d'un générateur \emph{multiplicatif}; dans
-le cas contraire on a un générateur \emph{mixte}.
+Lorsque l'incrément $c = 0$, on parle d'un générateur
+\emph{multiplicatif}; dans le cas contraire on a un générateur
+\emph{mixte}.
 
 Pour obtenir des nombre uniformes sur $[0, 1]$ ou $(0, 1)$, il suffit
 de définir
@@ -293,10 +294,10 @@ La fonction à utiliser dans Microsoft Excel pour obtenir un nombre
 aléatoire dans l'intervalle $(0, 1)$ est \code{ALEA()} (dans la
 version française) ou \code{RAND()} (dans la version anglaise).
 
-L'historique de Microsoft dans la mise eu {\oe}uvre de générateurs de
-nombres aléatoires pour Excel n'est pas reluisant. Au fil des ans,
-plusieurs articles scientifiques ont démontré les lacunes de la
-fonction \code{RAND()}.
+L'historique de Microsoft n'est pas reluisant lorsqu'il s'agit de mise
+en {\oe}uvre de générateurs de nombres aléatoires pour Excel. Au fil
+des ans, plusieurs articles scientifiques ont démontré les lacunes de
+la fonction \code{RAND()}.
 
 Par exemple, dans les versions 2003 et 2007, Microsoft Excel utilisait
 le générateur de nombres aléatoire Whichmann--Hill. Ce générateur a

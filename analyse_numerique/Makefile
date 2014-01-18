@@ -29,6 +29,9 @@ tex: $(RNWFILES:.Rnw=.tex)
 	$(SWEAVE) '$<'
 
 $(MASTER): $(RNWFILES) $(TEXFILES)
+	sed -i "" \
+	    -e "s:youtu.be/arithmetique:youtu.be/3_cRxkuEPD8:" \
+	    arithmetique_ordinateurs.tex
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 clean:

@@ -29,6 +29,9 @@ tex: $(RNWFILES:.Rnw=.tex)
 	$(SWEAVE) '$<'
 
 $(MASTER): $(RNWFILES) $(TEXFILES)
+	sed -i "" \
+	    -e "s:youtu.be/acceptation-rejet:youtu.be/1ptmo6CPKuQ:" \
+	    simulation.tex
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 clean:
