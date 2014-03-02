@@ -118,12 +118,13 @@ rgamma(n, 11:2, 2:11)      # G(11, 2), G(10, 3), ..., G(2, 11)
 sample(1:49, 7)            # numéros pour le 7/49
 sample(1:10, 10)           # mélange des nombres de 1 à 10
 
-## On peut échantilloner avec remise.
+## On peut échantillonner avec remise.
 sample(1:10, 10, replace = TRUE)
 
 ## On peut aussi spécifier une distribution de probabilités
 ## non uniforme.
-x <- sample(c(0, 2, 5), 1000, prob = c(2, 5, 3)/10)
+x <- sample(c(0, 2, 5), 1000, replace = TRUE,
+            prob = c(0.2, 0.5, 0.3))
 table(x)                   # tableau de fréquences
 
 ###
