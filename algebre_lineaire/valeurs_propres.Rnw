@@ -906,14 +906,14 @@ découle le théorème suivant.
 \end{exemple}
 
 \begin{gotoR}
-  On calcule les valeurs et vecteurs propres dans R avec la fonction
-  \code{eigen}. Voir le code informatique de la
-  \autoref{sec:revision:code} pour les détails.
+  La fonction \code{eigen} calcule les valeurs et vecteurs propres
+  d'une matrice dans R. Voir le code informatique de la
+  \autoref{sec:valeurspropres:code} pour les détails.
 \end{gotoR}
 
 
 \section{Code informatique}
-\label{sec:revision:code}
+\label{sec:valeurspropres:code}
 
 \lstinputlisting[firstline=3]{valeurs_propres.R}
 

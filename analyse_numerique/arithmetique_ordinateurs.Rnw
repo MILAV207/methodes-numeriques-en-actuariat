@@ -951,7 +951,7 @@ de programmation ci-dessous, lorsque suivis par le programmeur prudent
 et consciencieux, permettent d'atténuer l'impact de l'erreur
 d'arrondi.
 
-\begin{enumerate}[label=(P\arabic*),font=\bfseries]
+\begin{enumerate}[label=(\textsc{p}\arabic*),font=\bfseries]
 \item L'addition et la soustraction en virgule flottante ne sont pas
   associatives. Additionner les nombres en ordre croissant de grandeur
   afin d'accumuler des bits significatifs.
@@ -1059,7 +1059,7 @@ L'exemple suivant est adapté de \cite{Monahan:numstat:2001}.
 
 Les deux principes ci-dessous permettent d'éviter des dépassements ou
 des soupassements de capacité et d'améliorer la précision des calculs.
-\begin{enumerate}[label=(P\arabic*),font=\bfseries,start=5]
+\begin{enumerate}[label=(\textsc{p}\arabic*),font=\bfseries,start=5]
 \item Chercher des formules mathématiques équivalentes évitant de
   devoir traiter des très grands ou des très petits nombres.
 \item Travailler en échelle logarithmique. Par exemple, le produit de

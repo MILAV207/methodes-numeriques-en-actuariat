@@ -7,11 +7,12 @@
   \usepackage{paralist}
   \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
-  \usepackage{graphicx,soulutf8}
+  \usepackage{graphicx}
   \usepackage{manfnt}                  % \mantriangleright (puce)
-  \usepackage{marvosym}                % \Forward et \ForwardToEnd
+  \usepackage{marvosym}                % \ForwardToEnd
   \usepackage{metalogo}                % \XeLaTeX logo
   \usepackage{applekeys}               % touches Mac
+  \usepackage{fontawesome}             % \faExclamationSign, \faYouTubePlay
   \usepackage{answers,listings}
   \usepackage{pdfpages}                % couvertures
   \usepackage{xr}
@@ -30,6 +31,10 @@
   \setmonofont[Scale=0.88]{Bitstream Vera Sans Mono}
   \newfontfamily\fullcaps[Letters=Uppercase,Numbers=Uppercase]{Myriad Pro}
   \usepackage{microtype}
+
+  %% Définition de nouveaux symboles de la police Font Awesome pas
+  %% encore définis dans le package fontawesome
+  \def\faYouTubePlay{{\FA \symbol{"F16A}}}
 
   %% Couleurs
   \usepackage{xcolor}
@@ -169,17 +174,13 @@
     \begin{enumerate}[label=\textbf{#1}]
       \item}
     {\end{enumerate}}
-  % \renewenvironment{reponse}[1]{%
-  %   \begin{enumerate}[label=\bfseries\protect\hyperlink{ex:#1}{#1}]
-  %     \item}
-  %   {\end{enumerate}}
 
   %% Remarques importantes
   \newenvironment{important}{%
     \begin{framed}%
       \noindent
       \begin{minipage}{0.1\linewidth}
-        \raisebox{-22pt}[0em][0em]{\bfseries\fontsize{40}{22}\selectfont !}
+        \raisebox{-1.5em}[0em][0em]{\HUGE\faExclamationSign}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
@@ -225,11 +226,8 @@
   \newcommand{\pkg}[1]{\textbf{#1}}
 
   %% Indications de capsule vidéo
-  \setul{1.5pt}{0.7pt}
-  \newcommand{\video}{%
-    \includegraphics[height=22pt,keepaspectratio]{../share/YouTubeArrow3}}
   \newcommand{\capsule}[2]{\href{#1}{#2}\marginpar{%
-      \href{#1}{\XeTeXLinkBox{\raisebox{-14pt}[0em][0em]{\video}}}}}
+      \href{#1}{\raisebox{-0.5em}[0em][0em]{\HUGE\faYouTubePlay}}}}
 
   %% Raccourcis usuels vg
   \newcommand{\pt}{{\scriptscriptstyle \Sigma}}
