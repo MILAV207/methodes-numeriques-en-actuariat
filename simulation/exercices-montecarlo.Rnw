@@ -172,7 +172,6 @@ mean(apply(x, 2, function(x) sort(x)[5]))
 \input{reponses-montecarlo}
 
 %%% Local Variables:
-%%% mode: latex
 %%% TeX-master: methodes_numeriques-partie_2
 %%% coding: utf-8
 %%% End:

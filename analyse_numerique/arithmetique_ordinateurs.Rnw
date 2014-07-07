@@ -1250,7 +1250,6 @@ voir \cite{Ripley:Rnews:2005a}.
 \input{exercices-arithmetique_ordinateurs}
 
 %%% Local Variables:
-%%% mode: noweb
 %%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% End:

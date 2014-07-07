@@ -882,6 +882,5 @@ eigen(m)
 
 
 %%% Local Variables:
-%%% mode: noweb
 %%% TeX-master: methodes_numeriques-partie_4
 %%% End:

@@ -995,7 +995,6 @@ exp(optim(c(log(2), log(1000)), f, x = x)$par)
 \input{reponses-resolution_equations}
 
 %%% Local Variables:
-%%% mode: noweb
 %%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% coding: utf-8

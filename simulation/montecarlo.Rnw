@@ -331,9 +331,7 @@ points(trans3d(u, v, f(u, v), pm = res),
 
 \input{exercices-montecarlo}
 
-
 %%% Local Variables:
-%%% mode: latex
 %%% TeX-master: "methodes_numeriques-partie_2"
 %%% coding: utf-8
 %%% End:

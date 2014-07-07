@@ -686,7 +686,6 @@ omet généralement $b$ pour les nombres en base $10$.
 
 
 %%% Local Variables:
-%%% mode: noweb
 %%% engine: xetex
 %%% TeX-master: "exercices_methodes_numeriques-partie_3"
 %%% End:

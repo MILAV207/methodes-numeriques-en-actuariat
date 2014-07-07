@@ -1167,7 +1167,6 @@ options(op)
 \input{reponses-simulation}
 
 %%% Local Variables:
-%%% mode: latex
 %%% TeX-master: methodes_numeriques-partie_2
 %%% coding: utf-8
 %%% End:

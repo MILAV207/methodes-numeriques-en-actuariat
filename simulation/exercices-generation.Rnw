@@ -221,7 +221,6 @@ plot3d(u[1:1000], u[2:1001], u[3:1002])
 \Closesolutionfile{solutions}
 
 %%% Local Variables:
-%%% mode: noweb
 %%% TeX-master: methodes_numeriques-partie_2
 %%% coding: utf-8
 %%% End:

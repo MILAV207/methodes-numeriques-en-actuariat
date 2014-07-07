@@ -1191,7 +1191,6 @@ consulter la \emph{CRAN Task View} consacrée à l'optimisation:
 \input{exercices-resolution_equations}
 
 %%% Local Variables:
-%%% mode: noweb
 %%% engine: xetex
 %%% TeX-master: "methodes_numeriques-partie_3"
 %%% coding: utf-8
