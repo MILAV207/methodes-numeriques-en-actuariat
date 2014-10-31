@@ -122,7 +122,7 @@ décimal. Par exemple, $10011_2$ est le nombre binaire $10011$.
   \begin{displaymath}
     348 = 3 \times 10^2 + 4 \times 10^1 + 8 \times 10^0.
   \end{displaymath}
-  Ce nombre a les représentation suivantes dans d'autres bases. En binaire:
+  Ce nombre a les représentations suivantes dans d'autres bases. En binaire:
   \begin{align*}
     101011100_{2}
     &= 1 \times 2^8 + 0 \times 2^7 + 1 \times 2^6 \\
