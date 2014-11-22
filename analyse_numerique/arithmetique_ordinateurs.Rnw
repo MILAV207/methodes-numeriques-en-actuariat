@@ -262,8 +262,8 @@ conversion de la partie fractionnaire d'un nombre réel.
   cinq chiffres après la virgule est $10111,01001$.
 
   \begin{table}[tbp]
-    \label{tab:ordinateurs:10_vers_b}
     \caption{Conversion du nombre décimal $23,31$ en binaire.}
+    \label{tab:ordinateurs:10_vers_b}
     \begin{minipage}[t]{0.45\linewidth}
       \subcaption{partie entière}
       \label{tab:ordinateurs:10_vers_b:a}
