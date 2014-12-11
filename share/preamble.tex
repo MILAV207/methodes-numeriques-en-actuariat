@@ -186,6 +186,17 @@
       {\end{minipage}%
     \end{framed}}
 
+  %% Informations
+  \newenvironment{information}{%
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.1\linewidth}
+        \raisebox{-1.5em}[0em][0em]{\HUGE\faInfoSign}
+      \end{minipage}
+      \begin{minipage}[t]{0.88\linewidth}}
+      {\end{minipage}%
+    \end{framed}}
+
   %% Remarques spécifiques OS X
   \newenvironment{osx}{%
     \begin{framed}%

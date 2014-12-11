@@ -693,10 +693,10 @@ schématique.
 \end{figure}
 
 On remarque que le bit caché confère à la mantisse une longueur de mot
-effective (ou précision) de 53~bits.
+effective (ou précision) de $53$~bits.
 
 Le décalage est $e = 2^{m_e - 1} - 1 = 2^{10} - 1 = \nombre{1023}$.
-Avec une longueur de mot de 11~bits, les valeurs possibles de $E$ vont
+Avec une longueur de mot de $11$~bits, les valeurs possibles de $E$ vont
 de $0$ à $2^{11} - 1 = \nombre{2047}$. Cependant, les valeurs $0$ et
 $\nombre{2047}$ sont réservées pour des usages spéciaux; voir le
 \autoref{tab:ordinateurs:special_values}. Par conséquent, les
@@ -706,11 +706,13 @@ double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
 \begin{table}[tbp]
   \caption{Valeurs spéciales dans la norme IEEE~754}
   \label{tab:ordinateurs:special_values}
-  \begin{tabular}{crccc}
+  \begin{tabular}{crclc}
     \toprule
     $S$ &
     \multicolumn{1}{c}{$E$} &
-    $F$ & Représentation binaire & Valeur spéciale \\
+    $F$ &
+    \multicolumn{1}{c}{Représentation binaire} &
+    Valeur spéciale \\
     \midrule
     $0$ & $0$ & $0$ &
       \ieee{0}{00000000000}{00 \cdots 00} & $0$ \\
@@ -875,6 +877,16 @@ $m_f$ et $m_e$, dans l'ordre, pour l'architecture x86:
 .Machine[c(1, 3:6, 11)]
 @
 
+\begin{information}
+  Le 1{\ier} décembre 2014, YouTube a annoncé que la vidéo de la
+  chanson \emph{Gangnam Style} avait «brisé» son compteur en dépassant
+  le nombre maximal de visionnements admissible, soit
+  $\nombre{2147483647}$. Cette limite, bien inférieure à celle des
+  nombres réels en double précision, provient de la représentation des
+  nombres sous forme d'entier signé sur $32$~bits. Voir
+  l'\autoref{ex:ordinateurs:complement} pour les détails.
+\end{information}
+
 
 
 \section{Éléments d'arithmétique en virgule flottante}
@@ -903,7 +915,18 @@ représentation simplifiée
 où $F$ compte cinq chiffres significatifs, dont le dernier est arrondi.
 Le \autoref{tab:arithmetic:simplified} fournit quelques exemples.
 
-\begin{table}[tbp]
+\begin{rem}
+  Dans la norme IEEE~754, les règles d'arrondi de base sont:
+  \begin{enumerate}
+  \item arrondir à la valeur la plus près ($0,14$ devient $0,1$ et
+    $\nombre{0,16}$ devient $0,2$);
+  \item arrondir un nombre exactement à mi-chemin au nombre avec un
+    dernier chiffre significatif pair ou nul ($0,05$ devient $0,0$
+    alors que $\nombre{0,15}$ devient $0,2$).
+  \end{enumerate}
+\end{rem}
+
+\begin{table}
   \caption{Représentation en virgule flottante simplifiée}
   \label{tab:arithmetic:simplified}
   \centering
@@ -918,17 +941,6 @@ Le \autoref{tab:arithmetic:simplified} fournit quelques exemples.
     \bottomrule
   \end{tabular}
 \end{table}
-
-\begin{rem}
-  Dans la norme IEEE~754, les règles d'arrondi de base sont:
-  \begin{enumerate}
-  \item arrondir à la valeur la plus près ($0,14$ devient $0,1$ et
-    $\nombre{0,16}$ devient $0,2$);
-  \item arrondir un nombre exactement à mi-chemin au nombre avec un
-    dernier chiffre significatif pair ou nul ($0,05$ devient $0,0$
-    alors que $\nombre{0,15}$ devient $0,2$).
-  \end{enumerate}
-\end{rem}
 
 
 \subsection{Erreurs d'arrondi ou de troncature}
@@ -1206,7 +1218,7 @@ La représentation ASCII ne requiert en soi que sept bits. Néanmoins,
 on a rapidement codé les caractères sur un octet (huit bits) puisqu'il
 s'agit du type de donnée natif des ordinateurs depuis les années 1970.
 L'ajout d'un bit a créé de l'espace pour 128 caractères additionnels
-(cases 128--255). Une myriade de systèmes de codage différents sont
+(cases $128$--$255$). Une myriade de systèmes de codage différents sont
 alors apparus pour supporter les caractères des langues autres que
 l'anglais (les caractères accentués, par exemple) ainsi que d'autres
 symboles graphiques. La norme ISO~8859-1, ou Latin~1
@@ -1227,7 +1239,7 @@ langues, par exemple en français et dans une écriture de droite à
 gauche comme l'hébreu ou l'arabe. Le standard ainsi créé est Unicode
 \citep{Unicode:5.0}. Le plus populaire système de codage capable de
 représenter l'ensemble des caractères Unicode est \emph{Unicode
-  Transformation Format} 8~bits, ou UTF-8 \citep[section
+  Transformation Format} $8$~bits, ou UTF-8 \citep[section
 3.9]{Unicode:5.0}. Dans l'UTF-8, chaque caractère est codé sur une
 suite d'un à quatre octets et les premiers 128 caractères sont
 identiques à la norme ASCII. L'UTF-8 est le système de codage par
