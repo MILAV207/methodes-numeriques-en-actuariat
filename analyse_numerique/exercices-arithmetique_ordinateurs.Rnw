@@ -264,7 +264,7 @@ omet généralement $b$ pour les nombres en base $10$.
 \begin{exercice}
   \label{ex:ordinateurs:complement}
   La plupart des langages de programmation --- dont R, voir la note au
-  bas de la page~\pageref{pg:arithmetique:entiers} --- permettent de
+  bas de la \autopageref{pg:arithmetique:entiers} --- permettent de
   définir des nombres entiers «stricts», par opposition à des nombres
   réels qui s'avèrent simplement être entiers. La représentation de
   ces nombres entiers est complètement différente de celle de la norme
