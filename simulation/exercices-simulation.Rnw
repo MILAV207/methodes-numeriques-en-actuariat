@@ -755,9 +755,10 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
   Bêta$(3, 2)$ à l'aide de la méthode d'acceptation-rejet.
   \begin{enumerate}
   \item Calculer l'efficacité de l'algorithme développé à
-    l'\autoref{ex:simulation:mode} pour le cas présent.
+    l'\autoref{ex:simulation:mode} et à
+    l'\autoref{exemple:simulation:beta:1} pour le cas présent.
   \item Calculer l'efficacité de l'algorithme développé dans
-    l'\autoref{exemple:simulation:beta}, où l'on a déterminé que
+    l'\autoref{exemple:simulation:beta:2}, où l'on a déterminé que
     \begin{displaymath}
       f_{X}(x) \leq
       \begin{cases}
@@ -801,7 +802,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
       Avec $\alpha = 3$ et $\beta = 2$, on obtient une efficacité de
       $9/16$.
     \item On a trouvé $c = 1,2$ dans
-      l'\autoref{exemple:simulation:beta}, d'où une efficacité de
+      l'\autoref{exemple:simulation:beta:2}, d'où une efficacité de
       $1/c = 5/6$. Cet algorithme est évidemment plus efficace puisque
       la surface de l'enveloppe de la densité bêta est nettement plus
       petite.

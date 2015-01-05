@@ -15,7 +15,7 @@
 Habituellement, les applications de la simulation requièrent des
 nombres aléatoires provenant non pas d'une distribution $U(0, 1)$,
 mais plutôt d'une (ou plusieurs) distribution avec fonction de
-répartition $F_X(x)$. Nous devrons donc transformer les nombres
+répartition $F_X(x)$. On doit donc transformer les nombres
 uniformes en des nombres provenant de distributions non-uniformes.
 
 Il existe de très nombreux algorithmes pour générer des nombres
@@ -115,7 +115,7 @@ polygon(c(xx[1], xx, xx[100]), c(0, dgamma(xx, 5, 1), 0), col = "lightblue")
 curve(dgamma(x, 5, 1), xlim = c(0, 14), add=TRUE)
 @
   \caption{Représentation graphique de la méthode de l'inverse. À
-    intervalles égaux en ordonnée correspondent des intervalles
+    des intervalles égaux en ordonnée correspondent des intervalles
     différents en abscisse selon la forme de la distribution. La
     fonction de répartition à gauche correspond à la densité de droite.}
   \label{fig:simulation:inverse}
@@ -146,7 +146,7 @@ nombres de la distribution souhaitée.
 
 Dans les faits, il y a peu de lois de probabilité continues dont la
 fonction de répartition est simple à inverser (exponentielle, Pareto,
-Weibull, ...) Il faut parfois utiliser d'autres méthodes.
+Weibull). Il faut parfois utiliser d'autres méthodes.
 
 \begin{exemple}
   On veut obtenir un échantillon aléatoire d'une distribution
@@ -418,7 +418,8 @@ ratio entre la valeur de $f_X(y)$ (les segments verts dans la figure)
 et la valeur de $c g_Y(y)$ (les segments bleus). À l'inverse, le
 nombre $y$ est rejeté selon le ratio de la longueur d'un segment rouge
 sur celle d'un segment bleu. On voit donc que certaines valeurs $y$
-seront rejetées plus souvent que d'autres.
+seront rejetées plus souvent que d'autres en conformité avec la forme
+de la densité.
 
 \begin{figure}
   \centering
@@ -447,11 +448,13 @@ text(0.1, m + 0.08, "c g(y)")
   \item Évidemment, plus $c g_Y(x)$ est près de $f_X(x)$, plus
     l'algorithme est performant puisque l'on rejette alors moins de
     valeurs.
+  \item Il est aussi possible d'envelopper les densités à support
+    infini; voir les exercices.
   \end{enumerate}
 \end{rems}
 
 \begin{exemple}
-  \label{exemple:simulation:beta}
+  \label{exemple:simulation:beta:1}
   Soit $X \sim \text{Bêta}(3, 2)$. On a
   \begin{align*}
     f_X(x)
@@ -459,8 +462,40 @@ text(0.1, m + 0.08, "c g(y)")
     x^{3 - 1} (1 - x)^{2 - 1} \\
     &= 12 x^2 (1 - x), \quad 0 < x < 1.
   \end{align*}
-  On peut inscrire la densité $f(x)$ dans un triangle aux
-  caractéristiques suivantes (voir la \autoref{fig:simulation:beta-triangle}):
+  C'est la densité représentée à la
+  \autoref{fig:simulation:acceptation-rejet}. On l'inscrit facilement
+  dans un rectangle. Le mode de la densité se trouvant en $x = 2/3$,
+  la hauteur du rectangle est $f(2/3) = 48/27 = 16/9$. Par conséquent,
+  \begin{displaymath}
+    c g_Y(x) = \frac{16}{9}, \quad 0 < x < 1.
+  \end{displaymath}
+  On déduit que $c = 16/9$ et que la densité $g$ est une uniforme sur
+  $(0 , 1)$. On a donc l'algorithme suivant:
+  \begin{enumerate}
+  \item Simuler deux nombres $u_1$ et $u_2$ d'une $U(0, 1)$.
+  \item Poser $y = u_1$.
+  \item Si
+    \begin{displaymath}
+      u_2 \leq \frac{f_X(y)}{16/9},
+    \end{displaymath}
+    alors poser $x = y$. Sinon, retourner à l'étape 1.
+  \end{enumerate}
+
+  L'aire du rectangle étant de $16/9 \approx 1,78$, on peut s'attendre
+  à rejeter environ $78~\%$ des nombres $u_1$ simulés à l'étape~1 de
+  l'algorithme ci-dessus. Si l'enveloppe
+  était plus «serrée» autour de la densité, l'efficacité de
+  l'algorithme en serait augmentée.
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \label{exemple:simulation:beta:2}
+  On reprend l'\autoref{exemple:simulation:beta:1} en tentant
+  d'améliorer l'efficacité de l'algorithme. Il s'avère que l'on peut
+  inscrire la densité de la loi Bêta$(3, 2)$ dans un triangle aux
+  caractéristiques suivantes (voir la
+  \autoref{fig:simulation:beta-triangle}):
   \begin{figure}
     \centering
 <<echo=FALSE, fig=TRUE>>=
@@ -474,23 +509,16 @@ axis(side = 1, at = 0.5)
       enveloppée d'un triangle}
     \label{fig:simulation:beta-triangle}
   \end{figure}
-  \begin{itemize}
-  \item arête gauche
-    \begin{enumerate}
-    \item passe par $(0, 0)$, donc de la forme $y = mx$;
-    \item $y = mx$ est tangent à $f(x)$, donc la pente $m$ est telle
-      que l'équation $mx = 12 x^2 (1 - x)$ a une seule racine autre
-      que 0, d'où $y = 3 x$;
-    \end{enumerate}
-  \item arête droite
-    \begin{enumerate}
-    \item passe par $(1, 0)$, donc de la forme $y = mx + b$ avec $m +
-      b = 0$;
-    \item pente égale à la pente de $f(x)$ en $x = 1$, d'où $y = 12 -
-      12 x$.
-    \end{enumerate}
-  \end{itemize}
-  Par conséquent,
+  \begin{enumerate}
+  \item l'arête gauche passe par $(0, 0)$, donc est de la forme $y =
+    mx$. Cette droite étant tangente à $f(x)$, la pente $m$ est telle
+    que l'équation $mx = 12 x^2 (1 - x)$ a une seule racine autre que
+    $0$, d'où $y = 3 x$;
+  \item l'arête droite passe par $(1, 0)$, donc est de la forme $y =
+    mx + b$ avec $m + b = 0$. Comme la pente de cette droite est égale
+    à la pente de $f(x)$ en $x = 1$, on trouve que $y = 12 - 12 x$.
+  \end{enumerate}
+  Ainsi,
   \begin{displaymath}
     c g_Y(x) =
     \begin{cases}
@@ -502,15 +530,18 @@ axis(side = 1, at = 0.5)
   \begin{displaymath}
     \frac{(1) c g_Y(0,8)}{2} = \frac{(1)(2,4)}{2} = 1,2,
   \end{displaymath}
-  d'où $c = 1,2$. Ainsi,
+  d'où $c = 1,2$. Par conséquent,
   \begin{align*}
     g_Y(x)
     &=
     \begin{cases}
       2,5 x,     & 0 < x < 0,8 \\
-      10 - 10 x, & 0,8 < x < 1,
-    \end{cases} \\
-    \intertext{et}
+      10 - 10 x, & 0,8 < x < 1.
+    \end{cases}
+  \end{align*}
+  Pour simuler des observations de cette densité par la méthode de
+  l'inverse, on calcule la fonction de répartition correspondante
+  \begin{align*}
     G_Y(x)
     &=
     \begin{cases}
@@ -525,7 +556,7 @@ axis(side = 1, at = 0.5)
       1 - \sqrt{0,2 - 0,2 y}, & 0,8 < y < 1.
     \end{cases}
   \end{align*}
-  On a donc l'algorithme suivant:
+  Au final, on a l'algorithme suivant:
   \begin{enumerate}
   \item Simuler deux nombres $u_1$ et $u_2$ d'une $U(0, 1)$.
   \item Poser $y = G_Y^{-1}(u_1)$.
@@ -536,6 +567,10 @@ axis(side = 1, at = 0.5)
     \end{displaymath}
     alors poser $x = y$. Sinon, retourner à l'étape 1.
   \end{enumerate}
+
+  L'aire du triangle étant de $1,2$, on peut maintenant s'attendre à
+  ne rejeter que $20~\%$ des nombres simulés, une amélioration
+  importante par rapport à l'\autoref{exemple:simulation:beta:1}. %
   \qed
 \end{exemple}
 
@@ -548,10 +583,9 @@ axis(side = 1, at = 0.5)
 Il est important de savoir simuler des valeurs d'une variable
 aléatoire quelconque à partir de la méthode de l'inverse ou d'un autre
 algorithme, surtout si la distribution de la variable aléatoire est
-peu usitée. Néanmoins, les différents outils statistiques à notre
-disposition nous fournissent en général la majorité des fonctions de
-simulation de variables aléatoires dont on peut avoir besoin pour un
-usage quotidien.
+peu usitée. Néanmoins, les différents outils statistiques fournissent
+en général la majorité des fonctions de simulation de variables
+aléatoires dont on peut avoir besoin pour un usage quotidien.
 
 
 \subsection{Excel et VBA}
@@ -565,7 +599,7 @@ courantes.
 
 Ainsi, on trouvera dans Excel la fonction de densité de probabilité
 (lois continues) ou la fonction de masse de probabilité (lois
-discrètes) et/ou la fonction de répartition et, dans certains cas
+discrètes) ou la fonction de répartition et, dans certains cas
 seulement, la fonction de quantile des lois de probabilité présentées
 au \autoref{tab:excel}. Les noms anglais des fonctions ont été
 modifiés pour être standardisés dans Excel~2010. On remarquera que les
