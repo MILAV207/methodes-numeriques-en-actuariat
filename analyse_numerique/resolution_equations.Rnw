@@ -301,7 +301,7 @@ La solution de l'équation
   g(x) = x
 \end{equation*}
 est un \emph{point fixe} de la fonction $g$. Il s'agit du point où les
-fonctions $g(x)$ et $y = x$ sont égales, c'est-à-dire où la fonction
+fonctions $g(x)$ et $y = x$ sont égales, c'est-à-dire là où la fonction
 $g$ croise la droite à 45{\textdegree} dans le plan.
 
 Tout problème de recherche de racine peut être exprimé comme un
@@ -309,7 +309,7 @@ problème de point fixe. Par exemple, en définissant
 \begin{equation*}
   g(x) = x - f(x),
 \end{equation*}
-les problèmes de trouver $x$ tel que $g(x) = x$ ou $f(x) = 0$ sont
+les problèmes de trouver $x$ tel que $g(x) = x$ ou tel que $f(x) = 0$ sont
 équivalents.
 
 La méthode du point fixe repose sur le théorème du même nom. Celui-ci
@@ -320,7 +320,7 @@ exister sans que ces conditions ne soient remplies.
 
 \begin{thm}[Théorème du point fixe]
   \label{thm:resolution:pointfixe}
-  Soit $g$ une fonction continue sur $[a, b]$.
+  Soit $g$ une fonction continue sur un intervalle $[a, b]$.
   \begin{enumerate}
   \item Si $g(x) \in [a, b]$ pour tout $x \in [a, b]$, alors $g$ a un
     point fixe dans $[a, b]$.
@@ -524,8 +524,8 @@ arrows(head(x, -1), x[-1], x[-1], x[-1],
        col = "blue", length = 0.07)
 points(x, g(x), pch = 21, bg = "red3")
 @
-  \caption{Illustration de la méthode du point fixe pour une fonction
-    décroissante et une fonction croissante. Les points rouges
+  \caption{Illustrations de la méthode du point fixe pour une fonction
+    décroissante et pour une fonction croissante. Les points rouges
     identifient les essais successifs, le premier étant, ici, le point
     le plus à gauche dans les graphiques. Les flèches illustrent
     comment est déterminé l'essai suivant. La relation $x_n = g(x_{n -
@@ -726,15 +726,15 @@ l'essai précédent croise l'axe des abscisses; voir la
 f <- function(x) (x - 0.2)^3 + x - 0.2
 fp <- function(x) 3 * (x - 0.2)^2 + 1
 tangente <- function(x, a) fp(a) * (x - a) + f(a)
-curve(f(x), xlim = c(-0.8, 1.2), ylim = c(-1, 2), lwd = 2)
+curve(f(x), xlim = c(-0.8, 1.2), ylim = c(-0.5, 1.5), lwd = 2)
 abline(h = 0)
 x <- c(0.98, 0, 0)
 for (i in 2:3)
     x[i] <- -(f(x[i - 1]) - x[i - 1] * fp(x[i - 1]))/fp(x[i - 1])
 
 segments(x, c(-1.1, 0, 0), x, f(x), lty = 2, col = "darkgray")
-arrows(1.2, tangente(1.2, x[1]), x[2], 0, col = "blue", length = 0.07)
-arrows(0.95, tangente(0.95, x[2]), x[3], 0, col = "blue", length = 0.07)
+arrows(1.2, tangente(1.2, x[1]), x[2], 0, col = "blue", length = 0.1)
+arrows(0.95, tangente(0.95, x[2]), x[3], 0, col = "blue", length = 0.1)
 
 points(x, f(x), pch = 21, bg = "red3")
 @
@@ -951,7 +951,7 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
   convergence de la méthode du point fixe était la plus rapide. Mettre
   cette constatation en relation avec la première des remarques
   suivant l'\autoref{algo:resolution:newtonraphson}, à la
-  page~\pageref{algo:resolution:rem}. %
+  \autopageref{algo:resolution:rem}. %
   \qed
 \end{exemple}
 
@@ -1062,7 +1062,7 @@ for (i in 1:(length(x) - 2))
     xx <- x[i:(i + 2)]
     fxx <- f(xx)
     segments(xx[1], fxx[1], xx[3], 0, col = "blue")
-    arrows(xx[2], fxx[2], xx[3], 0, col = "blue", length = 0.07)
+    arrows(xx[2], fxx[2], xx[3], 0, col = "blue", length = 0.1)
 }
 
 points(x, f(x), pch = 21, bg = "red3")
