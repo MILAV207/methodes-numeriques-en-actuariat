@@ -28,7 +28,7 @@ pas le bon résultat lors d'opérations arithmétiques simples.
   Exécuter le code informatique de la
   \autoref{sec:ordinateurs:code} pour voir quelques exemples de
   calculs simples que R n'arrive apparemment pas à effectuer
-  correctement. Tous les exemples sont tirés de messages envoyés à la
+  correctement. Les exemples sont tous tirés de véritables messages envoyés à la
   liste de discussion \texttt{r-help}\footnotemark.
 \end{gotoR}
 \footnotetext{\url{https://stat.ethz.ch/mailman/listinfo/r-help/}}
@@ -50,20 +50,19 @@ foire aux questions\footnote{%
   \url{http://cran.r-project.org/doc/FAQ/R-FAQ.html}} %
 de R.
 
-Pour quiconque travaille régulièrement avec un ordinateur pour faire
-du calcul scientifique, connaître globalement le fonctionnement
-interne d'un ordinateur peut s'avérer précieux pour les raisons
-suivantes, entre autres:
+Quiconque utilise un ordinateur pour le calcul scientifique devrait
+connaître les grands principes du fonctionnement interne d'un
+ordinateur afin, entre autres:
 \begin{itemize}
-\item éviter les erreurs d'arrondi et de troncature;
-\item éviter les dépassements et soupassements de capacité
+\item d'éviter les erreurs d'arrondi et de troncature;
+\item d'éviter les dépassements et soupassements de capacité
   (\emph{overflow} et \emph{underflow});
-\item optimiser le code informatique.
+\item d'optimiser le code informatique.
 \end{itemize}
 
-Ce chapitre se penche sur les grands principes de l'%
+Ce chapitre se penche justement sur les grands principes de l'%
 \capsule{http://youtu.be/arithmetique}{arithmétique des ordinateurs}. %
-En fait, les ordinateurs ne savent pas faire d'arithmétique à proprement
+Quoique, en fait, les ordinateurs ne savent pas faire d'arithmétique à proprement
 parler. Ils ne connaissent que deux états: ouvert (1) et fermé (0).
 Nous en profiterons donc d'abord pour réviser la conversion des
 nombres décimaux vers, et de, n'importe quelle base. Après avoir, à la
@@ -93,7 +92,7 @@ principalement en informatique, sont l'\emph{octal} (base $8$) et
 l'\emph{hexadécimal} (base $16$). Dans ce dernier système, les symboles
 utilisés pour les nombres $10$--$15$ sont généralement les lettres A--F.
 (C'est pourquoi l'on retrouve ces six lettres sur le pavé des
-calculatrices scientifiques).
+calculatrices scientifiques.)
 
 Cette section étudie la conversion des nombres entre la base $10$ et une
 autre base quelconque.
@@ -256,8 +255,8 @@ conversion de la partie fractionnaire d'un nombre réel.
   montre le processus en suivant les étapes de
   l'\autoref{algo:ordinateurs:10_vers_b}. On obtient le
   résultat final en combinant la dernière colonne du
-  \autoref{tab:ordinateurs:10_vers_b:a} lue de bas en haut avec la
-  dernière colonne du \autoref{tab:ordinateurs:10_vers_b:b} lue de
+  \autoref*{tab:ordinateurs:10_vers_b}~(a) lue de bas en haut avec la
+  dernière colonne du \autoref*{tab:ordinateurs:10_vers_b}~(b) lue de
   haut en bas. Ainsi, la représentation binaire du $23,31$ limitée à
   cinq chiffres après la virgule est $10111,01001$.
 
@@ -334,7 +333,7 @@ On tire une conclusion intéressante de la procédure ci-dessus. S'il
 existe un entier $k \leq n$ tel que la partie fractionnaire de $x$ est
 un multiple de $1/b^k$, alors la multiplication de $x$ par $b^k$
 résultera en un entier. Par conséquent, la représentation de $x$ en
-base $b$ aura une partie fractionnaire de longueur finie. Ainsi, pour
+base $b$ aura une partie fractionnaire de longueur finie. Autrement dit, pour
 obtenir une représentation binaire finie, la partie fractionnaire d'un
 nombre réel doit être un multiple de $\frac{1}{2}, \frac{1}{4},
 \frac{1}{8}, \dots$ Ce n'était pas le cas à
@@ -375,7 +374,7 @@ Un algorithme de conversion est le suivant.
   \end{enumerate}
 \end{algorithme}
 
-On peut, ici aussi, aisément éviter de devoir convertir la partie
+On peut, ici aussi, aisément éviter de convertir la partie
 fractionnaire. Il suffit de déplacer la virgule de $n$ positions vers
 la droite dans le nombre $x_b$ de manière à obtenir un entier, de
 convertir ce nombre en décimal avec les étapes 1 et 2 de
@@ -488,7 +487,7 @@ ici. Il suffit de remplacer chaque mention de $b$ par $b_i$.
     &= \nombre{95600} \text{ secondes}.
   \end{align*}
   Si l'on fait la conversion en sens inverse, le nombre de jours,
-  heures, minutes et secondes correspondant à \nombre{91492} secondes
+  d'heures, de minutes et de secondes correspondant à \nombre{91492} secondes
   est, en utilisant l'\autoref{algo:ordinateurs:10_vers_b} avec la
   base $[365\; 24\; 60\; 60]$: 1~jour, 1~heure, 24~minutes et
   52~secondes (voir le \autoref{tab:ordinateurs:10_vers_generale} pour
@@ -695,7 +694,7 @@ schématique.
 On remarque que le bit caché confère à la mantisse une longueur de mot
 effective (ou précision) de $53$~bits.
 
-Le décalage est $e = 2^{m_e - 1} - 1 = 2^{10} - 1 = \nombre{1023}$.
+Le décalage est $e = 2^{m_E - 1} - 1 = 2^{10} - 1 = \nombre{1023}$.
 Avec une longueur de mot de $11$~bits, les valeurs possibles de $E$ vont
 de $0$ à $2^{11} - 1 = \nombre{2047}$. Cependant, les valeurs $0$ et
 $\nombre{2047}$ sont réservées pour des usages spéciaux; voir le
@@ -774,7 +773,7 @@ double précision vont de $-\nombre{1022}$ à $\nombre{1023}$.
   programme de calcul en multiprécision \code{bc} donne
   $0,09999999999999999166$). Dès lors, la multiplication de ce nombre
   par $10$ ne donnera pas $1$. Voilà qui justifie le principe de
-  programmation énoncé à la page \pageref{programming_principle}.%
+  programmation énoncé à la \autopageref{programming_principle}.%
   \qed
 \end{exemple}
 
@@ -871,8 +870,8 @@ considéré égal à $0$.
 R conserve dans une liste nommée \code{.Machine} les
 valeurs mentionnées ci-dessus --- ainsi que plusieurs autres --- pour
 l'architecture de l'ordinateur courant. Par exemple, on confirme les
-valeurs de $\varepsilon_m$, $x_{\text{min}}$, $x_{\text{max}}$, $B$,
-$m_f$ et $m_e$, dans l'ordre, pour l'architecture x86:
+valeurs de $\varepsilon$, $x_{\text{min}}$, $x_{\text{max}}$, $B$,
+$m_f$ et $m_E$, dans l'ordre, pour l'architecture x86:
 <<echo=TRUE>>=
 .Machine[c(1, 3:6, 11)]
 @
@@ -1176,7 +1175,7 @@ arithmétique
   \bar{x} = \frac{1}{n} \sum_{i = 1}^n x_i.
 \end{equation*}
 Si l'on effectue le calcul tel qu'écrit ci-dessus, cela requiert $n -
-1$ additions et une division. En revanche, le calcul équivalent
+1$ additions et une division. En revanche, le calcul algébriquement équivalent
 \begin{equation*}
   \bar{x} = \sum_{i = 1}^n \frac{x_i}{n},
 \end{equation*}
