@@ -301,10 +301,10 @@ la fonction \code{RAND()}.
 
 Par exemple, dans les versions 2003 et 2007, Microsoft Excel utilisait
 le générateur de nombres aléatoire Whichmann--Hill. Ce générateur a
-longtemps été considéré comme le meilleur disponible, mais a été
+longtemps été considéré comme le meilleur disponible, mais il a été
 supplanté ces dernières années. Microsoft prétendait que la période du
 générateur Whichmann--Hill est $10^{13}$, mais omettait de tenir
-compte de littérature démontrant qu'elle est plutôt de $6,95 \times
+compte de littérature scientifique démontrant qu'elle est plutôt de $6,95 \times
 10^{12} \approx 2^{43}$, une période désormais considérée trop courte.
 
 De plus, la mise en {\oe}uvre du générateur Whichmann--Hill dans Excel
@@ -352,7 +352,7 @@ générateurs de nombres pseudo-aléatoires, un tel générateur est tout à
 fait archaïque. De plus, le générateur utilise toujours la même amorce
 et, par conséquent, les suites de nombres aléatoires sont toujours les
 mêmes. Pour toute utilisation moindrement sérieuse de nombres
-aléatoires, il convient donc d'éviter à tout prix la fonction
+aléatoires, on doit donc à tout prix éviter la fonction
 \code{RND()} et de lui préférer un appel à la fonction \code{RAND()}
 de Excel.
 
