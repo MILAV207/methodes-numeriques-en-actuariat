@@ -807,7 +807,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
       la surface de l'enveloppe de la densité bêta est nettement plus
       petite.
     \item On utilise l'algorithme développé à
-      l'\autoref{exemple:simulation:beta}. Une première mise en
+      l'\autoref{exemple:simulation:beta:2}. Une première mise en
       {\oe}uvre de l'algorithme en R est fournie dans le code
       informatique de la \autoref{sec:simulation:code}. La
       \autoref{fig:simulation:rbeta.ar2} en propose une autre. On
