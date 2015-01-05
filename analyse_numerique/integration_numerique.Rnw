@@ -20,7 +20,7 @@ Il n'est pas rare de devoir calculer l'intégrale d'une fonction qui
 n'admet pas de primitive sous forme explicite ou dont la primitive est
 très difficile à calculer. Dans de tels cas, l'intégration numérique
 permet d'obtenir une approximation --- parfois excellente --- de
-l'intégrale cherchée.
+l'intégrale recherchée.
 
 Les méthodes d'approximation qui seront étudiées dans ce chapitre
 reposent toutes sur le remplacement de la fonction à intégrer par une
