@@ -10,7 +10,7 @@ simpson38 <- function(FUN, lower, upper, subdivisions = 1000)
     x1 <- seq(from = lower + h, to = upper - h,
               by = 3 * h)
     x2 <- x1 + h
-    x3 <- x2[-length(x2)] + h
+    x3 <- head(x2, -1) + h
 
     3 * h * sum(c(FUN(c(lower, upper)),
                 3 * FUN(c(x1, x2)),

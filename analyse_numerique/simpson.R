@@ -9,7 +9,7 @@ simpson <- function(FUN, lower, upper, subdivisions = 1000)
 
     x1 <- seq(from = lower + h, to = upper - h,
               by = 2 * h)
-    x2 <- x1[-length(x1)] + h
+    x2 <- head(x1, -1) + h
 
     h * sum(c(FUN(c(lower, upper)),
               4 * FUN(x1),
