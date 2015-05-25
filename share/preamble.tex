@@ -145,14 +145,16 @@
   \Newassociation{rep}{reponse}{reponses}
   \newcounter{exercice}[chapter]
   \renewcommand{\theexercice}{\thechapter.\arabic{exercice}}
-  \newenvironment{exercice}{%
+  \newenvironment{exercice}[1][]{%
     \begin{list}{}{%
         \refstepcounter{exercice}
-        \hypertarget{ex:\theexercice}{}
-        \Writetofile{solutions}{\protect\hypertarget{sol:\theexercice}{}}
-        \renewcommand{\makelabel}{%
-          \bfseries\protect\hyperlink{sol:\theexercice}{\theexercice}}
-        \settowidth{\labelwidth}{\bfseries \thechapter.\arabic{exercice}}
+        \ifthenelse{\equal{#1}{nosol}}{%
+          \renewcommand{\makelabel}{\bfseries\theexercice}}{%
+          \hypertarget{ex:\theexercice}{}
+          \Writetofile{solutions}{\protect\hypertarget{sol:\theexercice}{}}
+          \renewcommand{\makelabel}{%
+            \bfseries\protect\hyperlink{sol:\theexercice}{\theexercice}}}
+        \settowidth{\labelwidth}{\bfseries\theexercice}}
         \setlength{\leftmargin}{\labelwidth}
         \addtolength{\leftmargin}{\labelsep}
         \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
