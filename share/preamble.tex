@@ -2,7 +2,7 @@
   \usepackage{natbib,url}
   \usepackage[english,francais]{babel}
   \usepackage[autolanguage]{numprint}
-  \usepackage{actuarialangle,amsmath,amsthm,icomma}
+  \usepackage{actuarialangle,amsmath,amsthm}
   \usepackage[noae]{Sweave}
   \usepackage{paralist}
   \usepackage[shortlabels]{enumitem}
@@ -31,6 +31,7 @@
   \setmonofont[Scale=0.88]{Bitstream Vera Sans Mono}
   \newfontfamily\fullcaps[Letters=Uppercase,Numbers=Uppercase]{Myriad Pro}
   \usepackage[babel=true]{microtype}
+  \usepackage{icomma}
 
   %% Définition de nouveaux symboles de la police Font Awesome pas
   %% encore définis dans le package fontawesome
@@ -154,7 +155,7 @@
           \Writetofile{solutions}{\protect\hypertarget{sol:\theexercice}{}}
           \renewcommand{\makelabel}{%
             \bfseries\protect\hyperlink{sol:\theexercice}{\theexercice}}}
-        \settowidth{\labelwidth}{\bfseries\theexercice}}
+        \settowidth{\labelwidth}{\bfseries\theexercice}
         \setlength{\leftmargin}{\labelwidth}
         \addtolength{\leftmargin}{\labelsep}
         \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
@@ -269,7 +270,6 @@
   \lstloadlanguages{R}
   \lstset{language=R,
     extendedchars=true,
-    inputencoding=utf8/latin1,
     basicstyle=\small\ttfamily\NoAutoSpacing,
     commentstyle=\color{comments}\slshape,
     keywordstyle=\mdseries,
