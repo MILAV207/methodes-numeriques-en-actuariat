@@ -1,6 +1,6 @@
-\documentclass[letterpaper,11pt]{memoir}
+\documentclass[letterpaper,11pt,english,french]{memoir}
   \usepackage{natbib,url}
-  \usepackage[english,francais]{babel}
+  \usepackage{babel}
   \usepackage[autolanguage]{numprint}
   \usepackage{actuarialangle,amsmath,amsthm}
   \usepackage[noae]{Sweave}
@@ -9,12 +9,12 @@
   \usepackage{textpos}
   \usepackage{graphicx}
   \usepackage{manfnt}                  % \mantriangleright (puce)
-  \usepackage{marvosym}                % \ForwardToEnd
   \usepackage{metalogo}                % \XeLaTeX logo
   \usepackage{applekeys}               % touches Mac
-  \usepackage{fontawesome}             % \faExclamationSign, \faYouTubePlay
-  \usepackage{answers,listings}
-  \usepackage{pdfpages}                % couvertures
+  \usepackage{fontawesome}             % icônes \fa*
+  \usepackage{answers}                 % exercices et solutions
+  \usepackage{listings}                % code informatique
+  \usepackage[draft]{pdfpages}                % couvertures
   \usepackage{xr}
 
   %%% ===================
@@ -32,10 +32,6 @@
   \newfontfamily\fullcaps[Letters=Uppercase,Numbers=Uppercase]{Myriad Pro}
   \usepackage[babel=true]{microtype}
   \usepackage{icomma}
-
-  %% Définition de nouveaux symboles de la police Font Awesome pas
-  %% encore définis dans le package fontawesome
-  \def\faYouTubePlay{{\FA \symbol{"F16A}}}
 
   %% Couleurs
   \usepackage{xcolor}
@@ -99,6 +95,15 @@
     ItemLabelii=\textendash}
   \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
   \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
+
+  %% Sections de code source
+  \lstloadlanguages{R}
+  \lstset{language=R,
+    extendedchars=true,
+    basicstyle=\small\ttfamily\NoAutoSpacing,
+    commentstyle=\color{comments}\slshape,
+    keywordstyle=\mdseries,
+    showstringspaces=false}
 
   %%% =========================
   %%%  Nouveaux environnements
@@ -183,7 +188,7 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.1\linewidth}
-        \raisebox{-1.5em}[0em][0em]{\HUGE\faExclamationSign}
+        \raisebox{-1.5em}[0em][0em]{\HUGE\faExclamationCircle}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
@@ -194,7 +199,7 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.1\linewidth}
-        \raisebox{-1.5em}[0em][0em]{\HUGE\faInfoSign}
+        \raisebox{-1.5em}[0em][0em]{\HUGE\faInfoCircle}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
@@ -205,7 +210,7 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.1\linewidth}
-        \raisebox{-1.5em}[0em][0em]{\HUGE\applekey}
+        \raisebox{-1.5em}[0em][0em]{\HUGE\faApple}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}}
       {\end{minipage}%
@@ -216,7 +221,7 @@
     \begin{framed}%
       \noindent
       \begin{minipage}{0.07\linewidth}
-        \raisebox{-0.5em}[0em][0em]{\LARGE\ForwardToEnd}
+        \raisebox{-0.7em}[0em][0em]{\Large\faFastForward}
       \end{minipage}
       \begin{minipage}[t]{0.88\linewidth}\sffamily}
       {\end{minipage}%
@@ -241,7 +246,19 @@
 
   %% Indications de capsule vidéo
   \newcommand{\capsule}[2]{\href{#1}{#2}\marginpar{%
-      \href{#1}{\raisebox{-0.5em}[0em][0em]{\HUGE\faYouTubePlay}}}}
+      \href{#1}{\raisebox{-0.5em}[0em][0em]{\HUGE\faYoutubePlay}}}}
+
+  %% «Boutons» de la page de notices
+  \newcommand{\downloadbutton}{%
+    \framebox[40mm][l]{%
+      \rule[-5pt]{0mm}{16pt}%
+      \makebox[7mm]{\raisebox{-2.5pt}{\LARGE\faDownload}}\;%
+      {\sffamily Télécharger}}}
+  \newcommand{\browsebutton}{%
+    \framebox[40mm][l]{%
+      \rule[-5pt]{0mm}{16pt}%
+      \makebox[7mm]{\raisebox{-3pt}{\LARGE\faExternalLink}}\;%
+      {\sffamily Accéder au dépôt}}}
 
   %% Raccourcis usuels vg
   \newcommand{\pt}{{\scriptscriptstyle \Sigma}}
@@ -263,17 +280,6 @@
   \newcommand{\parttitle}[1]{\renewcommand{\@parttitle}{#1}}
   \newcommand{\theparttitle}{\@parttitle}
   \makeatother
-
-  %%% =========================
-  %%%  Sections de code source
-  %%% =========================
-  \lstloadlanguages{R}
-  \lstset{language=R,
-    extendedchars=true,
-    basicstyle=\small\ttfamily\NoAutoSpacing,
-    commentstyle=\color{comments}\slshape,
-    keywordstyle=\mdseries,
-    showstringspaces=false}
 
   %%% =======
   %%%  Varia
@@ -300,7 +306,7 @@
   %%% ======================================
   %%%  Page titre (sauf titre de la partie)
   %%% ======================================
-  \renewcommand{\year}{2015}
+  \renewcommand{\year}{2016}
   \title{%
     \bfseries\fontsize{42}{33}\selectfont {\fullcaps ACT 2002} \\
     \mdseries\fontsize{32}{33}\selectfont Méthodes numériques \\
