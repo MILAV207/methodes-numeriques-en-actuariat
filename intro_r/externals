@@ -5,6 +5,7 @@
 ../../../intro_r/trunk/fonctions.Rnw fonctions.Rnw
 ../../../intro_r/trunk/avance.Rnw avance.Rnw
 ../../../intro_r/trunk/emacs+ess.tex emacs+ess.tex
+../../../intro_r/trunk/rstudio.tex rstudio.tex
 ../../../intro_r/trunk/packages.tex packages.tex
 
 ../../../intro_r/trunk/presentation.R presentation.R
@@ -25,4 +26,6 @@
 ../../../intro_r/trunk/console-screenshot.pdf console-screenshot.pdf
 ../../../intro_r/trunk/emacs-screenshot.pdf emacs-screenshot.pdf
 ../../../intro_r/trunk/emacswindow-screenshot.pdf emacswindow-screenshot.pdf
+../../../intro_r/trunk/rstudio-screenshot.pdf rstudio-screenshot.pdf
+../../../intro_r/trunk/rstudiowindow-screenshot.pdf rstudiowindow-screenshot.pdf
 
