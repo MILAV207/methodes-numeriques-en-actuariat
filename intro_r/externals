@@ -1,3 +1,4 @@
+../../../intro_r/trunk/frontispice.tex frontispice.tex
 ../../../intro_r/trunk/presentation.Rnw presentation.Rnw
 ../../../intro_r/trunk/bases.Rnw bases.Rnw
 ../../../intro_r/trunk/operateurs.Rnw operateurs.Rnw
@@ -19,9 +20,13 @@
 ../../../intro_r/trunk/applekeys.sty applekeys.sty
 ../../../intro_r/trunk/command.pdf command.pdf
 ../../../intro_r/trunk/control.pdf control.pdf
+../../../intro_r/trunk/delete.pdf delete.pdf
 ../../../intro_r/trunk/escape.pdf escape.pdf
 ../../../intro_r/trunk/option.pdf option.pdf
 ../../../intro_r/trunk/return.pdf return.pdf
+
+../../../intro_r/trunk/compiling.png compiling.png
+../../../intro_r/trunk/emacs.png emacs.png
 
 ../../../intro_r/trunk/console-screenshot.pdf console-screenshot.pdf
 ../../../intro_r/trunk/emacs-screenshot.pdf emacs-screenshot.pdf
