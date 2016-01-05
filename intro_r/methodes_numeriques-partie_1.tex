@@ -20,17 +20,10 @@
         \renewcommand{\makelabel}[1]{\fbox{\vphantom{|}##1}\hfill}}}
     {\end{list}}
 
-  %%% Chapitre Opérateurs: environnements pour placer côte à côte des
-  %%% définitions de fonctions (utilisant ttscript ci-dessus) et un
-  %%% petit exemple.
-  \newenvironment{operateur}[1]{%
-    \noindent
-    \begin{minipage}[t]{0.65\linewidth}
-      \begin{ttscript}{#1}}
-    {\end{ttscript}\end{minipage}\hfill}
-  \newenvironment{miniexemple}{%
-    \begin{minipage}[t]{0.3\linewidth}}
-    {\end{minipage}}
+  %%% Chapitre Opérateurs: l'espacement entre les expressions R et
+  %%% leur sortie est réduit pour les exemples de fonctions.
+  \newlength{\compactsep} \setlength{\compactsep}{-0.5ex}
+  \newlength{\normalsep}  \setlength{\normalsep}{\topsep}
 
   %%% Listes de structures de contrôle
   \newenvironment{struclist}{%
@@ -87,7 +80,7 @@
   \newcommand{\ess}[1]{\code{#1}\indexess{#1}}
   \makeindex
 
-%  \includeonly{notices,introduction-partie_1}
+%  \includeonly{presentation}
 
 \begin{document}
 
