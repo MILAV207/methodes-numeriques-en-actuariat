@@ -1,9 +1,10 @@
-\documentclass[letterpaper,11pt,english,french]{memoir}
+\documentclass[letterpaper,11pt,x11names,english,french]{memoir}
   \usepackage{natbib,url}
   \usepackage{babel}
   \usepackage[autolanguage]{numprint}
   \usepackage{actuarialangle,amsmath,amsthm}
   \usepackage[noae]{Sweave}
+  \usepackage{framed}                  % env. snugshade*
   \usepackage{paralist}
   \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
@@ -35,11 +36,11 @@
 
   %% Couleurs
   \usepackage{xcolor}
-  \definecolor{comments}{rgb}{0.7,0,0}
-  \definecolor{shadecolor}{gray}{0}
-  \definecolor{link}{rgb}{0,0.4,0.6}   % ~RoyalBlue de dvips
-  \definecolor{url}{rgb}{0.6,0,0}      % rouge-brun
-  \definecolor{citation}{rgb}{0,0.5,0} % vert foncé
+  \definecolor{comments}{rgb}{0.7,0,0}          % rouge foncé
+  \definecolor{link}{rgb}{0,0.4,0.6}            % ~RoyalBlue de dvips
+  \definecolor{url}{rgb}{0.6,0,0}               % rouge-brun
+  \definecolor{citation}{rgb}{0,0.5,0}          % vert foncé
+  \definecolor{shadecolor}{named}{LightYellow1} % code source
 
   %% Hyperliens
   \usepackage{hyperref}
@@ -48,16 +49,21 @@
     bookmarksopen, bookmarksnumbered, bookmarksdepth=subsubsection,
     pdfauthor={Vincent Goulet}}
   \setlength{\XeTeXLinkMargin}{1pt}
-  \renewcommand{\appendixautorefname}{annexe}
-  \renewcommand{\figureautorefname}{figure}
-  \newcommand{\subfigureautorefname}{figure}
-  \renewcommand{\tableautorefname}{tableau}
-  \newcommand{\subtableautorefname}{tableau}
-  \newcommand{\thmautorefname}{théorème}
-  \newcommand{\exempleautorefname}{exemple}
-  \newcommand{\definitionautorefname}{définition}
-  \newcommand{\algorithmeautorefname}{algorithme}
-  \newcommand{\exerciceautorefname}{exercice}
+
+  %% Étiquettes de \autoref (redéfinition compatible avec babel)
+  \addto\extrasfrench{%
+    \def\algorithmeautorefname{algorithme}
+    \def\appendixautorefname{annexe}
+    \def\definitionautorefname{définition}
+    \def\figureautorefname{figure}%
+    \def\exempleautorefname{exemple}%
+    \def\exerciceautorefname{exercice}%
+    \def\subfigureautorefname{figure}
+    \def\subsectionautorefname{section}%
+    \def\subtableautorefname{tableau}
+    \def\tableautorefname{tableau}%
+    \def\thmautorefname{théorème}
+  }
 
   %% Table des matières (inspirée de classicthesis.sty)
   \renewcommand{\cftchapterleader}{\hspace{1.5em}}
@@ -128,6 +134,7 @@
   %% Listes d'objectifs au début des chapitres
   \newenvironment{objectifs}{%
     \noindent
+    \definecolor{shadecolor}{named}{black}
     \begin{framed}
       \vspace{-1.33\baselineskip}
       \begin{shaded}
@@ -139,12 +146,16 @@
       {\end{itemize}
     \end{framed}}
 
-  %% Environnements de Sweave
-  \DefineVerbatimEnvironment{Sinput}{Verbatim}{xleftmargin=\parindent}
-  \DefineVerbatimEnvironment{Soutput}{Verbatim}{xleftmargin=\parindent}
-  \DefineVerbatimEnvironment{Scode}{Verbatim}{xleftmargin=\parindent}
-  \fvset{listparameters={\setlength{\topsep}{0pt}}}
-  \renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+  %% Environnements de Sweave. Les environnements Sinput et Soutput
+  %% utilisent Verbatim (de fancyvrb). On les réinitialise pour
+  %% enlever la configuration par défaut de Sweave, puis on réduit
+  %% l'écart entre les blocs Sinput et Soutput. L'environnement Schunk
+  %% utilise snugshade* (de framed).
+  \DefineVerbatimEnvironment{Sinput}{Verbatim}{}
+  \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
+  \renewenvironment{Schunk}{%
+    \setlength{\topsep}{0pt}\begin{snugshade*}}%
+    {\end{snugshade*}}
 
   %% Exercices et réponses
   \Newassociation{sol}{solution}{solutions}
