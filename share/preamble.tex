@@ -151,10 +151,12 @@
 
   %% Environnements de Sweave. Les environnements Sinput et Soutput
   %% utilisent Verbatim (de fancyvrb). On les réinitialise pour
-  %% enlever la configuration par défaut de Sweave. L'environnement
-  %% Schunk utilise snugshade* (de framed).
+  %% enlever la configuration par défaut de Sweave, puis on réduit
+  %% l'écart entre les blocs Sinput et Soutput. L'environnement Schunk
+  %% utilise snugshade* (de framed).
   \DefineVerbatimEnvironment{Sinput}{Verbatim}{}
   \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
+  \fvset{listparameters={\setlength{\topsep}{0pt}}}
   \renewenvironment{Schunk}{%
     \setlength{\topsep}{0pt}\begin{snugshade*}}%
     {\end{snugshade*}}
@@ -307,15 +309,16 @@
 
   %% Aide pour la césure
   \hyphenation{%
-    puis-que
+    con-gru-en-tiels
+    con-naî-tre
     con-sole
     cons-tante
-    nom-bre
     con-tenu
     con-trôle
-    con-naî-tre
     hexa-dé-ci-mal
-    con-gru-en-tiels}
+    nom-bre
+    puis-que
+  }
 
   %%% ======================================
   %%%  Page titre (sauf titre de la partie)
