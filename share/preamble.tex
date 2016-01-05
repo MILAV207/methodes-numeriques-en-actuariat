@@ -50,19 +50,22 @@
     pdfauthor={Vincent Goulet}}
   \setlength{\XeTeXLinkMargin}{1pt}
 
-  %% Étiquettes de \autoref (redéfinition compatible avec babel)
+  %% Étiquettes de \autoref (redéfinitions compatibles avec babel).
+  %% Attention! Les % à la fin des lignes sont importants sinon des
+  %% blancs apparaissent dès que la commande \selectlanguage est
+  %% utilisée... comme dans la bibliographie, par exemple.
   \addto\extrasfrench{%
-    \def\algorithmeautorefname{algorithme}
-    \def\appendixautorefname{annexe}
-    \def\definitionautorefname{définition}
+    \def\algorithmeautorefname{algorithme}%
+    \def\appendixautorefname{annexe}%
+    \def\definitionautorefname{définition}%
     \def\figureautorefname{figure}%
     \def\exempleautorefname{exemple}%
     \def\exerciceautorefname{exercice}%
-    \def\subfigureautorefname{figure}
+    \def\subfigureautorefname{figure}%
     \def\subsectionautorefname{section}%
-    \def\subtableautorefname{tableau}
+    \def\subtableautorefname{tableau}%
     \def\tableautorefname{tableau}%
-    \def\thmautorefname{théorème}
+    \def\thmautorefname{théorème}%
   }
 
   %% Table des matières (inspirée de classicthesis.sty)
@@ -148,9 +151,8 @@
 
   %% Environnements de Sweave. Les environnements Sinput et Soutput
   %% utilisent Verbatim (de fancyvrb). On les réinitialise pour
-  %% enlever la configuration par défaut de Sweave, puis on réduit
-  %% l'écart entre les blocs Sinput et Soutput. L'environnement Schunk
-  %% utilise snugshade* (de framed).
+  %% enlever la configuration par défaut de Sweave. L'environnement
+  %% Schunk utilise snugshade* (de framed).
   \DefineVerbatimEnvironment{Sinput}{Verbatim}{}
   \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
   \renewenvironment{Schunk}{%
@@ -310,6 +312,7 @@
     cons-tante
     nom-bre
     con-tenu
+    con-trôle
     con-naî-tre
     hexa-dé-ci-mal
     con-gru-en-tiels}
