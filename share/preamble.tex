@@ -4,7 +4,7 @@
   \usepackage[autolanguage]{numprint}
   \usepackage{actuarialangle,amsmath,amsthm}
   \usepackage[noae]{Sweave}
-  \usepackage{framed}                  % env. snugshade*
+  \usepackage{framed}                  % env. snugshade*, oframed
   \usepackage{paralist}
   \usepackage[shortlabels]{enumitem}
   \usepackage{textpos}
@@ -36,11 +36,12 @@
 
   %% Couleurs
   \usepackage{xcolor}
-  \definecolor{comments}{rgb}{0.7,0,0}          % rouge foncé
-  \definecolor{link}{rgb}{0,0.4,0.6}            % ~RoyalBlue de dvips
-  \definecolor{url}{rgb}{0.6,0,0}               % rouge-brun
-  \definecolor{citation}{rgb}{0,0.5,0}          % vert foncé
-  \definecolor{shadecolor}{named}{LightYellow1} % code source
+  \definecolor{comments}{rgb}{0.7,0,0}           % commentaires
+  \definecolor{link}{rgb}{0,0.4,0.6}             % liens internes
+  \definecolor{url}{rgb}{0.6,0,0}                % liens externes
+  \definecolor{citation}{rgb}{0,0.5,0}           % citations
+  \definecolor{codebg}{named}{LightYellow1}      % fond code R
+  \definecolor{prob}{named}{orange}              % boîtes «problème»
 
   %% Hyperliens
   \usepackage{hyperref}
@@ -134,20 +135,51 @@
   \newenvironment{rem}{\begin{remarque} \mbox{}}{\end{remarque}}
   \newenvironment{rems}{\begin{remarques} \mbox{}}{\end{remarques}}
 
-  %% Listes d'objectifs au début des chapitres
+  %% Redéfinition de l'environnement titled-frame de framed.sty avec
+  %% deux modifications: épaisseur des filets réduite de 2pt à 1pt;
+  %% "(suite)" plutôt que "(cont)" dans la barre de titre
+  %% lorsque la boîte se poursuit après un saut de page.
+  \renewenvironment{titled-frame}[1]{%
+    \def\FrameCommand{\fboxsep8pt\fboxrule1pt
+      \TitleBarFrame{\textbf{#1}}}%
+    \def\FirstFrameCommand{\fboxsep8pt\fboxrule1pt
+      \TitleBarFrame[$\blacktriangleright$]{\textbf{#1}}}%
+    \def\MidFrameCommand{\fboxsep8pt\fboxrule1pt
+      \TitleBarFrame[$\blacktriangleright$]{\textbf{#1\ (suite)}}}%
+    \def\LastFrameCommand{\fboxsep8pt\fboxrule1pt
+      \TitleBarFrame{\textbf{#1\ (suite)}}}%
+    \MakeFramed{\advance\hsize-16pt \FrameRestore}}%
+  {\endMakeFramed}
+
+  %% Boîte générique avec titre basée sur titled-frame, ci-dessus.
+  %% Sert pour les listes d'objectifs et les boîtes reliées aux
+  %% problèmes (mises en situation) dans les chapitres.
+  \newenvironment{emphbox}[2][black]{%
+    \colorlet{TFFrameColor}{#1}%
+    \colorlet{TFTitleColor}{white}%
+    \begin{titled-frame}{\sffamily #2}%
+      \setlength{\parindent}{0pt}}%
+    {\end{titled-frame}}
+
+  %% Liste d'objectifs au début des chapitres
   \newenvironment{objectifs}{%
-    \noindent
-    \definecolor{shadecolor}{named}{black}
-    \begin{framed}
-      \vspace{-1.33\baselineskip}
-      \begin{shaded}
-        \noindent\sffamily\bfseries\textcolor{white}{Objectifs du chapitre}
-      \end{shaded}
-      \vspace{-0.6\baselineskip}
+    \begin{emphbox}{\rule[-7pt]{0pt}{20pt} Objectifs du chapitre}
       \begin{itemize}[nosep]
-        \small\sffamily}
-      {\end{itemize}
-    \end{framed}}
+        \small\sffamily}%
+      {\end{itemize}\end{emphbox}}
+
+  %% Problèmes (mises en situation) des chapitres: énoncé au début du
+  %% chapitre; astuces en cours de chapitre; solution à la fin
+  %% du chapitre.
+  \newenvironment{prob-enonce}{%
+    \begin{emphbox}[prob]{Énoncé du problème}}%
+    {\end{emphbox}}
+  \newenvironment{prob-astuce}{%
+    \begin{emphbox}[prob]{Astuce}}%
+    {\end{emphbox}}
+  \newenvironment{prob-solution}{%
+    \begin{emphbox}[prob]{Solution du problème}}%
+    {\end{emphbox}}
 
   %% Environnements de Sweave. Les environnements Sinput et Soutput
   %% utilisent Verbatim (de fancyvrb). On les réinitialise pour
@@ -158,7 +190,9 @@
   \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
   \fvset{listparameters={\setlength{\topsep}{0pt}}}
   \renewenvironment{Schunk}{%
-    \setlength{\topsep}{0pt}\begin{snugshade*}}%
+    \setlength{\topsep}{0pt}
+    \colorlet{shadecolor}{codebg}
+    \begin{snugshade*}}%
     {\end{snugshade*}}
 
   %% Exercices et réponses
@@ -180,8 +214,8 @@
         \addtolength{\leftmargin}{\labelsep}
         \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
         \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
-      \item}
-    {\end{list}}
+      \item}%
+      {\end{list}}
   \renewenvironment{solution}[1]{%
     \begin{list}{}{%
         \renewcommand{\makelabel}{%
@@ -191,12 +225,12 @@
         \addtolength{\leftmargin}{\labelsep}
         \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
         \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
-      \item}
-    {\end{list}}
+      \item}%
+      {\end{list}}
   \renewenvironment{reponse}[1]{%
     \begin{enumerate}[label=\textbf{#1}]
-      \item}
-    {\end{enumerate}}
+      \item}%
+      {\end{enumerate}}
 
   %% Remarques importantes
   \newenvironment{important}{%
@@ -205,9 +239,8 @@
       \begin{minipage}{0.1\linewidth}
         \raisebox{-1.5em}[0em][0em]{\HUGE\faExclamationCircle}
       \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}}
-      {\end{minipage}%
-    \end{framed}}
+      \begin{minipage}[t]{0.88\linewidth}}%
+      {\end{minipage}\end{framed}}
 
   %% Informations
   \newenvironment{information}{%
@@ -216,9 +249,8 @@
       \begin{minipage}{0.1\linewidth}
         \raisebox{-1.5em}[0em][0em]{\HUGE\faInfoCircle}
       \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}}
-      {\end{minipage}%
-    \end{framed}}
+      \begin{minipage}[t]{0.88\linewidth}}%
+      {\end{minipage}\end{framed}}
 
   %% Remarques spécifiques OS X
   \newenvironment{osx}{%
@@ -227,9 +259,8 @@
       \begin{minipage}{0.1\linewidth}
         \raisebox{-1.5em}[0em][0em]{\HUGE\faApple}
       \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}}
-      {\end{minipage}%
-    \end{framed}}
+      \begin{minipage}[t]{0.88\linewidth}}%
+      {\end{minipage}\end{framed}}
 
   %% Changements au fil de la lecture
   \newenvironment{gotoR}{%
@@ -238,9 +269,8 @@
       \begin{minipage}{0.07\linewidth}
         \raisebox{-0.7em}[0em][0em]{\Large\faFastForward}
       \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}\sffamily}
-      {\end{minipage}%
-    \end{framed}}
+      \begin{minipage}[t]{0.88\linewidth}\sffamily}%
+      {\end{minipage}\end{framed}}
 
   %% Redéfinition de l'environnement de matrices de amsmath pour
   %% aligner les colonnes à droite. Pris dans
