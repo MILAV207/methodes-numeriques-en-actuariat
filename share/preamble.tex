@@ -153,7 +153,9 @@
 
   %% Encadré générique avec titre basé sur titled-frame, ci-dessus.
   %% Sert pour les listes d'objectifs et les encadrés reliés aux
-  %% problèmes (mises en situation) dans les chapitres.
+  %% problèmes (mises en situation) dans les chapitres. Arguments:
+  %% couleur du cadre (optionnel; noir par défaut) et titre de la
+  %% boîte (obligatoire).
   \newenvironment{emphbox}[2][black]{%
     \colorlet{TFFrameColor}{#1}%
     \colorlet{TFTitleColor}{white}%
@@ -225,45 +227,45 @@
         \addtolength{\leftmargin}{\labelsep}
         \setlist[enumerate,1]{label=\alph*),labelsep=*,leftmargin=1.5em}
         \setlist[enumerate,2]{label=\roman*),labelsep=0.5em,align=right}}
-      \item}%
-      {\end{list}}
+    \item}%
+    {\end{list}}
   \renewenvironment{reponse}[1]{%
     \begin{enumerate}[label=\textbf{#1}]
-      \item}%
-      {\end{enumerate}}
+    \item}%
+    {\end{enumerate}}
+
+  %% Encadré générique pour les remarques importantes et autres
+  %% comportant une icône sur la gauche. Argument: symbole à
+  %% placer sur la gauche (obligatoire).
+  \newenvironment{infobox}[1]{%
+    \setlength{\FrameRule}{1pt}
+    \begin{framed}%
+      \noindent
+      \begin{minipage}{0.1\linewidth}
+        \raisebox{-1.5em}[0em][0em]{\HUGE#1}
+      \end{minipage}
+      \begin{minipage}[t]{0.88\linewidth}}%
+      {\end{minipage}\end{framed}}
 
   %% Remarques importantes
   \newenvironment{important}{%
-    \begin{framed}%
-      \noindent
-      \begin{minipage}{0.1\linewidth}
-        \raisebox{-1.5em}[0em][0em]{\HUGE\faExclamationCircle}
-      \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}}%
-      {\end{minipage}\end{framed}}
+    \begin{infobox}{\faExclamationCircle}}%
+    {\end{infobox}}
 
   %% Informations
   \newenvironment{information}{%
-    \begin{framed}%
-      \noindent
-      \begin{minipage}{0.1\linewidth}
-        \raisebox{-1.5em}[0em][0em]{\HUGE\faInfoCircle}
-      \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}}%
-      {\end{minipage}\end{framed}}
+    \begin{infobox}{\faInfoCircle}}%
+    {\end{infobox}}
 
   %% Remarques spécifiques OS X
   \newenvironment{osx}{%
-    \begin{framed}%
-      \noindent
-      \begin{minipage}{0.1\linewidth}
-        \raisebox{-1.5em}[0em][0em]{\HUGE\faApple}
-      \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}}%
-      {\end{minipage}\end{framed}}
+    \begin{infobox}{\faApple}}%
+    {\end{infobox}}
 
-  %% Changements au fil de la lecture
+  %% Changements au fil de la lecture. Environnement similaire aux
+  %% encadrés ci-dessus, mais le symbole n'est pas de la même grosseur.
   \newenvironment{gotoR}{%
+    \setlength{\FrameRule}{1pt}
     \begin{framed}%
       \noindent
       \begin{minipage}{0.07\linewidth}
@@ -295,11 +297,13 @@
 
   %% «Boutons» de la page de notices
   \newcommand{\downloadbutton}{%
+    \setlength{\fboxrule}{0.8pt}%
     \framebox[40mm][l]{%
       \rule[-5pt]{0mm}{16pt}%
       \makebox[7mm]{\raisebox{-2.5pt}{\LARGE\faDownload}}\;%
       {\sffamily Télécharger}}}
   \newcommand{\browsebutton}{%
+    \setlength{\fboxrule}{0.8pt}%
     \framebox[40mm][l]{%
       \rule[-5pt]{0mm}{16pt}%
       \makebox[7mm]{\raisebox{-3pt}{\LARGE\faExternalLink}}\;%
