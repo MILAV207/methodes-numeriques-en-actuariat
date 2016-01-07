@@ -41,7 +41,7 @@
   \definecolor{url}{rgb}{0.6,0,0}                % liens externes
   \definecolor{citation}{rgb}{0,0.5,0}           % citations
   \definecolor{codebg}{named}{LightYellow1}      % fond code R
-  \definecolor{prob}{named}{orange}              % boîtes «problème»
+  \definecolor{prob}{named}{orange}              % encadrés «problème»
 
   %% Hyperliens
   \usepackage{hyperref}
@@ -138,7 +138,7 @@
   %% Redéfinition de l'environnement titled-frame de framed.sty avec
   %% deux modifications: épaisseur des filets réduite de 2pt à 1pt;
   %% "(suite)" plutôt que "(cont)" dans la barre de titre
-  %% lorsque la boîte se poursuit après un saut de page.
+  %% lorsque l'encadré se poursuit après un saut de page.
   \renewenvironment{titled-frame}[1]{%
     \def\FrameCommand{\fboxsep8pt\fboxrule1pt
       \TitleBarFrame{\textbf{#1}}}%
@@ -151,8 +151,8 @@
     \MakeFramed{\advance\hsize-16pt \FrameRestore}}%
   {\endMakeFramed}
 
-  %% Boîte générique avec titre basée sur titled-frame, ci-dessus.
-  %% Sert pour les listes d'objectifs et les boîtes reliées aux
+  %% Encadré générique avec titre basé sur titled-frame, ci-dessus.
+  %% Sert pour les listes d'objectifs et les encadrés reliés aux
   %% problèmes (mises en situation) dans les chapitres.
   \newenvironment{emphbox}[2][black]{%
     \colorlet{TFFrameColor}{#1}%
@@ -172,13 +172,13 @@
   %% chapitre; astuces en cours de chapitre; solution à la fin
   %% du chapitre.
   \newenvironment{prob-enonce}{%
-    \begin{emphbox}[prob]{Énoncé du problème}}%
+    \begin{emphbox}[prob]{{\faDotCircleO} Énoncé du problème}}%
     {\end{emphbox}}
   \newenvironment{prob-astuce}{%
-    \begin{emphbox}[prob]{Astuce}}%
+    \begin{emphbox}[prob]{{\faDotCircleO} Astuce}}%
     {\end{emphbox}}
   \newenvironment{prob-solution}{%
-    \begin{emphbox}[prob]{Solution du problème}}%
+    \begin{emphbox}[prob]{{\faDotCircleO} Solution du problème}}%
     {\end{emphbox}}
 
   %% Environnements de Sweave. Les environnements Sinput et Soutput
