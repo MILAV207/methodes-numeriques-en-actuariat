@@ -187,7 +187,8 @@
   %% utilisent Verbatim (de fancyvrb). On les réinitialise pour
   %% enlever la configuration par défaut de Sweave, puis on réduit
   %% l'écart entre les blocs Sinput et Soutput. L'environnement Schunk
-  %% utilise snugshade* (de framed).
+  %% est complètement redéfini à partir de snugshade* (de framed) pour
+  %% insérer un fond de couleur derrière les blocs de code source.
   \DefineVerbatimEnvironment{Sinput}{Verbatim}{}
   \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
   \fvset{listparameters={\setlength{\topsep}{0pt}}}
