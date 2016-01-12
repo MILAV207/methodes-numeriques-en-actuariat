@@ -48,7 +48,8 @@
 
     Les numéros de page en caractères gras indiquent les pages où les
     concepts sont introduits, définis ou expliqués.\vskip\onelineskip}
-  \newcommand{\Index}[1]{\index{#1|bfhyperpage}}
+  %\newcommand{\Index}[1]{\index{#1|bfhyperpage}}
+  \newcommand{\Index}[1]{\index{#1|textbf}}
   \newcommand{\indexargument}[1]{\index{#1@\code{#1}}}
   \newcommand{\Indexargument}[1]{\Index{#1@\code{#1}}}
   \newcommand{\indexattribut}[1]{\index{#1@\code{#1} (attribut)}}
@@ -76,7 +77,7 @@
   \newcommand{\Objet}[1]{\code{#1}\Indexobjet{#1}}
   \makeindex
 
-%  \includeonly{exemples}
+  %\includeonly{frontispice}
 
 \begin{document}
 
