@@ -25,23 +25,24 @@ MASTER = methodes_numeriques-partie_1.pdf
 
 # The master document depends on all TeX and R files
 RNWFILES = $(wildcard *.Rnw)
-RFILES   = $(wildcard *.R)
 TEXFILES = $(wildcard *.tex)
+RFILES   = presentation.R bases.R operateurs.R fonctions.R avance.R
+ROUTFILES = $(wildcard *.Rout)
 
 # The work horses
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
-TEXI2DVI = LATEX=xelatex texi2dvi -b
+TEXI2DVI = LATEX=xelatex TEXINDY=makeindex texi2dvi -b
+RBATCH = R CMD BATCH
 RM = rm -rf
 
-.PHONY: tex pdf clean
+.PHONY: tex pdf zip clean
 
 pdf: $(MASTER)
 tex: $(RNWFILES:.Rnw=.tex)
+zip: $(RFILES:.R=.Rout)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
-
-$(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	sed -i ""                           \
 	    -e "/^\\\\item L'\\\\autoref/s/^/%/" \
             -e "/^  stratégies ---/s/^/%/"  \
@@ -70,7 +71,17 @@ $(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	sed -i "" \
 	    -e "s:youtu.be/(anatomie|KtmFDm2AKM4):youtu.be/xiNnHegDau8:" \
 	    emacs+ess.tex
+
+$(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
+
+%.Rout: %.R
+	$(RBATCH) '$<'
+
+zip: $(RFILES) $(ROUTFILES)
+	zip -j code-partie_1.zip ${RFILES}
+	zip -j code-partie_1-sorties.zip ${ROUTFILES}
+
 clean:
 	$(RM) $(RNWFILES:.Rnw=.tex) \
 	*-[0-9][0-9][0-9].eps \
