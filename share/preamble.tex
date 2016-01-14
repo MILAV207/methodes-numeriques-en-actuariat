@@ -174,13 +174,13 @@
   %% chapitre; astuces en cours de chapitre; solution à la fin
   %% du chapitre.
   \newenvironment{prob-enonce}{%
-    \begin{emphbox}[prob]{{\faCogs}\; Énoncé du problème}}%
+    \begin{emphbox}[prob]{{\normalfont\faCogs}\; Énoncé du problème}}%
     {\end{emphbox}}
   \newenvironment{prob-astuce}{%
-    \begin{emphbox}[prob]{{\faBolt}\; Astuce}}%
+    \begin{emphbox}[prob]{{\normalfont\faBolt}\; Astuce}}%
     {\end{emphbox}}
   \newenvironment{prob-solution}{%
-    \begin{emphbox}[prob]{{\faLightbulbO}\; Solution du problème}}%
+    \begin{emphbox}[prob]{{\normalfont\faLightbulbO}\; Solution du problème}}%
     {\end{emphbox}}
 
   %% Environnements de Sweave. Les environnements Sinput et Soutput
@@ -367,7 +367,10 @@
     \bfseries\fontsize{16}{20}\selectfont Vincent Goulet \\
     \mdseries\fontsize{14}{18}\selectfont Professeur titulaire \textbar\
                                           École d'actuariat \textbar\
-                                          Université Laval}
+                                          Université Laval \\
+                                          \vspace*{10mm}
+    \mdseries\fontsize{14}{18}\selectfont Avec la collaboration de \\
+    \bfseries\fontsize{16}{20}\selectfont Laurent Caron}
   \date{%
     \mdseries\fontsize{14}{18}\selectfont Notes de cours \textbar\
                                           Exercices \textemdash\
