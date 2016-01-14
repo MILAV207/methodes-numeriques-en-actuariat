@@ -6,8 +6,8 @@
 #
 # Rouben Rostmaian, minor adjustments for Rnw Nicholas Lewin-koh
 # September 2002                              March 2005
-# Further adjustments Vincent Goulet
-# April 2008
+# Additions Vincent Goulet
+# January 2016
 
 # Correspondances url des capsules sur YouTube.
 #
@@ -22,24 +22,25 @@
 #  Installation packages  packages	http://youtu.be/DL48oi2RKjM	http://youtu.be/mL6iNzjHMKE
 
 MASTER = methodes_numeriques-partie_1.pdf
+CODE = code-partie_1.zip
+SORTIES = code-partie_1-sorties.zip
 
-# The master document depends on all TeX and R files
+# The master document depends on all TeX and listed R files
 RNWFILES = $(wildcard *.Rnw)
 TEXFILES = $(wildcard *.tex)
 RFILES   = presentation.R bases.R operateurs.R fonctions.R avance.R
-ROUTFILES = $(wildcard *.Rout)
+ROUTFILES := $(RFILES:.R=.Rout)
 
 # The work horses
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
 TEXI2DVI = LATEX=xelatex TEXINDY=makeindex texi2dvi -b
-RBATCH = R CMD BATCH
+RBATCH = R CMD BATCH --no-timing
 RM = rm -rf
 
 .PHONY: tex pdf zip clean
 
 pdf: $(MASTER)
 tex: $(RNWFILES:.Rnw=.tex)
-zip: $(RFILES:.R=.Rout)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
@@ -76,11 +77,13 @@ $(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 %.Rout: %.R
-	$(RBATCH) '$<'
+	echo "options(error=expression(NULL))" | cat - $< > $<.tmp
+	$(RBATCH) $<.tmp $@
+	$(RM) $<.tmp
 
 zip: $(RFILES) $(ROUTFILES)
-	zip -j code-partie_1.zip ${RFILES}
-	zip -j code-partie_1-sorties.zip ${ROUTFILES}
+	zip -j $(CODE) ${RFILES}
+	zip -j $(SORTIES) ${ROUTFILES}
 
 clean:
 	$(RM) $(RNWFILES:.Rnw=.tex) \
