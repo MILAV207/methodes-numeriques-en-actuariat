@@ -46,15 +46,13 @@ RBATCH = R CMD BATCH --no-timing
 RM = rm -rf
 
 
-.PHONY: tex links pdf zip clean
+.PHONY: tex pdf zip clean
 
 pdf: $(MASTER)
-tex: $(RNWFILES:.Rnw=.tex) links
+tex: $(RNWFILES:.Rnw=.tex)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
-
-links:
 	sed -i ""                           \
 	    -e "/^\\\\item L'\\\\autoref/s/^/%/" \
 	    -e "/^  stratégies ---/s/^/%/"  \
