@@ -40,6 +40,19 @@ l'\autoref{chap:rappels_transformations} des rappels sur les
 principales techniques étudiées dans les cours d'analyse probabiliste
 et d'analyse statistique.
 
+\begin{prob-enonce}
+  Au chapitre précédent, le problème présenté consistait à
+  calculer par simulation la probabilité que l'enveloppe
+  convexe d'un ensemble de quatre points forme un triangle
+  lorsque ceux-ci sont distribués uniformément sur un plan
+  \emph{carré} de longueur et de largeur 1.
+
+  Cette fois, vous devez vérifier par simulation que lorsque
+  la région $R$ est un \emph{disque}, et que les quatre points
+  sont distribués uniformément sur la région, la probabilité
+  que l'enveloppe convexe forme un triangle est
+  $\frac{35}{12 \pi^2} \approx 0,29552$.
+\end{prob-enonce}
 
 \section{Méthode de l'inverse}
 \label{sec:simulation:inverse}
@@ -574,7 +587,41 @@ axis(side = 1, at = 0.5)
   \qed
 \end{exemple}
 
+\SweaveOpts{height=3, width=4}
+  \begin{figure}
+    \centering
+<<echo=FALSE, fig=TRUE, results=hide>>=
+## Graphique.
+set.seed(314516)
 
+x <- runif(200, -1, 1)
+y <- runif(200, -1, 1)
+
+par(mar=c(4,5,0.5,4))
+
+plot(x[(x^2 + y^2) < 1], y[(x^2 + y^2) < 1], xlab="x", ylab="y", pch=16, col="gray49",
+        xlim=c(-1, 1), ylim=c(-1, 1))
+points(x[(x^2 + y^2) >= 1], y[(x^2 + y^2) >= 1], xlab="x", ylab="y", pch=1)
+
+r <- 1
+t <- seq(0, 2 * pi, length = 1000)
+lines(x = r * cos(t), y = r * sin(t), lwd=2)
+@
+    \caption{Acceptation-rejet sur un disque}
+    \label{fig:simulation:disque}
+  \end{figure}
+
+\begin{prob-astuce}
+  La méthode acceptation-rejet présentée ci-haut peut
+  être adaptée au problème présenté en ouverture de
+  chapitre. En effet, afin de générer des points
+  distribués uniformément sur un disque, il s'agit de
+  simuler des points uniformément sur un carré et de
+  rejeter ceux qui ne se trouvent pas à l'intérieur du
+  disque. Dans la \autoref{fig:simulation:disque}, 
+  on accepterait les points gris et on rejeterait les
+  points vides.
+\end{prob-astuce}
 
 \section{Fonctions de simulation de variables aléatoires dans Excel,
   VBA et \textsf{R}}
@@ -711,7 +758,76 @@ en actuariat:
 En terminant, mentionnons que l'\autoref{planification} propose
 quelques trucs pour bien planifier une étude de simulation en R.
 
+\begin{prob-solution}
+  La première étape consiste à créer une fonction qui
+  génère \code{n} points distribués uniformément sur
+  un cercle :
+  
+<<echo=TRUE>>=
+sim.cercle1 <- function(n)
+{
+    ### On crée le contenant vide
+    X <- matrix(NA, n, 2)
+    
+    ### puis on le remplit.
+    i <- 1
+    repeat
+    {
+        ### On soumet à l'algorithme acceptation-
+        ### rejet 2 coordonnées entre -1 et 1
+        x <- runif(2, -1, 1)
+        
+        ### Si les coordonnées sont dans
+        ### le cercle...
+        if (sum(x^2) < 1)
+        {
+            ### ... on ajoute la paire
+            ### à la matrice 'X'.
+            X[i, ] <- x
+            
+            ### On cesse lorsque 'X'
+            ### contient 'n' rangées.
+            if (n < (i <- i + 1))
+                break
+        }
+    }
+    X
+}
+@
 
+  Ensuite, on utilise la fonction pour calculer par
+  simulation la probabilité recherchée, comme à
+  l'exemple du chapitre précédent :
+
+<<<echo=TRUE>>=
+set.seed(17)
+mean(replicate(100000,
+        3 == length(chull(sim.cercle1(4))) ))
+@
+    
+  Remarque : Il est à noter qu'une autre solution
+  permet de générer des points uniformément dans
+  un cercle sans procéder à la méthode
+  acceptation-rejet. Cette méthode repose sur la
+  simulation de coordonnées polaires, puis de leur
+  transformation en coordonnées cartésiennes :
+  
+<<echo=TRUE>>=
+sim.cercle2 <- function(n)
+{
+    r <- runif(n)
+    angle <- runif(n, 0, 2 * pi)
+    sqrt(r) * cbind(cos(angle), sin(angle))
+}
+
+set.seed(17)
+mean(replicate(100000,
+               3 == length(chull(sim.cercle2(4))) ))
+@
+
+  Pour plus de détails sur cette méthode, vous référer
+  à l'\autoref{ex:simulation:cercle}.
+\end{prob-solution}
 
 \section{Code informatique}
 \label{sec:simulation:code}

@@ -1,0 +1,515 @@
+\chapter{Génération de nombres aléatoires uniformes}
+\label{chap:generation}
+
+\begin{objectifs}
+\item Identifier des applications actuarielles de la simulation
+  stochastique.
+\item Énoncer les caractéristiques d'un bon générateur de nombre
+  pseudo-aléatoires.
+\item Utiliser l'opérateur mathématique modulo.
+\item Générer des nombres pseudo-aléatoires à l'aide d'un générateur
+  congruentiel linéaire.
+\item Établir les caractéristiques d'un générateur congruentiel
+  linéaire, notamment sa période.
+\item Utiliser les générateurs de nombres aléatoires de Excel, VBA et
+  R.
+\end{objectifs}
+
+Ce chapitre traite de la simulation de nombres (pseudo) aléatoires
+distribués uniformément sur l'intervalle $(0, 1)$. La transformation
+de ces nombres uniformes en nombres provenant d'autres distributions
+statistiques fera l'objet du prochain chapitre.
+
+%% Les floats ne peuvent se trouver à l'intérieur d'un environnement
+%% de framed.sty utilisé par prob-enonce.
+\begin{figure}
+  \centering
+<<echo=FALSE, fig=TRUE>>=
+X <- matrix(c( c(8, 1, 7, 10, 6, 4, 4, 8, 8, 4, 6, 8),
+             c(8, 2, 4, 3, 5, 3, 4, 5, 3, 6, 6, 7) ), ncol = 2)
+plot(X, cex = 0.75, pch = 19, xlab = "x", ylab = "y", xlim=c(0, 10),
+            ylim=c(2, 8))
+hpts <- chull(X)
+hpts <- c(hpts, hpts[1])
+lines(X[hpts, ])
+@
+  \caption{Exemple d'enveloppe convexe d'un ensemble de points}
+  \label{fig:chull}
+\end{figure}
+
+\begin{prob-enonce}
+  Dans le problème des quatre points de \cite{Sylvester:fourpoint:1865}
+  , on cherche la probabilité que l'enveloppe convexe de quatre
+  points placés dans une région $R$ forme un triangle (voir
+  l'article de MathWorld cité en référence pour plus de détails).
+  L'enveloppe convexe (\emph{convex hull} en anglais) d'un ensemble de
+  points (dans le plan, pour simplifier) est l'ensemble des points
+  qui, lorsque reliés entre eux, forment une structure convexe
+  contenant tous les autres points. La \autoref{fig:chull} en
+  présente un exemple.
+  
+  La fonction \code{chull} de R calcule l'enveloppe
+  convexe d'un ensemble de points et retourne les indices
+  des points faisant partie de l'enveloppe. Par exemple,
+  les points formant l'enveloppe de la
+  \autoref{fig:chull} sont ceux aux positions 12, 2, 9 et 1
+  des vecteurs de coordonnées cartésiennes :
+<<echo=TRUE>>=
+x <- c(8, 1, 7, 6, 4, 4, 8, 8, 4, 6, 8, 10)
+y <- c(8, 2, 4, 5, 3, 4, 5, 3, 6, 6, 7, 3)
+chull(x, y)
+@
+
+  Dans un premier temps, écrire une fonction \code{is.triangle}
+  qui permettra de déterminer si l'enveloppe convexe de quatre
+  points forme un triangle. La fonction prendra en arguments un
+  vecteur \code{x} des coordonnées en abscisse des quatre points
+  et un vecteur \code{y} des coordonnées en ordonnée. La fonction
+  retournera \code{TRUE} ou \code{FALSE} selon que l'enveloppe
+  convexe est un triangle ou non. Par exemple:
+  
+<<echo=FALSE>>=
+is.triangle <- function(x, y) 3 == length(chull(cbind(x, y)))
+@
+<<echo=TRUE>>=
+is.triangle(c(8, 1, 7, 10), c(8, 2, 4, 3))
+is.triangle(c(7, 5, 2, 1), c(9, 3, 10, 7))
+@
+
+  Dans un deuxième temps, utiliser la fonction \code{is.triangle}
+  pour vérifier par simulation que, lorsque 4 points sont
+  distribués uniformément sur un carré de $(1 \times 1)$, la
+  probabilité que leur enveloppe convexe forme un triangle est
+  $\frac{11}{36} \approx 0,30556$. Pour
+  effectuer les simulations, utiliser la fonction \code{replicate}
+  tel qu'expliqué à l'\autoref{planification} du présent
+  document.
+\end{prob-enonce}
+
+
+\section{Pourquoi faire de la simulation?}
+\label{sec:generation:pourquoi}
+
+La simulation stochastique est une technique de plus en plus utilisée
+en actuariat comme dans la plupart des sciences appliquées, en génie,
+en finance, etc. Les modèles mathématiques et la simulation
+stochastiques comportent plusieurs avantages par rapport à
+l'expérimentation directe, dont, entre autres:
+\begin{itemize}
+\item la simulation est non destructrice et peu coûteuse;
+\item le système considéré n'a pas besoin d'exister;
+\item la simulation est facile à répéter;
+\item l'évolution dans la simulation peut être plus rapide que dans la
+  réalité;
+\item la simulation permet de considérer des modèles très complexes
+  impossibles à traiter analytiquement.
+\end{itemize}
+En revanche, au rayon des inconvénients, on note:
+\begin{itemize}
+\item le coût (en temps et en argent) de modélisation et de
+  programmation s'avère parfois important;
+\item le temps d'exécution peut devenir excessif;
+\item la simulation ne fournit que des estimations;
+\item l'analyse statistique des résultats peut ne pas toujours être
+  simple.
+\end{itemize}
+
+À la base, toute étude de simulation requiert une source de nombres
+aléatoires. Or, ces nombres aléatoires ne sont pas toujours facile à
+obtenir --- surtout en grande quantité --- et la qualité de la source
+est primodiale pour que l'étude soit fiable. En effet, un générateur
+qui ne fournirait pas des nombres suffisamment aléatoires, ou alors
+qui se répètent trop rapidement, peut corrompre les résultats d'une
+étude jusqu'à rendre ses conclusions invalides.
+
+Les nombres aléatoires sont également beaucoup utilisés en
+cryptographie. Ici encore, un générateur de mauvaise qualité peut
+avoir des conséquences fâcheuses. Par exemple, si la période du
+générateur est trop courte, il devient relativement facile de percer
+la sécurité d'un système en découvrant le mot de passe par une attaque
+en force.
+
+
+\section{Générateurs de nombres aléatoires}
+\label{sec:generation:generateurs}
+
+On veut obtenir des nombres issus d'une distribution uniforme sur un
+intervalle quelconque, en général $(0, 1)$. Comment procéder?
+\begin{enumerate}
+\item On peut utiliser les résultats de processus physiques aléatoires
+  en apparence comme, par exemple:
+  \begin{itemize}
+  \item le lancer d'une pièce de monnaie ou d'un dé;
+  \item des nombres pris au hasard dans des tableaux de rapports ou
+    dans un annuaire;
+  \item la roulette;
+  \item le bruit électronique (tablaux RAND);
+  \item les intervalles de temps dans un processus de décroissance
+    radioactive sont considérés parfaitement aléatoires; le site
+    HotBits\footnote{%
+      \url{http://www.fourmilab.ch/hotbits/}} %
+    fournit des nombres issus d'un tel processus.
+  \end{itemize}
+  L'utilisation de listes de nombres aléatoires ou de sources
+  physiques est toutefois peu pratique avec un ordinateur, surtout si
+  l'on a besoin de milliers ou de millions de nombres aléatoires.
+\item Une ancienne technique est celle des carrés centraux de
+  von~Neumann: on prend un nombre à quatre chiffres, on l'élève au
+  carré puis on extrait les quatre chiffres du milieu, et ainsi de
+  suite. Par exemple:
+  \begin{align*}
+    8653^2 &= 74\mathbf{8744}09 \\
+    8744^2 &= 76\mathbf{4575}36 \\
+    4575^2 &= 20\mathbf{9306}25
+  \end{align*}
+\item On peut construire des générateurs basés sur la suite de
+  Fibonacci, des générateurs chaotiques, etc.
+\end{enumerate}
+
+En fait, les générateurs couramment utilisés aujourd'hui dans les
+ordinateurs sont des évolutions des générateurs dits
+\emph{congruentiels}. Ils sont particulièrement utiles parce
+qu'aisément \emph{reproduisibles}. De plus, nous pouvons généralement
+en connaître les propriétés --- notamment la période --- par une
+analyse mathématique poussée. \citet[section 3.1]{Knuth:ACP:vol2:1997}
+fournit un exemple éloquent de l'importance de pouvoir démontrer
+mathématiquement les propriétés d'un générateur de nombres aléatoires.
+Cette référence de quelques pages seulement est fournie dans le site
+du cours; la lire avant d'aller plus loin.
+
+C'est fait? Bien. Intéressant, n'est-ce pas?
+
+Dans la suite, nous nous concentrerons sur les générateurs de nombres
+pseudo-aléatoires. En général, on exige d'un générateur de ce type
+qu'il:
+\begin{enumerate}
+\item produise des nombres distribués approximativement uniformément;
+\item produise des nombres approximativement indépendants dans un bon
+  nombre de dimensions;
+\item possède une période suffisamment longue (au moins $2^{60}$);
+\item soit facilement reproduisible à partir d'un point de départ
+  donné, mais qu'il soit autrement impossible à prédire.
+\end{enumerate}
+
+
+\section{Congruence et modulo}
+\label{sec:generation:congruence}
+
+Les générateurs congruentiels utilisent l'arithmétique modulo. Une
+propriété de base de cette arithmétique est l'équivalence, ou
+congruence, modulo $m$.
+
+\begin{definition}
+  Deux nombres $a$ et $b$ sont dits \emph{équivalents}, ou
+  \emph{congruents}, modulo $m$ si la différence entre $a$ et $b$ est
+  un entier divisible par $m$. Mathématiquement,
+  \begin{equation*}
+    a \equiv b \bmod m \quad\Leftrightarrow\quad \frac{a - b}{m} = k, \quad
+    k \in \mathbb{Z}.
+  \end{equation*}
+\end{definition}
+
+En d'autres mots, deux nombres sont équivalents modulo $m$ si la
+distance entre ceux-ci est un multiple de $m$. La notion d'équivalence
+partitionne donc l'ensemble des nombres (ici, les réels).
+
+\begin{exemple}
+  On a
+  \begin{enumerate}
+  \item $5 \equiv 14 \bmod 3$ car $\dfrac{14 - 5}{3} = 3$;
+  \item $-1 \equiv 5 \bmod 3$ car $\dfrac{5 + 1}{3} = 2$;
+  \item $0,33 \equiv 1,33 \bmod 1$; on notera que le calcul en modulo $1$
+    équivaut à retourner la partie fractionnaire d'un nombre;
+  \item la minute dans l'heure est donnée en modulo $60$: 00h15, 1h15,
+    2h15,... sont des heures équivalentes modulo $60$.
+  \end{enumerate}
+  \qed
+\end{exemple}
+
+De la définition de congruence découle celle de \emph{réduction
+  modulo} ou \emph{résidu modulo}: si $a \equiv b \bmod m$ et $0 \leq
+a < m$, alors $a$ est le résidu de la division de $b$ par $m$, ou le
+résidu de $b$ modulo $m$, c'est-à-dire
+\begin{equation*}
+  a = b \bmod m
+  \quad\Leftrightarrow\quad
+  a = b - \left\lfloor \frac{b}{m} \right\rfloor m,
+\end{equation*}
+où $\lfloor x \rfloor$ est le plus grand entier inférieur ou égal à
+$x$.
+
+La plupart des langages de programmation et logiciels à connotation
+mathématique comportent un opérateur ou une fonction modulo:
+\begin{itemize}
+\item R: \verb|%%|;
+\item Excel: \code{MOD()};
+\item VBA: \verb|%|.
+\end{itemize}
+
+
+\section{Générateurs congruentiels linéaires}
+\label{sec:generation:congruentiel}
+
+Dans un générateur congruentiel linéaire, tout nombre dans la suite
+générée détermine le nombre suivant par la formule
+\begin{equation*}
+  x_i = (a x_{i - 1} + c) \bmod m,
+\end{equation*}
+où $0 \leq x_i < m$ et
+\begin{itemize}
+\item $a$ est appelé le \emph{multiplicateur};
+\item $c$ est appelé l'\emph{incrément};
+\item $m$ est appelé le \emph{module};
+\item $x_0$ (un nombre quelconque) est l'\emph{amorce} («\emph{seed}»).
+\end{itemize}
+
+Lorsque l'incrément $c = 0$, on parle d'un générateur
+\emph{multiplicatif}; dans le cas contraire on a un générateur
+\emph{mixte}.
+
+Pour obtenir des nombre uniformes sur $[0, 1]$ ou $(0, 1)$, il suffit
+de définir
+\begin{equation*}
+  u_i = \frac{x_i}{m}.
+\end{equation*}
+
+\begin{prob-astuce}
+  Ce générateur de nombres pseudo-aléatoires
+  distribués uniformément sur $(0,1)$ pourrait nous
+  permettre de générer les coordonnées en abscisse
+  et en ordonnée des 4 points.
+\end{prob-astuce}
+
+\begin{rems}
+  \begin{enumerate}
+  \item La méthode de génération des nombres est entièrement
+    déterministe, c'est pourquoi il convient mieux de parler de
+    nombres \emph{pseudo}-aléatoires.
+  \item Un générateur congruentiel est forcément périodique puisqu'il
+    ne peut prendre, au mieux, que les valeurs
+    \begin{itemize}
+    \item $0, 1, 2, \dots, m - 1$ pour un générateur mixte;
+    \item $1, 2, \dots, m - 1$ pour un générateur multiplicatif.
+    \end{itemize}
+    C'est pourquoi on cherche donc à avoir la période la plus longue
+    possible, tout en obtenant des suites en apparence aléatoires.
+  \item Pour les générateurs multiplicatifs ($c = 0$), on atteint la
+    période maximale $m - 1$ si
+    \begin{itemize}
+    \item $m$ est un nombre premier (on en choisira un grand);
+    \item $a$ est une \emph{racine primitive} de $m$, c'est à dire que
+      le plus petit entier $k$ satisfaisant
+      \begin{equation*}
+        1 = a^k \bmod m
+      \end{equation*}
+      est $k = m - 1$.
+    \end{itemize}
+    Des valeurs populaires sont $m = 2^{31} - 1$ (nombre premier de
+    Mersenne) et $a = 7^5$.
+  \end{enumerate}
+\end{rems}
+
+\begin{exemple}
+  Soit un générateur congruentiel multiplicatif avec $a = 7$ et $m =
+  31$. Les quatre premiers nombres pseudo-aléatoires avec l'amorce
+  $x_0 = 19$ sont:
+  \begin{align*}
+    (7 \times 19) \bmod 31 &= 133 \bmod 31 = 9 \rightarrow x_1 \\
+    (7 \times 9) \bmod 31 &= 63 \bmod 31 = 1 \rightarrow x_2 \\
+    (7 \times 1) \bmod 31 &= 7 \bmod 31 = 7 \rightarrow x_3 \\
+    (7 \times 7) \bmod 31 &= 49 \bmod 31 = 18 \rightarrow x_4.
+  \end{align*}
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  \label{exemple:generation:rand}
+  Cet exemple illustre l'effet des différents paramètres d'un
+  générateur congruentiel sur la qualité des nombres pseudo-aléatoires
+  produits.
+
+  \begin{gotoR}
+    Exécuter le code informatique R de la
+    \autoref{sec:generation:code} correspondant à cet exemple.
+  \end{gotoR}
+  \qed
+\end{exemple}
+
+\begin{exemple}
+  Un générateur apparemment de qualité en une dimension peut
+  rapidement se révéler médiocre dans les dimensions supérieures. Le
+  présent exemple en fait la démonstration en deux dimensions avec un
+  générateur tout simple, alors que l'\autoref{ex:generation:rgl}
+  reprend les mêmes idées en trois dimensions avec un générateur
+  longtemps considéré standard.
+
+  \begin{gotoR}
+    Exécuter le code informatique R de la
+    \autoref{sec:generation:code} correspondant à cet exemple.
+  \end{gotoR}
+  \qed
+\end{exemple}
+
+
+\section{Générateurs utilisés dans Excel, VBA et R}
+
+Avant d'utiliser pour quelque tâche moindrement importante un
+générateur de nombres aléatoires inclus dans un logiciel, il importe
+de s'assurer de la qualité de celui-ci. On trouvera en général
+relativement facilement de l'information dans Internet.
+
+Nous présentons ici, sans entrer dans les détails, les générateurs
+utilisés dans Excel, VBA et R.
+
+\subsection{Générateur de Excel}
+
+La fonction à utiliser dans Microsoft Excel pour obtenir un nombre
+aléatoire dans l'intervalle $(0, 1)$ est \code{ALEA()} (dans la
+version française) ou \code{RAND()} (dans la version anglaise).
+
+L'historique de Microsoft n'est pas reluisant lorsqu'il s'agit de mise
+en {\oe}uvre de générateurs de nombres aléatoires pour Excel. Au fil
+des ans, plusieurs articles scientifiques ont démontré les lacunes de
+la fonction \code{RAND()}.
+
+Par exemple, dans les versions 2003 et 2007, Microsoft Excel utilisait
+le générateur de nombres aléatoire Whichmann--Hill. Ce générateur a
+longtemps été considéré comme le meilleur disponible, mais il a été
+supplanté ces dernières années. Microsoft prétendait que la période du
+générateur Whichmann--Hill est $10^{13}$, mais omettait de tenir
+compte de littérature scientifique démontrant qu'elle est plutôt de $6,95 \times
+10^{12} \approx 2^{43}$, une période désormais considérée trop courte.
+
+De plus, la mise en {\oe}uvre du générateur Whichmann--Hill dans Excel
+2003 avait le fâcheux défaut de pouvoir générer des nombres négatifs.
+Ce défaut a plus tard été corrigé par un \emph{Service Pack} 1 de
+Office 2003 ainsi que dans la version 2007.
+
+L'article de \cite{McCullough:Excel2007:2008} demeure une référence
+sur les lacunes observées dans la génération de nombres aléatoires et
+les procédures statistiques dans Excel 2007. De plus,
+\citet{McCullough:MENTWH:2008} démontrent que le générateur de Excel
+ne saurait être véritablement celui de Whichmann--Hill. Les auteurs
+écrivent en conclusion:
+\begin{quote}
+  Twice Microsoft has attempted to implement the dozen lines of code
+  that define the Wichmann and Hill (1982) RNG\footnote{%
+    \emph{Random Number Generator}}, %
+  and twice Microsoft has failed, apparently not using standard
+  methods for verifying that an RNG has been correctly implemented.
+  Consequently, users of Excel's "rand" function have been using
+  random numbers from an unknown and undocumented RNG of unknown
+  period that is not known to pass any standard tests of randomness.
+\end{quote}
+
+Les critiques relevées dans les articles ci-dessus ont poussé
+Microsoft à améliorer la précision des procédures statistiques depuis
+Excel 2010 \citep{Microsoft:Excel2010:2009}. Microsoft affirme
+également utiliser un nouveau générateur de nombres aléatoires pour la
+fonction \code{RAND()}. Seulement, plusieurs années après le lancement
+du produit, il demeure difficile d'obtenir des détails qui
+permettraient de dissiper tout doute sur la qualité des nombres
+aléatoires fournis pas Excel.
+
+
+\subsection{Générateur de VBA}
+
+La fonction \code{RND()} de VBA génère un nombre aléatoire. Selon
+l'article 231847 de la base de connaissances Microsoft
+(\url{http://support.microsoft.com/kb/231847}), le générateur de
+nombres aléatoires utilisé par la fonction \code{RND()} est un simple
+générateur congruentiel linéaire.
+
+Étant donné l'avancement actuel des connaissances dans le domaine des
+générateurs de nombres pseudo-aléatoires, un tel générateur est tout à
+fait archaïque. De plus, le générateur utilise toujours la même amorce
+et, par conséquent, les suites de nombres aléatoires sont toujours les
+mêmes. Pour toute utilisation moindrement sérieuse de nombres
+aléatoires, on doit donc à tout prix éviter la fonction
+\code{RND()} et de lui préférer un appel à la fonction \code{RAND()}
+de Excel.
+
+
+\subsection{Générateurs de R}
+
+On obtient des nombres uniformes sur un intervalle quelconque avec la
+fonction \code{runif} dans R. La fonction \code{set.seed} permet de
+spécifier la valeur de l'amorce du générateur aléatoire, ce qui est
+utile si on veut répéter une simulation absolument à l'identique.
+
+R offre la possibilité de choisir entre plusieurs générateurs de
+nombres aléatoires différents, ou encore de spécifier son propre
+générateur. Par défaut, R utilise le générateur Marsenne--Twister,
+considéré comme le plus avancé en ce moment. La période de ce
+générateur est $2^{\nombre{19937}} - 1$ (rien de moins!) et la
+distribution des nombres est uniforme dans $623$ dimensions consécutives
+sur toute la période.
+
+Pour de plus amples détails et les dernières informations sur les
+générateurs disponibles et la procédure de réglage de l'amorce,
+consulter les rubriques d'aide des fonctions \code{.Random.seed} et
+\code{set.seed}.
+
+\begin{prob-astuce}
+  Générer les coordonnées uniformes des points sera plus simple et plus
+  rapide avec la fonction \code{runif}, conçue à cet effet.
+\end{prob-astuce}
+
+
+\begin{prob-solution}
+  La première étape consiste à écrire la fonction
+  \code{is.triangle}. On peut facilement identifier les
+  enveloppes triangulaires en se fiant à la longueur du
+  vecteur retourné par la fonction \code{chull}. Si la
+  longueur est 3, c'est que nous avons affaire à un
+  triangle :
+  
+<<echo=TRUE>>=
+is.triangle <- function(x, y)
+  3 == length(chull(cbind(x, y)))
+@
+
+  La deuxième étape consiste à utiliser la fonction
+  \code{is.triangle} afin de calculer la probabilité
+  d'obtenir un triangle en générant des points
+  uniformément sur un carré.
+  On teste avec une simulation de 4 points :
+
+<<echo=TRUE>>=
+set.seed(47)
+x = runif(4)
+y = runif(4)
+chull(x,y)
+is.triangle(x, y)
+@
+
+  On réplique la simulation 100 000 fois, puis on
+  calcule la moyenne. Étant donné que la fonction
+  \code{is.triangle} retourne la valeur $1$ (\code{TRUE})
+  lorsque l'enveloppe est un triangle, calculer
+  la moyenne des réalisations revient à calculer
+  la probabilité qu'une réalisation produise une
+  enveloppe triangulaire :
+  
+<<echo=TRUE>>=
+set.seed(17)
+mean(replicate(100000,
+        is.triangle(x = runif(4), y = runif(4)) ))
+@
+
+\end{prob-solution}
+
+\section{Code informatique}
+\label{sec:generation:code}
+
+\lstinputlisting[firstline=3]{generation.R}
+
+\vfill
+
+\input{exercices-generation}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "methodes_numeriques-partie_2"
+%%% coding: utf-8
+%%% End:
