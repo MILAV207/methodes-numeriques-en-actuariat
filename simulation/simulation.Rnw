@@ -14,9 +14,9 @@
 
 Habituellement, les applications de la simulation requièrent des
 nombres aléatoires provenant non pas d'une distribution $U(0, 1)$,
-mais plutôt d'une (ou plusieurs) distribution avec fonction de
-répartition $F_X(x)$. On doit donc transformer les nombres
-uniformes en des nombres provenant de distributions non-uniformes.
+mais plutôt d'une distribution avec fonction de répartition $F_X(x)$.
+Ceci nécessite donc de transformer les nombres uniformes en des nombres
+provenant de distributions non-uniformes.
 
 Il existe de très nombreux algorithmes pour générer des nombres
 aléatoires de différentes distributions; voir, par exemple,
@@ -41,18 +41,16 @@ principales techniques étudiées dans les cours d'analyse probabiliste
 et d'analyse statistique.
 
 \begin{prob-enonce}
-  Au chapitre précédent, le problème présenté consistait à
-  calculer par simulation la probabilité que l'enveloppe
-  convexe d'un ensemble de quatre points forme un triangle
-  lorsque ceux-ci sont distribués uniformément sur un plan
-  \emph{carré} de longueur et de largeur 1.
+  Au chapitre précédent, nous nous sommes penchés sur le problème des
+  quatre points de Sylvester lorsque la région $R$ est un carré
+  $1 \times 1$.
 
-  Cette fois, vous devez vérifier par simulation que lorsque
-  la région $R$ est un \emph{disque}, et que les quatre points
-  sont distribués uniformément sur la région, la probabilité
-  que l'enveloppe convexe forme un triangle est
+  Cette fois, nous devons vérifier par simulation que lorsque la
+  région $R$ est un disque de rayon $1$, la probabilité que
+  l'enveloppe convexe forme un triangle est
   $\frac{35}{12 \pi^2} \approx 0,29552$.
 \end{prob-enonce}
+
 
 \section{Méthode de l'inverse}
 \label{sec:simulation:inverse}
@@ -389,6 +387,25 @@ axis(2, at = 0:2/2)
   fonction \texttt{RECHERCHEV()}.
 \end{rem}
 
+\begin{prob-astuce}
+  Au c{\oe}ur du problème que nous tentons de résoudre, il y a la
+  simulation de points dans un cercle. L'interprétation géométrique
+  est claire.
+
+  Il serait également possible d'en faire une interprétation
+  probabiliste: nous voulons simuler des valeurs d'une distribution
+  bidimensionnelle uniforme sur un disque de rayon $1$, dont la
+  fonction de densité conjointe est
+  \begin{equation*}
+    f_{XY}(x, y) = \frac{1}{\pi}, \quad x^2 + y^2 < 1.
+  \end{equation*}
+  Cependant, les méthodes de simulation pour les distributions
+  multidimensionnelles deviennent rapidement complexes, surtout
+  lorsque les variables ne sont pas indépendantes, comme c'est le cas
+  ici. Nous tâcherons donc de trouver une manière plus intuitive d'un
+  point de vue géométrique pour simuler des points sur un disque.
+\end{prob-astuce}
+
 
 \section{Méthode acceptation-rejet}
 
@@ -420,34 +437,37 @@ pour tout $x$, alors on a l'algorithme d'acceptation-rejet suivant:
 \end{rem}
 
 L'idée de la %
-\capsule{http://youtu.be/acceptation-rejet}{méthode d'acceptation-rejet} %
+\capsule{http://youtu.be/acceptation-rejet}{méthode
+  d'acceptation-rejet} %
 consiste à accepter la «bonne proportion» des réalisations de $Y$
 comme provenant de $X$. Dans l'illustration de la
 \autoref{fig:simulation:acceptation-rejet}, la densité $f$ à support
 fini est facilement enveloppée par un rectangle. Un nombre $y$ simulé
 de cette distribution (à toutes fins pratiques une uniforme, ici) est
 accepté comme provenant de $f$ dans une proportion correspondant au
-ratio entre la valeur de $f_X(y)$ (les segments verts dans la figure)
-et la valeur de $c g_Y(y)$ (les segments bleus). À l'inverse, le
-nombre $y$ est rejeté selon le ratio de la longueur d'un segment rouge
-sur celle d'un segment bleu. On voit donc que certaines valeurs $y$
-seront rejetées plus souvent que d'autres en conformité avec la forme
-de la densité.
+ratio entre la valeur de $f_X(y)$ (les segments pointillés dans la
+figure) et la valeur de $c g_Y(y)$ (les segments pleins). On constate
+aisément que certaines valeurs $y$ seront acceptées plus souvent que
+d'autres en conformité avec la forme de la densité.
 
 \begin{figure}
   \centering
 <<echo=FALSE, fig=TRUE>>=
+## plot(NA, xlim = c(0, 1), ylim = c(0, 2), xlab = "y", ylab = "f(y)")
+## m <- dbeta(2/3, 3, 2)
+## x <- rep(c(0.22, 0.58, 0.83), each = 8)
+## y <- runif(24, 0, m)
+## points(x, y, pch = ifelse(y <= dbeta(x, 3, 2), 21, 1), bg = "darkgray")
+## curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2, col = "blue3")
+## segments(0, m, 1, m, col = "red3", lwd = 2)
 plot(NA, xlim = c(0, 1), ylim = c(0, 2), xlab = "y", ylab = "f(y)")
 m <- dbeta(2/3, 3, 2)
 x <- c(0.22, 0.58, 0.83)
-eps <- eps <- 40E-4
-segments(x - eps, 0, x - eps, dbeta(x, 3, 2), col = "green3", lwd = 3)
-segments(x - eps, dbeta(x, 3, 2), x - eps, m, col = "red3", lwd = 3)
-segments(x + eps, 0, x + eps, m, col = "blue3", lwd = 3)
-curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2)
-segments(0, 0, 0, m, col = "blue3")
-segments(1, 0, 1, m, col = "blue3")
-segments(0, m, 1, m, col = "blue3", lwd = 3)
+eps <- eps <- 30E-4
+segments(x - eps, 0, x - eps, dbeta(x, 3, 2), col = "darkgray", lwd = 3, lty = 2)
+segments(x + eps, 0, x + eps, m, col = "darkgray", lwd = 3)
+curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2, col = "blue3")
+segments(0, m, 1, m, col = "red3", lwd = 2)
 text(0.1, m + 0.08, "c g(y)")
 @
   \caption{Illustration de la méthode acceptation-rejet}
@@ -461,8 +481,9 @@ text(0.1, m + 0.08, "c g(y)")
   \item Évidemment, plus $c g_Y(x)$ est près de $f_X(x)$, plus
     l'algorithme est performant puisque l'on rejette alors moins de
     valeurs.
-  \item Il est aussi possible d'envelopper les densités à support
-    infini; voir les exercices.
+  \item Il est aussi possible d'envelopper une densité à support
+    infini\dots\ par une autre densité à support fini; voir les
+    exercices.
   \end{enumerate}
 \end{rems}
 
@@ -512,10 +533,10 @@ text(0.1, m + 0.08, "c g(y)")
   \begin{figure}
     \centering
 <<echo=FALSE, fig=TRUE>>=
-curve(dbeta(x, 3, 2), xlim = c(0, 1), ylim = c(0, 2.5), lwd = 2)
-lines(c(0, 0.8, 1), c(0, 2.4, 0), lwd = 2, col = "blue3")
-segments(0.5, 0, 0.5, 1.5, lty = 2)
-segments(0.8, 0, 0.8, 2.4, lty = 2)
+curve(dbeta(x, 3, 2), xlim = c(0, 1), ylim = c(0, 2.5), col = "blue3", lwd = 2)
+lines(c(0, 0.8, 1), c(0, 2.4, 0), lwd = 2, col = "red3")
+segments(0.5, 0, 0.5, 1.5, col = "darkgray", lty = 2)
+segments(0.8, 0, 0.8, 2.4, col = "darkgray", lty = 2)
 axis(side = 1, at = 0.5)
 @
     \caption{Fonction de densité de probabilité d'une loi Bêta$(3, 2)$
@@ -587,41 +608,37 @@ axis(side = 1, at = 0.5)
   \qed
 \end{exemple}
 
-\SweaveOpts{height=3, width=4}
-  \begin{figure}
-    \centering
-<<echo=FALSE, fig=TRUE, results=hide>>=
-## Graphique.
-set.seed(314516)
-
-x <- runif(200, -1, 1)
-y <- runif(200, -1, 1)
-
-par(mar=c(4,5,0.5,4))
-
-plot(x[(x^2 + y^2) < 1], y[(x^2 + y^2) < 1], xlab="x", ylab="y", pch=16, col="gray49",
-        xlim=c(-1, 1), ylim=c(-1, 1))
-points(x[(x^2 + y^2) >= 1], y[(x^2 + y^2) >= 1], xlab="x", ylab="y", pch=1)
-
-r <- 1
+\begin{figure}
+  \centering
+<<echo=FALSE, fig=TRUE>>=
+x <- runif(100, -1, 1)
+y <- runif(100, -1, 1)
+w <- x^2 + y^2 < 1
 t <- seq(0, 2 * pi, length = 1000)
-lines(x = r * cos(t), y = r * sin(t), lwd=2)
+
+plot(x[w], y[w], xlab="x", ylab="y", pch = 21, bg = "darkgray",
+        xlim=c(-1, 1), ylim=c(-1, 1))
+points(x[!w], y[!w], xlab="x", ylab="y", pch = 1)
+lines(x = cos(t), y = sin(t), col = "blue3", lwd = 2)
+rect(-1, -1, 1, 1, border = "red3", lwd = 2)
 @
     \caption{Acceptation-rejet sur un disque}
     \label{fig:simulation:disque}
   \end{figure}
 
 \begin{prob-astuce}
-  La méthode acceptation-rejet présentée ci-haut peut
-  être adaptée au problème présenté en ouverture de
-  chapitre. En effet, afin de générer des points
-  distribués uniformément sur un disque, il s'agit de
-  simuler des points uniformément sur un carré et de
-  rejeter ceux qui ne se trouvent pas à l'intérieur du
-  disque. Dans la \autoref{fig:simulation:disque}, 
-  on accepterait les points gris et on rejeterait les
-  points vides.
+  La méthode acceptation-rejet présentée ci-haut peut être adaptée à
+  notre problème en faisant fi des considérations probabilistes pour
+  ne retenir que des arguments géométriques.
+
+  En effet, une manière simple de générer des points distribués
+  uniformément sur un disque consiste à simuler des points
+  uniformément sur un carré, puis de rejeter ceux qui ne se trouvent
+  pas à l'intérieur du disque. La \autoref{fig:simulation:disque}
+  illustre cette idée: nous accepterions les points pleins et nous
+  rejetterions les points vides.
 \end{prob-astuce}
+
 
 \section{Fonctions de simulation de variables aléatoires dans Excel,
   VBA et \textsf{R}}
@@ -762,13 +779,13 @@ quelques trucs pour bien planifier une étude de simulation en R.
   La première étape consiste à créer une fonction qui
   génère \code{n} points distribués uniformément sur
   un cercle :
-  
+
 <<echo=TRUE>>=
 sim.cercle1 <- function(n)
 {
     ### On crée le contenant vide
     X <- matrix(NA, n, 2)
-    
+
     ### puis on le remplit.
     i <- 1
     repeat
@@ -776,7 +793,7 @@ sim.cercle1 <- function(n)
         ### On soumet à l'algorithme acceptation-
         ### rejet 2 coordonnées entre -1 et 1
         x <- runif(2, -1, 1)
-        
+
         ### Si les coordonnées sont dans
         ### le cercle...
         if (sum(x^2) < 1)
@@ -784,7 +801,7 @@ sim.cercle1 <- function(n)
             ### ... on ajoute la paire
             ### à la matrice 'X'.
             X[i, ] <- x
-            
+
             ### On cesse lorsque 'X'
             ### contient 'n' rangées.
             if (n < (i <- i + 1))
@@ -804,14 +821,14 @@ set.seed(17)
 mean(replicate(100000,
         3 == length(chull(sim.cercle1(4))) ))
 @
-    
+
   Remarque : Il est à noter qu'une autre solution
   permet de générer des points uniformément dans
   un cercle sans procéder à la méthode
   acceptation-rejet. Cette méthode repose sur la
   simulation de coordonnées polaires, puis de leur
   transformation en coordonnées cartésiennes :
-  
+
 <<echo=TRUE>>=
 sim.cercle2 <- function(n)
 {
