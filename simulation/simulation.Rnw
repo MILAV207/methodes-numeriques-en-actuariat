@@ -397,7 +397,7 @@ axis(2, at = 0:2/2)
   bidimensionnelle uniforme sur un disque de rayon $1$, dont la
   fonction de densité conjointe est
   \begin{equation*}
-    f_{XY}(x, y) = \frac{1}{\pi}, \quad x^2 + y^2 < 1.
+    f_{XY}(x, y) = \frac{1}{\pi}, \quad -1 < x < 1,\, x^2 + y^2 < 1.
   \end{equation*}
   Cependant, les méthodes de simulation pour les distributions
   multidimensionnelles deviennent rapidement complexes, surtout
@@ -464,14 +464,50 @@ plot(NA, xlim = c(0, 1), ylim = c(0, 2), xlab = "y", ylab = "f(y)")
 m <- dbeta(2/3, 3, 2)
 x <- c(0.22, 0.58, 0.83)
 eps <- eps <- 30E-4
-segments(x - eps, 0, x - eps, dbeta(x, 3, 2), col = "darkgray", lwd = 3, lty = 2)
-segments(x + eps, 0, x + eps, m, col = "darkgray", lwd = 3)
-curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2, col = "blue3")
-segments(0, m, 1, m, col = "red3", lwd = 2)
+segments(x - eps, 0, x - eps, dbeta(x, 3, 2), col = "lightblue", lwd = 3, lty = 2)
+segments(x + eps, 0, x + eps, m, col = "lightblue", lwd = 3)
+curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2, col = "black")
+segments(0, m, 1, m, col = "orange", lwd = 2)
 text(0.1, m + 0.08, "c g(y)")
 @
   \caption{Illustration de la méthode acceptation-rejet}
   \label{fig:simulation:acceptation-rejet}
+\end{figure}
+
+Une autre interprétation est possible. La méthode dit d'accepter la
+valeur simulée $y$ de la densité $g$ comme provenant de la densité $f$ si
+\begin{equation*}
+  u c g_Y(y) \leq f_X(y).
+\end{equation*}
+Graphiquement, cela signifie que l'on accepte la valeur $y$ si le
+point $(y, u c g_Y(y))$ se trouve sous la courbe $f$ en $y$ et qu'on
+le rejette s'il se trouve entre $f$ et l'enveloppe. La
+\autoref{fig:simulation:acceptation-rejet2} illustre cette
+interprétation.
+
+\begin{figure}
+  \centering
+<<echo=FALSE, fig=TRUE>>=
+## plot(NA, xlim = c(0, 1), ylim = c(0, 2), xlab = "y", ylab = "f(y)")
+## m <- dbeta(2/3, 3, 2)
+## x <- rep(c(0.22, 0.58, 0.83), each = 8)
+## y <- runif(24, 0, m)
+## points(x, y, pch = ifelse(y <= dbeta(x, 3, 2), 21, 1), bg = "darkgray")
+## curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2, col = "blue3")
+## segments(0, m, 1, m, col = "red3", lwd = 2)
+m <- dbeta(2/3, 3, 2)
+x <- runif(100)
+mu <- m * runif(100)
+plot(x, mu, xlim = c(0, 1), ylim = c(0, 2), xlab = "y", ylab = "f(y)",
+     pch = ifelse(mu <= dbeta(x, 3, 2), 21, 1), bg = "lightblue")
+curve(dbeta(x, 3, 2), xlim = c(0, 1), add = TRUE, lwd = 2, col = "black")
+segments(0, m, 1, m, col = "orange", lwd = 2)
+text(0.1, m + 0.08, "c g(y)")
+@
+  \caption{Interprétation alternative de la méthode acceptation-rejet.
+    Chaque point représente un couple $(y, u c g_Y(y))$. On accepte les
+    points pleins et on rejette les points vides.}
+  \label{fig:simulation:acceptation-rejet2}
 \end{figure}
 
 \begin{rems}
@@ -496,8 +532,9 @@ text(0.1, m + 0.08, "c g(y)")
     x^{3 - 1} (1 - x)^{2 - 1} \\
     &= 12 x^2 (1 - x), \quad 0 < x < 1.
   \end{align*}
-  C'est la densité représentée à la
-  \autoref{fig:simulation:acceptation-rejet}. On l'inscrit facilement
+  C'est la densité représentée aux figures
+  \ref{fig:simulation:acceptation-rejet} et
+  \ref{fig:simulation:acceptation-rejet2}. On l'inscrit facilement
   dans un rectangle. Le mode de la densité se trouvant en $x = 2/3$,
   la hauteur du rectangle est $f(2/3) = 48/27 = 16/9$. Par conséquent,
   \begin{displaymath}
@@ -533,10 +570,10 @@ text(0.1, m + 0.08, "c g(y)")
   \begin{figure}
     \centering
 <<echo=FALSE, fig=TRUE>>=
-curve(dbeta(x, 3, 2), xlim = c(0, 1), ylim = c(0, 2.5), col = "blue3", lwd = 2)
-lines(c(0, 0.8, 1), c(0, 2.4, 0), lwd = 2, col = "red3")
-segments(0.5, 0, 0.5, 1.5, col = "darkgray", lty = 2)
-segments(0.8, 0, 0.8, 2.4, col = "darkgray", lty = 2)
+curve(dbeta(x, 3, 2), xlim = c(0, 1), ylim = c(0, 2.5), col = "black", lwd = 2)
+lines(c(0, 0.8, 1), c(0, 2.4, 0), lwd = 2, col = "orange")
+segments(0.5, 0, 0.5, 1.5, col = "lightblue", lwd = 2, lty = 3)
+segments(0.8, 0, 0.8, 2.4, col = "lightblue", lwd = 2, lty = 3)
 axis(side = 1, at = 0.5)
 @
     \caption{Fonction de densité de probabilité d'une loi Bêta$(3, 2)$
@@ -608,36 +645,38 @@ axis(side = 1, at = 0.5)
   \qed
 \end{exemple}
 
+\begin{prob-astuce}
+  \label{astuce:simulation:2}
+  L'interprétation géométrique de la méthode d'acceptation-rejet
+  illustrée à la \autoref{fig:simulation:acceptation-rejet2} nous met
+  sur la piste d'une manière simple de générer des points distribués
+  uniformément sur un disque.
+
+  En effet, il suffit de simuler des points uniformément sur un carré
+  comme nous l'avons déjà fait au \autoref{chap:generation}, puis de
+  rejeter ceux qui ne se trouvent pas à l'intérieur du disque. La
+  \autoref{fig:simulation:disque} illustre cette idée: nous
+  accepterions les points pleins et nous rejetterions les points
+  vides.
+\end{prob-astuce}
+
 \begin{figure}
   \centering
 <<echo=FALSE, fig=TRUE>>=
-x <- runif(100, -1, 1)
-y <- runif(100, -1, 1)
+x <- runif(200, -1, 1)
+y <- runif(200, -1, 1)
 w <- x^2 + y^2 < 1
 t <- seq(0, 2 * pi, length = 1000)
 
-plot(x[w], y[w], xlab="x", ylab="y", pch = 21, bg = "darkgray",
-        xlim=c(-1, 1), ylim=c(-1, 1))
-points(x[!w], y[!w], xlab="x", ylab="y", pch = 1)
-lines(x = cos(t), y = sin(t), col = "blue3", lwd = 2)
-rect(-1, -1, 1, 1, border = "red3", lwd = 2)
+plot(x, y, xlab="x", ylab="y", xlim=c(-1, 1), ylim=c(-1, 1),
+     pch = ifelse(w, 21, 1), bg = "lightblue")
+#points(x[!w], y[!w], xlab="x", ylab="y", pch = 1)
+lines(x = cos(t), y = sin(t), col = "black", lwd = 2)
+rect(-1, -1, 1, 1, border = "orange", lwd = 2)
 @
-    \caption{Acceptation-rejet sur un disque}
-    \label{fig:simulation:disque}
-  \end{figure}
-
-\begin{prob-astuce}
-  La méthode acceptation-rejet présentée ci-haut peut être adaptée à
-  notre problème en faisant fi des considérations probabilistes pour
-  ne retenir que des arguments géométriques.
-
-  En effet, une manière simple de générer des points distribués
-  uniformément sur un disque consiste à simuler des points
-  uniformément sur un carré, puis de rejeter ceux qui ne se trouvent
-  pas à l'intérieur du disque. La \autoref{fig:simulation:disque}
-  illustre cette idée: nous accepterions les points pleins et nous
-  rejetterions les points vides.
-\end{prob-astuce}
+  \caption{Simulation de points sur un disque par une méthode d'acceptation-rejet}
+  \label{fig:simulation:disque}
+\end{figure}
 
 
 \section{Fonctions de simulation de variables aléatoires dans Excel,
@@ -775,35 +814,69 @@ en actuariat:
 En terminant, mentionnons que l'\autoref{planification} propose
 quelques trucs pour bien planifier une étude de simulation en R.
 
-\begin{prob-solution}
-  La première étape consiste à créer une fonction qui
-  génère \code{n} points distribués uniformément sur
-  un cercle :
-
-<<echo=TRUE>>=
-sim.cercle1 <- function(n)
+\begin{figure}
+  \centering
+  \begin{framed}
+\begin{verbatim}
+sim.disque <- function(n)
 {
-    ### On crée le contenant vide
+    ## La fonction retourne les coordonnées des points
+    ## dans une matrice de deux colonnes. On crée
+    ## d'abord un contenant.
     X <- matrix(NA, n, 2)
 
-    ### puis on le remplit.
+    ## Remplissage de la matrice.
     i <- 1
     repeat
     {
-        ### On soumet à l'algorithme acceptation-
-        ### rejet 2 coordonnées entre -1 et 1
+        ## Simulation de coordonnées dans un carré
+        ## 2 x 2 centré en 0.
         x <- runif(2, -1, 1)
 
-        ### Si les coordonnées sont dans
-        ### le cercle...
+        ## Si les coordonnées sont dans le disque...
         if (sum(x^2) < 1)
         {
-            ### ... on ajoute la paire
-            ### à la matrice 'X'.
+            ## ... on ajoute la paire à la matrice 'X'.
             X[i, ] <- x
 
-            ### On cesse lorsque 'X'
-            ### contient 'n' rangées.
+            ## On cesse après avoir accepté 'n' paires.
+            if (n < (i <- i + 1))
+                break
+        }
+    }
+    X
+}
+\end{verbatim}
+  \end{framed}
+  \caption{Code d'une fonction pour simuler des nombres uniformément
+    sur un disque de rayon $1$ centré en $0$ par la méthode
+    d'acceptation-rejet}
+  \label{fig:simulation:sim.disque}
+\end{figure}
+
+\begin{prob-solution}
+  Nous adoptons la stratégie expliquée à l'astuce de la
+  \autopageref{astuce:simulation:2}. La fonction R de la
+  \autoref{fig:simulation:sim.disque} genère des points distribués
+  uniformément sur un disque par la méthode d'acceptation-rejet en
+  simulant d'abord des points sur un carré.
+
+  Avec en mains cette fonction, il devient simple de vérifier par
+  simulation la probabilité $\frac{35}{12 \pi^2} \approx 0,29552$ en
+  procédant comme au \autoref{chap:generation}:
+<<echo=FALSE>>=
+sim.disque <- function(n)
+{
+    X <- matrix(NA, n, 2)
+
+    i <- 1
+    repeat
+    {
+        x <- runif(2, -1, 1)
+
+        if (sum(x^2) < 1)
+        {
+            X[i, ] <- x
             if (n < (i <- i + 1))
                 break
         }
@@ -811,40 +884,61 @@ sim.cercle1 <- function(n)
     X
 }
 @
-
-  Ensuite, on utilise la fonction pour calculer par
-  simulation la probabilité recherchée, comme à
-  l'exemple du chapitre précédent :
-
 <<<echo=TRUE>>=
-set.seed(17)
-mean(replicate(100000,
-        3 == length(chull(sim.cercle1(4))) ))
+mean(replicate(1E5, 3 == length(chull(sim.disque(4)))))
 @
 
-  Remarque : Il est à noter qu'une autre solution
-  permet de générer des points uniformément dans
-  un cercle sans procéder à la méthode
-  acceptation-rejet. Cette méthode repose sur la
-  simulation de coordonnées polaires, puis de leur
-  transformation en coordonnées cartésiennes :
+  Une autre stratégie de simulation se révèle toutefois plus efficace. Elle
+  repose sur la simulation des coordonnées polaires (rayon et angle)
+  des points sur le disque, puis de leur transformation en coordonnées
+  cartésiennes. Si un point du disque unité centré en $0$ se trouve à
+  un rayon $r < 1$ du centre et à un angle $\theta$ de l'horizontale,
+  alors ses coordonnées cartésiennes sont
+  \begin{align*}
+    x &= \sqrt{r} \cos \theta \\
+    y &= \sqrt{r} \sin \theta.
+  \end{align*}
+  La \autoref{fig:simulation:sim.disque2} propose une
+  mise en {\oe}uvre de cette méthode en R. La démonstration de la
+  validité de cette méthode fait quant à elle l'objet de
+  l'\autoref{ex:simulation:disque}.
 
-<<echo=TRUE>>=
-sim.cercle2 <- function(n)
+  Parce qu'elle ne requiert aucune boucle, cette seconde méthode est
+  beaucoup plus rapide que la méthode d'acceptation-rejet:
+<<echo=FALSE>>=
+sim.disque2 <- function(n)
 {
     r <- runif(n)
     angle <- runif(n, 0, 2 * pi)
     sqrt(r) * cbind(cos(angle), sin(angle))
 }
-
-set.seed(17)
-mean(replicate(100000,
-               3 == length(chull(sim.cercle2(4))) ))
 @
-
-  Pour plus de détails sur cette méthode, vous référer
-  à l'\autoref{ex:simulation:cercle}.
+<<echo=TRUE>>=
+system.time(sim.disque(1E5))
+system.time(sim.disque2(1E5))
+@
 \end{prob-solution}
+
+\begin{figure}
+  \centering
+  \begin{framed}
+\begin{verbatim}
+sim.disque2 <- function(n)
+{
+    ## Simulation des coordonnées polaires
+    r <- runif(n)                       # rayon
+    angle <- runif(n, 0, 2 * pi)        # angle
+
+    ## Transformation en coordonnées cartésiennes
+    sqrt(r) * cbind(cos(angle), sin(angle))
+}
+\end{verbatim}
+  \end{framed}
+  \caption{Code d'une fonction pour simuler des nombres uniformément
+    sur un disque de rayon $1$ centré en $0$ en passant par les
+    coordonnées polaires}
+  \label{fig:simulation:sim.disque2}
+\end{figure}
 
 \section{Code informatique}
 \label{sec:simulation:code}
