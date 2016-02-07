@@ -42,13 +42,11 @@ et d'analyse statistique.
 
 \begin{prob-enonce}
   Au chapitre précédent, nous nous sommes penchés sur le problème des
-  quatre points de Sylvester lorsque la région $R$ est un carré
-  $1 \times 1$.
+  quatre points de Sylvester lorsque la région $R$ est un carré.
 
   Cette fois, nous devons vérifier par simulation que lorsque la
-  région $R$ est un disque de rayon $1$, la probabilité que
-  l'enveloppe convexe forme un triangle est
-  $\frac{35}{12 \pi^2} \approx 0,29552$.
+  région $R$ est un disque, la probabilité que l'enveloppe convexe
+  forme un triangle est $\frac{35}{12 \pi^2} \approx 0,29552$.
 \end{prob-enonce}
 
 
@@ -394,8 +392,9 @@ axis(2, at = 0:2/2)
 
   Il serait également possible d'en faire une interprétation
   probabiliste: nous voulons simuler des valeurs d'une distribution
-  bidimensionnelle uniforme sur un disque de rayon $1$, dont la
-  fonction de densité conjointe est
+  bidimensionnelle uniforme sur un disque --- sans perte de
+  généralité, de rayon $1$ et centré à l'origine --- dont la fonction
+  de densité conjointe est
   \begin{equation*}
     f_{XY}(x, y) = \frac{1}{\pi}, \quad -1 < x < 1,\, x^2 + y^2 < 1.
   \end{equation*}
@@ -475,13 +474,15 @@ text(0.1, m + 0.08, "c g(y)")
 \end{figure}
 
 Une autre interprétation est possible. La méthode dit d'accepter la
-valeur simulée $y$ de la densité $g$ comme provenant de la densité $f$ si
+valeur $y$ simulée de la densité $g$ comme provenant de la densité $f$
+si
 \begin{equation*}
-  u c g_Y(y) \leq f_X(y).
+  u c g_Y(y) \leq f_X(y),
 \end{equation*}
-Graphiquement, cela signifie que l'on accepte la valeur $y$ si le
-point $(y, u c g_Y(y))$ se trouve sous la courbe $f$ en $y$ et qu'on
-le rejette s'il se trouve entre $f$ et l'enveloppe. La
+où $u$ est un nombre issu d'une loi $U(0, 1)$. Graphiquement, cela
+signifie que l'on accepte la valeur $y$ si le point $(y, u c g_Y(y))$
+se trouve sous la courbe $f$ en $y$ et qu'on le rejette s'il se trouve
+entre $f$ et l'enveloppe. La
 \autoref{fig:simulation:acceptation-rejet2} illustre cette
 interprétation.
 
@@ -512,9 +513,9 @@ text(0.1, m + 0.08, "c g(y)")
 
 \begin{rems}
   \begin{enumerate}
-  \item La principale difficulté avec cette méthode consiste à trouver
-    la fonction enveloppante.
-  \item Évidemment, plus $c g_Y(x)$ est près de $f_X(x)$, plus
+  \item La principale difficulté avec la méthode d'acceptation-rejet
+    consiste à trouver la fonction enveloppante $c g_Y(x)$.
+  \item Évidemment, plus l'enveloppe est près de $f_X(x)$, plus
     l'algorithme est performant puisque l'on rejette alors moins de
     valeurs.
   \item Il est aussi possible d'envelopper une densité à support
@@ -830,7 +831,7 @@ sim.disque <- function(n)
     repeat
     {
         ## Simulation de coordonnées dans un carré
-        ## 2 x 2 centré en 0.
+        ## 2 x 2 centré à l'origine.
         x <- runif(2, -1, 1)
 
         ## Si les coordonnées sont dans le disque...
@@ -849,7 +850,7 @@ sim.disque <- function(n)
 \end{verbatim}
   \end{framed}
   \caption{Code d'une fonction pour simuler des nombres uniformément
-    sur un disque de rayon $1$ centré en $0$ par la méthode
+    sur un disque de rayon $1$ centré à l'origine par la méthode
     d'acceptation-rejet}
   \label{fig:simulation:sim.disque}
 \end{figure}
@@ -891,7 +892,7 @@ mean(replicate(1E5, 3 == length(chull(sim.disque(4)))))
   Une autre stratégie de simulation se révèle toutefois plus efficace. Elle
   repose sur la simulation des coordonnées polaires (rayon et angle)
   des points sur le disque, puis de leur transformation en coordonnées
-  cartésiennes. Si un point du disque unité centré en $0$ se trouve à
+  cartésiennes. Si un point du disque unité centré à l'origine se trouve à
   un rayon $r < 1$ du centre et à un angle $\theta$ de l'horizontale,
   alors ses coordonnées cartésiennes sont
   \begin{align*}
@@ -904,7 +905,7 @@ mean(replicate(1E5, 3 == length(chull(sim.disque(4)))))
   l'\autoref{ex:simulation:disque}.
 
   Parce qu'elle ne requiert aucune boucle, cette seconde méthode est
-  beaucoup plus rapide que la méthode d'acceptation-rejet:
+  \emph{beaucoup} plus rapide que la méthode d'acceptation-rejet:
 <<echo=FALSE>>=
 sim.disque2 <- function(n)
 {
@@ -935,7 +936,7 @@ sim.disque2 <- function(n)
 \end{verbatim}
   \end{framed}
   \caption{Code d'une fonction pour simuler des nombres uniformément
-    sur un disque de rayon $1$ centré en $0$ en passant par les
+    sur un disque de rayon $1$ centré à l'origine en passant par les
     coordonnées polaires}
   \label{fig:simulation:sim.disque2}
 \end{figure}

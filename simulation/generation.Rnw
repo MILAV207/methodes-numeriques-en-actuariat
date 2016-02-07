@@ -26,7 +26,7 @@ statistiques fera l'objet du prochain chapitre.
   \centering
 <<echo=FALSE, fig=TRUE>>=
 X <- cbind(c(8, 1, 7, 10, 6, 4, 4, 8, 8, 4, 6, 8),
-           c(8, 2, 4, 3, 5, 3, 4, 5, 3, 6, 6, 7)))
+           c(8, 2, 4, 3, 5, 3, 4, 5, 3, 6, 6, 7))
 plot(X, cex = 0.75, pch = 19, xlab = "x", ylab = "y",
      xlim = c(0, 10), ylim = c(2, 8))
 hpts <- chull(X)
@@ -47,13 +47,13 @@ lines(X[hpts, ])
   Dans le problème des quatre points de
   \cite{Sylvester:fourpoint:1865}, on cherche la probabilité que
   l'enveloppe convexe de quatre points placés dans une région $R$
-  forme un triangle (voir l'article de MathWorld cité en référence
-  pour plus de détails).
+  forme un triangle (voir l'article de
+  \citeauthor{Mathworld:FourPoint} dans MathWorld pour plus de
+  détails).
 
   On souhaite vérifier que lorsque les quatre points sont distribués
-  uniformément sur un carré de $(1 \times 1)$, la probabilité que leur
-  enveloppe convexe forme un triangle est
-  $\frac{11}{36} \approx 0,30556$.
+  uniformément sur un carré, la probabilité que leur enveloppe convexe
+  forme un triangle est $\frac{11}{36} \approx 0,30556$.
 \end{prob-enonce}
 
 
@@ -490,7 +490,8 @@ replicate(1E5, is.triangle(x = runif(4), y = runif(4)))
 
   Au final, on obtient:
 <<echo=TRUE>>=
-mean(replicate(100000, is.triangle(x = runif(4), y = runif(4))))
+mean(replicate(1E5,
+     is.triangle(x = runif(4), y = runif(4))))
 @
   soit une valeur suffisamment proche de $\frac{11}{36} \approx
   0,30556$ pour juger l'expérience concluante.

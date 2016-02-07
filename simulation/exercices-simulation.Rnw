@@ -27,7 +27,7 @@
 Les étudiants jugent souvent que les exercices de ce chapitre sont
 plus difficiles que ceux des autres chapitres. Les exercices font
 beaucoup appel à des notions de transformations de variables
-aléatoires qui ont pourtant déjà étudiées dans d'autres cours. Pour un
+aléatoires qui ont pourtant déjà fait l'objet d'autres cours. Pour un
 rappel des principaux résultats dans ce domaine, consulter
 l'\autoref{chap:rappels_transformations}.
 
@@ -168,7 +168,7 @@ u2 <- runif(1000)
 x1 <- sqrt(-2 * log(u1)) * cos(2 * pi * u2)
 x2 <- sqrt(-2 * log(u1)) * sin(2 * pi * u2)
 
-col <- rgb(0.8, 0, 0, 0.25)
+col <- rgb(0.67, 0.85, 0.90, alpha = 0.4) # "lightblue" semi-transparent
 par(mfrow = c(1, 2))
 
 plot(u1, u2, pch = 19, col = col)
@@ -259,7 +259,7 @@ curve(dgamma(x, 5, 1), add = TRUE)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 rgamma2 <- function(nsim, alpha)
 {
     x <- numeric(nsim)
@@ -278,7 +278,7 @@ rgamma2 <- function(nsim, alpha)
     }
     x
 }
-\end{Scode}
+\end{verbatim}
       \end{framed}
       \caption{Fonction de simulation d'une distribution
         Gamma$(\alpha, 1)$, $\alpha > 1$}
@@ -412,7 +412,7 @@ rexp(1, rgamma(1, alpha, lambda))
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:simulation:cercle}
+  \label{ex:simulation:disque}
   Soit $U_1$ et $U_2$ deux variables aléatoires indépendantes
   uniformément distribuées sur l'intervalle $(0, 1)$ et soit la
   transformation
@@ -483,7 +483,7 @@ rexp(1, rgamma(1, alpha, lambda))
 
     Le résultat peut évidemment servir à simuler des points
     uniformément répartis sur un disque de rayon $1$ centré en $(0,
-    0)$. La \autoref{fig:simulation:cercle} illustre d'ailleurs cette
+    0)$. La \autoref{fig:simulation:disque} illustre d'ailleurs cette
     transformation. Les points $(u_1, u_2)$ dans le graphique de gauche
     sont tirés aléatoirement sur le carré $(0, 1) \times (0, 1)$. Le
     graphique de droite montre que suite à la tranformation ci-dessus,
@@ -492,7 +492,7 @@ rexp(1, rgamma(1, alpha, lambda))
     \begin{figure}
       \centering
 <<echo=FALSE, fig=TRUE, width=10, height=5>>=
-col <- rgb(0.8, 0, 0, 0.25)
+col <- rgb(0.67, 0.85, 0.90, alpha = 0.4) # "lightblue" semi-transparent
 par(mfrow = c(1, 2))
 u1 <- runif(1000)
 u2 <- runif(1000)
@@ -502,8 +502,8 @@ plot(u1, u2, pch = 19, col = col)
 plot(x1, x2, pch = 19, col = col)
 @
       \caption{Démonstration graphique du fonctionnement de la
-        transformation de l'\autoref{ex:simulation:cercle}}
-      \label{fig:simulation:cercle}
+        transformation de l'\autoref{ex:simulation:disque}}
+      \label{fig:simulation:disque}
     \end{figure}
   \end{sol}
 \end{exercice}
@@ -621,7 +621,7 @@ plot(x1, x2, pch = 19, col = col)
       \begin{figure}
         \centering
 <<echo=FALSE, fig=TRUE, width=10, height=5>>=
-col <- rgb(0.8, 0, 0, 0.25)
+col <- rgb(0.67, 0.85, 0.90, alpha = 0.4) # "lightblue" semi-transparent
 par(mfrow = c(1, 2))
 f <- function(x, y) dgamma(x, 2) * dgamma(y, 3)
 y <- seq(0, 8, length = 100)
@@ -815,7 +815,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
       \begin{figure}[t]
         \centering
         \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 rbeta.ar2 <- function(n)
 {
     g <- function(x)
@@ -834,7 +834,7 @@ rbeta.ar2 <- function(n)
     }
     x
 }
-\end{Scode}
+\end{verbatim}
         \end{framed}
         \caption{Code R de la fonction \code{rbeta.ar2}}
         \label{fig:simulation:rbeta.ar2}
@@ -842,7 +842,7 @@ rbeta.ar2 <- function(n)
       \begin{figure}
         \centering
         \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 Private Function sqrt(x)
     sqrt = x ^ 0.5
 End Function
@@ -880,7 +880,7 @@ Function betasim()
 
     SimuleBeta = y
 End Function
-\end{Scode}
+\end{verbatim}
         \end{framed}
         \caption{Code VBA de la fonction \code{betasim}}
         \label{fig:simulation:betasim}
@@ -901,7 +901,7 @@ curve(dbeta(x, 3, 2), add = TRUE)
   simuler des observations de la distribution Bêta$(\alpha, \beta)$.
     \begin{figure}[t]
       \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 simul <- function(n, alpha, beta)
 {
     xmax <- (alpha - 1)/(alpha + beta - 2)
@@ -918,7 +918,7 @@ simul <- function(n, alpha, beta)
     }
     x
 }
-\end{Scode}
+\end{verbatim}
       \end{framed}
       \caption{Fonction de simulation d'une loi Bêta$(\alpha, \beta)$
         pour l'\autoref{ex:simulation:rejet}}
@@ -960,14 +960,14 @@ simul(2, alpha = 2, beta = 3)
 @
   \end{enumerate}
   \begin{rep}
-    \begin{enumerate}[a)]
-      \stepcounter{enumi}
-    \item
 <<echo=FALSE>>=
 set.seed(12345)
-round(simul(2, alpha = 2, beta = 3), 2)
+x <- round(simul(2, alpha = 2, beta = 3), 2)
 options(op)
 @
+    \begin{enumerate}[a)]
+      \stepcounter{enumii}
+    \item $\Sexpr{x[1]}$, $\Sexpr{x[2]}$
     \end{enumerate}
   \end{rep}
   \begin{sol}
