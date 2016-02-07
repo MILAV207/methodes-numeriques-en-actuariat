@@ -17,23 +17,26 @@ L'une des utilisations de la simulation Monte Carlo la plus répandue
 est le calcul d'intégrales, principalement pour des dimensions
 supérieures à un. On ne présente ici que l'idée générale.
 
+
 \begin{prob-enonce}
-  L'intégrale de Gauss intervient dans plusieurs disciplines
-  des mathématiques. En probabilités, elle est notamment à
-  la base de la définition de la loi normale, ou loi
-  gaussienne. En calcul intégral, elle est également un
-  exemple fréquent de la résolution d'intégrales par la
-  transformation du domaine en coordonnées polaires.
-  
-  À l'aide de la simulation, proposez une méthode
-  alternative afin de résoudre numériquement l'intégrale
-  
+  L'intégrale de Gauss
   \begin{equation*}
-    G = \int_{-\infty}^{\infty} \mathrm{e} ^ {-x^2} \, \mathrm{d}x \\
+    \int e^{-x^2}\, dx
   \end{equation*}
-  
-  , dont le résultat est connu et vaut $\sqrt{\pi}$.
+  intervient dans plusieurs disciplines des mathématiques. En
+  probabilités, elle est notamment à la base de la définition de la
+  loi normale, ou loi gaussienne. Sans primitive, on l'utilise
+  souvent, en calcul intégral, comme un exemple d'intégrale définie
+  qu'il faut résoudre par la transformation du domaine en coordonnées
+  polaires.
+
+  On sait que
+  \begin{equation*}
+    G = \int_{-\infty}^{\infty} e^{-x^2}\, dx = \sqrt{\pi}.
+  \end{equation*}
+  Comment pourrait-on vérifier ce résultat à l'aide de la simulation?
 \end{prob-enonce}
+
 
 \section{Contexte}
 \label{sec:montecarlo:contexte}
@@ -96,7 +99,7 @@ curve(dgamma(x, 3, 2), xlim = c(0, 2), lwd = 2, add = TRUE)
 
 L'idée de l'intégration Monte Carlo consiste à évaluer la fonction à
 intégrer en des points choisis aléatoirement, puis à s'en remettre à
-la loi des grands nombres pour estimer l'intégrale.
+la Loi des grands nombres pour estimer l'intégrale.
 
 On exprime tout d'abord la fonction $h(x)$ sous la forme
 \begin{equation*}
@@ -116,7 +119,7 @@ observations simulées de la densité $f(x)$, alors
   \label{eq:montecarlo:estimation}
   \hat{\theta}_n = \frac{1}{n} \sum_{i = 1}^n g(x_i)
 \end{equation}
-constitue une estimation de l'intégrale $\theta$.  Par la loi des
+constitue une estimation de l'intégrale $\theta$.  Par la Loi des
 grands nombres, $\hat{\theta}_n \stackrel{n \rightarrow
   \infty}{\longrightarrow} \theta$.
 
@@ -168,48 +171,47 @@ où $u_1, \dots, u_n$ est un échantillon aléatoire d'une loi $U(0, 1)$.
 On doit utiliser la technique du changement de variable lorsque le
 domaine est infini.
 
+
 \begin{prob-astuce}
-  Le domaine de l'intégrale est infini. Plusieurs changements
-  de variable pourraient rendre le domaine à intégrer fini.
-  En voici un exemple :
+  La présentation ci-dessus repose sur un domaine d'intégration fini.
+  Or, celui de l'intégrale à calculer est infini. Pour utiliser des
+  nombres aléatoires uniformes dans la méthode Monte-Carlo, il faut
+  ramener le domaine d'intégration infini à un domaine fini par le
+  biais d'un changement de variable.
 
+  Tout d'abord, par symétrie de l'intégrande,
   \begin{align*}
-    G &= \int_{-\infty}^{\infty} \mathrm{e} ^ {-x^2} \, \mathrm{d}x \\
-      &= 2 \int_{0}^{\infty} \mathrm{e} ^ {-x^2} \, \mathrm{d}x
-        \text{\qquad , par symétrie} \\
-      &= 2 \left( \int_{0}^{1} \mathrm{e} ^ {-y^2} \, \mathrm{d}y
-        + \int_{1}^{\infty} \mathrm{e} ^ {-x^2} \, \mathrm{d}x \right)
+    G &= \int_{-\infty}^{\infty} e^{-x^2}\, dx \\
+      &= 2 \int_{0}^{\infty} e^{-x^2}\, dx \\
+      &= 2
+        \left(
+        \int_{0}^{1} e^{-x^2}\, dx +
+        \int_{1}^{\infty} e^{-x^2}\, dx
+        \right).
   \end{align*}
 
-  L'intégrale de droite ayant un domaine infini, on pose
-  une transformation sur $x$ afin de fournir un domaine
-  fini à la procédure Monte Carlo :
-
+  Ensuite, plusieurs changements de variable sont possibles pour
+  transformer le domaine de la seconde intégrale de droite. Nous
+  choisissons le changement de variable $u = x^{-1}$. Le domaine
+  d'intégration subit donc la transformation
+  $(1, \infty) \mapsto (1, 0)$. Ainsi,
   \begin{align*}
-    u = x^{-1} \qquad
-      &\Rightarrow \qquad \mathrm{d}u = - x^{-2} \, \mathrm{d}x \\
-      &\Rightarrow \qquad \mathrm{d}x = -x^2 \, \mathrm{d}u
-            = -u^{-2} \mathrm{d}u
+    G &= 2
+        \left(
+        \int_{0}^{1} e^{-x^2}\, dx +
+        \int_{1}^{0} e^{-u^{-2}} (-u^{-2})\, du
+        \right) \\
+      &= 2
+        \left(
+        \int_{0}^{1} e^{-x^2}\, dx +
+        \int_{0}^{1} e^{-u^{-2}} u^{-2}\, du
+        \right) \\
+      &= 2 \int_{0}^{1} (e^{-x^2} + e^{-x^{-2}} x^{-2})\, dx.
   \end{align*}
-  
-  On note également que les bornes du domaine initial subissent
-  la transformation $T(x_1,x_2)=(x_1^{-1}, x_2^{-1})$. Les bornes du nouveau
-  domaine sont donc $T(1,\infty)=(1, 0)$. Puis on poursuit :
-  
-  \begin{align*}
-    G &= 2 \left( \int_{0}^{1} \mathrm{e} ^ {-y^2} \, \mathrm{d}y
-        + \int_{1}^{0} \mathrm{e} ^ {-u^{-2}} (-u^{-2} \, \mathrm{d}u)
-          \right)\\
-      &= 2 \left( \int_{0}^{1} \mathrm{e} ^ {-y^2} \, \mathrm{d}y
-        + \int_{0}^{1} \mathrm{e} ^ {-u^{-2}} u^{-2} \, \mathrm{d}u
-          \right)\\
-      &= 2 \int_{0}^{1} \left( \mathrm{e} ^ {-y^2}
-        + \mathrm{e} ^ {-y^{-2}} y^{-2} \right) \, \mathrm{d}y\\
-  \end{align*}
-  
-  Cette intégrale est maintenant prête à être estimée
-  à l'aide de la méthode Monte Carlo.
+  Exprimée ainsi, l'intégrale se prête à la méthode d'intégration
+  Monte Carlo.
 \end{prob-astuce}
+
 
 \begin{exemple}
   \label{exemple:montecarlo:2d}
@@ -382,38 +384,34 @@ points(trans3d(u, v, f(u, v), pm = res),
 \end{exemple}
 
 \begin{prob-solution}
-  Tel que démontré à l'astuce, le résultat de
-  l'intégrale $G$ peut être obtenu en estimant
-  le résultat de l'intégrale équivalente suivante :
-  
+  En posant
   \begin{align*}
-    \theta  &= 2 \int_{0}^{1} \left( \mathrm{e} ^ {-y^2}
-              + \mathrm{e} ^ {-y^{-2}} y^{-2} \right) \, \mathrm{d}y \\
-            &= 2 (1-0) \int_{0}^{1} \left( \mathrm{e} ^ {-y^2}
-              + \mathrm{e} ^ {-y^{-2}} y^{-2} \right) \frac{1}{1-0} \, \mathrm{d}y \\
-            &= 2 \Esp{\mathrm{e} ^ {-Y^2} + \mathrm{e} ^ {-Y^{-2}} Y^{-2}} \\
-                    \text{, où } Y \sim U(0,1).\\
+    \theta
+    &= 2 \int_{0}^{1} (e^{-x^2} + e^{-x^{-2}} x^{-2})\, dx \\
+    &= 2 \esp{e^{-U^2} + e^{-U^{-2}} U^{-2}},
   \end{align*}
-
-  Par conséquent, l'estimation est
-  
+  où $U \sim U(0, 1)$, nous avons réécrit l'intégrale de Gauss comme
+  l'espérance d'une transformation d'une variable aléatoire uniforme.
+  Par la Loi des grands nombres, une bonne estimation de $\theta$ est
   \begin{equation*}
-    \hat{\theta}_n = \frac{2}{n} \sum_{i=1}^{n} {\mathrm{e} ^ {-y_i^2} + \mathrm{e} ^           {-y_i^{-2}} y_i^{-2}} \\
+    \hat{\theta}_n =
+    \frac{2}{n} \sum_{i=1}^{n} (e^{-u_i^2} + e^{-u_i^{-2}} u_i^{-2})
   \end{equation*}
-  
-  , où les $y_i$ sont tirés de la distribution $Y\sim U(0,1)$.
+  pour $n$ grand et où $u_1, \dots, u_n$ sont des nombres aléatoires
+  distribués uniformément sur l'intervalle $(0, 1)$.
 
+  Le calcul est ensuite très simple à faire avec R:
 <<echo=FALSE>>=
-options(digits=7)
+options(digits = 7)
 @
-
 <<echo=TRUE>>=
-set.seed(12345)
-y <- runif(1E6)
-2 * ( mean( exp(-y^2) + exp(-y^(-2)) * y^(-2) ) )
-sqrt(pi)
+u <- runif(1E5)
+2 * (mean(exp(-u^2) + exp(-u^(-2)) * u^(-2)))
 @
+  Ce résultat est suffisamment près de $\sqrt{\pi} = 1,772454$ pour
+  juger l'expérience concluante.
 \end{prob-solution}
+
 
 \section{Code informatique}
 \label{sec:montecarlo:code}

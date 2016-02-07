@@ -101,39 +101,37 @@ l'\autoref{chap:rappels_transformations}.
       transformation,
       \begin{displaymath}
         f_{X_1,X_2}(x_1, x_2) =
-        f_{U_1, U_2}(x_1(u_1, u_2), x_2(u_1,u_2)) |\det(J)|
+        f_{U_1, U_2}(x_1(u_1, u_2), x_2(u_1,u_2)) |\det(J)|,
       \end{displaymath}%
       où
-      \begin{align*}
-        J
-        &=
+      \begin{equation*}
+        J =
         \begin{bmatrix}
-          \frac{\partial u_1}{\partial x_1} &
-          \frac{\partial u_1}{\partial x_2} \\
-          \frac{\partial u_2}{\partial x_1} &
-          \frac{\partial u_2}{\partial x_2}
-        \end{bmatrix} \\
-        &=
+          \dfrac{\partial u_1}{\partial x_1} &
+          \dfrac{\partial u_1}{\partial x_2} \\[6pt]
+          \dfrac{\partial u_2}{\partial x_1} &
+          \dfrac{\partial u_2}{\partial x_2}
+        \end{bmatrix} =
         \begin{bmatrix}
           -x_1 e^{- (x_1^2 + x_2^2)/2} &
-          -x_2 e^{- (x_1^2 + x_2^2)/2} \\
-          -\frac{1}{2\pi} \frac{x_2}{x_1^2 + x_2^2} &
-          \frac{1}{2\pi} \frac{x_1}{x_1^2 + x_2^2}
-        \end{bmatrix}
-      \end{align*}
+          -x_2 e^{- (x_1^2 + x_2^2)/2} \\[6pt]
+          -\dfrac{1}{2\pi} \dfrac{x_2}{x_1^2 + x_2^2} &
+          \dfrac{1}{2\pi} \dfrac{x_1}{x_1^2 + x_2^2}
+        \end{bmatrix}.
+      \end{equation*}
       Or,
       \begin{align*}
         |\det(J)|
-        &= \frac{1}{2\pi} e^{-(x_1^2 + x_2^2)/2} \\
-        &= \frac{1}{\sqrt{2\pi}} e^{-x_1^2/2} \cdot
+        &= \frac{1}{2\pi}\, e^{-(x_1^2 + x_2^2)/2} \\
+        &= \frac{1}{\sqrt{2\pi}}\, e^{-x_1^2/2} \cdot
         \frac{1}{\sqrt{2\pi}} e^{-x_2^2/2},
       \end{align*}
       d'où
       \begin{displaymath}
         f_{X_1,X_2}(x_1, x_2) = \frac{1}{\sqrt{2\pi}} e^{-x_1^2/2} \cdot
-        \frac{1}{\sqrt{2\pi}} e^{-x_2^2/2}
+        \frac{1}{\sqrt{2\pi}} e^{-x_2^2/2}.
       \end{displaymath}
-      et, donc, $X_1$ et $X_2$ sont deux variables aléatoires $N(0, 1)$
+      Par conséquent, $X_1$ et $X_2$ sont deux variables aléatoires $N(0, 1)$
       indépendantes.
     \item
 <<echo=TRUE, eval=FALSE>>=
@@ -330,7 +328,8 @@ rgamma2 <- function(nsim, alpha)
         f_{X}(x)
         &= \int_0^\infty f(x|\theta) u(\theta)\, d\theta  \\
         &= \frac{\lambda^\alpha}{\Gamma(\alpha)} \int_0^\infty
-        \theta^{\alpha + 1 - 1} e^{-(\lambda + x) \theta}\, d\theta  \\
+        \theta^{\alpha + 1 - 1} e^{-(\lambda + x) \theta}\, d\theta
+          \displaybreak[0]\\
         &= \frac{\lambda^\alpha}{\Gamma(\alpha)}
         \frac{\Gamma(\alpha + 1)}{(\lambda + x)^{\alpha +1}} \\
         &= \frac{\alpha \lambda^\alpha}{(\lambda + x)^{\alpha +1}}.
@@ -483,7 +482,7 @@ rexp(1, rgamma(1, alpha, lambda))
 
     Le résultat peut évidemment servir à simuler des points
     uniformément répartis sur un disque de rayon $1$ centré en $(0,
-    0)$. La \autoref{fig:simulation:disque} illustre d'ailleurs cette
+    0)$. La \autoref{fig:simulation:disque2} illustre d'ailleurs cette
     transformation. Les points $(u_1, u_2)$ dans le graphique de gauche
     sont tirés aléatoirement sur le carré $(0, 1) \times (0, 1)$. Le
     graphique de droite montre que suite à la tranformation ci-dessus,
@@ -503,7 +502,7 @@ plot(x1, x2, pch = 19, col = col)
 @
       \caption{Démonstration graphique du fonctionnement de la
         transformation de l'\autoref{ex:simulation:disque}}
-      \label{fig:simulation:disque}
+      \label{fig:simulation:disque2}
     \end{figure}
   \end{sol}
 \end{exercice}
@@ -578,8 +577,8 @@ plot(x1, x2, pch = 19, col = col)
       La fonction de densité de probabilité conjointe de $X_1$ et $X_2$
       est donc
       \begin{align*}
-        f_{X_1,X_2}(x_1, x_2)
-        &= f_{Y_1, Y_2}(y_1, y_2) |J| \\
+        f_{X_1,X_2}&(x_1, x_2)
+         = f_{Y_1, Y_2}(y_1, y_2) |J| \\
         &= \frac{1}{\Gamma(\alpha) \Gamma(\beta)}\,
         x_1^{\alpha - 1} (1 - x_1)^{\beta - 1}
         x_2^{\alpha + \beta - 1} e^{-x_2} \\
