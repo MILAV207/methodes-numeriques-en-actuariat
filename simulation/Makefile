@@ -36,7 +36,7 @@ tex: $(RNWFILES:.Rnw=.tex)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
-	sed -i "" \
+	sed -E -i "" \
 	    -e "s:youtu.be/acceptation-rejet:youtu.be/1ptmo6CPKuQ:" \
 	    simulation.tex
 
