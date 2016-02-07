@@ -1,4 +1,4 @@
-# Les cibles de cette Makefile sont: tex, links, pdf, zip et clean.
+# Les cibles de cette Makefile sont: tex, pdf, zip et clean.
 #
 # La cible par défaut est "pdf".
 #
