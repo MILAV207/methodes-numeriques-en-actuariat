@@ -472,7 +472,7 @@ is.triangle(c(7, 5, 2, 1), c(9, 3, 10, 7))
   un carré $1 \times 1$, puis de vérifier si leur enveloppe convexe
   est un triangle:
 <<echo=TRUE, eval=FALSE>>=
-is.triangle(chull(runif(4), runif(4)))
+is.triangle(runif(4), runif(4))
 @
 
   Pour répéter cette expression un grand nombre de fois, on aura

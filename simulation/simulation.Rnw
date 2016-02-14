@@ -553,8 +553,12 @@ text(0.1, m + 0.08, "c g(y)")
     alors poser $x = y$. Sinon, retourner à l'étape 1.
   \end{enumerate}
 
-  L'aire du rectangle étant de $16/9 \approx 1,78$, on peut s'attendre
-  à rejeter environ $78~\%$ des nombres $u_1$ simulés à l'étape~1 de
+  L'aire du rectangle étant de $16/9$, on peut s'attendre
+  à rejeter
+  \begin{equation*}
+    \frac{16/9 - 1}{16/9} = \frac{7}{16} \approx 44~\%
+  \end{equation*}
+  des nombres $u_1$ simulés à l'étape~1 de
   l'algorithme ci-dessus. Si l'enveloppe
   était plus «serrée» autour de la densité, l'efficacité de
   l'algorithme en serait augmentée.
