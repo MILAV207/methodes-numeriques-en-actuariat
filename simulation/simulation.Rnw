@@ -645,7 +645,7 @@ axis(side = 1, at = 0.5)
   \end{enumerate}
 
   L'aire du triangle étant de $1,2$, on peut maintenant s'attendre à
-  ne rejeter que $20~\%$ des nombres simulés, une amélioration
+  ne rejeter que $0,2/1,2 \approx 17~\%$ des nombres simulés, une amélioration
   importante par rapport à l'\autoref{exemple:simulation:beta:1}. %
   \qed
 \end{exemple}
