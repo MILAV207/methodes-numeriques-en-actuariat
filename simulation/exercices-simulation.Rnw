@@ -223,65 +223,40 @@ points(x1, x2, pch = 19, col = col)
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:simulation:mode}
   En ouverture de chapitre, on mentionne qu'une façon de simuler des
   nombres issus d'une loi géométrique consiste à extraire la partie
-  entière d'autant de nombres aléatoires provenant d'une loi
-  exponentielle.
-  \begin{enumerate}
-  \item Démontrer que la partie entière d'une variable aléatoire
-    exponentielle est distribuée selon une loi géométrique.
-  \item Déterminer le paramètre $p$ de la loi géométrique en
-    fonction du paramètre $\lambda$ de la loi exponentielle.
-  \item Déterminer le paramètre $\lambda$ de la loi exponentielle
-    en fonction du paramètre $p$ de la loi géométrique.
-  \end{enumerate}
+  entière de nombres aléatoires provenant d'une loi exponentielle.
+
+  Démontrer que si la loi de la variable aléatoire $X$ est une
+  exponentielle, alors la loi de $\lfloor X \rfloor$ est une
+  géométrique. Déterminer le paramètre de la loi géométrique en
+  fonction du paramètre de la loi exponentielle.
   \begin{rep}
-    \begin{inparaenum}
-      \stepcounter{enumi}
-    \item Voir solution
-    \item $p = 1-\mathrm{e}^{-\lambda}$
-    \item $\lambda = -\ln(1-p)$
-    \end{inparaenum}
+    $p = 1 - e^{-\lambda}$
   \end{rep}
   \begin{sol}
-    \begin{enumerate}
-    \item On définit la variable $X \tild Exponentielle(\lambda)$.
-      
-      On définit également $K = \lfloor X \rfloor$.
-
-      En construisant la fonction de masse de probabilité de la
-      variable aléatoire K, on remarque que celle-ci correspond
-      en fait à celle d'une loi géométrique :
-
-      \begin{align*}
-        \Pr [K=0] &= \Pr[\lfloor X \rfloor = 0] =
-                      \Pr[0 \leq X < 1]\\
-                  &= F_X(1)\\
-                  &= 1-\mathrm{e}^{-\lambda}\\
-      \end{align*}
-      \begin{align*}
-        \Pr [K=1] &= \Pr[\lfloor X \rfloor = 1] = \Pr[1 \leq X < 2]\\
-                  &= F_X(2) - F_X(1)\\
-                  &= (1-\mathrm{e}^{-2\lambda}) - (1-\mathrm{e}^{-\lambda}) \\
-                  &= (\mathrm{e}^{-\lambda}-\mathrm{e}^{-2\lambda})\\
-                  &= (1-\mathrm{e}^{-\lambda})\mathrm{e}^{-\lambda}\\
-      \end{align*}
-      \begin{align*}
-        \Pr [K=2] &= \Pr[\lfloor X \rfloor = 2] = \Pr[2 \leq X < 3]\\
-                  &= \dots \\
-                  &= (1-\mathrm{e}^{-\lambda})(\mathrm{e}^{-\lambda})^2\\
-      \end{align*}
-      \begin{align*}
-        \Pr [K=k] &= \Pr[\lfloor X \rfloor = k] = \Pr[k \leq X < k+1]\\
-                  &= (1-\mathrm{e}^{-\lambda})(\mathrm{e}^{-\lambda})^k,
-                    \qquad \forall k \in (0, 1, 2, \dots).\\
-      \end{align*}
-    \item $\Pr [K=k] = p(1-p)^k, \qquad \forall k \in (0, 1, 2, \dots)$,
-      \qquad où $ p = 1-\mathrm{e}^{-\lambda} $.
-    \item $ p = 1-\mathrm{e}^{-\lambda} \qquad
-      \Leftrightarrow \qquad \lambda = -\ln(1-p) $
-    \end{enumerate}
+    Soit $X \sim \text{Exponentielle}(\lambda)$ et
+    $K = \lfloor X \rfloor$. On a donc:
+    \begin{align*}
+      \Pr[K = 0]
+      &= \Pr[\lfloor X \rfloor = 0] \\
+      &= \Pr[0 \leq X < 1] \\
+      &= F_X(1) \\
+      &= 1 - e^{-\lambda}, \displaybreak[0] \\
+      \Pr[K = 1]
+      &= \Pr[1 \leq X < 2]\\
+      &= F_X(2) - F_X(1)\\
+      &= (1 - e^{-2 \lambda}) - (1 - e^{-\lambda}) \\
+      &= (e^{-\lambda} - e^{-2\lambda}) \\
+      &= (1 - e^{-\lambda}) e^{-\lambda}, \displaybreak[0] \\
+      \intertext{soit, de manière générale,}
+      \Pr[K = k]
+      &= \Pr[k \leq X < k+1]\\
+      &= (1 - e^{-\lambda})(e^{-\lambda})^k,
+        \quad k = 0, 1, 2, \dots
+    \end{align*}
+    La forme de cette fonction de masse de probabilité est celle
+    d'une loi géométrique de paramètre $p = 1 - e^{-\lambda}$.
   \end{sol}
 \end{exercice}
 
@@ -744,22 +719,22 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
     \begin{enumerate}
     \item On a
       \begin{align*}
-        \Pr \left[ U \leq \frac{f_X(Y)}{c g_Y(Y)} \right]
+        \Pr \left[ U \leq \frac{f_X(y)}{c g_Y(y)} \right]
         &= \int_{-\infty}^\infty
-        \Pr \left[ U \leq \frac{f_X(Y)}{c g_Y(Y)}|Y = y \right] %|
+        \Pr \left[ U \leq \frac{f_X(y)}{c g_Y(y)}\biggr\rvert Y = y \right] %|
         g_Y(y)\, dy \\
         &= \int_{-\infty}^\infty
-        \frac{f_X(Y)}{c g_Y(Y)}\, g_Y(y)\, dy \displaybreak[0] \\
+        \frac{f_X(y)}{c g_Y(y)}\, g_Y(y)\, dy \displaybreak[0] \\
         &= \frac{1}{c} \int_{-\infty}^\infty f_X(y)\, dy \\
         &= \frac{1}{c}.
       \end{align*}
     \item Les essais étant indépendants, la distribution du nombre
       d'essais avant d'avoir un succès (accepter un nombre $y$) est
-      géométrique de paramètre $1/c$, c'est-à-dire
+      géométrique de paramètre $1/c$, c'est-à-dire que
       \begin{displaymath}
         \Pr[Z = z] =
         \left( \frac{1}{c} \right)
-        \left( 1 - \frac{1}{c} \right)^z, \quad z = 1, 2, \dots,
+        \left( 1 - \frac{1}{c} \right)^{z - 1}, \quad z = 1, 2, \dots,
       \end{displaymath}
       où $Z$ représente le nombre d'essais avant d'accepter un nombre.
     \item On a $\esp{Z} = 1/(1/c) = c$.
