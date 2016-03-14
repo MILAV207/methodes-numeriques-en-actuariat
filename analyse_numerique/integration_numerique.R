@@ -36,7 +36,8 @@ predict(P2, 3)             # idem
 ## Cependant, il y a dans R une fonction 'integrate' qui
 ## permet d'intégrer numériquement une fonction 'f' entre des
 ## bornes 'lower' et 'upper'.
-integrate(sin, 0, 2)           # intégrale de sin(x)
-f <- function(x) x^2 * exp(-x) # une autre fonction
-integrate(f, 0, 1)             # intégrale sur [0, 1]
+integrate(sin, 0, 2)            # intégrale de sin(x)
+f <- function(x) x^2 * exp(-x)  # une autre fonction
+integrate(f, 0, 1)              # intégrale sur [0, 1]
+integrate(dnorm, -1.645, 1.645) # exemple du chapitre
 
