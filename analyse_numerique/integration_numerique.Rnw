@@ -29,6 +29,45 @@ devra évidemment être simple à intégrer, autrement aucun gain n'est
 réalisé. Or, quelles fonctions sont simples à intégrer sinon les
 polynômes?
 
+\begin{prob-enonce}
+  Au \ref{chap:montecarlo}, nous avons tiré profit de la
+  méthode Monte Carlo afin d'estimer le résultat de 
+  l'intégrale de Gauss sur tout son domaine sans passer par
+  les coordonnées polaires.
+  
+  On sait que
+  
+  \begin{equation*}
+    I = \int_{-1,645}^{1,645} \frac{1}
+      {\sqrt{2 \pi}}\mathrm{e} ^ {- \frac{1}{2} x^2} \, \mathrm{d}x = 0,90 .\\
+  \end{equation*}
+  
+  Vérifier ce résultat, tel qu'illustré à la \autoref{fig:integration:airecourbe}, de façon
+  numérique et sans l'aide de la simulation.
+\end{prob-enonce}
+
+\SweaveOpts{height=3, width=4}
+  \begin{figure}[tp]
+    \begin{minipage}[t]{\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, results=hide>>=
+## Graphique.
+xx <- c(-1.645, seq(-1.645, 1.645, by = 0.01), 1.645)
+yy <- c(0, dnorm(seq(-1.645, 1.645, by = 0.01), 0, 1), 0) 
+x <- seq(-1.645, 1.645, by=3.29/8)
+par(mar=c(2,2,2,2))
+
+curve(dnorm(x, 0, 1), xlim = c(-3, 3), lwd = 3,
+      axes = FALSE, xlab = "", ylab = "")
+polygon(xx, yy, density = 5, col = "blue", border = "blue")
+axis(1, at = x[c(1, 5, 9)], labels = x[c(1, 5, 9)])
+axis(2)
+box()
+@
+    \end{minipage}
+    \caption{Aire sous la courbe $I$}
+    \label{fig:integration:airecourbe}
+  \end{figure}
 
 \section{Polynômes d'interpolation de Lagrange}
 \label{sec:integration:Lagrange}
@@ -336,6 +375,58 @@ milieu de $\int_a^b f(x)\, dx$ avec $n$ intervalles est
 \end{equation}
 où $h = (b - a)/(2 n)$ et $x_j = a + jh$.
 
+<<echo=FALSE>>=
+### Définition de la fonction.
+f <- function(x)
+{
+    dnorm(x, 0, 1)
+}
+@
+
+\SweaveOpts{height=4, width=4}
+  \begin{figure}[h]
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, results=hide>>=
+### Graphique avec point milieu.
+curve(f, xlim = c(-3, 3), lwd = 3,
+      axes = FALSE, xlab = "", ylab = "")
+rect(xleft = c(-1.645), ybottom = 0, xright = c(1.645), ytop = f(0),
+     density = 5, col = "blue", border = "blue")
+axis(1, at = c(-1,1) * 1.645,
+     labels = parse(text = c("-1.645", "1.645")))
+axis(2)
+box()
+@
+      \subcaption{$n=1$}
+    \end{minipage}
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, results=hide>>=
+### Graphique avec point milieu.
+curve(f, xlim = c(-3, 3), lwd = 3,
+      axes = FALSE, xlab = "", ylab = "")
+rect(xleft = c(-1.645, 0), ybottom = 0, xright = c(0, 1.645), ytop = f(0.8225),
+     density = 5, col = "blue", border = "blue")
+axis(1, at = (-1:1) * 1.645,
+     labels = parse(text = c("-1.645", "0", "1.645")))
+axis(2)
+box()
+@
+      \subcaption{$n=2$}
+    \end{minipage}
+  \caption{Intégration par la méthode du point-milieu avec différents $n$}
+  \label{fig:integration:prob:pm}
+\end{figure}
+
+\begin{prob-astuce}
+  Nous pourrions appliquer la méthode du point milieu avec le paramètre
+  $n$ de notre choix. La \autoref{fig:integration:prob:pm} illustre
+  l'estimation produite avec un paramètre $n$ de $1$ ou $2$.
+
+  Graphiquement, nous constatons que le choix $n=2$ est une bien
+  meilleure approximation de l'aire sous la courbe $I$.
+\end{prob-astuce}
 
 \section{Méthode du trapèze}
 \label{sec:integration:trapeze}
@@ -366,6 +457,15 @@ la méthode du trapèze avec $n$ intervalles est
   \right],
 \end{equation}
 où $h = (b - a)/n$ et $x_j = a + jh$.
+
+<<echo=FALSE>>=
+### Définition de la fonction.
+f <- function(x)
+{
+    x <- (x + 0.2)/1.5
+    (dgamma(x, 1.2, 0.5) + dgamma(x, 5, 1))/2 - 0.12
+}
+@
 
 \begin{figure}[t]
   \begin{minipage}[t]{0.48\linewidth}
@@ -436,6 +536,68 @@ axis(1, at = c(0, 1/3, 2/3, 1),
   \label{fig:integration:grosplan}
 \end{figure}
 
+\begin{prob-enonce}
+  Encore une fois, nous pourrions appliquer la méthode du trapèze
+  avec le $n$ de notre choix. La
+  \autoref{fig:integration:prob:trapeze} illustre l'estimation produite
+  par un paramètre $n=1$ ou $n=2$.
+  
+  La \autoref{fig:integration:prob:trapeze} nous confirme
+  que le choix $n=2$ serait encore une bien meilleure approximation
+  de l'aire sous la courbe $I$.
+  
+\end{prob-enonce}
+
+<<echo=FALSE>>=
+### Définition de la fonction.
+f <- function(x)
+{
+    dnorm(x, 0, 1)
+}
+@
+
+\SweaveOpts{height=4, width=4}
+  \begin{figure}[tp]
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+<<echo = FALSE, fig=TRUE, results=hide>>=
+### Graphique avec trapèze
+curve(f, xlim = c(-3, 3), lwd = 3,
+      axes = FALSE, xlab = "", ylab = "")
+x <- c(-1,1) * 1.645
+xx <- c(-1.645, x, 1.645)
+yy <- c(0, f(x), 0)
+polygon(xx, yy, density = 5, col = "blue", border = "blue")
+segments(x, 0, x, f(x), col = "blue")
+axis(1, at = c(-1,1) * 1.645,
+     labels = parse(text = c("-1.645", "1.645")))
+axis(2)
+box()
+@
+      \subcaption{$n=1$}
+    \end{minipage}
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+<<echo = FALSE, fig=TRUE, results=hide>>=
+### Graphique avec trapèze
+curve(f, xlim = c(-3, 3), lwd = 3,
+      axes = FALSE, xlab = "", ylab = "")
+x <- (-1:1) * 1.645
+xx <- c(-1.645, x, 1.645)
+yy <- c(0, f(x), 0)
+polygon(xx, yy, density = 5, col = "blue", border = "blue")
+segments(x, 0, x, f(x), col = "blue")
+axis(1, at = (-1:1) * 1.645,
+     labels = parse(text = c("-1.645", "0", "1.645")))
+axis(2)
+box()
+@
+      \subcaption{$n=2$}
+    \end{minipage}
+  \caption{Intégration par la méthode du trapèze avec différents $n$}
+  \label{fig:integration:prob:trapeze}
+\end{figure}
+
 
 \section{Méthode de Simpson}
 \label{sec:integration:simpson}
@@ -467,6 +629,111 @@ $\int_a^b f(x)\, dx$ avec $n$ intervalles est
 où $h = (b - a)/(2n)$ et $x_j = a + jh$.
 
 
+\begin{prob-astuce}
+  Comme pour les méthodes du point milieu et du trapèze, nous
+  pouvons appliquer la méthode de Simpson avec le $n$ de notre
+  choix. La \autoref{fig:integration:prob:Simpson} illustre
+  l'estimation produite avec $n=1$ et $n=2$.
+  
+  Nous constatons graphiquement que $n=2$ est encore une fois
+  le meilleur choix.
+  
+  Nous constatons également que les paraboles produites par la
+  méthode de Simpson sont attachées aux bouts ainsi qu'au milieu
+  de leur intervalle, comme illustré à la
+  \autoref{fig:integration:grosplan}.
+  
+  \begin{remarque}
+    Peu importe la méthode utilisée, on remarque que $n=2$ est
+    toujours plus précis que $n=1$. Pourquoi en est-il ainsi?
+    
+    Premièrement, un $n$ plus grand veut nécessairement dire
+    plus d'intervalles et plus de points à évaluer, donc
+    une estimation plus près de la réalité. Après tout, la
+    Somme de Riemann permet d'obtenir une solution analytique
+    exacte en faisant tendre $n$ vers l'infini.
+    
+    Deuxièmement, la forme de la fonction que nous devons
+    intégrer comporte des points d'inflexion aux alentours de
+    -0.8225, 0 et 0.8225. Ainsi, les méthodes avec $n=1$ sont
+    incapables de considérer ces points d'inflexion,
+    contrairement aux méthodes avec $n=2$. Ainsi, augmenter
+    le $n$ permet de mieux tenir compte du comportement
+    non-linéaire des fonctions à intégrer.
+  \end{remarque}
+\end{prob-astuce}
+
+\SweaveOpts{height=4, width=4}
+  \begin{figure}[tp]
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, results=hide>>=
+### Graphique avec Simpson.
+## Calcul des polynômes d'interpolation par intervalle.
+library(polynom)
+x0 <- matrix((-1:1)*1.645, nrow = 3)
+y0 <- f(x0)
+P2.1 <- poly.calc(x0[,1], y0[,1])
+
+## Polynôme d'interpolation global.
+h <- function(x)
+{
+    f <- function(x) eval(parse(text = paste("predict(P2.", "1", ", x)", sep = "")))
+    sapply(x, f)
+}
+
+## Graphique.
+x <- c(-1,1) * 1.645
+xx <- c(-1.645, seq(-1.645, 1.645, by = 0.01), 1.645)
+yy <- c(0, h(seq(-1.645, 1.645, by = 0.01)), 0)
+curve(f, xlim = c(-3, 3), lwd = 3,
+      axes = FALSE, xlab = "", ylab = "")
+polygon(xx, yy, density = 5, col = "blue", border = "blue")
+segments(x, 0, x, f(x), col = "blue")
+axis(1, at = c(-1,1)*1.645,
+     labels = parse(text = c("-1.645", "1.645")))
+axis(2)
+box()
+@
+      \subcaption{$n=1$}
+    \end{minipage}
+    \begin{minipage}[t]{0.48\linewidth}
+      \centering
+<<echo=FALSE, fig=TRUE, results=hide>>=
+### Graphique avec Simpson.
+## Calcul des polynômes d'interpolation par intervalle.
+library(polynom)
+x0 <- matrix(c((-2:0)*1.645, (0:2)*1.645)/2, nrow = 3)
+y0 <- f(x0)
+P2.1 <- poly.calc(x0[,1], y0[,1])
+P2.2 <- poly.calc(x0[,2], y0[,2])
+
+## Polynôme d'interpolation global.
+h <- function(x)
+{
+    f <- function(x) eval(parse(text = paste("predict(P2.", ifelse(x<0, 1, 2), ", x)", sep = "")))
+    sapply(x, f)
+}
+
+## Graphique.
+x <- (-1:1) * 1.645
+xx <- c(-1.645, seq(-1.645, 1.645, by = 0.01), 1.645)
+yy <- c(0, h(seq(-1.645, 1.645, by = 0.01)), 0)
+curve(f, xlim = c(-3, 3), lwd = 3,
+      axes = FALSE, xlab = "", ylab = "")
+polygon(xx, yy, density = 5, col = "blue", border = "blue")
+segments(x, 0, x, f(x), col = "blue")
+axis(1, at = (-1:1)*1.645,
+     labels = parse(text = c("-1.645", "0", "1.645")))
+axis(2)
+box()
+@
+      \subcaption{$n=2$}
+    \end{minipage}
+  \caption{Intégration par la méthode de Simpson avec différents $n$}
+  \label{fig:integration:prob:Simpson}
+\end{figure}
+
 \section{Méthode de Simpson 3/8}
 \label{sec:integration:simpson38}
 
@@ -496,6 +763,68 @@ d'intégration numérique présentées ci-dessus.
   différent. Consulter le code informatique de la
   \autoref{sec:integration:code} pour quelques menus exemples.
 \end{gotoR}
+
+\begin{prob-solution}
+  La première méthode proposée était celle du point milieu.
+  Voici une mise en oeuvre de cette méthode, avec $n=2$ : 
+  
+  \begin{align*}
+    h &= (b - a)/(2 n) = (1,645 + 1,645)/4 = 0,8225\\
+    x_j &= a + jh = -1,645 + 0,8225 j
+  \end{align*}
+  
+  \begin{align*}
+    \int_{-1,645}^{1,645} f(x)\, dx
+      &\approx 2 h \sum_{j=0}^{n-1} f(x_{2j + 1})\\
+      &= 2 (0,8225) \sum_{j=0}^{1} f(x_{2j + 1})\\
+      &= 1,645 \left[ f(x_1) + f(x_3) \right]\\
+      &= 1,645 \left[ f(-0,8225) + f(0,8225) \right]\\
+      &= 1,645 \left[ 0,2844517 + 0,2844517 \right]\\
+      &= 0,9358462
+  \end{align*}
+  
+  La deuxième méthode proposée était celle du trapèze.
+  Voici une mise en oeuvre de cette méthode, avec $n=2$ : 
+  
+  \begin{align*}
+    h &= (b - a)/n = (1,645 + 1,645)/2 = 1,645\\
+    x_j &= a + jh = -1,645 + 1,645 j
+  \end{align*}
+  
+  \begin{align*}
+    \int_{-1,645}^{1,645} f(x)\, dx
+      &\approx \frac{h}{2} \left[ f(a) + f(b) + 2 \sum_{j=1}^{n-1} f(x_{j})\right]\\
+      &= \frac{1,645}{2} \left[ f(-1,645) + f(1,645) + 2 \sum_{j=1}^{1} f(x_{j})\right]\\
+      &= 0,8225 \left[ 0,1031108 + 0,1031108 + 2 f(x_{1})\right]\\
+      &= 0,8225 \left[ 0,2062216 + 2 f(0)\right]\\
+      &= 0,8225 \left[ 0,2062216 + 2 (0,3989423)\right]\\
+      &= 0,8258773
+  \end{align*}
+  
+  La troisième méthode proposée était celle de Simpson.
+  Voici une mise en oeuvre de cette méthode, avec $n=2$ : 
+  
+  \begin{align*}
+    h &= (b - a)/(2 n) = (1,645 + 1,645) / 4 = 0,8225\\
+    x_j &= a + jh = -1,645 + 0,8225 j
+  \end{align*}
+  
+  \begin{align*}
+    \int_{-1,645}^{1,645} f(x)\, dx
+      &\approx \frac{h}{3} \left[ f(x_0) + 2 \sum_{j=1}^{n-1} f(x_{2j})
+                + 4 \sum_{j=1}^{n} f(x_{2j-1}) + f(b) \right]\\
+      &= \frac{0,8225}{3} \left[ f(-1,645) + 2 \sum_{j=1}^{1} f(x_{2j})
+                + 4 \sum_{j=1}^{2} f(x_{2j-1}) + f(1,645) \right]\\
+      &= \frac{0,8225}{3} \left[ 0,10311 + 2 f(x_{2})
+                + 4 \left( f(x_{1}) + f(x_{3}) \right) + 0,10311 \right]\\
+      &= \frac{0,8225}{3} \left[ 0,10311 + 2 f(0)
+                + 4 \left( f(-0,8225) + f(0,8225) \right) + 0,10311 \right]\\
+      &= \frac{0,8225}{3} \left[ 0,10311 + 2 (0,3989423)
+                + 4 \left( 0,2844517 + 0,2844517 \right) + 0,10311 \right]\\
+      &= 0,8991899\\
+  \end{align*}
+
+\end{prob-solution}
 
 \section{Code informatique}
 \label{sec:integration:code}
