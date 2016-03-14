@@ -20,31 +20,29 @@ source("nr.R")
 @
 
 
+\begin{prob-enonce}
+  Les fonctions décrivant les heures de lever et de coucher du soleil
+  à Québec pour le mois de janvier 2016 sont représentées par $L(x)$
+  et $C(x)$, respectivement:
+  \begin{align*}
+    L(x) &= e^{-0.001431 x + 2,016340} \\
+    C(x) &= e^{0,001312 x + 2,778538},
+  \end{align*}
+  où $x$ est le jour du mois (un entier). La fonction du nombre
+  d'heures d'ensoleillement pour une journée est donc
+  $H(x) = C(x) - L(x)$.
+
+  Pendant quel jour du mois les Québécois bénéficient-ils de
+  9~heures d'ensoleillement, à une minute près?
+\end{prob-enonce}
+
+
 \section{Mise en contexte}
 \label{sec:resolution:contexte}
 
-\begin{prob-enonce}
-  Les fonctions décrivant les heures de lever et de coucher du
-  soleil à Québec pour le mois de janvier 2016 sont
-  représentées par $L(x)$ et $C(x)$, respectivement :
-  
-  \begin{align*}
-    L(x) = \mathrm{e}^{-0.001431x+2.016340}\\
-    C(x) = \mathrm{e}^{0.001312x+2.778538}\\
-  \end{align*}
-  
-  , où x est le jour du mois (un entier).
-  
-  On définit la fonction du nombre d'heures d'ensoleillement
-  pour une journée donnée par $H(x) = C(x) - L(x)$.
-  
-  Pendant quel jour du mois les Québécois bénéficient-ils
-  d'exactement 9h d'ensoleillement, à une minute près?
-\end{prob-enonce}
-
 Ce chapitre passe en revue les méthodes les plus populaires pour
 résoudre numériquement une équation à une variable. Ce problème,
-simple en apparence seulement, survient dans une foule de domaines.
+simple seulement en apparence, survient dans une foule de domaines.
 Débutons par deux exemples, tirés des mathématiques financières et de
 l'inférence statistique.
 
@@ -100,68 +98,58 @@ trouver la racine d'une fonction $f(x)$, c'est-à-dire la solution de
 $f(x) = 0$.
 
 \begin{prob-astuce}
-  Afin de déterminer pour quelle valeur de $x$ la fonction
-  $H(x)$ vaut 9, on devra donc trouver la solution à l'équation
-  $H(x) - 9 = 0$, ou $H(x) = 9$.
-  
-  On pourrait y aller avec une technique d'essai-erreur
-  \emph{intuitive}, c'est à dire :
-  
+  Nous cherchons à déterminer pour quelle valeur de
+  $x \in \{1, 2, \dots, 31\}$ la fonction $H(x)$ vaut $9$ ou, de
+  manière équivalente, la racine de l'équation $H(x) - 9 = 0$.
+
+  Une technique d'essai-erreur intuitive suivrait probablement
+  à peu près les étapes suivantes:
   \begin{enumerate}
-    \item Évaluer le nombre d'heures d'ensoleillement aux bornes
-      de l'intervalle afin de s'assurer que la valeur 9 se trouve
-      dans l'intervalle, puis déterminer si la fonction est croissante
-      ou décroissante sur l'intervalle.
-      
-      Note : La valeur 9 est comprise dans l'intervalle et la fonction
-      d'heures d'ensoleillement est croissante.
-    \item Faire une prédiction initiale dans l'intervalle
-      $(1, 31)$, et calculer le nombre d'heures d'ensoleillement.
-    \item Si le nombre d'heures précédent est trop grand,
-      faire une nouvelle prédiction inférieure à la précédente. Si
-      le nombre d'heures précédent est trop petit,
-      faire une prédiction supérieure à la précédente.
-    \item Répéter l'étape 2 jusqu'à temps de converger vers le
-      bon jour à un degré de précision désiré.
+  \item vérifier qu'il existe bel une racine dans l'intervalle
+    $[1, 31]$ en évaluant le nombre d'heures d'ensoleillement aux
+    bornes de l'intervalle, puis déterminer si la fonction est
+    croissante ou décroissante sur l'intervalle (elle est croissante
+    dans le cas présent);
+  \item essayer une première valeur pour $x$ et calculer la valeur de
+    $H(x)$;
+  \item si le nombre d'heures d'ensoleillement est trop élevé,
+    diminuer la valeur de $x$ et si, à l'inverse, le nombre d'heures
+    d'ensoleillement est trop faible, augmenter la valeur de $x$;
+  \item répéter les deux étapes précédentes jusqu'à trouver la bonne
+    valeur de $x$ au un degré de précision désiré.
   \end{enumerate}
-  
-  En procédant ainsi, nous obtiendrions les résultats suivants :
-  
+
+  Voici une mise en {\oe}uvre simple en R. Définissons d'abord une
+  fonction pour calculer le nombre d'heures d'ensoleillement $H(x)$.
 <<echo=TRUE>>=
-h <- function(x)
+H <- function(x)
 {
-  exp(0.001312*x + 2.778538) -
-    exp(-0.001431*x + 2.016340)
+    exp(0.001312 * x + 2.778538) -
+        exp(-0.001431 * x + 2.016340)
 }
-
-h(1)
-h(31)
-
-# Par les valeurs aux bornes, nous notons que
-# la fonction est croissante et que
-# la valeur 9 est comprise dans l'intervalle
-
-# Le jour semble à la mi-mois.
-# Essayons j1 = 15
-
-h(15)
-
-# La valeur est supérieure à 9.
-# Le jour recherché se trouve donc entre
-# 1 et 15.
-# Essayons j2 = 10
-
-h(10)
-
-# La valeur est inférieure à 9.
-# Le jour recherché se trouve donc entre
-# 10 et 15.
-# Essayons j3 = 13
-
-h(13)
-
-# Trouvé à une minute près.
 @
+  Calculons les valeurs au début et à la fin de l'intervalle
+<<echo=TRUE>>=
+H(1)
+H(31)
+@
+  Selon les valeurs à $x = 1$ et $x = 31$, le jour où l'ensoleillement
+  total vaut $9$ semble se situer environ à la mi-mois. Essayons donc
+  $x = 15$.
+<<echo=TRUE>>=
+H(15)
+@
+  La valeur est supérieure à $9$. Le jour recherché se trouve donc
+  entre $1$ et $15$. Essayons $x = 10$.
+<<echo=TRUE>>=
+H(10)
+@
+  La valeur est inférieure à $9$. Le jour recherché se trouve donc
+  entre $10$ et $15$. Essayons $x = 13$.
+<<echo=TRUE>>=
+H(13)
+@
+  Nous avons trouvé la bonne valeur à une minute près.
 \end{prob-astuce}
 
 
@@ -248,7 +236,7 @@ points(x, f(x), pch = c(19, 19, 21), bg = "red3")
   \caption{Illustration de la méthode de bissection. À chaque
     itération, les points noirs reliés par des segments verticaux en
     ligne pleine identifient les bornes de l'intervalle dans lequel on
-    sait se trouver la solution de l'équation $f(x) = 0$. Le point
+    sait que se trouve la solution de l'équation $f(x) = 0$. Le point
     rouge relié par un segment en pointillé est l'essai de
     l'itération, c'est-à-dire le point milieu de l'intervalle. On
     remarquera comment ce point devient la borne inférieure ou
@@ -266,7 +254,7 @@ converge vers la valeur $x^*$.
     l'algorithme, le produit $f(a)
     f(x_n)$ permet de déterminer si l'on se trouve du même côté de
     l'axe des abscisses aux points $a$ et $x_n$ (produit de deux
-    valeurs négatives ou deux valeurs positives) ou de part et d'autre
+    valeurs négatives ou de deux valeurs positives) ou de part et d'autre
     de l'axe (produit de valeurs de signes opposés).
   \item L'étape~\ref*{algo:resolution:bissection:test} permet de
     valider si l'algorithme a convergé vers une réponse. La valeur de
@@ -374,28 +362,13 @@ res <- bissection(f, 1, 2, TOL=1E-5)
   \qed
 \end{exemple}
 
+
 \begin{prob-astuce}
-  La méthode de bissection est en fait une automatisation de
-  la technique d'essai-erreur \emph{intuitive} présentée à
-  l'astuce précédente.
-  
-  Selon l'\autoref{algo:resolution:bissection}, on doit d'abord
-  poser l'équation à résoudre sous la forme
-  $f(x^*) = 0$, où $x^*$ est le jour recherché :
-  
-  \begin{align*}
-    &\mathrm{e}^{0.001312x^*+2.778538}
-      - \mathrm{e}^{-0.001431x^*+2.016340}
-      = 9\\
-    &H(x^*) = 9\\
-    &H(x^*) - 9 = 0\\
-    &\Rightarrow \quad
-    f(x^*) = H(x^*) - 9
-  \end{align*}
-  
-  Puis, on applique l'algorithme de bissection avec
-  $f(x^*) = H(x^*) - 9$, $a=1$ et $b=31$. Pour une mise en oeuvre de
-  l'algorithme en R, voir la \autoref{chap:resolution:prob-solution}.
+  La méthode de bissection est en fait une systématisation de la
+  technique d'essai-erreur intuitive présentée précédemment.
+
+  On utilise l'\autoref{algo:resolution:bissection} avec
+  $f(x) = H(x) - 9$, $a = 1$ et $b = 31$.
 \end{prob-astuce}
 
 
@@ -697,7 +670,6 @@ méthode du point fixe.
   \end{gotoR}
 
 <<echo=FALSE>>=
-source("pointfixe.R")
 g <- function(i) (1 - (1 + i)^(-10))/8.2218
 res.pf <- pointfixe(g, start = 0.0375)
 @
@@ -808,33 +780,33 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
 \end{exemple}
 
 \begin{prob-astuce}
-  Selon l'\autoref{algo:resolution:pointfixe}, la  méthode du point-fixe
-  recquiert d'isoler x de façon à obtenir
-  une équation sous la forme $ x^* = g(x^*) $. On reprend donc l'équation
-  de départ, et on isole $x^*$ :
-  
-  \begin{align*}
-    \mathrm{e}^{0.001312x^*+2.778538} - \mathrm{e}^{-0.001431x^*+2.016340}
-      &= 9\\
-    \mathrm{e}^{0.001312x^*+2.778538}
-      &= 9 + \mathrm{e}^{-0.001431x^*+2.016340}\\
-    0.001312x^*+2.778538
-      &= \ln\left(9 + \mathrm{e}^{-0.001431x^*+2.016340}\right)\\
-    x^*
-      &= \frac{\ln\left(9 + \mathrm{e}^{-0.001431x^*+2.016340}\right)
-        - 2.778538}{0.001312}\\
-    \Rightarrow g_1(x^*) 
-      &= \frac{\ln\left(9 + \mathrm{e}^{-0.001431x^*+2.016340}\right)
-        - 2.778538}{0.001312}\\
-  \end{align*}
-  
-  Comme mentionné plus tôt, une deuxième fonction $g_2(x^*)$ aurait pu être
-  obtenue en isolant l'autre $x^*$ dans l'équation de départ.
+  Pour utiliser l'algorithme du point fixe
+  \ref{algo:resolution:pointfixe}, il faut exprimer notre problème de
+  recherche du jour du mois où l'ensoleillement est de $9$ heures sous
+  la forme $g(x) = x$.
 
-  Il ne reste plus qu'à appliquer l'algorithme du point fixe avec $g_1(x^*)$
-  ou $g_2(x^*)$ et une valeur de départ $x_0 \in (1, 31)$ au choix.
-  Pour une mise en oeuvre de l'algorithme en R, voir la
-  \autoref{chap:resolution:prob-solution}.
+  Nous pourrions simplement réécrire l'équation de départ $H(x) = 9$
+  sous la forme $H(x) - 9 + x = x$. Seulement, la pente de cette
+  fonction est très près de $1$ et la méthode du point fixe serait
+  donc très lente.
+
+  Isolons donc plutôt une valeur de $x$ dans l'équation de départ
+  \begin{equation*}
+    e^{0,001312 x + 2,778538} - e^{-0,001431 x + 2,016340} = 9.
+  \end{equation*}
+  En isolant le $x$ dans la première exponentielle, cette équation se
+  réécrit
+  \begin{equation*}
+    x = \frac{\ln (9 + e^{-0,001431 x + 2,016340}) - 2,778538}{0,001312}.
+  \end{equation*}
+  Nous pourrions donc utiliser l'algorithme du point fixe avec la
+  fonction
+  \begin{equation*}
+    \label{eq:resolution:pf-app}
+    g(x) = \frac{\ln (9 + e^{-0,001431 x + 2,016340}) - 2,778538}{0,001312}.
+  \end{equation*}
+  On peut vérifier graphiquement que la pente de cette fonction est
+  beaucoup plus faible que celle de $H(x) - 9 + x$.
 \end{prob-astuce}
 
 
@@ -1177,33 +1149,25 @@ des essais successifs sont alors données par:
 avec $x_0$, $x_1$ des valeurs de départ.
 
 \begin{prob-astuce}
-  La méthode de Newton-Raphson s'applique bien puisque la fonction
-  des heures d'ensoleillement est facile à dériver. Selon
-  l'\autoref{algo:resolution:newtonraphson}, on doit d'abord
-  poser l'équation à résoudre sous la forme $f(x^*) = 0$. On reprend
-  donc le résultat de la méthode de bissection :
-  
+  Nous revenons au problème de départ exprimé sous la forme
+  $f(x) = H(x) - 9 = 0$. La fonction des heures d'ensoleillement $H$
+  étant simple à dériver, la méthode de Newton--Raphson est simple à
+  appliquer. En effet,
   \begin{align*}
-    f(x^*)
-    &= H(x^*) - 9\\
-    &= \mathrm{e}^{0.001312x^*+2.778538}
-      - \mathrm{e}^{-0.001431x^*+2.016340} - 9\\
+    f(x)
+    &= H(x) - 9 \\
+    &= e^{0,001312 x + 2,778538}
+      - e^{-0,001431 x + 2,016340} - 9,
   \end{align*}
-  
-  Afin de mettre en oeuvre l'algorithme, on doit ensuite dériver
-  la fonction $f(x)$ par rapport à $x$ :
-  
-  \begin{align*}
-    f'(x)
-    &= \frac{df(x)}{dx}\\
-    &= 0.001312 \mathrm{e}^{0.001312x+2.778538}
-      + 0.001431 \mathrm{e}^{-0.001431x+2.016340}\\
-  \end{align*}
-
-  Il ne reste qu'à appliquer la méthode de Newton-Raphson avec les fonctions
-  $f(x)$ et $f'(x)$, et une valeur de départ $x_0 \in (1, 31)$ au choix.
-  Pour une mise en oeuvre de l'algorithme en R, voir la
-  \autoref{chap:resolution:prob-solution}.
+  d'où
+  \begin{equation*}
+    \label{eq:resolution:nr-app}
+    f^\prime(x) = 0,001312 e^{0,001312 x + 2,778538}
+    + 0,001431 e^{-0,001431 x + 2,016340}.
+  \end{equation*}
+  Il ne reste qu'à appliquer l'\autoref{algo:resolution:newtonraphson}
+  avec les fonctions $f(x)$ et $f^\prime(x)$ ainsi qu'une valeur de
+  départ $x_0 \in \{1, 2, \dots, 31\}$.
 \end{prob-astuce}
 
 \begin{figure}
@@ -1290,15 +1254,15 @@ R.
 \begin{prob-astuce}
   La fonction \code{uniroot} permet de trouver la solution à l'équation
   $f(x) = 0$ dans un intervalle déterminé. Nous pourrons donc l'utiliser
-  à la \autoref{chap:resolution:prob-solution} pour confirmer les autres
+  dans la solution en fin de chapitre pour confirmer les autres
   résultats.
 \end{prob-astuce}
 
 \section{Astuce Ripley}
 \label{sec:resolution:astuce}
 
-J'ai appris le truc suivant dans un message de Brian Ripley --- un
-important développeur de R --- posté dans les forums de discussion de
+J'ai appris le truc suivant dans une publication de Brian Ripley --- un
+important développeur de R --- dans les forums de discussion de
 R. Il m'a été très utile à de nombreuses reprises, alors je le
 dissémine.
 
@@ -1337,7 +1301,7 @@ de $-l(\tilde{\theta})$.
 de vraisemblance de $\tilde{\theta}$. Il faudra donc veiller à faire
 la transformation inverse pour retrouver l'estimateur de $\theta$.
 
-L'utilisation de l'astuce est illustrée à la
+L'utilisation de l'Astuce est illustrée à la
 \autoref{sec:resolution:code}.
 
 
@@ -1354,161 +1318,48 @@ consulter la \emph{CRAN Task View} consacrée à l'optimisation:
 
 
 \begin{prob-solution}
-  \label{chap:resolution:prob-solution}
-  Note : les fonctions \code{bissection}, \code{pointfixe}
-  et \code{nr} sont celles tirées de la \autoref{sec:resolution:code}.
+  Nous résolvons avec R notre problème consistant à trouver la valeur
+  de $x$ tel que $H(x) = 9$ avec les méthodes numériques étudiées dans
+  ce chapitre. Les fonctions \code{bissection}, \code{pointfixe} et
+  \code{nr} ci-dessous sont celles tirées du code informatique de la
+  \autoref{sec:resolution:code}. \\
 
-  Méthode de bissection : 
-
-<<echo=FALSE, eval=TRUE>>=
-bissection <- function(FUN, lower, upper, TOL = 1E-6, MAX.ITER = 100, echo = FALSE)
-{
-    ## Cas triviaux où une borne est la solution
-    if (identical(FUN(lower), 0))
-        return(lower)
-    if (identical(FUN(upper), 0))
-        return(upper)
-
-    ## Bornes de départ inadéquates
-    if (FUN(lower) * FUN(upper) > 0)
-        stop('FUN(lower) and FUN(upper) must
-                be of opposite signs')
-
-    x <- lower
-    i <- 1
-
-    repeat
-    {
-        xt <- x
-        x <- (lower + upper)/2
-        fx <- FUN(x)
-
-        if (echo)
-            print(c(lower, upper, x, fx))
-
-        if (abs(x - xt)/abs(x) < TOL)
-            break
-
-        if (MAX.ITER < (i <- i + 1))
-            stop('Maximum number of iterations
-                    reached without convergence')
-
-        if (FUN(lower) * fx > 0)
-            lower <- x
-        else
-            upper <- x
-    }
-    list(root = x, nb.iter = i)
-}
-@
-
-<<echo=TRUE, eval=TRUE>>=
-h <- function(x)
-{
-  exp(0.001312*x + 2.778538) -
-    exp(-0.001431*x + 2.016340)
-}
-
-bissection(FUN = function(x) h(x) - 9, lower = 1,
-           upper = 31, TOL = 1E-6, MAX.ITER = 100,
-           echo = FALSE)
-@
-
-  Méthode du point fixe :
-
-<<echo=FALSE, eval=TRUE>>=
-pointfixe <- function(FUN, start, TOL = 1E-6, MAX.ITER = 100,
-                      echo = FALSE)
-{
-    x <- start
-
-    if (echo)
-        expr <- expression(print(xt <- x))
-    else
-        expr <- expression(xt <- x)
-
-    i <- 0
-
-    repeat
-    {
-        eval(expr)
-
-        x <- FUN(xt)
-
-        if (abs(x - xt)/abs(x) < TOL)
-            break
-
-        if (MAX.ITER < (i <- i + 1))
-            stop('Maximum number of iterations reached without convergence')
-    }
-    list(fixed.point = x, nb.iter = i)
-}
-@
-
+  Méthode de bissection: résolution de $H(x) - 9 = 0$.
 <<echo=TRUE>>=
+H <- function(x)
+    exp(0.001312 * x + 2.778538) -
+        exp(-0.001431 * x + 2.016340)
+bissection(FUN = function(x) H(x) - 9,
+           lower = 1, upper = 31)
+@
 
+  Méthode du point fixe: résolution de $g(x) = x$ avec la fonction $g$
+  de l'encadré de la \autopageref{eq:resolution:pf-app}.
+<<echo=TRUE>>=
 g <- function(x)
-{
-  (log(9 + exp(-0.001431*x+2.016340)) - 2.778538) /
+    (log(9 + exp(-0.001431*x+2.016340)) - 2.778538) /
     0.001312
-}
-
-pointfixe(FUN = g, start = 15, TOL = 1E-6,
-           MAX.ITER = 100, echo = FALSE)
+pointfixe(g, start = 15)
 @
 
-  Méthode de Newton-Raphson :
-
-<<echo=FALSE, eval = TRUE>>=
-nr <- function(FUN, FUNp, start, TOL = 1E-6,
-               MAX.ITER = 100, echo = FALSE)
-{
-    x <- start
-
-    if (echo)
-        expr <- expression(print(xt <- x))
-    else
-        expr <- expression(xt <- x)
-
-    i <- 0
-
-    repeat
-    {
-        eval(expr)
-
-        x <- xt - FUN(xt)/FUNp(xt)
-
-        if (abs(x - xt)/abs(x) < TOL)
-            break
-
-        if (MAX.ITER < (i <- i + 1))
-            stop('Maximum number of iterations reached without convergence')
-    }
-    list(root = x, nb.iter = i)
-}
-@
-
+  Méthode de Newton--Raphson: résolution de $f(x) = H(x) - 9 = 0$ avec
+  les fonctions $f$ et $f^\prime$ de l'encadré de la
+  \autopageref{eq:resolution:nr-app}.
 <<echo=TRUE>>=
+f <- function(x) H(x) - 9
 fp <- function(x)
-{
-  0.001312 * exp(0.001312*x + 2.778538) + 
-    0.001431 * exp(-0.001431*x + 2.016340)
-}
-
-nr(FUN = function(x) h(x) - 9, FUNp = fp, start = 15,
-   TOL = 1E-6, MAX.ITER = 100, echo = FALSE)
+    0.001312 * exp(0.001312 * x + 2.778538) +
+        0.001431 * exp(-0.001431 * x + 2.016340)
+nr(f, fp, start = 15)
 @
 
-
-  Fonction \code{uniroot} :
-
+  Vérification avec la fonction \code{uniroot}.
 <<echo=TRUE>>=
-uniroot(function(x) h(x) - 9, c(1, 31))
+uniroot(f, c(1, 31))$root
 @
-
-
 \end{prob-solution}
 
+\newpage
 
 
 \section{Code informatique}
@@ -1516,7 +1367,8 @@ uniroot(function(x) h(x) - 9, c(1, 31))
 
 \lstinputlisting[firstline=3]{resolution_equations.R}
 
-\vfill
+%\vfill
+\medskip
 
 \input{exercices-resolution_equations}
 
