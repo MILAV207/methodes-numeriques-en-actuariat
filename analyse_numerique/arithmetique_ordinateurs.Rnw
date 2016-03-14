@@ -19,34 +19,24 @@ options(width = 62)
 
 
 \begin{prob-enonce}
-  En actuariat, et particulièrement dans les examens d'organismes
-  comme la SOA et la CAS, l'utilisation de la calculatrice de type
-  TI-30XS MultiView est très répandue.
-  
-  La plupart du temps, cet outil retourne le résultat attendu. Par
-  exemple, si on vérifie que l'équation $(x-1)(x+1) - x^2 + 1$
-  équivaut bel et bien à $0$ pour une valeur de $x$ donnée, le
-  résultat est satisfaisant :
-  
-  \begin{enumerate}
-    \item Assigner la valeur $1 \times 10 ^ 6$ à la variable $x$.
-    \item Effectuer l'opération $(x-1)(x+1) - x^2 + 1$.
-    \item Le résultat est $0$.
-  \end{enumerate}
-  
-  Sans surprise, le résultat est $0$. Or, un deuxième
-  test avec une valeur de $x$ plus élevée pourrait permettre
-  de remettre en question la qualité de ce modèle de
-  calculatrice :
-  
-  \begin{enumerate}
-    \item Assigner la valeur $1 \times 10 ^ 8$ à la variable $x$.
-    \item Effectuer l'opération $(x-1)(x+1) - x^2 + 1$.
-    \item Le résultat est $1$.
-  \end{enumerate}
-  
-  Le résultat de $1$ peut paraître surprenant, mais permet-il
-  vraiment de douter de la qualité de la calculatrice?
+  Les étudiants d'actuariat utilisent pour la plupart la calculatrice
+  TI-30XS MultiView de Texas~Instruments puisque c'est un modèle agréé
+  pour les examens des organismes professionnels.
+
+  Peut-on se fier aux résultats de cette calculatrice? Effectuons un
+  calcul simple pour une valeur de $x$ donnée:
+  \begin{equation*}
+    (x - 1)(x + 1) - x^2 + 1.
+  \end{equation*}
+  Le résultat devrait bien entendu être égal à zéro, et ce, peu
+  importe la valeur de $x$.
+
+  Si l'on fait le calcul avec $x = 10^6$, le résultat est bien $0$.
+
+  Si l'on fait le calcul avec $x = 10^8$, le résultat est maintenant
+  de\dots\ $1$.
+
+  Que s'est-il passé? Doit-on douter de la qualité de la calculatrice?
 \end{prob-enonce}
 
 \section{Les ordinateurs ne savent pas compter}
@@ -92,7 +82,7 @@ ordinateur afin, entre autres:
 \item d'optimiser le code informatique.
 \end{itemize}
 
-Ce chapitre se penche justement sur les grands principes de l'%
+Ce chapitre se penche sur les grands principes de l'%
 \capsule{http://youtu.be/arithmetique}{arithmétique des ordinateurs}. %
 Quoique, en fait, les ordinateurs ne savent pas faire d'arithmétique à proprement
 parler. Ils ne connaissent que deux états: ouvert (1) et fermé (0).
@@ -974,12 +964,11 @@ Le \autoref{tab:arithmetic:simplified} fournit quelques exemples.
 \end{table}
 
 \begin{prob-astuce}
-  Nous pourrons utiliser la représentation simplifiée
-  \eqref{eq:ordinateurs:fl(x)} afin d'illustrer les calculs de la
-  calculatrice à chaque étape des calculs présentés dans l'énoncé.
-  Toutefois, la calculatrice garde 13 chiffres significatifs en mémoire,
-  alors nous devrons modifier l'élément $F$ de la notation pour qu'il
-  contienne 13 décimales.
+  La calculatrice TI-30XS MultiView conserve 13 chiffres significatifs
+  en mémoire pour les calculs. Nous pourrons tenter d'expliquer les
+  résultats du calcul de $(x - 1)(x + 1) - x^2 + 1$ à l'aide de la
+  représentation simplifiée \eqref{eq:ordinateurs:fl(x)} en utilisant
+  une mantisse $F$ comptant 13 chiffres significatifs.
 \end{prob-astuce}
 
 \subsection{Erreurs d'arrondi ou de troncature}
@@ -1291,84 +1280,58 @@ pour assurer l'internationalisation et la localisation du logiciel;
 voir \cite{Ripley:Rnews:2005a}.
 
 \begin{prob-solution}
-  
-  Le premier calcul s'effectue de la façon suivante : 
-  
-  \begin{enumerate}
-    \item Assigner la valeur $1 \times 10 ^ 6$ à la variable $x$.
-    
-      \begin{align*}
-                fl(x) = 0,1000000000000 \times 10^7
-              \end{align*}
-      
-    \item Effectuer l'opération $(x-1)(x+1) - x^2 + 1$.
-      
-      \begin{align*}
-        (&fl(x) - 0,0000001000000 \times 10^7 )(fl(x) + 0,0000001000000 \times 10^7 )\\
-          &\qquad - fl(x)^2 + 0,1000000000000 \times 10^1\\
-        &= (0,0999999000000 \times 10^7)(0,1000001000000 \times 10^7)\\
-          &\qquad - 0,1000000000000 \times 10^{13} + 0,1000000000000 \times 10^1\\
-        &= 0,0999999999999 \times 10^{13} - 0,1000000000000 \times 10^{13}\\
-          &\qquad + 0,1000000000000 \times 10^1\\
-        &= - 0,0000000000001 \times 10^{13} + 0,1000000000000 \times 10^1\\
-        &= - 0,0000000000001 \times 10^{13} + 0,0000000000001 \times 10^{13}\\
-        &= 0
-      \end{align*}
-    \item Le résultat est $0$.
-  \end{enumerate}
-  
-  Dans ces opérations, le nombre de chiffres significatifs nécessaire
-  ne dépasse jamais la capacité de 13 de la calculatrice.
-  
-  Le deuxième calcul s'effectue de la façon suivante : 
-  
-  \begin{enumerate}
-    \item Assigner la valeur $1 \times 10 ^ 8$ à la variable $x$.
-    
-      \begin{align*}
-                fl(x) = 0,1000000000000 \times 10^9
-              \end{align*}
-      
-    \item Effectuer l'opération $(x-1)(x+1) - x^2 + 1$.
-      
-      \begin{align*}
-        (&fl(x) - 0,0000000010000 \times 10^9 )(fl(x) + 0,0000000010000 \times 10^9 )\\
-          &\qquad - fl(x)^2 + 0,1000000000000 \times 10^1\\
-        &= (0,0999999990000 \times 10^9)(0,1000000010000 \times 10^9)\\
-          &\qquad - 0,1000000000000 \times 10^{17} + 0,1000000000000 \times 10^1\\
-        &= 0,0\boldsymbol{9999999999999}999 \times 10^{17} - 0,1000000000000 \times 10^{17}\\
-          &\qquad + 0,1000000000000 \times 10^1\\
-        &= \mathbf{0,1000000000000} \times 10^{17} - 0,1000000000000 \times 10^{17}\\
-          &\qquad + 0,1000000000000 \times 10^1\\
-        &= 0 + 0,1000000000000 \times 10^1\\
-        &= 1
-      \end{align*}
-    \item Le résultat est $1$.
-  \end{enumerate}
-  
+  Nous calculons $(x - 1)(x + 1) - x^2 + 1$ avec, en premier lieu,
+  $x = 10^6$. Dans la représentation interne de la calculatrice, ce
+  nombre est stocké sous la forme:
+  \begin{equation*}
+    \fl(x) = 0,1000000000000 \times 10^7.
+  \end{equation*}
+  Aux fins des calculs, le nombre $1$ sera, quant à lui, traité comme
+  \begin{equation*}
+    \fl(1) = 0,0000001000000 \times 10^7.
+  \end{equation*}
+  Nous avons donc
+  \begin{align*}
+    [\fl(x) - &\fl(1)][\fl(x) + \fl(1)] - \fl(x)^2 + \fl(1) \\
+    &= (0,0999999000000 \times 10^7)(0,1000001000000 \times 10^7) \\
+    &\phantom{=} - 0,1000000000000 \times 10^{13}
+      + 0,0000001000000 \times 10^7 \\
+    &= 0,0999999999999 \times 10^{13} - 0,1000000000000 \times 10^{13} \\
+    &\phantom{=} + 0,0000000000001 \times 10^{13} \\
+    &= -0,0000000000001 \times 10^{13} + 0,0000000000001 \times 10^{13} \\
+    &= 0,
+  \end{align*}
+  ce qui est le résultat attendu. On remarque que dans les opérations
+  ci-dessus, le nombre de chiffres significatifs nécessaire ne dépasse
+  jamais la capacité de 13 de la calculatrice.
+
+  Répétons ces calculs avec, cette fois, la valeur $x = 10^8$ et les
+  représentations internes
+  \begin{align*}
+    \fl(x) &= 0,1000000000000 \times 10^9 \\
+    \fl(1) &= 0,0000000010000 \times 10^9.
+  \end{align*}
+
+  Nous avons
+  \begin{align*}
+    [\fl(x) - &\fl(1)][\fl(x) + \fl(1)] - \fl(x)^2 + \fl(1) \\
+    &= (0,0999999990000 \times 10^9)(0,1000000010000 \times 10^9) \\
+    &\phantom{=} - 0,1000000000000 \times 10^{17}
+      + 0,0000000010000 \times 10^9 \\
+    &= 0,1000000000000 \times 10^{17} - 0,1000000000000 \times 10^{17} \\
+    &\phantom{=} + 0,0000000010000 \times 10^9 \\
+    &= 0 + 0,0000000010000 \times 10^9 \\
+    &= 1.
+  \end{align*}
+
   Là où le calcul de la calculatrice s'écarte de son équivalent
-  mathématique est lors du passage de la troisième à la quatrième ligne.
-  En effet, les chiffres en gras à la troisième ligne représentent la
-  capacité de la calculatrice en nombres significatifs. Or, puisque le
-  chiffre complet dépasse cette capacité, la calculatrice doit
-  l'arrondir à $0,1000000000000 \times 10^17$.
-  
-  Étant donné que ces erreurs de calcul touchent \emph{tous} les
-  outils de calculs numériques, on peut confirmer que R souffre
-  des mêmes maux que la calculatrice :
-  
-<<echo=TRUE>>=
-x <- 1E6
-(x-1)*(x+1) - x^2 + 1
+  mathématique, c'est lors du passage de la première à la seconde
+  égalité. Le produit des deux nombres entre parenthèses doit être
+  arrondi à 13 décimales et il en résulte un nombre numériquement
+  équivalent à $\fl(x)^2$.
 
-x <- 1E8
-(x-1)*(x+1) - x^2 + 1
-
-@
-
-  Afin de prévenir ce genre d'erreurs, il conviendra donc de
-  respecter les 6 principes de la
-  \autoref{sec:ordinateurs:arithmetique:erreurs}.
+  Afin de prévenir ce genre d'erreurs, il conviendra donc de respecter
+  les principes de la \autoref{sec:ordinateurs:arithmetique}.
 \end{prob-solution}
 
 \section{Code informatique}
