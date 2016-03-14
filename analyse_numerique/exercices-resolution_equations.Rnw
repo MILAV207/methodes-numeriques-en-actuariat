@@ -132,16 +132,16 @@ secante(f1, start0 = 1, start1 = 4, echo = TRUE)
 <<echo=TRUE>>=
 f2 <- function(x) x^3 + 3 * x^2 - 1
 f2p <- function(x) 3 * x^2 + 6 * x
-bissection(f2, lower = -3, upper = -2.8, echo = TRUE)
-nr(f2, f2p, start = -3, echo = TRUE)
-secante(f2, start0 = -3, start1 = -2, echo = TRUE)
+bissection(f2, lower = -3, upper = -2.8, TRUE)
+nr(f2, f2p, start = -3, TRUE)
+secante(f2, start0 = -3, start1 = -2, TRUE)
 @
       Pour trouver la seconde racine, on utilise des valeurs de départ
       supérieures au maximum:
 <<echo=TRUE>>=
-bissection(f2, lower = -1, upper = 0.5, echo = TRUE)
-nr(f2, f2p, start = -1, echo = TRUE)
-secante(f2, start0 = -2, start1 = -1, echo = TRUE)
+bissection(f2, lower = -1, upper = 0.5, TRUE)
+nr(f2, f2p, start = -1, TRUE)
+secante(f2, start0 = -2, start1 = -1, TRUE)
 @
       On remarquera que les deux valeurs de départ de la méthode de la
       sécante n'ont pas à se trouver de part et d'autre de la racine.
@@ -150,27 +150,29 @@ secante(f2, start0 = -2, start1 = -1, echo = TRUE)
 <<echo=TRUE>>=
 f3 <- function(x) x - 2^(-x)
 f3p <- function(x) 1 + log(2) * 2^(-x)
-bissection(f3, lower = 0.6, upper = 0.65, echo = TRUE)
-nr(f3, f3p, start = 0.6, echo = TRUE)
-secante(f3, start0 = 0.6, start1 = 0.65, echo = TRUE)
+bissection(f3, lower = 0.6, upper = 0.65, TRUE)
+nr(f3, f3p, start = 0.6, TRUE)
+secante(f3, start0 = 0.6, start1 = 0.65, TRUE)
 @
     \item La fonction n'a qu'une seule racine dans $[1, 2]$ et elle
       est légèrement supérieure à $1,8$.
 <<echo=TRUE>>=
-f4 <- function(x) exp(x) + 2^(-x) + 2 * cos(x) - 6
-f4p <- function(x) exp(x) - 2^(-x) * log(2) - 2 * sin(x)
-bissection(f4, lower = 1.8, upper = 1.85, echo = TRUE)
-nr(f4, f4p, start = 1.8, echo = TRUE)
-secante(f4, start0 = 1.8, start1 = 1.85, echo = TRUE)
+f4 <- function(x)
+    exp(x) + 2^(-x) + 2 * cos(x) - 6
+f4p <- function(x)
+    exp(x) - 2^(-x) * log(2) - 2 * sin(x)
+bissection(f4, lower = 1.8, upper = 1.85, TRUE)
+nr(f4, f4p, start = 1.8, TRUE)
+secante(f4, start0 = 1.8, start1 = 1.85, TRUE)
 @
     \item Encore ici, la fonction n'a qu'une seule racine dans
       l'intervalle mentionné et elle se situe autour de $0,25$.
 <<echo=TRUE>>=
 f5 <- function(x) exp(x) - x^2 + 3 * x - 2
 f5p <- function(x) exp(x) - 2 * x + 3
-bissection(f5, lower = 0.24, upper = 0.26, echo = TRUE)
-nr(f5, f5p, start = 0.26, echo = TRUE)
-secante(f5, start0 = 0.24, start1 = 0.26, echo = TRUE)
+bissection(f5, lower = 0.24, upper = 0.26, TRUE)
+nr(f5, f5p, start = 0.26, TRUE)
+secante(f5, start0 = 0.24, start1 = 0.26, TRUE)
 @
     \end{enumerate}
   \end{sol}
@@ -570,7 +572,7 @@ points(c(1, xp), c(0, xp^2), pch = 19)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 tri <- function(CF, erreur.max = 1E-6)
 {
     if (!any(CF < 0))
@@ -584,7 +586,7 @@ tri <- function(CF, erreur.max = 1E-6)
 
     nr(f, fp, start = 0.05, TOL = erreur.max)$root
 }
-\end{Scode}
+\end{verbatim}
       \end{framed} %$
       \caption{Fonction R de calcul du taux de rendement interne d'une
         série de flux financiers}
@@ -609,7 +611,7 @@ tri <- function(CF, erreur.max = 1E-6)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 Function tri2(flux As Range, Optional ErreurMax
               As Double = 0.000000001)
     Dim nrow As Integer, ncol As Integer, n As Integer
@@ -643,7 +645,7 @@ Function tri2(flux As Range, Optional ErreurMax
     Loop Until Abs(i - it) / i < ErreurMax
     tri2 = i
 End Function
-\end{Scode}
+\end{verbatim}
       \end{framed}
       \caption{Fonction VBA de calcul du taux de rendement interne d'une
         série de flux financiers}
@@ -709,7 +711,7 @@ End Function
       \begin{figure}
         \centering
         \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 emv.gamma <- function(x, erreur.max = 1E-6)
 {
     n <- length(x)
@@ -720,7 +722,7 @@ emv.gamma <- function(x, erreur.max = 1E-6)
           (3 * n)/theta^2
     nr(f, fp, xsum/n/3, TOL = erreur.max)$root
 }
-\end{Scode}
+\end{verbatim}
         \end{framed}
         \caption{Fonction R d'estimation du paramètre d'échelle d'une
           loi gamma par le maximum de vraisemblance}
@@ -760,7 +762,7 @@ emv.gamma(x)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{Scode}
+\begin{verbatim}
 Function emvGamma(Data As Range, Optional ErreurMax
                   As Double = 0.000000001)
     Dim n As Integer
@@ -779,7 +781,7 @@ Function emvGamma(Data As Range, Optional ErreurMax
     Loop Until Abs(x - xt) / x < ErreurMax
     emvGamma = x
 End Function
-\end{Scode}
+\end{verbatim}
       \end{framed}
       \caption{Fonction VBA d'estimation du paramètre d'échelle d'une
         loi gamma par le maximum de vraisemblance}
@@ -842,9 +844,10 @@ End Function
       \setkeys{Gin}{width=\textwidth}
       \begin{minipage}{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+<<echo=FALSE, fig=TRUE, height=3, width=3>>=
 f0 <- function(x) x
 f <- function(i) (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
+par(mar = c(2, 2, 2, 2))
 curve(x - f(x), xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
       xlab = "i", ylab = "g(i)", lwd = 2)
 curve(f0, add = TRUE)
@@ -855,8 +858,9 @@ polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
       \hfill
       \begin{minipage}{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+<<echo=FALSE, fig=TRUE, height=3, width=3>>=
 g2 <- function(i) ((97 - (1 + i)^(-10))/96)^12 - 1
+par(mar = c(2, 2, 2, 2))
 curve(g2, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
       xlab = "i", ylab = "g(i)", lwd = 2)
 curve(f0, add = TRUE)
@@ -867,9 +871,10 @@ polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
       \hfill
       \begin{minipage}{0.32\linewidth}
         \centering
-<<echo=FALSE, fig=TRUE, height=4, width=4>>=
+<<echo=FALSE, fig=TRUE, height=3, width=3>>=
 fp <- function(i) (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) - (1 - (1 + i)^(-10)) * (1 + i)^(-11/12))/(144 * ((1 + i)^(1/12) - 1)^2)
 g3 <- function(i) i - f(i)/fp(i)
+par(mar = c(2, 2, 2, 2))
 curve(g3, xlim = c(-0.005, 0.105), ylim = c(-0.005, 0.105),
       xlab = "i", ylab = "g(i)", lwd = 2)
 curve(f0, add = TRUE)
@@ -885,7 +890,8 @@ polygon(c(0, 0, 0.1, 0.1), c(0, 0.1, 0.1, 0), lty = 2, border = "blue")
     On obtient les résultats suivants:
 <<echo=TRUE>>=
 f <- function(i)
-    (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) - 8
+    (1 - (1 + i)^(-10))/(12 * ((1 + i)^(1/12) - 1)) -
+    8
 fp <- function(i)
     (120 * (1 + i)^(-11) * ((1 + i)^(1/12) - 1) -
      (1 - (1 + i)^(-10)) * (1 + i)^(-11/12)) /
@@ -964,10 +970,9 @@ x <- lambda * (runif(100)^(-1/alpha) - 1)
     On a
 <<echo=TRUE,eval=FALSE>>=
 dpareto <- function(x, alpha, lambda)
-{
-    (alpha * lambda^alpha)/(x + lambda)^(alpha+1)
-}
-f <- function(par, x) -sum(log(dpareto(x, par[1], par[2])))
+    (alpha * lambda^alpha)/(x + lambda)^(alpha + 1)
+f <- function(par, x)
+    -sum(log(dpareto(x, par[1], par[2])))
 optim(c(1, 1000), f, x = x)
 @
     ou, en utilisant l'Astuce Ripley
