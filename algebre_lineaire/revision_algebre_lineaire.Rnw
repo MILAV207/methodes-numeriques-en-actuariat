@@ -17,7 +17,7 @@
 \item Établir les liens entre les concepts ci-dessus.
 \end{objectifs}
 
-Ce chapitre vise à réviser les éléments fondamentaux d'algèbre
+Ce chapitre propose une révision des éléments fondamentaux d'algèbre
 linéaire normalement étudiés au collège: matrice, déterminant,
 inverse, vecteur, espace vectoriel et relations avec les systèmes
 d'équations linéaires. Nous tâchons d'insister sur l'établissement de
@@ -1050,7 +1050,7 @@ certain nombre de conditions.
 \end{definition}
 
 \begin{exemple}
-  L'espace euclidien $\mathbb{R}^n$ est un espace pré-hilbertien pour
+  L'espace euclidien $\R^n$ est un espace pré-hilbertien pour
   lequel l'addition et le produit par un scalaire sont respectivement
   définis par
   \begin{align*}
@@ -1060,11 +1060,11 @@ certain nombre de conditions.
   \end{align*}
   où $\mat{u} = (u_1, \dots, u_n)$ et $\mat{v} = (v_1, \dots, v_n)$
   sont deux vecteurs et $k$ est une constante. De plus, le produit
-  scalaire dans $\mathbb{R}^n$ est défini ainsi:
+  scalaire dans $\R^n$ est défini ainsi:
   \begin{equation*}
     \pscal{\mat{u}}{\mat{v}} = \mat{u}^T \mat{v} = \sum_{i = 1}^n u_i v_i.
   \end{equation*}
-  Par conséquent, la norme d'un vecteur dans $\mathbb{R}^n$ est la
+  Par conséquent, la norme d'un vecteur dans $\R^n$ est la
   racine carrée de la somme des composantes au carré ou, si l'on préfère:
   \begin{equation*}
     \| \mat{u} \|^2 = \sum_{i = 1}^n u_i^2.
@@ -1074,10 +1074,11 @@ certain nombre de conditions.
 
 \begin{exemple}
   L'ensemble des variables aléatoires de second moment fini forme un
-  espace pré-hilbertien communément noté $\mathcal{L}^2$. En effet, la
-  somme $X + Y$ de deux variables aléatoires de second moment fini
-  ainsi que $k X$ sont des variables aléatoires de second moment fini.
-  De plus, le produit scalaire est défini ainsi dans cet espace:
+  espace pré-hilbertien communément noté $\mathcal{L}^2$. En effet,
+  tant la somme $X + Y$ de deux variables aléatoires de second moment
+  fini que le produit d'une variable aléatoire par une constante $k X$
+  sont des variables aléatoires de second moment fini. De plus, le
+  produit scalaire est défini ainsi dans cet espace:
   \begin{equation*}
     \pscal{X}{Y} = \esp{XY}.
   \end{equation*}
@@ -1129,7 +1130,7 @@ vecteurs linéairement indépendants, on dit que $V$ forme une
   Soit $\mat{v}_1 = (2, -1, 0, 3)$, $\mat{v}_2 = (1, 2, 5, -1)$ et
   $\mat{v}_3 = (7, -1, 5, 8)$. Ces trois vecteurs sont linéairement
   dépendants puisque $3 \mat{v}_1 + \mat{v}_2 - \mat{v}_3 = \mat{0}$.
-  Ils ne peuvent donc pas servir de base pour $\mathbb{R}^4$.
+  Ils ne peuvent donc pas servir de base pour $\R^4$.
   \qed
 \end{exemple}
 
@@ -1143,7 +1144,7 @@ vecteurs linéairement indépendants, on dit que $V$ forme une
     &= (0, 0, 0)
   \end{align*}
   seulement si $k_1 = k_2 = k_3 = 0$. Ces vecteurs forment une base
-  pour l'espace $\mathbb{R}^3$.
+  pour l'espace $\R^3$.
   \qed
 \end{exemple}
 
@@ -1667,8 +1668,8 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
     indépendants.
   \item Les vecteurs colonnes de $\mat{A}$ sont linéairement
     indépendants.
-  \item Les vecteurs lignes de $\mat{A}$ forment une base de $\mathbb{R}^n$.
-  \item Les vecteurs colonnes de $\mat{A}$ forment une base de $\mathbb{R}^n$.
+  \item Les vecteurs lignes de $\mat{A}$ forment une base de $\R^n$.
+  \item Les vecteurs colonnes de $\mat{A}$ forment une base de $\R^n$.
   \end{enumerate}
 \end{thm}
 
