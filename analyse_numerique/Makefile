@@ -43,7 +43,7 @@ $(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 zip: $(RFILES)
-	zip -j $(CODE) ${RFILES}
+	zip --filesync -j $(CODE) ${RFILES}
 
 clean:
 	$(RM) $(RNWFILES:.Rnw=.tex) \

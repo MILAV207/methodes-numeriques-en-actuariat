@@ -88,8 +88,8 @@ $(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
 	$(RM) $<.tmp
 
 zip: $(RFILES) $(ROUTFILES)
-	zip -j $(CODE) ${RFILES}
-	zip -j $(SORTIES) ${ROUTFILES}
+	zip --filesync -j $(CODE) ${RFILES}
+	zip --filesync -j $(SORTIES) ${ROUTFILES}
 
 clean:
 	$(RM) $(RNWFILES:.Rnw=.tex) \
