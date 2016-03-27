@@ -24,7 +24,7 @@
 
   %% Polices de caractères
   \usepackage{fontspec}
-  \usepackage{unicode-math}
+  \usepackage[bold-style=upright]{unicode-math}
   \defaultfontfeatures{Scale=0.92}
   \setmainfont[Ligatures=TeX,Numbers=OldStyle]{Lucida Bright OT}
   \setmathfont{Lucida Bright Math OT}
@@ -99,20 +99,21 @@
   \setlist[itemize]{leftmargin=*,align=left}
 
   %% Options de babel
-  \frenchbsetup{CompactItemize=false,%
+  \frenchbsetup{StandardItemizeEnv=true,%
     ThinSpaceInFrenchNumbers=true,
     ItemLabeli=\mantriangleright,
-    ItemLabelii=\textendash}
+    ItemLabelii=\textendash,
+    og=«, fg=»}
   \addto\captionsfrench{\def\figurename{{\scshape Fig.}}}
   \addto\captionsfrench{\def\tablename{{\scshape Tab.}}}
 
   %% Sections de code source
   \lstloadlanguages{R}
   \lstset{language=R,
-    extendedchars=true,
     basicstyle=\small\ttfamily\NoAutoSpacing,
-    commentstyle=\color{comments}\slshape,
     keywordstyle=\mdseries,
+    commentstyle=\color{comments}\slshape,
+    extendedchars=true,
     showstringspaces=false}
 
   %%% =========================
@@ -298,13 +299,13 @@
 
   %% «Boutons» de la page de notices
   \newcommand{\downloadbutton}{%
-    \setlength{\fboxrule}{0.8pt}%
+    \setlength{\fboxrule}{1pt}%
     \framebox[40mm][l]{%
       \rule[-5pt]{0mm}{16pt}%
       \makebox[7mm]{\raisebox{-2.5pt}{\LARGE\faDownload}}\;%
       {\sffamily Télécharger}}}
   \newcommand{\browsebutton}{%
-    \setlength{\fboxrule}{0.8pt}%
+    \setlength{\fboxrule}{1pt}%
     \framebox[40mm][l]{%
       \rule[-5pt]{0mm}{16pt}%
       \makebox[7mm]{\raisebox{-3pt}{\LARGE\faExternalLink}}\;%
@@ -314,7 +315,7 @@
   \newcommand{\pt}{{\scriptscriptstyle \Sigma}}
   \newcommand{\abs}[1]{\lvert #1 \rvert}
   \newcommand{\norme}[1]{\lVert #1 \rVert}
-  \newcommand{\mat}[1]{\mathbf{#1}}
+  \newcommand{\mat}[1]{\symbf{#1}}
   \newcommand{\diag}{\operatorname{diag}}
   \newcommand{\Esp}[1]{E\! \left[ #1 \right]}
   \newcommand{\esp}[1]{E [ #1 ]}
@@ -322,7 +323,7 @@
   \newcommand{\var}[1]{\operatorname{Var} [ #1 ]}
   \newcommand{\Prob}[1]{\operatorname{Pr}\! \left[ #1 \right]}
   \newcommand{\prob}[1]{\operatorname{Pr} [ #1 ]}
-  \newcommand{\R}{\mathbb{R}}   % ensemble des réels
+  \newcommand{\R}{\symbb{R}}    % ensemble des réels
 
   %% Traitement du titre de partie
   \makeatletter
