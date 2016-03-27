@@ -105,7 +105,7 @@ text(w[1], w[2], labels = "(w, z)", pos = 4, cex = 3, col = "darkorange")
 @
     \subcaption{rotation}
   \end{minipage}
-  \begin{minipage}{0.33\linewidth}
+  \begin{minipage}{0.32\linewidth}
     \centering
 <<echo=FALSE, fig=TRUE>>=
 par(mar = rep(1, 4))
@@ -138,7 +138,7 @@ cette interprétation du produit matriciel.
 \begin{definition}
   \label{sec:valeurspropres:definition}
   Soit $\mat{A}$ une matrice $n \times n$. Alors le vecteur non nul
-  $\mat{x} \in \mathbb{R}^n$ est un \emph{vecteur propre} de $\mat{A}$
+  $\mat{x} \in \R^n$ est un \emph{vecteur propre} de $\mat{A}$
   si
   \begin{displaymath}
     \mat{A} \mat{x} = \lambda \mat{x}
@@ -432,8 +432,8 @@ singulière. Cette observation nous permet d'ajouter un énoncé au
     indépendants.
   \item Les vecteurs colonnes de $\mat{A}$ sont linéairement
     indépendants.
-  \item Les vecteurs lignes de $\mat{A}$ forment une base de $\mathbb{R}^n$.
-  \item Les vecteurs colonnes de $\mat{A}$ forment une base de $\mathbb{R}^n$.
+  \item Les vecteurs lignes de $\mat{A}$ forment une base de $\R^n$.
+  \item Les vecteurs colonnes de $\mat{A}$ forment une base de $R^n$.
   \item $\lambda = 0$ n'est pas une valeur propre de $\mat{A}$.
   \end{enumerate}
 \end{thm}
@@ -456,7 +456,7 @@ un vecteur propre correspondant.
   $\mat{x}$ est un vecteur propre correspondant, alors
   \begin{itemize}
   \item $\lambda^k$ est une valeur propre de $\mat{A}^k$, $k \in
-    \mathbb{N}$;
+    \symbb{N}$;
   \item $\mat{x}$ est un vecteur propre correspondant.
   \end{itemize}
 \end{thm}
@@ -496,7 +496,7 @@ Or, puisque $\det(\lambda \mat{I} - \mat{A}) = 0$:
   solutions.
 \end{itemize}
 Par conséquent, pour chaque valeur propre $\lambda$, on doit trouver
-une base de $\mathbb{R}^k$, où
+une base de $\R^k$, où
 \begin{displaymath}
   k = n - \mathrm{rang}(\lambda \mat{I} - \mat{A}).
 \end{displaymath}
@@ -830,7 +830,7 @@ découle le théorème suivant.
   \end{displaymath}
   de l'\autoref{ex:valeurspropres:vecteurs} sont $\lambda_1 = 1$
   et $\lambda_2 = \lambda_3 = 2$. Néanmoins, les trois vecteurs
-  propres forment une base de $\mathbb{R}^3$. Par conséquent,
+  propres forment une base de $\R^3$. Par conséquent,
   \begin{align*}
     \mat{P}^{-1} \mat{A} \mat{P}
     &=
