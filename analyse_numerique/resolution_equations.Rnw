@@ -79,7 +79,7 @@ l'inférence statistique.
   \begin{align*}
     l(r)
     &= \sum_{i = 1}^n
-    [\ln \Gamma(x_i + r) - \ln \Gamma(r) - \ln \Gamma(x_i - 2) \\
+    [\ln \Gamma(x_i + r) - \ln \Gamma(r) - \ln \Gamma(x_i) \\
     &\quad\; + r \ln p + x_i \ln (1 - p)].
   \end{align*}
   Par conséquent, l'estimateur du maximum de vraisemblance $\hat{r}$
