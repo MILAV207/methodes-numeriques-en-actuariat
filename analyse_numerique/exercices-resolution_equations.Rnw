@@ -28,7 +28,7 @@
 options(width = 55, digits = 5)
 @
 
-\begin{exercice}
+\begin{exercice}[nosol]
   En vous basant sur les fonctions \code{bissection}, \code{pointfixe}
   et \code{nr} présentées dans le code de la
   \autoref{sec:resolution:code}, écrire une fonction R pour
@@ -788,7 +788,6 @@ End Function
       \label{fig:resolution:emvGamma}
     \end{figure}
   \end{sol}
-
 \end{exercice}
 
 \begin{exercice}
