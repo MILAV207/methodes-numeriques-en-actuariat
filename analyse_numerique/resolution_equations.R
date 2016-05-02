@@ -36,7 +36,8 @@ bissection <- function(FUN, lower, upper, TOL = 1E-6,
             break
 
         if (MAX.ITER < (i <- i + 1))
-            stop('Maximum number of iterations reached without convergence')
+            stop('Maximum number of iterations reached
+                  without convergence')
 
         if (FUN(lower) * fx > 0)
             lower <- x
@@ -107,7 +108,8 @@ pointfixe <- function(FUN, start, TOL = 1E-6, MAX.ITER = 100,
             break
 
         if (MAX.ITER < (i <- i + 1))
-            stop('Maximum number of iterations reached without convergence')
+            stop('Maximum number of iterations reached
+                  without convergence')
     }
     list(fixed.point = x, nb.iter = i)
 }
@@ -201,7 +203,8 @@ nr <- function(FUN, FUNp, start, TOL = 1E-6,
             break
 
         if (MAX.ITER < (i <- i + 1))
-            stop('Maximum number of iterations reached without convergence')
+            stop('Maximum number of iterations reached
+                  without convergence')
     }
     list(root = x, nb.iter = i)
 }
