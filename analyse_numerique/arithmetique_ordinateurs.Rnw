@@ -229,12 +229,43 @@ résultat de l'opération modulo, notée $r = a \bmod d$.
 On remarquera que le premier chiffre en partant de la droite d'un
 entier décimal est le reste de la division de ce nombre par $10$, que le
 second chiffre est le reste de la division par $10$ du quotient de la
-division précédente, et ainsi de suite. La conversion d'un nombre
-décimal en une base $b$ implique simplement de diviser par $b$ plutôt
-que par $10$ et de déterminer le symbole dans la base $b$ correspondant
-au reste de chaque division.
+division précédente, et ainsi de suite.
 
-L'algorithme suivant reprend ses idées sous forme plus formelle et en
+\begin{exemple}
+  Cet exemple semblera plutôt artificiel dans la mesure où nous sommes
+  habitués à la représentation des nombres en base $10$. Néanmoins, il
+  permet d'illustrer les propos du paragraphe précédent. Soit le
+  nombre $\nombre{2547}$. Dans ce nombre:
+  \begin{align*}
+    &7 \text{ est le reste de } \frac{\nombre{2547}}{10} &
+    7 &= \nombre{2547} - 10
+         \left\lfloor
+           \frac{\nombre{2547}}{10}
+         \right\rfloor \\
+    &4 \text{ est le reste de } \frac{\nombre{254}}{10} &
+    4 &= \nombre{254} - 10
+         \left\lfloor
+           \frac{\nombre{254}}{10}
+         \right\rfloor \displaybreak[0] \\
+    &5 \text{ est le reste de } \frac{\nombre{25}}{10} &
+    5 &= \nombre{25} - 10
+         \left\lfloor
+           \frac{\nombre{25}}{10}
+         \right\rfloor \\
+    &2 \text{ est le reste de } \frac{\nombre{2}}{10} &
+    2 &= \nombre{2} - 10
+         \left\lfloor
+           \frac{\nombre{2}}{10}
+         \right\rfloor.
+  \end{align*}
+  \qed
+\end{exemple}
+
+La conversion d'un nombre décimal en une base $b$ implique simplement
+de diviser par $b$ plutôt que par $10$ et de déterminer le symbole
+dans la base $b$ correspondant au reste de chaque division.
+
+L'algorithme suivant reprend ces idées de manière plus formelle et en
 ajoutant le traitement de la partie fractionnaire. Nous démontrerons
 plus loin qu'il n'est pas réellement nécessaire de savoir effectuer la
 conversion de la partie fractionnaire d'un nombre réel.
