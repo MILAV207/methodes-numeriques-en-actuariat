@@ -155,9 +155,9 @@ intervalle quelconque, en général $(0, 1)$. Comment procéder?
   carré puis on extrait les quatre chiffres du milieu, et ainsi de
   suite. Par exemple:
   \begin{align*}
-    8653^2 &= 74\mathbf{8744}09 \\
-    8744^2 &= 76\mathbf{4575}36 \\
-    4575^2 &= 20\mathbf{9306}25
+    8653^2 &= 74\symbf{8744}09 \\
+    8744^2 &= 76\symbf{4575}36 \\
+    4575^2 &= 20\symbf{9306}25
   \end{align*}
 \item On peut construire des générateurs basés sur la suite de
   Fibonacci, des générateurs chaotiques, etc.
