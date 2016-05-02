@@ -323,12 +323,12 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
 \subsection{Rôles la matrice identité et de la matrice zéro}
 
 La matrice identité joue, en arithmétique matricielle,  le rôle du
-nombre 1 en arithmétique usuelle. Ainsi,
+nombre $1$ en arithmétique usuelle. Ainsi,
 \begin{equation*}
   \mat{A}_{m \times n} \mat{I}_n = \mat{I}_m \mat{A}_{m \times n} = \mat{A}.
 \end{equation*}
 
-De même, la matrice zéro joue un rôle similaire à celui du 0 en
+De même, la matrice zéro joue un rôle similaire à celui du $0$ en
 arithmétique.
 \begin{thm}[Propriétés de la matrice zéro]
   \label{thm:revision:zero}
@@ -1416,7 +1416,7 @@ identité.
     \left[
       \begin{array}{rrr|rrr}
         1 &  6 &  4 &  1 &  0 &  0 \\
-        0 & -8 &  9 & -2 &  1 &  0 \\
+        0 & -8 & -9 & -2 &  1 &  0 \\
         0 &  0 &  0 & -1 &  1 &  1 \\
       \end{array}
     \right].

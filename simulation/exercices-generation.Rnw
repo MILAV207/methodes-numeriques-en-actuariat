@@ -70,7 +70,7 @@ library(rgl)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 rand <- function(n, a, c, m, seed)
 {
     x <- numeric(n + 1)
@@ -79,7 +79,7 @@ rand <- function(n, a, c, m, seed)
         x[i + 1] <- (a * x[i] + c) %% m
     x[-1]
 }
-\end{verbatim}
+\end{lstlisting}
       \end{framed}
       \caption{Code de la fonction \code{rand}}
       \label{fig:generation:rand}

@@ -295,7 +295,7 @@ curve(dgamma(x, 5, 1), add = TRUE)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 rgamma2 <- function(nsim, alpha)
 {
     x <- numeric(nsim)
@@ -314,7 +314,7 @@ rgamma2 <- function(nsim, alpha)
     }
     x
 }
-\end{verbatim}
+\end{lstlisting}
       \end{framed}
       \caption{Fonction de simulation d'une distribution
         Gamma$(\alpha, 1)$, $\alpha > 1$}
@@ -852,7 +852,7 @@ points(y1/(y1 + y2), rep(0, length(y1)), pch = 19, col = col)
       \begin{figure}[t]
         \centering
         \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 rbeta.ar2 <- function(n)
 {
     g <- function(x)
@@ -871,7 +871,7 @@ rbeta.ar2 <- function(n)
     }
     x
 }
-\end{verbatim}
+\end{lstlisting}
         \end{framed}
         \caption{Code R de la fonction \code{rbeta.ar2}}
         \label{fig:simulation:rbeta.ar2}
@@ -879,7 +879,7 @@ rbeta.ar2 <- function(n)
       \begin{figure}
         \centering
         \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 Private Function sqrt(x)
     sqrt = x ^ 0.5
 End Function
@@ -917,7 +917,7 @@ Function betasim()
 
     SimuleBeta = y
 End Function
-\end{verbatim}
+\end{lstlisting}
         \end{framed}
         \caption{Code VBA de la fonction \code{betasim}}
         \label{fig:simulation:betasim}
@@ -938,7 +938,7 @@ curve(dbeta(x, 3, 2), add = TRUE)
   simuler des observations de la distribution Bêta$(\alpha, \beta)$.
     \begin{figure}[t]
       \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 simul <- function(n, alpha, beta)
 {
     xmax <- (alpha - 1)/(alpha + beta - 2)
@@ -955,7 +955,7 @@ simul <- function(n, alpha, beta)
     }
     x
 }
-\end{verbatim}
+\end{lstlisting}
       \end{framed}
       \caption{Fonction de simulation d'une loi Bêta$(\alpha, \beta)$
         pour l'\autoref{ex:simulation:rejet}}
@@ -1028,9 +1028,9 @@ options(op)
         est rejeté.
       \item On a $u = 0,76$, puis $(16/9) (0,89) > f(0,76)$, donc $u$
         est rejeté.
-      \item On a $u = 0,46$, puis $(16/9) (0,17) > f(0,46)$, donc $u$
+      \item On a $u = 0,46$, puis $(16/9) (0,17) < f(0,46)$, donc $u$
         est accepté: $x_1 = 0,46$.
-      \item On a $u = 0,33$, puis $(16/9) (0,51) > f(0,33)$, donc $u$
+      \item On a $u = 0,33$, puis $(16/9) (0,51) < f(0,33)$, donc $u$
         est accepté: $x_2 = 0,33$.
       \end{enumerate}
       Le résultat est donc le vecteur $\mat{x} = (0,46, 0,33)$.

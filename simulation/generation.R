@@ -68,7 +68,7 @@ plot(head(x, -1), tail(x, -1))
 ## valeurs de la suite sont les mêmes que ci-dessus, dans un
 ## ordre différent. Cependant, les valeurs sont mieux
 ## distribuées.
-x <- rand(30, a = 12, c = 0, m = 31, seed = 9)
+x <- rand(30, a = 12, c = 0, m = 31, seed = 19)
 plot(head(x, -1), tail(x, -1))
 
 ## On illustre par six autres graphiques comment le

@@ -822,7 +822,7 @@ quelques trucs pour bien planifier une étude de simulation en R.
 \begin{figure}
   \centering
   \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 sim.disque <- function(n)
 {
     ## La fonction retourne les coordonnées des points
@@ -851,7 +851,7 @@ sim.disque <- function(n)
     }
     X
 }
-\end{verbatim}
+\end{lstlisting}
   \end{framed}
   \caption{Code d'une fonction pour simuler des nombres uniformément
     sur un disque de rayon $1$ centré à l'origine par la méthode
@@ -927,7 +927,7 @@ system.time(sim.disque2(1E5))
 \begin{figure}
   \centering
   \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 sim.disque2 <- function(n)
 {
     ## Simulation des coordonnées polaires
@@ -937,7 +937,7 @@ sim.disque2 <- function(n)
     ## Transformation en coordonnées cartésiennes
     sqrt(r) * cbind(cos(angle), sin(angle))
 }
-\end{verbatim}
+\end{lstlisting}
   \end{framed}
   \caption{Code d'une fonction pour simuler des nombres uniformément
     sur un disque de rayon $1$ centré à l'origine en passant par les

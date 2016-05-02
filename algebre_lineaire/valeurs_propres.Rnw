@@ -380,7 +380,7 @@ matrice carrée.
   que le coefficient du terme de degré un est la somme des racines et
   que le terme constant est le produit des racines.) Il faut
   maintenant établir que $c_1 = \tr(\mat{A})$ et que $c_n =
-  \det(\mat{A})$ pour compléter la démonstration. Or, d'une part, on
+  (-1)^n \det(\mat{A})$ pour compléter la démonstration. Or, d'une part, on
   vérifie facilement que le coefficient de $\lambda^{n - 1}$ dans le
   polynôme caractéristique provient du produit
   \begin{displaymath}
@@ -402,11 +402,9 @@ matrice carrée.
     \det(-\mat{A})
     &= (-1)^n \det(\mat{A}) \\
     &= c_n \\
-    &= (-1)^n \lambda_1 \cdots \lambda_n, \\
-    \intertext{d'où}
-    \det(\mat{A})
-    &= \prod_{i = 1}^n \lambda_i.
+    &= (-1)^n \lambda_1 \cdots \lambda_n,
   \end{align*}
+  d'où $\det(\mat{A}) = \prod_{i = 1}^n \lambda_i$.
 \end{proof}
 
 Du théorème précédent, il découle que si une valeur propre d'une
@@ -657,7 +655,7 @@ dans l'exemple suivant.
     &=
     \begin{bmatrix}
       1 + d_1 + \frac{d_1^2}{2!} + \frac{d_1^3}{3!} + \dots & 0 \\
-      0 & 1 + d_1 + \frac{d_2^2}{2!} + \frac{d_2^3}{3!} + \dots
+      0 & 1 + d_2 + \frac{d_2^2}{2!} + \frac{d_2^3}{3!} + \dots
     \end{bmatrix} \\
     &=
     \begin{bmatrix}

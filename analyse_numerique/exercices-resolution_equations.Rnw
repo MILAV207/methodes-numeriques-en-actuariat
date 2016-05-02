@@ -427,7 +427,7 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
       &= 1 - \frac{2x^5 - 84 x^3 + 21 x^2 + 441}{(x^2 - 21)^2}.
     \end{align*}
     Considérons l'intervalle $[2,5,\, 3]$ autour du point fixe. On a
-    que $|g_2^\prime(x)| < |g_1(x)|$ pour tout $x$ dans cet
+    que $|g_2^\prime(x)| < |g_1^\prime(x)|$ pour tout $x$ dans cet
     intervalle, donc la procédure du point fixe converge plus
     rapidement pour $g_2$ (la fonction de la méthode de
     Newton--Raphson). Cela se vérifie aisément sur les graphiques de
@@ -447,13 +447,13 @@ polygon(c(2.5, 2.5, 3, 3), c(2.5, 3, 3, 2.5), lty = 2, border = "blue")
   la fonction \code{pointfixe}.
   \begin{sol}
     On considère la fonction $g(x) = 2^{-x}$ dans l'intervalle
-    $[\frac{1}{3}, 1]$. En premier lieu, on a $g(x) \in [\frac{1}{2},
-    1/\sqrt[3]{2}] \subset [\frac{1}{3}, 1]$ pour $x \in [\frac{1}{3},
-    1]$. De plus, on a $g^\prime(x) = -2^{-x - 1} (\ln 2)$, d'où
-    \begin{displaymath}
-      |g^\prime(x)| = \frac{\ln 2}{2^{x + 1}} \leq \ln 2 < 1, \quad
-      \frac{1}{3} \leq x \leq 1.
-    \end{displaymath}
+    $[\frac{1}{3}, 1]$. En premier lieu, on a
+    $g(x) \in [\frac{1}{2}, 1/\sqrt[3]{2}] \subset [\frac{1}{3}, 1]$
+    pour $x \in [\frac{1}{3}, 1]$. De plus, on a
+    $g^\prime(x) = -2^{-x} (\ln 2)$. Puisque $\ln 2 < 1$, on a
+    aussi que $|g^\prime(x)| = g(x) (\ln 2) \in [\frac{1}{3}, 1]$
+    pour $x \in [\frac{1}{3}, 1]$.
+
     Par le théorème du point fixe, la fonction $g$ possède donc un
     point fixe unique dans l'intervalle $[\frac{1}{3}, 1]$. La valeur
     de ce point fixe est
@@ -572,7 +572,7 @@ points(c(1, xp), c(0, xp^2), pch = 19)
     \begin{figure}
       \centering
       \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 tri <- function(CF, erreur.max = 1E-6)
 {
     if (!any(CF < 0))
@@ -586,7 +586,7 @@ tri <- function(CF, erreur.max = 1E-6)
 
     nr(f, fp, start = 0.05, TOL = erreur.max)$root
 }
-\end{verbatim}
+\end{lstlisting}
       \end{framed} %$
       \caption{Fonction R de calcul du taux de rendement interne d'une
         série de flux financiers}
@@ -692,7 +692,7 @@ End Function
       On cherche le maximum de la fonction $l(\theta)$, soit la valeur
       de $\theta$ tel que
       \begin{displaymath}
-        l^\prime(\theta) = \frac{1}{\theta^2} \sum_{i = 1}^n -
+        l^\prime(\theta) = \frac{1}{\theta^2} \sum_{i = 1}^n x_i -
         \frac{3n}{\theta} = 0.
       \end{displaymath}
       Résoudre cette équation à l'aide de la méthode de
@@ -711,7 +711,7 @@ End Function
       \begin{figure}
         \centering
         \begin{framed}
-\begin{verbatim}
+\begin{lstlisting}
 emv.gamma <- function(x, erreur.max = 1E-6)
 {
     n <- length(x)
@@ -722,7 +722,7 @@ emv.gamma <- function(x, erreur.max = 1E-6)
           (3 * n)/theta^2
     nr(f, fp, xsum/n/3, TOL = erreur.max)$root
 }
-\end{verbatim}
+\end{lstlisting}
         \end{framed}
         \caption{Fonction R d'estimation du paramètre d'échelle d'une
           loi gamma par le maximum de vraisemblance}
@@ -808,7 +808,7 @@ End Function
     \end{displaymath}
     ou, de manière équivalente,
     \begin{displaymath}
-      f(i) = \frac{1 - (1 + i)^{-10}}{12 (1 + i)^{1/12} - 1} - 8 = 0.
+      f(i) = \frac{1 - (1 + i)^{-10}}{12 [(1 + i)^{1/12} - 1]} - 8 = 0.
     \end{displaymath}
     Pour résoudre le problème à l'aide de la méthode du point fixe, on
     peut considérer la fonction
@@ -830,12 +830,15 @@ End Function
     donc la convergence sera lente; voir la
     \autoref{fig:resolution:a_angle:g2}. Enfin, on peut considérer la
     fonction
-    \begin{align*}
+    \begin{equation*}
       g_3(i)
-      &= i - \frac{f(i)}{f^\prime(i)} \\
-      &= \frac{120(1 + i)^{-11}[(1 + i)^{1/12} - 1] - [1 - (1 +
+      = i - \frac{f(i)}{f^\prime(i)}
+    \end{equation*}
+    avec
+    \begin{equation*}
+    f^\prime(i) = \frac{120(1 + i)^{-11}[(1 + i)^{1/12} - 1] - [1 - (1 +
         i)^{-10}](1 + i)^{-11/12}}{144 [(1 + i)^{1/12} - 1]^2}.
-    \end{align*}
+    \end{equation*}
     On remarquera que cette dernière est la fonction utilisée dans la
     méthode de Newton--Raphson et sa pente est presque nulle, d'où une
     convergence très rapide; voir la \autoref{fig:resolution:a_angle:g3}.
