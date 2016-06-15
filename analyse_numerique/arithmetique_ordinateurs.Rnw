@@ -1302,7 +1302,7 @@ représenter l'ensemble des caractères Unicode est \emph{Unicode
 3.9]{Unicode:5.0}. Dans l'UTF-8, chaque caractère est codé sur une
 suite d'un à quatre octets et les premiers 128 caractères sont
 identiques à la norme ASCII. L'UTF-8 est le système de codage par
-défaut dans MacOS~X et les plus récentes distributions GNU/Linux.
+défaut dans macOS et les plus récentes distributions GNU/Linux.
 
 Le système R supporte les caractères multi-octets de manière assez
 exhaustive. Sans doute aidés en cela par le fait qu'il s'agit d'un

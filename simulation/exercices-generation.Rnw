@@ -36,12 +36,12 @@ library(rgl)
 @
 
 \begin{osx}
-  L'utilisation de \code{rgl} sous Mac OS~X, requiert l'application
+  L'utilisation de \code{rgl} sous macOS, requiert l'application
   \code{X11.app}, qui n'est plus livrée avec le système depuis la
-  version 10.8 (Mountain Lion). Un serveur et des bibliothèques client
-  X11 compatibles avec les versions de OS~X 10.6 et suivantes sont
-  disponibles à partir du projet XQuartz. Il suffit de télécharger
-  l'application depuis \url{http://xquartz.macosforge.org/}.
+  version 10.8 (Mountain Lion). Le projet XQuartz fournit un serveur
+  et des bibliothèques client X11 compatibles avec les versions de
+  macOS 10.6 et suivantes. Il suffit de télécharger l'application
+  depuis \url{http://xquartz.macosforge.org/}.
 \end{osx}
 
 
