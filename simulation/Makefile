@@ -20,11 +20,15 @@ CODE = code-partie_2.zip
 # Le document maître dépend de tous les fichiers .tex et des fichiers
 # .R mentionnés
 RNWFILES = $(wildcard *.Rnw)
-TEXFILES = $(wildcard *.tex)
-RFILES   = generation.R simulation.R montecarlo.R
+TEXFILES = ../share/preamble.tex \
+	frontispice.tex \
+	notices.tex \
+	introduction.tex \
+	rappels_transformations.tex \
+	solutions.tex
+RFILES = generation.R simulation.R montecarlo.R
 
 # Outils de travail
-#SWEAVE = LANG="fr_CA.UTF-8" R CMD SWEAVE --encoding="utf-8"
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
 TEXI2DVI = LATEX=xelatex texi2dvi -b
 RM = rm -rf
@@ -36,11 +40,12 @@ tex: $(RNWFILES:.Rnw=.tex)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
-	sed -E -i "" \
-	    -e "s:youtu.be/acceptation-rejet:youtu.be/1ptmo6CPKuQ:" \
-	    simulation.tex
+	if [ "$@" == "simulation.tex" ]; then \
+	  sed -E -i "" \
+	      -e "s:youtu.be/acceptation-rejet:youtu.be/1ptmo6CPKuQ:" $@; \
+	fi
 
-$(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
+$(MASTER): $(RNWFILES:.Rnw=.tex) $(RFILES) $(TEXFILES)
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 zip: $(RFILES)

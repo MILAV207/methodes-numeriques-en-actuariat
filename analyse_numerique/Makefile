@@ -20,8 +20,12 @@ CODE = code-partie_3.zip
 # Le document maître dépend de tous les fichiers .tex et des fichiers
 # .R mentionnés
 RNWFILES = $(wildcard *.Rnw)
-TEXFILES = $(wildcard *.tex)
-RFILES   = arithmetique_ordinateurs.R resolution_equations.R integration_numerique.R
+TEXFILES = ../share/preamble.tex \
+	frontispice.tex \
+	notices.tex \
+	introduction.tex \
+	solutions.tex
+RFILES = arithmetique_ordinateurs.R resolution_equations.R integration_numerique.R
 
 # Outils de travail
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
@@ -35,11 +39,12 @@ tex: $(RNWFILES:.Rnw=.tex)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
-	sed -E -i "" \
-	    -e "s:youtu.be/arithmetique:youtu.be/3_cRxkuEPD8:" \
-	    arithmetique_ordinateurs.tex
+	if [ "$@" == "arithmetique_ordinateurs.tex" ]; then \
+	  sed -E -i "" \
+	      -e "s:youtu.be/arithmetique:youtu.be/3_cRxkuEPD8:" $@; \
+	fi
 
-$(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
+$(MASTER): $(RNWFILES:.Rnw=.tex) $(RFILES) $(TEXFILES)
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 zip: $(RFILES)

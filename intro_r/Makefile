@@ -32,11 +32,18 @@ MASTER = methodes_numeriques-partie_1.pdf
 CODE = code-partie_1.zip
 SORTIES = code-partie_1-sorties.zip
 
-# Le document maître dépend de tous les fichiers .tex et des fichiers
-# .R mentionnés
+# Le document maître dépend de tous les fichiers .Rnw; de fichiers
+# .tex qui n'ont pas de version .Rnw; des fichiers .R mentionnés
 RNWFILES = $(wildcard *.Rnw)
-TEXFILES = $(wildcard *.tex)
-RFILES   = presentation.R bases.R operateurs.R fonctions.R avance.R
+TEXFILES = ../share/preamble.tex \
+	frontispice.tex \
+	notices.tex \
+	introduction.tex \
+	emacs+ess.tex \
+	rstudio.tex \
+	packages.tex \
+	reponses.tex
+RFILES = presentation.R bases.R operateurs.R fonctions.R avance.R
 ROUTFILES := $(RFILES:.R=.Rout)
 
 # Outils de travail
@@ -45,41 +52,49 @@ TEXI2DVI = LATEX=xelatex TEXINDY=makeindex texi2dvi -b
 RBATCH = R CMD BATCH --no-timing
 RM = rm -rf
 
-
 .PHONY: tex pdf zip clean
 
 pdf: $(MASTER)
 tex: $(RNWFILES:.Rnw=.tex)
 
 %.tex: %.Rnw
-	$(SWEAVE) '$<'
-	sed -i ""                           \
-	    -e "/^\\\\item L'\\\\autoref/s/^/%/" \
-	    -e "/^  stratégies ---/s/^/%/"  \
-	    -e "/^  --- pour la/s/^/%/"  \
-	    avance.tex
-	sed -E -i "" \
-	    -e "s:youtu.be/(presentation|PSQIKSKw_ys):youtu.be/fs0LHQ7sDpI:" \
-	    presentation.tex
-	sed -E -i "" \
-	    -e "s:youtu.be/(indicage|cQUjdwgTyz4):youtu.be/sMd1IyTg-ic:" \
-	    bases.tex
-	sed -E -i "" \
-	    -e "s:youtu.be/(order|uC-zkzwsCVY):youtu.be/pPLxbuEZmkA:" \
-	    -e "s:youtu.be/(outer|cyPUAnieWHw):youtu.be/Ht04UiHnU_0:" \
-	    operateurs.tex
-	sed -E -i "" \
-	    -e "s:youtu.be/(apply|8UQN6RRnsFA):youtu.be/EN-a8bTefNk:" \
-	    avance.tex
-	sed -E -i "" \
-	    -e "s:youtu.be/(anatomie|KtmFDm2AKM4):youtu.be/xiNnHegDau8:" \
-	    -e "s:youtu.be/(configuration|jdtjBBkfhO0):youtu.be/IsyQn7d2Ao0:" \
-	    emacs+ess.tex
-	sed -E -i "" \
-	    -e "s:youtu.be/(packages|mL6iNzjHMKE):youtu.be/DL48oi2RKjM:" \
-	    packages.tex
+	$(SWEAVE) $<
+	if [ "$@" == "presentation.tex" ]; then \
+	  sed -E -i "" \
+	      -e "s:youtu.be/(presentation|PSQIKSKw_ys):youtu.be/fs0LHQ7sDpI:" $@; \
+	fi
+	if [ "$@" == "bases.tex" ]; then \
+	  sed -E -i "" \
+	      -e "s:youtu.be/(indicage|cQUjdwgTyz4):youtu.be/sMd1IyTg-ic:" $@; \
+	fi
+	if [ "$@" == "operateurs.tex" ]; then \
+	  sed -E -i "" \
+	      -e "s:youtu.be/(order|uC-zkzwsCVY):youtu.be/pPLxbuEZmkA:" \
+	      -e "s:youtu.be/(outer|cyPUAnieWHw):youtu.be/Ht04UiHnU_0:" $@; \
+	fi
+	if [ "$@" == "avance.tex" ]; then \
+	  sed -i "" \
+	      -e "/^\\\\item L'\\\\autoref/s/^/%/" \
+	      -e "/^  stratégies ---/s/^/%/" \
+	      -e "/^  --- pour la/s/^/%/"  $@; \
+	  sed -E -i "" \
+	      -e "s:youtu.be/(apply|8UQN6RRnsFA):youtu.be/EN-a8bTefNk:" $@; \
+	fi
 
-$(MASTER): $(RNWFILES) $(RFILES) $(TEXFILES)
+%.R:
+
+$(MASTER): $(RNWFILES:.Rnw=.tex) $(RFILES) $(TEXFILES)
+	case $? in \
+	"emacs+ess.tex") \
+	  sed -E -i "" \
+	      -e "s:youtu.be/(anatomie|KtmFDm2AKM4):youtu.be/xiNnHegDau8:" \
+	      -e "s:youtu.be/(configuration|jdtjBBkfhO0):youtu.be/IsyQn7d2Ao0:" emacs+ess.tex \
+	  ;; \
+	"packages.tex") \
+	  sed -E -i "" \
+	      -e "s:youtu.be/(packages|mL6iNzjHMKE):youtu.be/DL48oi2RKjM:" packages.tex \
+	  ;; \
+	esac
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 %.Rout: %.R

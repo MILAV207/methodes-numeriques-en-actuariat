@@ -20,8 +20,13 @@ CODE = code-partie_4.zip
 # Le document maître dépend de tous les fichiers .tex et des fichiers
 # .R mentionnés
 RNWFILES = $(wildcard *.Rnw)
-TEXFILES = $(wildcard *.tex)
-RFILES   = revision_algebre_lineaire.R valeurs_propres.R
+TEXFILES = ../share/preamble.tex \
+	frontispice.tex \
+	notices.tex \
+	introduction.tex \
+	decomposition_lu.tex \
+	solutions.tex
+RFILES = revision_algebre_lineaire.R valeurs_propres.R
 
 # Outils de travail
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
@@ -35,11 +40,12 @@ tex: $(RNWFILES:.Rnw=.tex)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
-	sed -i "" \
-	    -e "s:youtu.be/google:youtu.be/VM4IRctyjOk:" \
-	    valeurs_propres.tex
+	if [ "$@" == "valeurs_propres.tex" ]; then \
+	  sed -i "" \
+	      -e "s:youtu.be/google:youtu.be/VM4IRctyjOk:" $@; \
+	fi
 
-$(MASTER): $(RNWFILES) $(TEXFILES)
+$(MASTER): $(RNWFILES:.Rnw=.tex) $(TEXFILES)
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 zip: $(RFILES)
