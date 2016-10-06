@@ -45,10 +45,18 @@
 
   %% Hyperliens
   \usepackage{hyperref}
-  \hypersetup{colorlinks, linktocpage,
-    urlcolor=url, linkcolor=link, citecolor=citation,
-    bookmarksopen, bookmarksnumbered, bookmarksdepth=subsubsection,
-    pdfauthor={Vincent Goulet}}
+  \hypersetup{%
+    pdfauthor={Vincent Goulet},
+    colorlinks = {true},
+    linktocpage = {true},
+    urlcolor = {url},
+    linkcolor = {link},
+    citecolor = {citation},
+    pdfpagemode = {UseOutlines},
+    pdfstartview = {Fit},
+    bookmarksopen = {true},
+    bookmarksnumbered = {true},
+    bookmarksdepth = {subsubsection}}
   \setlength{\XeTeXLinkMargin}{1pt}
 
   %% Étiquettes de \autoref (redéfinitions compatibles avec babel).
