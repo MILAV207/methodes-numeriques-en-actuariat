@@ -1,39 +1,28 @@
-# Les cibles de cette Makefile sont: tex, pdf, zip et clean.
-#
-# La cible par défaut est "pdf".
-#
-# Pour créer les fichiers .tex à partir des fichiers .Rnw, faire "make
-# tex". Cela va également placer les bonnes URL des capsules vidéo
-# dans le code source.
-#
-# Pour compiler le fichier PDF avec texi2dvi, faire "make pdf" ou
-# seulement "make".
-#
-# La cible zip crée les fichiers .Rout à partir des fichiers .R et
-# crée les archives des fichiers de code source et des fichiers de
-# sortie.
-#
-# Basé sur Makefile de Rouben Rostmaian avec ajustements de Nicholas Lewin-koh
+### -*-Makefile-*- pour préparer Méthodes numériques en actuariat -
+###                              Partie I Programmation en R
+##
+## Copyright (C) 2017 Vincent Goulet
+##
+## 'make pdf' (défaut) crée les fichiers .tex à partir des fichiers
+## .Rnw avec Sweave, place les bonnes URL vers les vidéos dans le code
+## source et compile le document maître avec XeLaTeX.
+##
+## 'make zip' crée les fichiers .Rout à partir des fichiers .R, puis
+## les archives contenant le code source des sections d'exemples et
+## les sorties.
+##
+## Auteur: Vincent Goulet
 
-# Correspondances url des capsules sur YouTube.
-#
-#  TITRE ABRÉGÉ  	  CHAPITRE	ACT-2002			INTRO R
-#  Présentation		  presentation	https://youtu.be/fs0LHQ7sDpI	https://youtu.be/PSQIKSKw_ys
-#  Indiçage		  bases		https://youtu.be/sMd1IyTg-ic	https://youtu.be/cQUjdwgTyz4
-#  Fonction order	  operateurs	https://youtu.be/pPLxbuEZmkA	https://youtu.be/uC-zkzwsCVY
-#  Fonction outer	  operateurs	https://youtu.be/Ht04UiHnU_0	https://youtu.be/cyPUAnieWHw
-#  Fonction apply	  avance	https://youtu.be/EN-a8bTefNk	https://youtu.be/8UQN6RRnsFA
-#  Anatomie		  emacs+ess	https://youtu.be/xiNnHegDau8	https://youtu.be/KtmFDm2AKM4
-#  Fichiers configuration emacs+ess	https://youtu.be/IsyQn7d2Ao0	https://youtu.be/jdtjBBkfhO0
-#  Installation packages  packages	https://youtu.be/DL48oi2RKjM	https://youtu.be/mL6iNzjHMKE
 
-# Document maître et archives
+## Document maître, archive et fichier contenant les URL vers les
+## vidéos explicatives dans la châine YouTube
 MASTER = methodes_numeriques-partie_1.pdf
-CODE = code-partie_1.zip
-SORTIES = code-partie_1-sorties.zip
+CODE = methodes_numeriques-partie_1-code.zip
+SORTIES = methodes_numeriques-partie_1-sorties.zip
+URL = URL.in
 
-# Le document maître dépend de tous les fichiers .Rnw; de fichiers
-# .tex qui n'ont pas de version .Rnw; des fichiers .R mentionnés
+## Le document maître dépend de tous les fichiers .Rnw; de fichiers
+## .tex qui n'ont pas de version .Rnw; des fichiers .R mentionnés
 RNWFILES = $(wildcard *.Rnw)
 TEXFILES = ../share/preamble.tex \
 	frontispice.tex \
@@ -43,64 +32,53 @@ TEXFILES = ../share/preamble.tex \
 	rstudio.tex \
 	packages.tex \
 	reponses.tex
-RFILES = presentation.R bases.R operateurs.R fonctions.R avance.R
+RFILES = \
+	presentation.R \
+	bases.R \
+	operateurs.R \
+	fonctions.R \
+	avance.R
 ROUTFILES := $(RFILES:.R=.Rout)
 
-# Outils de travail
+## Liste des fichiers dans lesquels il y a des url vers des vidéos à traiter
+## (liste extraite du fichier ${URL})
+URLFILES = $(shell awk '/^[^\#]/ && !seen[$$1]++ { print $$1 }' ${URL})
+
+## Outils de travail
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
 TEXI2DVI = LATEX=xelatex TEXINDY=makeindex texi2dvi -b
 RBATCH = R CMD BATCH --no-timing
 RM = rm -rf
 
+
 .PHONY: tex pdf zip clean
 
 pdf: $(MASTER)
+
 tex: $(RNWFILES:.Rnw=.tex)
 
 %.tex: %.Rnw
 	$(SWEAVE) $<
-	if [ "$@" == "presentation.tex" ]; then \
-	  sed -E -i "" \
-	      -e "s:youtu.be/(presentation|PSQIKSKw_ys):youtu.be/fs0LHQ7sDpI:" $@; \
-	fi
-	if [ "$@" == "bases.tex" ]; then \
-	  sed -E -i "" \
-	      -e "s:youtu.be/(indicage|cQUjdwgTyz4):youtu.be/sMd1IyTg-ic:" $@; \
-	fi
-	if [ "$@" == "operateurs.tex" ]; then \
-	  sed -E -i "" \
-	      -e "s:youtu.be/(order|uC-zkzwsCVY):youtu.be/pPLxbuEZmkA:" \
-	      -e "s:youtu.be/(outer|cyPUAnieWHw):youtu.be/Ht04UiHnU_0:" $@; \
-	fi
-	if [ "$@" == "avance.tex" ]; then \
-	  sed -i "" \
-	      -e "/^\\\\item L'\\\\autoref/s/^/%/" \
-	      -e "/^  stratégies ---/s/^/%/" \
-	      -e "/^  --- pour la/s/^/%/"  $@; \
-	  sed -E -i "" \
-	      -e "s:youtu.be/(apply|8UQN6RRnsFA):youtu.be/EN-a8bTefNk:" $@; \
-	fi
-
-%.R:
-
-$(MASTER): $(RNWFILES:.Rnw=.tex) $(RFILES) $(TEXFILES)
-	case $? in \
-	"emacs+ess.tex") \
-	  sed -E -i "" \
-	      -e "s:youtu.be/(anatomie|KtmFDm2AKM4):youtu.be/xiNnHegDau8:" \
-	      -e "s:youtu.be/(configuration|jdtjBBkfhO0):youtu.be/IsyQn7d2Ao0:" emacs+ess.tex \
-	  ;; \
-	"packages.tex") \
-	  sed -E -i "" \
-	      -e "s:youtu.be/(packages|mL6iNzjHMKE):youtu.be/DL48oi2RKjM:" packages.tex \
-	  ;; \
-	esac
-	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 %.Rout: %.R
 	echo "options(error=expression(NULL))" | cat - $< > $<.tmp
 	$(RBATCH) $<.tmp $@
 	$(RM) $<.tmp
+
+$(MASTER): $(MASTER:.pdf=.tex) $(RNWFILES:.Rnw=.tex) $(TEXFILES) $(RFILES)
+	for file in $(filter ${URLFILES},$?); do \
+	  if [ -e tmpfile.tex ]; then rm tmpfile.tex; fi ; \
+	  awk -v pattern=$$file \
+	      'NR==FNR && /^[^#]/ && $$1 ~ pattern \
+	       { a[NR] = sprintf("youtu.be\/(%s|%s)", $$2, substr($$4,18,11)); \
+	         b[NR] = sprintf("youtu.be/%s", substr($$3,18,11)); \
+	         next }  \
+	       NR>FNR \
+	       { for (i in a) gsub(a[i], b[i]); print }' \
+	    ${URL} $$file > tmpfile.tex ; \
+	  mv tmpfile.tex $$file; \
+	done
+	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
 zip: $(RFILES) $(ROUTFILES)
 	zip --filesync -j $(CODE) ${RFILES}
