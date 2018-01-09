@@ -1,58 +1,79 @@
-# Les cibles de cette Makefile sont: tex, pdf, zip et clean.
-#
-# La cible par défaut est "pdf".
-#
-# Pour créer les fichiers .tex à partir des fichiers .Rnw, faire "make
-# tex". Cela va également placer les bonnes URL des capsules vidéo
-# dans le code source.
-#
-# Pour compiler le fichier PDF avec texi2dvi, faire "make pdf" ou
-# seulement "make".
-#
-# La cible zip crée l'archive des fichiers de code source.
-#
-# Basé sur Makefile de Rouben Rostmaian avec ajustements de Nicholas Lewin-koh
+### -*-Makefile-*- pour préparer la partie "Simulation stochastique"
+###                de "Méthodes numériques en actuariat"
+##
+## Copyright (C) 2018 Vincent Goulet
+##
+## 'make tex' crée les fichiers .tex à partir des fichiers .Rnw avec
+## Sweave.
+##
+## 'make pdf' compile le document maître avec XeLaTeX.
+##
+## 'make Rout' crée les sorties des fichiers de script R.
+##
+## 'make install' copie les fichiers pour la préparation de l'archive
+## d'une version du projet.
+##
+## Auteur: Vincent Goulet
+##
+## Ce fichier fait partie du projet "Méthodes numériques en actuariat"
+## https://github.com/vigou3/methodes-numeriques-en-actuariat
 
-# Document maître et archive
+## Principaux fichiers
+#MASTER = methodes-numeriques-en-actuariat_partie-1.pdf
 MASTER = methodes_numeriques-partie_2.pdf
-CODE = code-partie_2.zip
+SCRIPTS = \
+	generation.R \
+	simulation.R \
+	montecarlo.R
+
+## Nom de la partie
+PARTNAME = simulation
 
 # Le document maître dépend de tous les fichiers .tex et des fichiers
 # .R mentionnés
 RNWFILES = $(wildcard *.Rnw)
 TEXFILES = ../share/preamble.tex \
-	frontispice.tex \
+	couverture-avant.tex \
 	notices.tex \
 	introduction.tex \
 	rappels_transformations.tex \
-	solutions.tex
-RFILES = generation.R simulation.R montecarlo.R
+	solutions.tex \
+	colophon.tex \
+	couverture-arriere.tex
 
 # Outils de travail
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
 TEXI2DVI = LATEX=xelatex texi2dvi -b
+RBATCH = R CMD BATCH --no-timing
 RM = rm -rf
 
-.PHONY: tex pdf zip clean
+all: pdf
+
+.PHONY: tex pdf Rout clean
 
 pdf: $(MASTER)
+
 tex: $(RNWFILES:.Rnw=.tex)
+
+Rout: $(SCRIPTS:.R=.Rout)
 
 %.tex: %.Rnw
 	$(SWEAVE) '$<'
-	if [ "$@" == "simulation.tex" ]; then \
-	  sed -E -i "" \
-	      -e "s:youtu.be/acceptation-rejet:youtu.be/1ptmo6CPKuQ:" $@; \
-	fi
 
-$(MASTER): $(RNWFILES:.Rnw=.tex) $(RFILES) $(TEXFILES)
+%.Rout: %.R
+	echo "options(error=expression(NULL))" | cat - $< > $<.tmp
+	$(RBATCH) $<.tmp $@
+	$(RM) $<.tmp
+
+$(MASTER): $(MASTER:.pdf=.tex) $(RNWFILES:.Rnw=.tex) $(TEXFILES) $(SCRIPTS)
 	$(TEXI2DVI) $(MASTER:.pdf=.tex)
 
-zip: $(RFILES)
-	zip --filesync -j $(CODE) ${RFILES}
+## la règle 'install' ne devrait être appelée que par ../Makefile
+install: pdf Rout
+	cp ${MASTER} ${SCRIPTS} ${SCRIPTS:.R=.Rout} ../${TMPDIR}/${PARTNAME}
 
 clean:
-	$(RM) $(RNWFILES:.Rnw=.tex) \
+	$(RM) $(RNWFILES:.Rnw=.tex) $(SCRIPTS:.R=.Rout) \
 	*-[0-9][0-9][0-9].eps \
 	*-[0-9][0-9][0-9].pdf \
-	*.aux *.log  *.blg *.bbl *.out *.rel *~ Rplots.ps
+	*.aux *.log *.blg *.bbl *.out *.rel *~ Rplots.ps
