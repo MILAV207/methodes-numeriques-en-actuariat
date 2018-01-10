@@ -36,6 +36,9 @@ VERSION = ${YEAR}.${MONTH}
 ## Dossier temporaire pour construire l'archive
 TMPDIR = tmpdir
 
+# Outils de travail
+RM = rm -rf
+
 ## Dépôt GitHub et authentification
 REPOSURL = https://api.github.com/repos/vigou3/methodes-numeriques-en-actuariat
 OAUTHTOKEN = $(shell cat ~/.github/token)
@@ -47,22 +50,24 @@ all: pdf
 
 pdf:
 	${MAKE} pdf -C simulation
-	${MAKE} pdf -C analyse_numerique
-	${MAKE} pdf -C algebre_lineaire
+	${MAKE} pdf -C analyse-numerique
+	${MAKE} pdf -C algebre-lineaire
 
 release: zip create-release upload publish
 
 zip: ${README} ${OTHER}
 	if [ -d ${TMPDIR} ]; then ${RM} ${TMPDIR}; fi
-	mkdir -p ${TMPDIR}
+	mkdir -p ${TMPDIR}/simulation \
+	  ${TMPDIR}/analyse-numerique \
+	  ${TMPDIR}/algebre-lineaire
 	touch ${TMPDIR}/${README} && \
 	  awk 'state==0 && /^# / { state=1 }; \
 	       /^## Auteur/ { printf("## Édition\n\n%s\n\n", "${VERSION}") } \
 	       state' ${README} >> ${TMPDIR}/${README}
 	cp ${OTHER} ${TMPDIR}
 	${MAKE} install -C simulation
-	${MAKE} install -C analyse_numerique
-	${MAKE} install -C algebre_lineaire
+	${MAKE} install -C analyse-numerique
+	${MAKE} install -C algebre-lineaire
 	cd ${TMPDIR} && zip --filesync -r ../${ARCHIVE} *
 	${RM} ${TMPDIR}
 

@@ -21,7 +21,7 @@
 ## Nom de la partie
 PARTNAME = simulation
 
-# Nom du fichier maître
+## Nom du fichier maître
 MASTER = methodes-numeriques-en-actuariat_${PARTNAME}.pdf
 
 ## Le document maître dépend de tous les fichiers .Rnw et des fichiers
