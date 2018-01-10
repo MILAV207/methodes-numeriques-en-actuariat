@@ -1,0 +1,424 @@
+\chapter[Planification d'une simulation en R]{%
+  Planification d'une simulation \\ en R}
+\index{simulation!planification|(}
+\label{planification} %|
+
+<<echo=FALSE>>=
+options(width = 60)
+@
+
+<<echo=FALSE>>=
+### Définition de toutes les fonctions
+simul1 <- function(nb.simul, size, theta)
+{
+    a <- theta - 0.5
+    b <- theta + 0.5
+
+    x <- matrix(0, nrow = 3, ncol = nb.simul)
+    rownames(x) <- c("Moyenne", "Mediane", "Mi-etendue")
+
+    for (i in 1:nb.simul)
+    {
+        u <- runif(size, a, b)
+        x[1, i] <- mean(u)
+        x[2, i] <- median(u)
+        x[3, i] <- mean(range(u))
+    }
+
+    list(biais = rowMeans(x) - theta, variances = apply(x, 1, var))
+}
+
+fun1 <- function(i, size, a, b)
+{
+    u <- runif(size, a, b)
+    c(Moyenne = mean(u), Mediane = median(u), "Mi-etendue" = mean(range(u)))
+}
+
+simul2 <- function(nb.simul, size, theta)
+{
+    a <- theta - 0.5
+    b <- theta + 0.5
+
+    x <- sapply(1:nb.simul, fun1, size, a, b)
+
+    list(biais = rowMeans(x) - theta, variances = apply(x, 1, var))
+}
+
+fun2 <- function(size, a, b)
+{
+    u <- runif(size, a, b)
+    c(Moyenne = mean(u), Mediane = median(u), "Mi-etendue" = mean(range(u)))
+}
+
+simul3 <- function(nb.simul, size, theta)
+{
+    a <- theta - 0.5
+    b <- theta + 0.5
+
+    x <- replicate(nb.simul, fun2(size, a, b))
+
+    list(biais = rowMeans(x) - theta, variances = apply(x, 1, var))
+}
+@
+
+Il existe de multiples façons de réaliser la mise en {\oe}uvre
+informatique d'une simulation, mais certaines sont plus efficaces que
+d'autres. Cette annexe passe en revue diverses façons de faire des
+simulations avec R à l'aide d'un exemple simple de nature statistique.
+
+\section{Contexte}
+\label{planification:contexte}
+
+Soit $X_1, \dots, X_n$ un échantillon aléatoire tiré d'une population
+distribuée selon une loi uniforme sur l'intervalle $(\theta -
+\frac{1}{2}, \theta + \frac{1}{2})$. On considère trois
+estimateurs sans biais du paramètre inconnu $\theta$:
+\begin{enumerate}
+\item la moyenne arithmétique
+  \begin{displaymath}
+    \hat{\theta}_1 = \frac{1}{n} \sum_{i = 1}^n X_i\,;
+  \end{displaymath}
+\item la médiane empirique
+  \begin{displaymath}
+    \hat{\theta}_2 =
+    \begin{cases}
+      X_{(\frac{n+1}{2})}, & \text{$n$ impair} \\
+      \frac{1}{2}(X_{(\frac{n}{2})} + X_{(\frac{n}{2} + 1)}), & \text{$n$ pair},
+    \end{cases}
+  \end{displaymath}
+  où $X_{(k)}$ est la $k${\ieme} statistique d'ordre de l'échantillon
+  aléatoire;
+\item la mi-étendue
+  \begin{displaymath}
+    \hat{\theta}_3 = \frac{X_{(1)} + X_{(n)}}{2}.
+  \end{displaymath}
+\end{enumerate}
+
+À l'aide de la simulation on veut, d'une part, vérifier si les trois
+estimateurs sont bel et bien sans biais et, d'autre part, déterminer
+lequel a la plus faible variance.
+
+Pour ce faire, on doit d'abord simuler un grand nombre $N$
+d'échantillons aléatoires de taille $n$ d'une distribution $U(\theta -
+\frac{1}{2}, \theta + \frac{1}{2})$ pour une valeur de $\theta$
+choisie. Pour chaque échantillon, on calculera ensuite les trois
+estimateurs ci-dessus, puis la moyenne et la variance, par type
+d'estimateur, de tous les estimateurs obtenus. Si la moyenne des $N$
+estimateurs $\hat{\theta}_i$, $i = 1, 2, 3$ est près de $\theta$,
+alors on pourra conclure que $\hat{\theta}_i$ est sans biais. De même,
+on déterminera lequel des trois estimateurs a la plus faible variance
+selon le classement des variances empiriques.
+
+
+
+\section{Première approche: avec une boucle}
+\index{boucle}
+\label{planification:boucle}
+
+La façon la plus intuitive de mettre en {\oe}uvre cette étude de
+simulation en R consiste à utiliser une boucle \code{for}. Avec
+cette approche, il est nécessaire d'initialiser une matrice de $3$
+lignes et $N$ colonnes (ou l'inverse) dans laquelle seront stockées
+les valeurs des trois estimateurs pour chaque simulation. Une fois la
+matrice remplie dans la boucle, il ne reste plus qu'à calculer la
+moyenne et la variance par ligne pour obtenir les résultats souhaités.
+
+La \autoref{fig:planification:boucle} présente un exemple de code
+adéquat pour réaliser la simulation à l'aide d'une boucle.
+
+\begin{figure}[tp]
+  \centering
+  \begin{framed}
+\begin{lstlisting}
+## Bonne habitude à prendre: stocker les constantes dans
+## des variables faciles à modifier au lieu de les écrire
+## explicitement dans le code.
+size <- 100                # taille de chaque échantillon
+nsimul <- 10000            # nombre de simulations
+theta <- 0                 # la valeur du paramètre
+
+## Les lignes ci-dessous éviteront de faire deux additions
+## 'nsimul' fois.
+a <- theta - 0.5           # borne inférieure de l'uniforme
+b <- theta + 0.5           # borne supérieure de l'uniforme
+
+## Initialisation de la matrice dans laquelle seront
+## stockées les valeurs des estimateurs. On donne également
+## des noms aux lignes de la matrice afin de facilement
+## identifier les estimateurs.
+x <- matrix(0, nrow = 3, ncol = nsimul)
+rownames(x) <- c("Moyenne", "Mediane", "Mi-etendue")
+
+## Simulation comme telle.
+for (i in 1:nsimul)
+{
+    u <- runif(size, a, b)
+    x[, i] <- c(mean(u),        # moyenne
+                median(u)       # médiane
+                mean(range(u))) # mi-étendue
+}
+
+## On peut maintenant calculer la moyenne et la variance
+## par ligne.
+rowMeans(x) - theta        # vérification du biais
+apply(x, 1, var)           # comparaison des variances
+\end{lstlisting}
+  \end{framed}
+  \caption{Code pour la simulation utilisant une boucle \code{for}}
+  \label{fig:planification:boucle}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{framed}
+\begin{lstlisting}
+simul1 <- function(nsimul, size, theta)
+{
+    a <- theta - 0.5
+    b <- theta + 0.5
+
+    x <- matrix(0, nrow = 3, ncol = nsimul)
+    rownames(x) <- c("Moyenne", "Mediane", "Mi-etendue")
+
+    for (i in 1:nsimul)
+    {
+        u <- runif(size, a, b)
+        x[, i] <- c(mean(u), median(u), mean(range(u)))
+    }
+
+    list(biais = rowMeans(x) - theta,
+         variances = apply(x, 1, var))
+}
+\end{lstlisting}
+  \end{framed}
+  \caption{Définition de la fonction \code{simul1}}
+  \label{fig:planification:simul1}
+\end{figure}
+
+Si l'on souhaite pouvoir exécuter le code de la
+\autoref{fig:planification:boucle} facilement à l'aide d'une seule
+expression, il suffit de placer l'ensemble du code dans une fonction.
+La fonction \code{simul1} de la \autoref{fig:planification:simul1}
+reprend le code de la \autoref{fig:planification:boucle}, sans les
+commentaires. On a alors:
+
+<<echo=TRUE>>=
+simul1(10000, 100, 0)
+@
+
+\section{Seconde approche: avec \code{sapply}}
+\label{planification:sapply}
+
+Dans R, il est plus élégant --- et parfois plus efficace --- de
+masquer les calculs itératifs avec les fonctions d'application
+\code{lapply} et \code{sapply}
+\citep[chapitre~6]{Goulet:programmer-avec-r:2017}. On rappelle que la
+syntaxe de ces fonctions est
+\begin{quote}
+  \code{lapply(x, FUN, ...)} \\
+  \code{sapply(x, FUN, ...)}
+\end{quote}
+Ces fonctions appliquent la fonction \code{FUN} à tous les éléments de
+la liste ou du vecteur \code{x} et retournent les résultats sous forme
+de liste (\code{lapply}) ou, lorsque c'est possible, de vecteur ou
+de matrice (\code{sapply}). Il est important de noter que les
+valeurs successives de \code{x} seront passées comme \emph{premier}
+argument à la fonction \code{FUN}. Le cas échéant, les autres
+arguments de \code{FUN} sont spécifiés dans le champ~`\code{...}'.
+
+Pour pouvoir utiliser ces fonctions dans le cadre d'une simulation
+comme celle dont il est question ici, il s'agit de définir une
+fonction qui fera tous les calculs pour une simulation, puis de la
+passer à \code{sapply} pour obtenir les résultats de $N$
+simulations. La \autoref{fig:planification:lapply} présente une
+première version d'une telle fonction. On remarquera que l'argument
+\code{i} ne joue aucun rôle dans la fonction. Voici un exemple
+d'utilisation pour un petit nombre de simulations (4):
+
+\begin{figure}
+  \centering
+  \begin{framed}
+\begin{lstlisting}
+fun1 <- function(i, size, a, b)
+{
+    u <- runif(size, a, b)
+    c(Moyenne = mean(u),
+      Mediane = median(u),
+      "Mi-etendue" = mean(range(u)))
+}
+
+simul2 <- function(nsimul, size, theta)
+{
+    a <- theta - 0.5
+    b <- theta + 0.5
+
+    x <- sapply(1:nsimul, fun1, size, a, b)
+
+    list(biais = rowMeans(x) - theta,
+         variances = apply(x, 1, var))
+}
+\end{lstlisting}
+  \end{framed}
+  \caption{Définitions des fonction \code{fun1} et \code{simul2}}
+  \label{fig:planification:lapply}
+\end{figure}
+
+<<echo=TRUE>>=
+sapply(1:4, fun1, size = 10, a = -0.5, b = 0.5)
+@
+
+On remarque donc que les résultats de chaque simulation se trouvent
+dans les colonnes de la matrice obtenue avec \code{sapply}.
+
+Pour compléter l'analyse, on englobe le tout dans une fonction
+\code{simul2}, dont le code se trouve à la
+\autoref{fig:planification:lapply}:
+<<echo=TRUE>>=
+simul2(10000, 100, 0)
+@
+Il est généralement plus facile de déboguer le code avec cette
+approche puisque l'on peut rapidement circonscrire un éventuel
+problème à \code{fun1} ou \code{simul2}.
+
+
+\section{Variante de la seconde approche}
+\label{planification:replicate}
+
+Une chose manque d'élégance dans la seconde approche: l'obligation
+d'inclure un argument factice dans la fonction \code{fun1}. La
+fonction \code{replicate} permet toutefois de passer outre cette
+contrainte. En effet, cette fonction exécute un nombre donné de fois
+une expression quelconque.
+
+Les fonctions \code{fun2} et \code{simul3} de la
+\autoref{fig:planification:replicate} sont des versions légèrement
+modifiées de \code{fun1} et \code{simul2} pour utilisation avec
+\code{replicate}. On a alors
+<<echo=TRUE>>=
+simul3(10000, 100, 0)
+@
+
+\begin{figure}
+  \centering
+  \begin{framed}
+\begin{lstlisting}
+fun2 <- function(size, a, b)
+{
+    u <- runif(size, a, b)
+    c(Moyenne = mean(u),
+      Mediane = median(u),
+      "Mi-etendue" = mean(range(u)))
+}
+
+simul3 <- function(nsimul, size, theta)
+{
+    a <- theta - 0.5
+    b <- theta + 0.5
+
+    x <- replicate(nsimul, fun2(size, a, b))
+
+    list(biais = rowMeans(x) - theta,
+         variances = apply(x, 1, var))
+}
+\end{lstlisting}
+  \end{framed}
+  \caption{Définitions des fonction \code{fun2} et \code{simul3}}
+  \label{fig:planification:replicate}
+\end{figure}
+
+
+
+\section{Gestion des fichiers}
+\label{planification:fichiers}
+
+Pour un petit projet comme celui utilisé en exemple ici, il est simple
+et pratique de placer tout le code informatique dans un seul fichier
+de script. Pour un plus gros projet, cependant, il vaut souvent mieux
+avoir recours à plusieurs fichiers différents. Le présent auteur
+utilise pour sa part un fichier par fonction.
+
+À des fins d'illustration, supposons que l'on utilise l'approche de la
+\autoref{planification:replicate} avec la fonction
+\code{replicate} et que le code des fonctions \code{fun2} et
+\code{simul3} est sauvegardé dans des fichiers \code{fun2.R} et
+\code{simul3.R}, dans l'ordre. Si l'on crée un autre fichier, disons
+\code{go.R}, ne contenant que des expressions \code{source} pour
+lire les autres fichiers, il est alors possible de démarrer des
+simulations en exécutant ce seul fichier. Dans notre exemple, le
+fichier \code{go.R} contiendrait les lignes suivantes:
+\begin{quote}
+  \code{source("fun2.R")} \\
+  \code{source("simul3.R")} \\
+  \code{simul3(10000, 100, 0)}
+\end{quote}
+Une simple commande
+<<echo=TRUE, eval=FALSE>>=
+source("go.R")
+@
+exécutera alors une simulation complète.
+
+
+\section{Exécution en lot}
+\label{planification:batch}
+
+Les utilisateurs plus avancés pourront vouloir exécuter leur
+simulation R en lot (\emph{batch}) pour en accélérer le traitement.
+Dans ce mode, aucune interface graphique n'est démarrée et tous les
+résultats sont redirigés vers un fichier pour consultation ultérieure.
+Pour les simulations demandant un long temps de calcul, c'est très
+pratique.
+
+On exécute R en lot depuis la ligne de commande (Invite de commande
+sous Windows, Terminal sous macOS ou Linux). Une fois placé dans le
+répertoire contenant les fichiers de script, il suffit d'entrer à la
+ligne de commande
+\begin{quote}
+\verb|R CMD BATCH go.R|
+\end{quote}
+La sortie de cette commande (et donc tous les résultats des
+expressions R du fichier \code{go.R}) seront placés par défaut dans le
+fichier \code{go.Rout}. Sous Windows, le dossier d'installation de R
+peut ne pas se trouver dans la variable d'environnement \verb|%PATH%|,
+auquel cas il faut spécifier le chemin d'accès complet de l'exécutable
+à la ligne de commande:
+\begin{quote}
+\verb|"c:\Program Files\R\R-x.y.z\bin\R" CMD BATCH go.R|
+\end{quote}
+Remplacer \code{R-x.y.z} par le numéro de version courant de R.
+
+
+
+\section{Conclusion}
+\label{planification:conclusion}
+
+Le nombre de simulations, $N$, et la taille de l'échantillon, $n$, ont
+tous deux un impact sur la qualité des résultats, mais de manière
+différente. Quand $n$ augmente, la précision des estimateurs augmente.
+Ainsi, dans l'exemple ci-dessus, le biais et la variance des
+estimateurs de $\theta$ seront plus faibles. D'autre part,
+l'augmentation du nombre de simulations diminue l'impact des
+échantillons aléatoires individuels et, de ce fait, améliore la
+fiabilité des conclusions de l'étude.
+
+D'ailleurs, les conclusions de l'étude de simulation sur le biais et
+la variance des trois estimateurs de la moyenne d'une loi uniforme
+sont les suivantes: les trois estimateurs sont sans biais et la
+mi-étendue a la plus faible variance. En effet, on peut démontrer
+mathématiquement que, pour $n$ impair,
+\begin{align*}
+  \var{\hat{\theta}_1} &= \frac{1}{12 n} \\
+  \var{\hat{\theta}_2} &= \frac{1}{4n + 2} \\
+  \var{\hat{\theta}_3} &= \frac{1}{2(n + 1)(n + 2)}
+\end{align*}
+et donc
+\begin{displaymath}
+  \var{\hat{\theta}_3} \leq \var{\hat{\theta}_1} \leq \var{\hat{\theta}_2}
+\end{displaymath}
+pour tout $n \geq 2$.
+
+\index{simulation!planification|)}
+
+%%% Local Variables:
+%%% TeX-master: "methodes_numeriques-partie_2"
+%%% coding: utf-8
+%%% End:
