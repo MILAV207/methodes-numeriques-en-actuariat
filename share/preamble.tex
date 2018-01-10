@@ -271,31 +271,21 @@
       {\end{minipage}\end{framed}}
 
   %% Remarques importantes
-  \newenvironment{important}{%
-    \begin{infobox}{\faExclamationCircle}}%
-    {\end{infobox}}
+  % \newenvironment{important}{%
+  %   \begin{infobox}{\faExclamationCircle}}%
+  %   {\end{infobox}}
 
   %% Informations
-  \newenvironment{information}{%
-    \begin{infobox}{\faInfoCircle}}%
-    {\end{infobox}}
+  % \newenvironment{information}{%
+  %   \begin{infobox}{\faInfoCircle}}%
+  %   {\end{infobox}}
 
-  %% Remarques spécifiques OS X
-  \newenvironment{osx}{%
-    \begin{infobox}{\faApple}}%
-    {\end{infobox}}
-
-  %% Changements au fil de la lecture. Environnement similaire aux
-  %% encadrés ci-dessus, mais le symbole n'est pas de la même grosseur.
-  \newenvironment{gotoR}{%
-    \setlength{\FrameRule}{1pt}
-    \begin{framed}%
-      \noindent
-      \begin{minipage}{0.07\linewidth}
-        \raisebox{-0.7em}[0em][0em]{\Large\faFastForward}
-      \end{minipage}
-      \begin{minipage}[t]{0.88\linewidth}\sffamily}%
-      {\end{minipage}\end{framed}}
+  %% Boites additionnelles (basées sur awesomebox.sty) pour remarques
+  %% spécifiques à macOS et pour les changements au fil de la lecture.
+  \newcommand{\osxbox}[1]{%
+    \awesomebox{\faApple}{\aweboxrulewidth}{black}{#1}}
+  \newcommand{\gotorbox}[1]{%
+    \awesomebox{\faMapSigns}{\aweboxrulewidth}{black}{\sffamily #1}}
 
   %% Redéfinition de l'environnement de matrices de amsmath pour
   %% aligner les colonnes à droite. Pris dans
