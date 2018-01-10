@@ -12,9 +12,19 @@
 \label{chap:solutions}
 \markboth{Solutions des exercices}{Solutions des exercices}
 
+\begingroup
+
+%% Environnement Schunk simplifié pour l'affichage des réponses
+\renewenvironment{Schunk}{%
+  \setlength{\topsep}{0pt}
+  \colorlet{shadecolor}{codebg}
+  \begin{snugshade*}}%
+  {\end{snugshade*}}
 \input{solutions-generation}
 \input{solutions-simulation}
 \input{solutions-montecarlo}
+
+\endgroup
 
 %%% Local Variables:
 %%% mode: latex

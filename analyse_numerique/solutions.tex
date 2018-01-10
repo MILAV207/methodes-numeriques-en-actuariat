@@ -2,9 +2,20 @@
 \label{chap:solutions}
 \markboth{Solutions des exercices}{Solutions des exercices}
 
+\begingroup
+
+%% Environnement Schunk simplifié pour l'affichage des réponses
+\renewenvironment{Schunk}{%
+  \setlength{\topsep}{0pt}
+  \colorlet{shadecolor}{codebg}
+  \begin{snugshade*}}%
+  {\end{snugshade*}}
+
 \input{solutions-arithmetique_ordinateurs}
 \input{solutions-resolution_equations}
 \input{solutions-integration_numerique}
+
+\endgroup
 
 %%% Local Variables:
 %%% mode: latex
