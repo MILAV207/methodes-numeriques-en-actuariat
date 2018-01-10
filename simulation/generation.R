@@ -11,7 +11,7 @@
 ## http://creativecommons.org/licenses/by-sa/4.0/
 
 ###
-### EXEMPLE 7.3
+### EXEMPLE 1.3
 ###
 
 ## On définit tout d'abord une petite fonction pour calculer
@@ -44,7 +44,7 @@ rand(17, a = 5, c = 4, m = 16, seed = 0)
 rand(17, a = 5, c = 4, m = 16, seed = 1)
 rand(17, a = 5, c = 4, m = 16, seed = 2)
 
-## Le générateur multiplicatif de l'exemple 7.2 ne satisfait
+## Le générateur multiplicatif de l'exemple 1.2 ne satisfait
 ## pas les conditions pour que la période soit maximale (7
 ## n'est pas une racine primitive de 31).
 rand(32, a = 7, c = 0, m = 31, seed = 19)
@@ -55,7 +55,7 @@ length(unique(rand(32, a = 7, c = 0, m = 31, seed = 19)))
 length(unique(rand(32, a = 3, c = 0, m = 31, seed = 19)))
 
 ###
-### EXEMPLE 7.4
+### EXEMPLE 1.4
 ###
 
 ## Un générateur avec une période de 30. Les valeurs obtenues

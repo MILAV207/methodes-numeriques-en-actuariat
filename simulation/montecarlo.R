@@ -11,7 +11,7 @@
 ## http://creativecommons.org/licenses/by-sa/4.0/
 
 ###
-### EXEMPLE 9.1
+### EXEMPLE 3.1
 ###
 
 ## Estimations successives de l'intégrale par la méthode Monte
@@ -48,7 +48,7 @@ plot(x, f(x), main = "n = 10 000",
 par(op)                    # revenir aux paramètres par défaut
 
 ###
-### EXEMPLE 9.2
+### EXEMPLE 3.2
 ###
 
 ## Estimations successives de l'intégrale double par la

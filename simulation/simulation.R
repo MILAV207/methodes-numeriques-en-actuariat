@@ -11,7 +11,7 @@
 ## http://creativecommons.org/licenses/by-sa/4.0/
 
 ###
-### EXEMPLE 8.1
+### EXEMPLE 2.1
 ###
 
 ## Simulation un échantillon aléatoire d'une distribution
@@ -38,7 +38,7 @@ hist(x, prob = TRUE) # histogramme gradué en probabilités
 curve(dexp(x, rate = lambda), add = TRUE)
 
 ###
-### EXEMPLE 8.4
+### EXEMPLE 2.4
 ###
 
 ## On trouvera ci-dessous une mise en oeuvre de l'algorithme
