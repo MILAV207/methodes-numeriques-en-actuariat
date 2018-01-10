@@ -1,5 +1,19 @@
+%%% Copyright (C) 2018 Vincent Goulet
+%%%
+%%% Ce fichier fait partie du projet «Méthodes numériques en actuariat»
+%%% http://github.com/vigou3/methodes-numeriques-en-actuariat
+%%%
+%%% Cette création est mise à disposition selon le contrat
+%%% Attribution-Partage dans les mêmes conditions 4.0
+%%% International de Creative Commons.
+%%% http://creativecommons.org/licenses/by-sa/4.0/
+
 \chapter{Arithmétique des ordinateurs}
 \label{chap:ordinateurs}
+
+<<echo=FALSE>>=
+options(width = 52)
+@
 
 \begin{objectifs}
 \item Concevoir l'effet de la représentation interne des nombres dans
@@ -12,11 +26,6 @@
   l'impact des erreurs d'arrondis et de troncature et optimiser le
   temps de calcul.
 \end{objectifs}
-
-<<echo=FALSE>>=
-options(width = 62)
-@
-
 
 \begin{prob-enonce}
   Les étudiants d'actuariat utilisent pour la plupart la calculatrice
@@ -1368,13 +1377,691 @@ voir \cite{Ripley:Rnews:2005a}.
 \section{Code informatique}
 \label{sec:ordinateurs:code}
 
-\lstinputlisting[firstline=3]{arithmetique_ordinateurs.R}
+\def\scriptfilename{arithmetique_ordinateurs.R}
+
+\scriptfile{\scriptfilename}
+\lstinputlisting[firstline=13]{\scriptfilename}
 
 \vfill
 
-\input{exercices-arithmetique_ordinateurs}
+\section{Exercices}
+\label{sec:ordinateurs:exercices}
+
+\Opensolutionfile{reponses}[reponses-arithmetique_ordinateurs]
+\Opensolutionfile{solutions}[solutions-arithmetique_ordinateurs]
+
+\begin{Filesave}{reponses}
+\bigskip
+\section*{Réponses}
+
+\noindent
+La notation $x_{b}$ signifie que le nombre $x$ est en base $b$. On
+omet généralement $b$ pour les nombres en base $10$.
+
+\end{Filesave}
+
+\begin{Filesave}{solutions}
+\section*{Chapitre \ref*{chap:ordinateurs}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:ordinateurs}}
+
+\noindent
+La notation $x_{b}$ signifie que le nombre $x$ est en base $b$. On
+omet généralement $b$ pour les nombres en base $10$.
+
+\end{Filesave}
+
+\begin{exercice}
+  Convertir les nombres décimaux suivants en base 6, puis en binaire.
+  \begin{enumerate}
+  \item $119$
+  \item $343$
+  \item $96$
+  \item $43$
+  \end{enumerate}
+  \begin{sol}
+    L'algorithme de conversion des nombres décimaux en une base $b$ se
+    résume essentiellement à ceci pour la partie entière:
+    \begin{enumerate}[1.]
+    \item les chiffres du nombre en base $b$ sont obtenus de droite à
+      gauche en prenant le reste de divisions par $b$;
+    \item on divise par $b$ d'abord le nombre décimal d'origine, puis
+      la partie entière de la division précédente, jusqu'à ce que
+      celle-ci soit égale à $0$.
+    \end{enumerate}
+    On a donc les résultats suivants.
+    \begin{enumerate}
+    \item
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en base 6:
+        \begin{align*}
+          119 \div 6 &= 19 \text{ reste } 5 \\
+           19 \div 6 &= 3 \text{ reste } 1 \\
+            3 \div 6 &= 0 \text{ reste } 3,
+        \end{align*}
+        d'où $119 \equiv 315_6$.
+      \end{minipage}
+      \hfill
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en binaire:
+        \begin{align*}
+          119 \div 2 &= 59 \text{ reste } 1 \\
+           59 \div 2 &= 29 \text{ reste } 1 \\
+           29 \div 2 &= 14 \text{ reste } 1 \\
+           14 \div 2 &= 7 \text{ reste } 0 \\
+            7 \div 2 &= 3 \text{ reste } 1 \\
+            3 \div 2 &= 1 \text{ reste } 1 \\
+            1 \div 2 &= 0 \text{ reste } 1,
+        \end{align*}
+        d'où $119 \equiv 1110111_2$.
+      \end{minipage}
+      \medskip
+    \item
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en base $6$:
+        \begin{align*}
+          343 \div 6 &= 57 \text{ reste } 1 \\
+           57 \div 6 &= 9 \text{ reste } 3 \\
+            9 \div 6 &= 1 \text{ reste } 3 \\
+            1 \div 6 &= 0 \text{ reste } 1,
+        \end{align*}
+        d'où $343 \equiv 1331_6$.
+      \end{minipage}
+      \hfill
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en binaire:
+        \begin{align*}
+          343 \div 2 &= 171 \text{ reste } 1 \\
+          171 \div 2 &= 85 \text{ reste } 1 \\
+           85 \div 2 &= 42 \text{ reste } 1 \\
+           42 \div 2 &= 21 \text{ reste } 0 \\
+           21 \div 2 &= 10 \text{ reste } 1 \\
+           10 \div 2 &= 5 \text{ reste } 0 \\
+            5 \div 2 &= 2 \text{ reste } 1 \\
+            2 \div 2 &= 1 \text{ reste } 0 \\
+            1 \div 2 &= 0 \text{ reste } 1,
+        \end{align*}
+        d'où $119 \equiv 101010111_2$.
+      \end{minipage}
+      \medskip
+    \item
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en base $6$:
+        \begin{align*}
+          96 \div 6 &= 16 \text{ reste } 0 \\
+          16 \div 6 &= 2 \text{ reste } 4 \\
+           2 \div 6 &= 0 \text{ reste } 2,
+        \end{align*}
+        d'où $96 \equiv 240_6$.
+      \end{minipage}
+      \hfill
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en binaire:
+        \begin{align*}
+          96 \div 2 &= 48 \text{ reste } 0 \\
+          48 \div 2 &= 24 \text{ reste } 0 \\
+          24 \div 2 &= 12 \text{ reste } 0 \\
+          12 \div 2 &= 6 \text{ reste } 0 \\
+           6 \div 2 &= 3 \text{ reste } 0 \\
+           3 \div 2 &= 1 \text{ reste } 1 \\
+           1 \div 2 &= 0 \text{ reste } 1,
+        \end{align*}
+        d'où $96 \equiv 1100000_2$.
+      \end{minipage}
+      \medskip
+    \item
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en base $6$:
+        \begin{align*}
+          43 \div 6 &= 7 \text{ reste } 1 \\
+           7 \div 6 &= 1 \text{ reste } 1 \\
+           1 \div 6 &= 0 \text{ reste } 1,
+        \end{align*}
+        d'où $43 \equiv 111_6$.
+      \end{minipage}
+      \hfill
+      \begin{minipage}[t]{0.48\linewidth}
+        Conversion en binaire:
+        \begin{align*}
+          43 \div 2 &= 21 \text{ reste } 1 \\
+          21 \div 2 &= 10 \text{ reste } 1 \\
+          10 \div 2 &= 5 \text{ reste } 0 \\
+           5 \div 2 &= 2 \text{ reste } 1 \\
+           2 \div 2 &= 1 \text{ reste } 0 \\
+           1 \div 2 &= 0 \text{ reste } 1,
+        \end{align*}
+        d'où $43 \equiv 101011_2$.
+      \end{minipage}
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item $315_6$, $1110111_2$
+    \item $1331_6$, $101010111_2$
+    \item $240_6$, $1100000_2$
+    \item $111_6$, $101011_2$
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  Convertir les nombres hexadécimaux suivants en nombres décimaux.
+  \begin{enumerate}
+  \item $\text{A}1\text{B}$
+  \item $12\text{A}$
+  \item $\text{B}41$
+  \item $\text{BAFFE}$
+  \end{enumerate}
+  \begin{sol}
+    On fait les deux premières conversions à l'aide de la définition
+    d'un nombre hexadécimal, puis les deux dernières à l'aide de
+    l'algorithme de conversion des nombres en base $b$ vers la base
+    $10$.
+    \begin{enumerate}
+    \item $\text{A}1\text{B}_{16} = 10 \times 16^2 + 1 \times 16 + 11 = \nombre{2587}$
+    \item $12\text{A}_{16} = 1 \times 16^2 + 2 \times 16 + 10 = 298$
+    \item $\text{B}41_{16} = (11 \times 16 + 4) \times 16 + 1 = \nombre{2881}$
+    \item $\text{BAFFE}_{16} = ((((11 \times 16 + 10) \times 16) + 15)
+      \times 16) + 15) \times 16 + 14 = \nombre{765950}$
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{inparaenum}
+    \item $\nombre{2587}$
+    \item $298$
+    \item $\nombre{2881}$
+    \item $\nombre{765950}$
+    \end{inparaenum}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  \begin{enumerate}
+  \item Utiliser l'algorithme de conversion des nombres en base $b$
+    vers la base $10$ et les idées de
+    l'\autoref{ex:ordinateurs:position_dans_matrice} pour trouver
+    une formule générale donnant la position de l'élément $a_{ijk}$
+    d'un tableau de dimensions $I \times J \times K$ dans l'ordre de
+    la liste des éléments du tableau. Utiliser l'ordre
+    lexicographique où le tableau est rempli dans l'ordre
+    \begin{equation*}
+      a_{111}, a_{112}, \dots, a_{11K}, a_{121}, a_{122}, \dots
+    \end{equation*}
+  \item Répéter la partie a) en utilisant l'ordre R où le tableau
+    est plutôt rempli dans l'ordre $a_{111}, a_{211}, \dots, a_{I11},
+    a_{121}, a_{221}, \dots$.
+  \end{enumerate}
+  \begin{sol}
+    La généralisation de l'algorithme de conversion des nombres en
+    base $b$ vers la base $10$ à la conversion d'un nombre
+    \begin{displaymath}
+      x = x_{m-1}x_{m-2} \cdots x_1x_0
+    \end{displaymath}
+    en base $[b_{m-1}\; \dots\; b_0]$ vers la base $10$ est la suivante
+    (nombre entiers seulement):
+    \begin{enumerate}[1.]
+    \item Poser $x = 0$.
+    \item Pour $i = m - 1, m - 2, \dots, 0$, faire les étapes suivantes.
+      \begin{enumerate}
+      \item Trouver $d_i$, le nombre décimal correspondant au symbole
+        $x_i$.
+      \item Poser $x = x b_{i - 1} + d_i$, avec $b_{-1} = 1$.
+      \end{enumerate}
+    \end{enumerate}
+    Cet algorithme permet de trouver les formules demandées.
+    \begin{enumerate}
+    \item On trouve la position de l'élément $a_{ijk}$ dans l'ordre de
+      la liste des éléments du tableau en convertissant le nombre $[i
+      - 1\; j - 1\; k - 1]$ de la base $[I\; J\; K]$ à la base $10$,
+      puis à additionnant $1$. À l'aide de l'algorithme ci-dessus, on
+      obtient
+      \begin{displaymath}
+        [((i - 1) \times J + j - 1) \times K + k - 1] + 1
+        = k + K (j - 1 + J (i - 1))
+      \end{displaymath}
+    \item Dans l'ordre R, on convertit le nombre $[k - 1\; j - 1\; i -
+      1]$ exprimé dans la base $[K\; J\; I]$ en base $10$. On obtient alors
+      \begin{displaymath}
+        [((k - 1) \times J + j - 1) \times I + i - 1] + 1
+        = i + I (j - 1 + J (k - 1)).
+      \end{displaymath}
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item $k + K (j - 1 + J (i - 1))$
+    \item $i + I (j - 1 + J (k - 1))$
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  \label{ex:ordinateurs:complement}
+  La plupart des langages de programmation --- dont R, voir la note au
+  bas de la \autopageref{pg:arithmetique:entiers} --- permettent de
+  définir des nombres entiers «stricts», par opposition à des nombres
+  réels qui s'avèrent simplement être entiers. La représentation de
+  ces nombres entiers est complètement différente de celle de la norme
+  IEEE~754, sauf en ce qui a trait au bit fort, qui sert toujours à
+  stocker le signe du nombre.
+
+  Les nombres entiers sont stockés dans une représentation dite «en
+  complément à deux» \citep{Wikipedia:Complement_deux}. Dans cette
+  notation:
+  \begin{enumerate}[i)]
+  \item un entier positif est représenté en binaire de manière
+    usuelle, avec le bit fort égal à $0$;
+  \item pour un entier négatif, on inverse les bits de la
+    représentation de sa valeur absolue et on ajoute $1$ au résultat.
+  \end{enumerate}
+  Le bit fort est automatiquement mis à $1$ (pour représenter un nombre
+  négatif) par l'opération d'inversion. Les deux opérations ci-dessus
+  sont équivalentes à stocker un nombre négatif $x$ en tant que $2^n -
+  |x|$.
+
+  Par exemple, la représentation sur 8~bits du nombre $5$ est
+  \begin{equation*}
+    \fbox{$0$}\hspace{2pt}\fbox{$0000101$}.
+  \end{equation*}
+  Pour représenter $-5$, on inverse ces bits et on ajoute $1$:
+  \begin{equation*}
+    \fbox{$1$}\hspace{2pt}\fbox{$1111011$}.
+  \end{equation*}
+  On remarque que $11111011_2 = 251_{10} = 2^8 - 5$.
+  \begin{enumerate}
+  \item L'un des avantages de la notation en complément à deux est
+    qu'elle évite d'avoir des représentations pour $+0$ et $-0$. Pour
+    des entiers de 8~bits, \fbox{$0$}\hspace{2pt}\fbox{$0000000$}
+    correspond tout naturellement à $0$. À quel nombre correspond
+    \fbox{$1$}\hspace{2pt}\fbox{$0000000$} selon cette notation?
+  \item Un autre avantage, plus important que celui mentionné en a),
+    de la notation en complément à deux est qu'elle permet d'effectuer
+    les opérations arithmétiques en binaire naturellement. Pour
+    constater ce fait, effectuer directement sur 8~bits l'opération
+    $15 - 5$ en utilisant les notations suivantes:
+    \begin{enumerate}
+    \item la notation naturelle où le bit fort représente le signe et
+      les sept autres bits pour représentent la valeur absolue du
+      nombre;
+    \item la notation en complément à deux.
+    \end{enumerate}
+    Dans les deux cas, ignorer les éventuels dépassements de capacité
+    vers la gauche.
+  \item C'est maintenant le temps d'expliquer le trait d'humour dans
+    le strip de XKCD.com au début du document. Pour ce faire,
+    convertir en décimal les représentations en complément à deux sur
+    8~bits de \fbox{$00000000$} à \fbox{$11111111$}. Répéter
+    l'exercice sur 16~bits. (En fait, convertir non pas toutes les
+    représentations, mais bien seulement quelques valeurs clés qui
+    permettront d'observer la séquence des nombres décimaux
+    correspondants.)
+  \item En plus des types \texttt{Single} et \texttt{Double} pour
+    représenter des nombres en virgule flottante, le VBA dispose des
+    types \texttt{Byte}, \texttt{Integer} et \texttt{Long} pour
+    représenter des nombres entiers. Comme son nom l'indique, le type
+    \texttt{Byte} utilise huit bits d'espace mémoire et ne sert que
+    pour les entiers positifs. Les types \texttt{Integer} et
+    \texttt{Long} requièrent $16$ et $32$~bits, respectivement, et peuvent
+    contenir des nombres négatifs. La notation en complément à deux
+    est alors utilisée pour ces deux types. Déterminer l'ensemble
+    des entiers représentables pour chacun des types de données
+    \texttt{Byte}, \texttt{Integer} et \texttt{Long}.
+  \end{enumerate}
+  \begin{sol}
+    \begin{enumerate}
+    \item Par la valeur du bit fort, on sait que
+      \fbox{$1$}\hspace{2pt}\fbox{$0000000$} est un nombre négatif. Pour
+      retrouver sa valeur absolue, on soustrait d'abord $1$ (ce qui
+      donne $01111111$) et on inverse les bits: $10000000$. Or
+      $10000000_2 = 2^7 = 128$. Le nombre décimal correspondant à
+      \fbox{$1$}\hspace{2pt}\fbox{$0000000$} en notation en complément à
+      deux est donc $-128$.
+    \item Tout d'abord, $15_{10} = 1111_2$ et $5_{10} = 101_2$.
+      \begin{enumerate}
+      \item Selon la notation «naturelle», on aurait pour $15$ et $-5$
+        les représentations sur 7~bits suivantes, dans l'ordre:
+        \begin{center}
+          \fbox{$0$}\hspace{2pt}\fbox{$0001111$}
+          \quad et \quad
+          \fbox{$1$}\hspace{2pt}\fbox{$0000101$}.
+        \end{center}
+        Or, en additionnant en binaire, on obtient
+        \begin{center}
+          \begin{tabular}{cr}
+                & $0\,0001111$ \\
+            $+$ & $1\,0000101$ \\
+            \cline{2-2}
+                & $1\,0010100$
+          \end{tabular}
+        \end{center}
+        et $10010100_2 = -20_{10} \neq 15 + (-5)$.
+      \item En notation en complément à deux, on a plutôt les
+        représentations suivantes pour $15$ et $-5$:
+        \begin{center}
+          \fbox{$0$}\hspace{2pt}\fbox{$0001111$}
+          \quad et \quad
+          \fbox{$1$}\hspace{2pt}\fbox{$1111011$}.
+        \end{center}
+        En additionnant en binaire et en ignorant le neuvième bit qui
+        apparaîtrait à gauche suite à la retenue, on obtient:
+        \begin{center}
+          \begin{tabular}{cr}
+                & $0\,0001111$ \\
+            $+$ & $1\,1111011$ \\
+            \cline{2-2}
+                & $0\,0001010$
+          \end{tabular}
+        \end{center}
+        Toujours en complément à deux, $0001010_2 = 10_{10} = 15 +
+        (-5)$. On voit donc que l'addition en complément à deux donne
+        directement le bon résultat.
+      \end{enumerate}
+    \item Voir les tableaux~\ref{tab:arithmetique:sequences_8bits} et
+      \ref{tab:arithmetique:sequences_16bits}. La troisième colonne
+      des tableaux est obtenue par l'opération $-(2^n - x)$, où $n =
+      8$ ou $n = 16$ et $x$ est la valeur dans la seconde colonne.
+      \begin{table}
+        \centering
+        \caption{Séquences des nombres en notation en complément à
+          deux sur 8~bits}
+        \label{tab:arithmetique:sequences_8bits}
+        \begin{tabular}[t]{crr}
+          \toprule
+               &              & \multicolumn{1}{c}{Valeur en} \\
+          Bits & Valeur brute & complément à deux \\
+          \midrule
+          $0000\; 0000$ & $0$ & $0$ \\
+          $0000\; 0001$ & $1$ & $1$ \\
+          $0000\; 0010$ & $2$ & $2$ \\
+          $0111\; 1110$ & $126$ & $126$ \\
+          $0111\; 1111$ & $127$ & $127$ \\
+          $1000\; 0000$ & $128$ & $-128$ \\
+          $1000\; 0001$ & $129$ & $-127$ \\
+          $1000\; 0010$ & $130$ & $-126$ \\
+          $1111\; 1110$ & $254$ & $-2$ \\
+          $1111\; 1111$ & $255$ & $-1$ \\
+          \bottomrule
+        \end{tabular}
+      \end{table}
+      \begin{table}
+        \centering
+        \caption{Séquences des nombres en notation en complément à
+          deux sur 16 bits}
+        \label{tab:arithmetique:sequences_16bits}
+        \begin{tabular}[t]{crr}
+          \toprule
+               &              & \multicolumn{1}{c}{Valeur en} \\
+          Bits & Valeur brute & complément à deux \\
+          \midrule
+          $0000\; 0000\; 0000\; 0000$ & $0$ & 0 \\
+          $0000\; 0000\; 0000\; 0001$ & $1$ & 1 \\
+          $0000\; 0000\; 0000\; 0010$ & $2$ & 2 \\
+          $0111\; 1111\; 1111\; 1110$ & $\nombre{32766}$ & $\nombre{32766}$ \\
+          $0111\; 1111\; 1111\; 1111$ & $\nombre{32767}$ & $\nombre{32767}$ \\
+          $1000\; 0000\; 0000\; 0000$ & $\nombre{32768}$ & $-\nombre{32768}$ \\
+          $1000\; 0000\; 0000\; 0001$ & $\nombre{32769}$ & $-\nombre{32767}$ \\
+          $1000\; 0000\; 0000\; 0010$ & $\nombre{32770}$ & $-\nombre{32766}$ \\
+          $1111\; 1111\; 1111\; 1110$ & $\nombre{65534}$ & $-2$ \\
+          $1111\; 1111\; 1111\; 1111$ & $\nombre{65535}$ & $-1$ \\
+          \bottomrule
+        \end{tabular}
+      \end{table}
+    \item L'ensemble des nombres admissibles pour le type
+      \texttt{Byte} est
+      \begin{equation*}
+        \{0, \dots, 2^8 - 1\} = \{0, \dots, 255\}.
+      \end{equation*}
+      Pour le type \texttt{Integer}, on a de la partie c) que les
+      nombres admissibles sont les entiers
+      \begin{equation*}
+        \{-2^{15}, \dots, 2^{15} - 1\} =
+        \{-\nombre{32768}, \dots, \nombre{32767}\}.
+      \end{equation*}
+      Par analogie, on trouve que l'ensemble des entiers admissibles
+      pour le type \texttt{Long} est
+      \begin{equation*}
+        \{-2^{31}, \dots, 2^{31} - 1\} =
+        \{-\nombre{2147483648}, \dots, \nombre{2147483647}\}.
+      \end{equation*}
+      (C'est le type de nombre qui était utilisé par YouTube pour
+      comptabiliser le nombre de visionnements d'une vidéo jusqu'à ce
+      que \emph{Gangnam Style} excède $\nombre{2147483647}$. Le nombre
+      de visionnements est désormais stocké sous forme d'entier sur
+      $64$~bits, ce qui a fait passer le maximum à $2^{63} - 1 =
+      \nombre{9223372036854775808}$.)
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item $-128$
+    \item \begin{inparaenum}[i)] \item $-20$ \item $10$ \end{inparaenum}
+      \stepcounter{enumii}
+    \item Type \texttt{Byte}: $\{0, \dots, 255\}$; %
+      type \texttt{Integer}: $\{-\nombre{32768}, \dots, \nombre{32767}\}$; %
+      \newline
+      type \texttt{Long}: $\{-\nombre{2147483648}, \dots, \nombre{2147483647}\}$
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  La norme IEEE~754 pour les nombres en virgule flottante $(S,
+  E, F)$ en simple précision est le suivant:
+  \begin{itemize}
+  \item longueur totale de $m = 32$ bits;
+  \item 1 bit pour le signe $S$ (valeur de $0$ pour un nombre positif);
+  \item 8 bits pour l'exposant $E$, avec un biais de $127$;
+  \item 23 bits pour la partie fractionnaire $F$.
+  \end{itemize}
+  Un nombre $x$ est donc représenté comme
+  \begin{displaymath}
+    x = (-1)^S \times 2^{E - 127} \times 1,F.
+  \end{displaymath}
+  Trouver les valeurs $\varepsilon$, $x_{\max}$ et $x_{\min}$ pour les
+  nombres en simple précision. Comparer les résultats avec les limites
+  du type \texttt{Single} en VBA.
+  \begin{sol}
+    Voir la \autoref{sec:ordinateurs:ieee}. Les calculs sont
+    exactement les mêmes que pour les nombres en double précision.
+  \end{sol}
+  \begin{rep}
+    $\varepsilon = 2^{-23} = 1,192 \times 10^{-7}$,
+    $x_{\max} = (2 - 2^{-23}) \times 2^{127} = 3,403 \times 10^{38}$,
+    $x_{\min} = 2^{-126} = 1,175 \times 10^{-38}$ (nombre normalisé) ou
+    $x_{\min} = 2^{-149} = 1,401 \times 10^{-45}$ (nombre dénormalisé)
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  Représenter les nombres suivants comme des nombres en virgule
+  flottante en simple précision selon la norme IEEE~754.
+  \begin{enumerate}
+  \item $-\nombre{1234}$
+  \item $55$
+  \item $\nombre{8191}$
+  \item $-10$
+  \item $\frac{2}{3}$
+  \item $\frac{1}{100}$
+  \end{enumerate}
+  \begin{sol}
+    Dans les égalités ci-dessous, le côté droit est en binaire.
+    \begin{enumerate}
+    \item Premièrement, $1234 \equiv 10011010010_2$. On a donc
+      \begin{align*}
+        -\nombre{1234}
+        &= (-1)^1 \times 2^{10} \times 1,001101001 \\
+        &= (-1)^1 \times 2^{137 - 127} \times 1,1010010.
+      \end{align*}
+      Or, puisque $137 \equiv 10001001_2$, on a la représentation en
+      simple précision
+      \begin{displaymath}
+        \ieee{1}{10001001}{00110100100000000000000}
+      \end{displaymath}
+    \item On a $55 \equiv 110111_2$, d'où
+      \begin{align*}
+        55
+        &= (-1)^0 \times 2^5 \times 1,10111 \\
+        &= (-1)^0 \times 2^{132 - 127} \times 1,10111.
+      \end{align*}
+      Or, puisque $132 \equiv 10000100_2$, on a la représentation en
+      simple précision
+      \begin{displaymath}
+        \ieee{0}{10000100}{10111000000000000000000}
+      \end{displaymath}
+    \item On a $\nombre{8191} \equiv 1111111111111_2$ et $149 \equiv
+      10001011$, d'où
+      \begin{align*}
+        \nombre{8191}
+        &= (-1)^0 \times 2^{12} \times 1,111111111111 \\
+        &= (-1)^0 \times 2^{149 - 127} \times 1,111111111111 \\
+        &= \ieee{0}{10001011}{11111111111100000000000}.
+      \end{align*}
+    \item On a $10 \equiv 1010_2$ et $130 \equiv
+      10000010$, d'où
+      \begin{align*}
+        -10
+        &= (-1)^1 \times 2^3 \times 1,010 \\
+        &= (-1)^1 \times 2^{130 - 127} \times 1,010 \\
+        &= \ieee{1}{10000010}{01000000000000000000000}.
+      \end{align*}
+    \item La représentation de $\frac{2}{3}$ en binaire est
+      $0,101010\dots$. (La façon la plus simple d'obtenir ce résultat
+      consiste à convertir $\frac{2}{3} \times 2^n$, où $n$ est le
+      nombre de bits souhaité après la virgule). Puisque $126 \equiv
+      1111110_2$, on a
+      \begin{align*}
+        \frac{2}{3}
+        &= (-1)^0 \times 2^{-1} \times 1,01010101010101010101010 \\
+        &= (-1)^0 \times 2^{126 - 127} \times 1,01010101010101010101010 \\
+        &= \ieee{0}{01111110}{01010101010101010101010}.
+      \end{align*}
+    \item La représentation binaire de $\frac{1}{100}$ est infinie:
+      $0,000000101000111101\dots$. Puisque $120 \equiv 01111000_2$, on
+      a
+      \begin{align*}
+        \frac{1}{100}
+        &= (-1)^0 \times 2^{-7} \times 1,01000111101011100001010 \\
+        &= (-1)^0 \times 2^{120 - 127} \times 1,01000111101011100001010 \\
+        &= \ieee{0}{01111000}{01000111101011100001010}
+      \end{align*}
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item \ieee{1}{10001001}{00110100100000000000000}
+    \item \ieee{0}{10000100}{10111000000000000000000}
+    \item \ieee{0}{10001011}{11111111111100000000000}
+    \item \ieee{1}{10000010}{01000000000000000000000}
+    \item \ieee{0}{01111110}{01010101010101010101010}
+    \item \ieee{0}{01111000}{01000111101011100001010}
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  \label{ex:ordinateurs:ieee}
+  Les nombres ci-dessous sont représentés en format binaire selon la
+  norme IEEE~754 pour les nombres en simple précision. Convertir ces
+  nombres en décimal.
+  \begin{enumerate}
+  \item \ieee{0}{00111101}{10010000100000000000000}
+  \item \ieee{1}{00111101}{10010000100000000000000}
+  \item \ieee{0}{10000100}{10010000100000000000000}
+  \item \ieee{1}{10000100}{10010000100000000000000}
+  \end{enumerate}
+  \begin{sol}
+    \begin{enumerate}
+    \item Puisque $111101_2 \equiv 61$, on a le nombre
+      \begin{align*}
+        (-1)^0 \times 2^{61 - 127} \times 1,100100001
+        &= (-1)^0 \times 2^{-66} \times 1,100100001 \\
+        &= 2^{-66} (1 + 2^{-1} + 2^{-4} + 2^{-9}) \\
+        &\equiv \nombre{2,120229346} \times 10^{-20}.
+      \end{align*}
+    \item Signe inversé par rapport à la partie a).
+    \item Puisque $10000100_2 = 2^7 + 2^2 \equiv 132$, on a le nombre
+      \begin{align*}
+        (-1)^0 \times 2^{132 - 127} \times 1,100100001
+        &= (-1)^0 \times 2^5 \times 1,100100001 \\
+        &= 2^5 (1 + 2^{-1} + 2^{-4} + 2^{-9}) \\
+        &\equiv \nombre{50,0625}.
+      \end{align*}
+    \item Signe inversé par rapport à la partie c).
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \sloppy
+    \begin{inparaenum}
+    \item $\nombre{2,120229346} \times 10^{-20}$
+    \item $\nombre{-2,120229346} \times 10^{-20}$
+    \item $50,0625$
+    \item $-50,0625$
+    \end{inparaenum}
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  Trouver, pour les nombres des parties a) et c) de
+  l'\autoref{ex:ordinateurs:ieee}, le nombre suivant et le nombre
+  précédent en représentation binaire.
+  \begin{sol}
+    \begin{enumerate}
+    \item Le nombre suivant est
+      \begin{displaymath}
+        \ieee{0}{00111101}{10010000100000000000001},
+      \end{displaymath}
+      soit
+      \begin{displaymath}
+        2^{-66} (1 + 2^{-1} + 2^{-4} + 2^{-9} + 2^{-23}) \\
+        \equiv \nombre{2,120229508} \times 10^{-20}.
+      \end{displaymath}
+      Le nombre précédent est
+      \begin{displaymath}
+        \ieee{0}{00111101}{10010000011111111111111},
+      \end{displaymath}
+      soit
+      \begin{displaymath}
+        2^{-66} (1 + 2^{-1} + 2^{-4} + 2^{-9} - 2^{-23}) \\
+        \equiv \nombre{2,120229185} \times 10^{-20}.
+      \end{displaymath}
+      \stepcounter{enumi}
+    \item Le nombre suivant est
+      \begin{displaymath}
+        \ieee{0}{10000100}{10010000100000000000001},
+      \end{displaymath}
+      soit
+      \begin{displaymath}
+        2^5 (1 + 2^{-1} + 2^{-4} + 2^{-9} + 2^{-23}) \\
+        \equiv \nombre{50,062503815}.
+      \end{displaymath}
+      Le nombre précédent est
+      \begin{displaymath}
+        \ieee{0}{10000100}{10010000011111111111111},
+      \end{displaymath}
+      soit
+      \begin{displaymath}
+        2^5 (1 + 2^{-1} + 2^{-4} + 2^{-9} - 2^{-23}) \\
+        \equiv \nombre{50,062496185}.
+      \end{displaymath}
+      On remarque que les nombres sont beaucoup plus éloignés les uns
+      des autres ici qu'en a).
+    \end{enumerate}
+  \end{sol}
+  \begin{rep}
+    \begin{enumerate}
+    \item $\nombre{2,120229508} \times 10^{-20}$ et
+      $\nombre{2,120229185} \times 10^{-20}$
+      \stepcounter{enumi}
+    \item $\nombre{50,062503815}$ et $\nombre{50,062496185}$
+    \end{enumerate}
+  \end{rep}
+\end{exercice}
+
+\Closesolutionfile{reponses}
+\Closesolutionfile{solutions}
+
+\input{reponses-arithmetique_ordinateurs}
 
 %%% Local Variables:
 %%% engine: xetex
-%%% TeX-master: "methodes_numeriques-partie_3"
+%%% TeX-master: "methodes-numeriques-en-actuariat_analyse-numerique"
 %%% End:

@@ -1,4 +1,14 @@
-## Emacs: -*- coding: utf-8; fill-column: 62; comment-column: 27; -*-
+### Emacs: -*- coding: utf-8; fill-column: 62; comment-column: 27; -*-
+##
+## Copyright (C) 2018 Vincent Goulet
+##
+## Ce fichier fait partie du projet «Méthodes numériques en actuariat»
+## http://github.com/vigou3/methodes-numeriques-en-actuariat
+##
+## Cette création est mise à disposition selon le contrat
+## Attribution-Partage dans les mêmes conditions 4.0
+## International de Creative Commons.
+## http://creativecommons.org/licenses/by-sa/4.0/
 
 ###
 ### EXEMPLES DE CALCULS EN APPARENCE ERRONÉS

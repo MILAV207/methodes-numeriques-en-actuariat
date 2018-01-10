@@ -1,3 +1,13 @@
+## Copyright (C) 2018 Vincent Goulet
+##
+## Ce fichier fait partie du projet «Méthodes numériques en actuariat»
+## http://github.com/vigou3/methodes-numeriques-en-actuariat
+##
+## Cette création est mise à disposition selon le contrat
+## Attribution-Partage dans les mêmes conditions 4.0
+## International de Creative Commons.
+## http://creativecommons.org/licenses/by-sa/4.0/
+
 simpson <- function(FUN, lower, upper, subdivisions = 1000)
 {
     if (upper <= lower)
