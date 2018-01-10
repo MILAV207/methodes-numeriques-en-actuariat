@@ -8,7 +8,7 @@
 %%% International de Creative Commons.
 %%% http://creativecommons.org/licenses/by-sa/4.0/
 
-\chapter{Révision d'algrèbre linéaire}
+\chapter{Notions fondamentales d’algrèbre linéaire}
 \label{chap:revision}
 
 \begin{objectifs}
@@ -1687,7 +1687,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \section{Code informatique}
 \label{sec:revision:code}
 
-\def\scriptfilename{revision\string_algebre\string_lineaire.R}
+\def\scriptfilename{notions\string_fondamentales.R}
 
 \scriptfile{\scriptfilename}
 \lstinputlisting[firstline=13]{\scriptfilename}
