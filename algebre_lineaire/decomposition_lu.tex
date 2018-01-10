@@ -1,3 +1,13 @@
+%%% Copyright (C) 2018 Vincent Goulet
+%%%
+%%% Ce fichier fait partie du projet «Méthodes numériques en actuariat»
+%%% http://github.com/vigou3/methodes-numeriques-en-actuariat
+%%%
+%%% Cette création est mise à disposition selon le contrat
+%%% Attribution-Partage dans les mêmes conditions 4.0
+%%% International de Creative Commons.
+%%% http://creativecommons.org/licenses/by-sa/4.0/
+
 \chapter{Méthodes de résolution de systèmes d'équations linéaires}
 \label{chap:decomposition}
 
@@ -257,9 +267,163 @@ $\mat{A}$ sans devoir répéter une grande partie des calculs.
   habitude de remplir les matrices par colonne.
 \end{rem}
 
-\input{exercices-decomposition_lu}
+
+\section{Exercices}
+\label{chap:decomposition:exercices}
+
+\Opensolutionfile{reponses}[reponses-decomposition_lu]
+\Opensolutionfile{solutions}[solutions-decomposition_lu]
+
+\begin{Filesave}{reponses}
+\bigskip
+\section*{Réponses}
+
+\end{Filesave}
+
+\begin{Filesave}{solutions}
+\section*{Chapitre \ref*{chap:decomposition}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:decomposition}}
+
+\end{Filesave}
+
+\begin{exercice}
+  Résoudre le système d'équations
+  \begin{displaymath}
+    \begin{array}[t]{*{2}{r@{\;}c@{\;}}r@{\;=\;}r}
+      3x_1 &-& 6x_2 &-& 3x_3 &  -3 \\
+      2x_1 & &      &+& 6x_3 & -22 \\
+      -4x_1&+& 7x_2 &+& 4x_3 &   3
+    \end{array}
+  \end{displaymath}
+  par la décomposition $LU$ sachant que
+  \begin{displaymath}
+    \begin{bmatrix}
+      3 & -6 & -3 \\ 2 & 0 & 6 \\ -4 & 7 & 4
+    \end{bmatrix} =
+    \begin{bmatrix}
+      3 & 0 & 0 \\ 2 & 4 & 0 \\ -4 & -1 & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+      1 & -2 & -1 \\ 0 & 1 & 2 \\ 0 & 0 & 1
+    \end{bmatrix}.
+  \end{displaymath}
+  \begin{sol}
+    La matrice
+    \begin{displaymath}
+      \mat{A} =
+      \begin{bmatrix}
+        3 & -6 & -3 \\ 2 & 0 & 6 \\ -4 & 7 & 4
+      \end{bmatrix}
+    \end{displaymath}
+    est exprimée sous la forme $\mat{A} = \mat{L} \mat{U}$, où
+    \begin{align*}
+      \mat{L}
+      &=
+      \begin{bmatrix}
+        3 & 0 & 0 \\ 2 & 4 & 0 \\ -4 & -1 & 2
+      \end{bmatrix} \\
+      \intertext{et}
+      \mat{U}
+      &=
+      \begin{bmatrix}
+        1 & -2 & -1 \\ 0 & 1 & 2 \\ 0 & 0 & 1
+      \end{bmatrix}.
+    \end{align*}
+    Ainsi, le système d'équations $\mat{A} \mat{x} = \mat{b}$ (où
+    $\mat{b} = (-3, -22, 3)^T$) peut être exprimé sous la forme
+    $\mat{L} \mat{U} \mat{x} = \mat{b}$, soit $\mat{L} \mat{y} =
+    \mat{b}$ et $\mat{U} \mat{x} = \mat{y}$. On résoud tout d'abord
+    $\mat{L} \mat{y} = \mat{b}$ par simple substitution successive. On
+    trouve
+    \begin{align*}
+      y_1 &= - 1 \\
+      y_2 &= \frac{-22 - 2 y_1}{4} = -5 \\
+      y_3 &= \frac{3 + 4 y_1 + y_2}{2} = -3.
+    \end{align*}
+    Par la suite, on résoud de même $\mat{U} \mat{x} = \mat{y}$, ce
+    qui donne
+    \begin{align*}
+      x_3 &= -3 \\
+      x_2 &= -5 - 2 x_3 = 1 \\
+      x_1 &= -1 + 2 x_2 + x_3 = -2.
+    \end{align*}
+  \end{sol}
+  \begin{rep}
+    $x_1 = -2$, $x_2 = 1$, $x_3 = -3$
+  \end{rep}
+\end{exercice}
+
+\begin{exercice}
+  Soit
+  \begin{align*}
+    \mat{E}_1
+    &= \begin{bmatrix} 1&0 \\ 2&3 \end{bmatrix} \\
+    \mat{E}_2
+    &= \begin{bmatrix} \frac{1}{3}&0 \\ 0&\frac{1}{3} \end{bmatrix} \\
+    \intertext{et}
+    \mat{A}
+    &= \mat{E}_1^{-1} \mat{E}_2^{-1}
+    \begin{bmatrix} 1&-2 \\ 0&1 \end{bmatrix}.
+  \end{align*}
+  Résoudre le système d'équations
+  \begin{displaymath}
+    \mat{A} \mat{x} = \begin{bmatrix} 0\\1 \end{bmatrix}
+  \end{displaymath}
+  par la décomposition $LU$.
+  \begin{sol}
+    On cherche tout d'abord des matrices triangulaires inférieure et
+    supérieure $\mat{L}$ et $\mat{U}$, respectivement, tel que
+    $\mat{A} = \mat{L} \mat{U}$. On nous donne dans l'énoncé
+    \begin{displaymath}
+      \mat{A} = \mat{E}_1^{-1} \mat{E}_2^{-1}
+      \begin{bmatrix} 1&-2 \\ 0&1 \end{bmatrix},
+    \end{displaymath}
+    d'où
+    \begin{displaymath}
+      \mat{U} = \begin{bmatrix} 1&-2 \\ 0&1 \end{bmatrix},
+    \end{displaymath}
+    et $\mat{L} = \mat{E}_1^{-1} \mat{E}_2^{-1}$. Or,
+    \begin{align*}
+      \mat{E}_1^{-1}
+      &= \frac{1}{3} \begin{bmatrix} 3&0 \\ -2&1 \end{bmatrix} \\
+      \mat{E}_2^{-1}
+      &= \begin{bmatrix} 3&0 \\ 0&3 \end{bmatrix} \\
+      &= 3 \mat{I}
+      \intertext{et, par conséquent,}
+      \mat{L}
+      &= \begin{bmatrix} 3&0 \\ -2&1 \end{bmatrix}.
+    \end{align*}
+    Pour résoudre par décomposition $LU$ le système d'équations
+    $\mat{A} \mat{x} = \mat{L} \mat{U} \mat{x} = \mat{b}$, où $\mat{b}
+    = (0, 1)$, on pose $\mat{U} \mat{x} = \mat{y}$ et résout d'abord
+    $\mat{L} \mat{y} = \mat{b}$ par substitution. On a donc le système
+    d'équations
+    \begin{displaymath}
+      \begin{bmatrix} 3&0 \\ -2&1 \end{bmatrix}
+      \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} =
+      \begin{bmatrix} 0\\1 \end{bmatrix},
+    \end{displaymath}
+    dont la solution est $y_1 = 0$ et $y_2 = 1$. Par la suite, on a
+    \begin{displaymath}
+      \begin{bmatrix} 1&-2 \\ 0&1 \end{bmatrix}
+      \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} =
+      \begin{bmatrix} 0\\1 \end{bmatrix},
+    \end{displaymath}
+    d'où, finalement, $x_1 = 2$ et $x_2 = 1$.
+  \end{sol}
+  \begin{rep}
+    $\mat{x} = (2, 1)$
+  \end{rep}
+\end{exercice}
+
+\Closesolutionfile{reponses}
+\Closesolutionfile{solutions}
+
+\input{reponses-decomposition_lu}
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "methodes_numeriques-partie_4"
+%%% TeX-engine: xetex
+%%% TeX-master: "methodes-numeriques-en-actuariat_algebre-lineaire.tex"
+%%% coding: utf-8
 %%% End:

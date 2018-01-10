@@ -1,18 +1,23 @@
+%%% Copyright (C) 2018 Vincent Goulet
+%%%
+%%% Ce fichier fait partie du projet «Méthodes numériques en actuariat»
+%%% http://github.com/vigou3/methodes-numeriques-en-actuariat
+%%%
+%%% Cette création est mise à disposition selon le contrat
+%%% Attribution-Partage dans les mêmes conditions 4.0
+%%% International de Creative Commons.
+%%% http://creativecommons.org/licenses/by-sa/4.0/
+
 \input{../share/preamble}
   \usepackage{multicol}         % environnement multicols
 
-  %%% Titre du document
-  \parttitle{%
-    \bfseries\fontsize{36}{36}\selectfont Partie IV \\
-    \mdseries\fontsize{32}{36}\selectfont Algèbre linéaire}
-  \hypersetup{pdftitle={Méthodes numériques en actuariat - Partie IV
-      Algèbre linéaire}}
+  %%% Titre de la partie et image de couverture
+  \parttitle{Algèbre linéaire}
+  \hypersetup{pdftitle = {\thetitle\ - \theparttitle}}
+  \newcommand{\imagefile}{Furcifer-lateralis}
 
   %%% Numérotation des chapitres
-  \setcounter{chapter}{12}
-
-  %%% Références externes
-  \externaldocument{operateurs}
+  \setcounter{chapter}{6}
 
   %%% Commmandes algèbre linéaire
   \newcommand{\tr}{\mathrm{tr}}
@@ -29,15 +34,8 @@
 
 \pagestyle{empty}
 
-%% Page couverture avant. Il faut modifier la largeur des graphiques
-%% puisque Sweave la règle à 0.8\textwidth.
-\setkeys{Gin}{width=\paperwidth}
-\includepdf[pages=1]{couvertures-partie_4}
-\setkeys{Gin}{width=0.8\textwidth}
-\cleardoublepage
-
-\include{frontispice}
-\clearpage
+\input{../share/couverture-avant}
+\null\cleardoublepage           % cf. section 2.2 textpos.pdf
 
 \include{notices}
 \clearpage
@@ -46,6 +44,7 @@
 
 \include{introduction}
 \cleartorecto
+
 \tableofcontents*
 
 %% Vignette tirée de xkcd.com
@@ -75,14 +74,10 @@
 \bibliography{r,math,stat,informatique,vg}
 
 \cleartoverso
-
 \input{../share/colophon}
 
 \cleartoverso
-
-%% Page couverture arrière.
-\setkeys{Gin}{width=\paperwidth}
-\includepdf[pages=2]{couvertures-partie_4}
+\input{../share/couverture-arriere}
 
 \end{document}
 

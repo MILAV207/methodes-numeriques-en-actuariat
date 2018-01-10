@@ -18,17 +18,14 @@
 ## Ce fichier fait partie du projet "Méthodes numériques en actuariat"
 ## https://github.com/vigou3/methodes-numeriques-en-actuariat
 
-## Principaux fichiers
-MASTER = methodes-numeriques-en-actuariat_partie-4.pdf
-SCRIPTS = \
-	revision_algebre_lineaire.R \
-	valeurs_propres.R
-
 ## Nom de la partie
 PARTNAME = algebre-lineaire
 
-# Le document maître dépend de tous les fichiers .tex et des fichiers
-# .R mentionnés
+## Nom du fichier maître
+MASTER = methodes-numeriques-en-actuariat_${PARTNAME}.pdf
+
+## Le document maître dépend de tous les fichiers .Rnw et des fichiers
+## .tex et .R mentionnés.
 RNWFILES = $(wildcard *.Rnw)
 TEXFILES = \
 	../share/preamble.tex \
@@ -40,6 +37,9 @@ TEXFILES = \
 	solutions.tex \
 	../share/colophon.tex \
 	../share/couverture-arriere.tex
+SCRIPTS = \
+	revision_algebre_lineaire.R \
+	valeurs_propres.R
 
 # Outils de travail
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
