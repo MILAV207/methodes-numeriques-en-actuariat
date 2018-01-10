@@ -724,6 +724,6 @@ plot3d(u[1:1000], u[2:1001], u[3:1002])
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-engine: xetex
-%%% TeX-master: "methodes-numeriques-en-actuariat_partie-1"
+%%% TeX-master: "methodes-numeriques-en-actuariat_simulation"
 %%% coding: utf-8
 %%% End:

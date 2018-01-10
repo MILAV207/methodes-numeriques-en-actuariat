@@ -6,7 +6,7 @@
 ## 'make tex' crée les fichiers .tex à partir des fichiers .Rnw avec
 ## Sweave.
 ##
-## 'make pdf' compile le document maître avec XeLaTeX.
+## 'make pdf' ou 'make all' compile le document maître avec XeLaTeX.
 ##
 ## 'make Rout' crée les sorties des fichiers de script R.
 ##
@@ -18,18 +18,14 @@
 ## Ce fichier fait partie du projet "Méthodes numériques en actuariat"
 ## https://github.com/vigou3/methodes-numeriques-en-actuariat
 
-## Principaux fichiers
-MASTER = methodes-numeriques-en-actuariat_partie-1.pdf
-SCRIPTS = \
-	generation.R \
-	simulation.R \
-	montecarlo.R
-
 ## Nom de la partie
 PARTNAME = simulation
 
-# Le document maître dépend de tous les fichiers .tex et des fichiers
-# .R mentionnés
+# Nom du fichier maître
+MASTER = methodes-numeriques-en-actuariat_${PARTNAME}.pdf
+
+## Le document maître dépend de tous les fichiers .Rnw et des fichiers
+## .tex et .R mentionnés.
 RNWFILES = $(wildcard *.Rnw)
 TEXFILES = \
 	../share/preamble.tex \
@@ -41,6 +37,10 @@ TEXFILES = \
 	solutions.tex \
 	../share/colophon.tex \
 	../share/couverture-arriere.tex
+SCRIPTS = \
+	generation.R \
+	simulation.R \
+	montecarlo.R
 
 # Outils de travail
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
