@@ -1,3 +1,13 @@
+%%% Copyright (C) 2018 Vincent Goulet
+%%%
+%%% Ce fichier fait partie du projet «Méthodes numériques en actuariat»
+%%% http://github.com/vigou3/methodes-numeriques-en-actuariat
+%%%
+%%% Cette création est mise à disposition selon le contrat
+%%% Attribution-Partage dans les mêmes conditions 4.0
+%%% International de Creative Commons.
+%%% http://creativecommons.org/licenses/by-sa/4.0/
+
 \documentclass[letterpaper,11pt,x11names,english,french]{memoir}
   \usepackage{natbib,url}
   \usepackage{babel}
@@ -13,7 +23,7 @@
   \usepackage{relsize}                 % \smaller et al.
   \usepackage{manfnt}                  % \mantriangleright (puce)
   \usepackage{metalogo}                % \XeLaTeX logo
-  \usepackage{applekeys}               % touches Mac
+  % \usepackage{applekeys}               % touches Mac
   \usepackage{fontawesome}             % icônes \fa*
   \usepackage{awesomebox}              % boites info, important, etc.
   \usepackage{answers}                 % exercices et solutions
@@ -208,17 +218,26 @@
   %% Environnements de Sweave. Les environnements Sinput et Soutput
   %% utilisent Verbatim (de fancyvrb). On les réinitialise pour
   %% enlever la configuration par défaut de Sweave, puis on réduit
-  %% l'écart entre les blocs Sinput et Soutput. L'environnement Schunk
-  %% est complètement redéfini à partir de snugshade* (de framed) pour
-  %% insérer un fond de couleur derrière les blocs de code source.
+  %% l'écart entre les blocs Sinput et Soutput.
   \DefineVerbatimEnvironment{Sinput}{Verbatim}{}
   \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
   \fvset{listparameters={\setlength{\topsep}{0pt}}}
+
+  %% L'environnement Schunk est complètement redéfini en un hybride
+  %% des environnements snugshade* et leftbar de framed.sty.
+  \makeatletter
   \renewenvironment{Schunk}{%
-    \setlength{\topsep}{0pt}
-    \colorlet{shadecolor}{codebg}
-    \begin{snugshade*}}%
-    {\end{snugshade*}}
+    \setlength{\topsep}{1pt}
+    \def\FrameCommand##1{\hskip\@totalleftmargin
+       \vrule width 2pt\colorbox{codebg}{\hspace{3pt}##1}%
+      % There is no \@totalrightmargin, so:
+      \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+    \MakeFramed {\advance\hsize-\width
+      \@totalleftmargin\z@ \linewidth\hsize
+      \advance\labelsep\fboxsep
+      \@setminipage}%
+  }{\par\unskip\@minipagefalse\endMakeFramed}
+  \makeatother
 
   %% Exercices et réponses
   \Newassociation{sol}{solution}{solutions}
