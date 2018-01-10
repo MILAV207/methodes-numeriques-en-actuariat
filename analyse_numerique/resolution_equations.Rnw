@@ -326,11 +326,9 @@ abline(h = 0)
   la réponse et l'élément \code{\$nb.iter} le nombre d'itérations
   nécessaire pour obtenir cette réponse.
 
-  \begin{gotoR}
-    Exécuter le code informatique de la
+  \gotorbox{Exécuter le code informatique de la
     \autoref{sec:resolution:code} pour définir la fonction
-    \code{bissection} puis résoudre cet exemple.
-  \end{gotoR}
+    \code{bissection} puis résoudre cet exemple.}
 
 <<echo=FALSE>>=
 f <- function(x) x^3 + 4*x^2 - 10
@@ -362,11 +360,9 @@ res <- bissection(f, 1, 2, TOL=1E-5)
   selon le point de vue), on cherche $i$ tel que $f(i) =
   a_{\angl{10}\, i} - 8,2218 = 0$.
 
-  \begin{gotoR}
-    Exécuter le code informatique de la
+  \gotorbox{Exécuter le code informatique de la
     \autoref{sec:resolution:code} correspondant à cet exemple pour
-    la solution.
-  \end{gotoR}
+    la solution.}%
   \qed
 \end{exemple}
 
@@ -670,12 +666,10 @@ méthode du point fixe.
   arguments sont d'ailleurs les mêmes, à l'exception que les points
   $a$ et $b$ sont remplacés par une valeur de départ $x_0$.
 
-  \begin{gotoR}
-    Exécuter le code informatique de la
-    \autoref{sec:resolution:code} correspondant à ce bloc de
-    matière pour définir la fonction \code{pointfixe} puis résoudre
-    cet exemple.
-  \end{gotoR}
+  \gotorbox{Exécuter le code informatique de la
+    \autoref{sec:resolution:code} correspondant à ce bloc de matière
+    pour définir la fonction \code{pointfixe} puis résoudre cet
+    exemple.}
 
 <<echo=FALSE>>=
 g <- function(i) (1 - (1 + i)^(-10))/8.2218
@@ -780,10 +774,8 @@ polygon(c(1, 1, 2, 2), c(1, 2, 2, 1),
     \label{fig:resolution:pointfixe_2}
   \end{figure}
 
-  \begin{gotoR}
-    Compléter cet exemple en exécutant le code informatique
-    correspondant à la \autoref{sec:resolution:code}.
-  \end{gotoR}
+  \gotorbox{Compléter cet exemple en exécutant le code informatique
+    correspondant à la \autoref{sec:resolution:code}.}%
   \qed
 \end{exemple}
 
@@ -999,13 +991,11 @@ polygon(c(0.035, 0.035, 0.04, 0.04), c(0.035, 0.04, 0.04, 0.035),
   sauf qu'on y a ajouté un argument pour la dérivée de la fonction
   $f(x)$.
 
-  \begin{gotoR}
-    Exécuter le code informatique de la \autoref{sec:resolution:code}
+  \gotorbox{Exécuter le code informatique de la \autoref{sec:resolution:code}
     correspondant à ce bloc de matière pour définir la fonction
     \code{nr} puis résoudre cet exemple. Prendre note comment l'on
     peut également utiliser la fonction \code{pointfixe} pour obtenir
-    le taux de rendement.
-  \end{gotoR}
+    le taux de rendement.}%
 
 <<echo=FALSE>>=
 f <- function(i) (1 - (1 + i)^(-10))/i - 8.2218
@@ -1135,10 +1125,8 @@ curve(f0, add = TRUE)
   rencontrées. La valeur de départ utilisée aura donc un impact sur la
   réponse obtenue.
 
-  \begin{gotoR}
-    Compléter cet exemple en exécutant le code informatique
-    correspondant à la \autoref{sec:resolution:code}.
-  \end{gotoR}
+  \gotorbox{Compléter cet exemple en exécutant le code informatique
+    correspondant à la \autoref{sec:resolution:code}.}%
   \qed
 \end{exemple}
 
@@ -1252,12 +1240,60 @@ exemples dans le classeur \code{SOLVAMP.XLS} livré avec Excel.
 Le reste de cette section est dévolu à des fonctions d'optimisation de
 R.
 
-\input{optimisation-fonctions}
+\subsection{Fonction \code{uniroot}}
+\label{optimisation:fonctions:uniroot}
 
-\begin{gotoR}
-  Des exemples d'utilisation des fonctions R ci-dessus sont fournis
-  dans le code informatique de la \autoref{sec:resolution:code}.
-\end{gotoR}
+La fonction \code{uniroot} recherche la racine\index{racine!d'une
+  fonction}\index{fonction!racine} d'une fonction dans un intervalle.
+C'est donc la fonction de base pour trouver la solution (unique) de
+l'équation $f(x) = 0$ dans un intervalle déterminé.
+
+\subsection{Fonction \code{optimize}}
+\label{optimisation:fonctions:optimize}
+
+La fonction \code{optimize} recherche le
+minimum\index{minimum!local}\index{fonction!minimum local} local (par
+défaut) ou le maximum\index{maximum!local}\index{fonction!maximum
+  local} local d'une fonction dans un intervalle donné.
+
+\subsection{Fonction \code{nlm}}
+\label{optimisation:fonctions:nlm}
+
+La fonction \code{nlm} minimise une fonction non
+linéaire\index{minimum!fonction non linéaire}\index{fonction!minimum}
+sur un nombre arbitraire de paramètres.
+
+\subsection{Fonction \code{nlminb}}
+\label{optimisation:fonctions:nlminb}
+
+La fonction \code{nlminb} est similaire à \code{nlm}, sauf
+qu'elle permet de spécifier des bornes inférieure ou supérieure
+pour les paramètres. Attention, toutefois: les arguments de la
+fonction ne sont ni les mêmes, ni dans le même ordre que ceux de
+\code{nlm}.
+
+\subsection{Fonction \code{optim}}
+\label{optimisation:fonctions:optim}
+
+La fonction \code{optim}\index{fonction!optimisation} est l'outil
+d'optimisation tout usage de R. À ce titre, la fonction est souvent
+utilisée par d'autres fonctions. Elle permet de choisir parmi
+plusieurs algorithmes d'optimisation différents et, selon l'algorithme
+choisi, de fixer des seuils minimum ou maximum aux paramètres à
+optimiser.
+
+\subsection{\code{polyroot}}
+\label{optimisation:fonctions:polyroot}
+
+En terminant, un mot sur \code{polyroot()}, qui n'est pas à proprement
+parler une fonction d'optimisation, mais qui pourrait être utilisée
+dans ce contexte. La fonction \code{polyroot} calcule toutes les
+racines\index{racine!d'un polynôme} (complexes) du polynôme
+$\sum_{i=0}^n a_i x^i$. Le premier argument est le vecteur des
+coefficients $a_0, a_1, \dots, a_n$, dans cet ordre.
+
+\gotorbox{Des exemples d'utilisation des fonctions R ci-dessus sont fournis
+  dans le code informatique de la \autoref{sec:resolution:code}.}%
 
 \begin{prob-astuce}
   La fonction \code{uniroot} permet de trouver la solution à l'équation
@@ -1317,13 +1353,11 @@ L'utilisation de l'Astuce est illustrée à la
 \section{Outils additionnels}
 \label{sec:resolution:plus}
 
-Les packages disponible sur CRAN fournissent plusieurs autres outils
+Les paquetages disponible sur CRAN fournissent plusieurs autres outils
 d'optimisation pour R. Pour un bon résumé des options disponibles,
-consulter la \emph{CRAN Task View} consacrée à l'optimisation:
-\begin{quote}
-  \url{http://cran.r-project.org/web/views/Optimization.html}
-\end{quote}
-
+consulter la
+\link{http://cran.r-project.org/web/views/Optimization.html}{\emph{CRAN
+    Task View}} consacrée à l'optimisation.
 
 \begin{prob-solution}
   Nous résolvons avec R notre problème consistant à trouver la valeur
@@ -1373,7 +1407,7 @@ uniroot(f, c(1, 31))$root
 \section{Code informatique}
 \label{sec:resolution:code}
 
-\def\scriptfilename{resolution_equations.R}
+\def\scriptfilename{resolution\string_equations.R}
 
 \scriptfile{\scriptfilename}
 \lstinputlisting[firstline=13]{\scriptfilename}

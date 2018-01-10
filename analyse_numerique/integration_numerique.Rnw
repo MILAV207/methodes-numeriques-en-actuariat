@@ -181,13 +181,11 @@ fonction $f(x)$.
   \qed
 \end{exemple}
 
-\begin{gotoR}
-  La fonction \code{poly.calc} du package \pkg{polynom} permet de
+\gotorbox{La fonction \code{poly.calc} du paquetage \pkg{polynom} permet de
   calculer le polynôme d'interpolation de Lagrange de degré $n$ dans
   R. Exécuter le code informatique de la
   \autoref{sec:integration:code} correspondant à ce bloc de matière
-  pour vérifier les calculs de l'\autoref{ex:integration:Lagrange}.
-\end{gotoR}
+  pour vérifier les calculs de l'\autoref{ex:integration:Lagrange}.}%
 
 
 \section{Principes généraux d'intégration numérique}
@@ -545,14 +543,12 @@ Consulter \cite{Burden:numerical:2011} pour de plus amples détails sur
 les polynômes d'interpolation de Lagrange et les méthodes
 d'intégration numérique présentées ci-dessus.
 
-\begin{gotoR}
-  Il n'y a pas de fonction dans la distribution de base de R pour le
+\gotorbox{Il n'y a pas de fonction dans la distribution de base de R pour le
   calcul d'intégrales avec précisément l'une ou l'autre des méthodes
   mentionnées dans ce chapitre. Cependant, la fonction
   \code{integrate} réalise à peu près la même chose avec un algorithme
   différent. Consulter le code informatique de la
-  \autoref{sec:integration:code} pour quelques menus exemples.
-\end{gotoR}
+  \autoref{sec:integration:code} pour quelques menus exemples.}%
 
 \begin{figure}
   \SweaveOpts{width=3, height=3}
@@ -710,7 +706,7 @@ box()
 \section{Code informatique}
 \label{sec:integration:code}
 
-\def\scriptfilename{integration_numerique.R}
+\def\scriptfilename{integration\string_numerique.R}
 
 \scriptfile{\scriptfilename}
 \lstinputlisting[firstline=13]{\scriptfilename}
