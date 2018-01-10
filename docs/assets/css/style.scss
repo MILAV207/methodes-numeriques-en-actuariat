@@ -1,0 +1,57 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+// I prefer the layout of the Cayman theme, but the colors of Slate.
+
+body {
+  color: #373737;
+}
+
+a {
+  color: #007edf;
+}
+
+.btn {
+  color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.8);
+  border-width: 2px;
+  border-radius: 0rem;
+  
+  &:hover {
+    color: rgba(0, 0, 0, 0.9);
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+}
+
+.page-header {
+  color: #fff;
+  background: #000;
+  // background-image: url('../../images/Xerus_inauris_1.jpg');
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: center;
+}
+
+.framed {
+  padding: 0 1rem 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: solid black 4px;
+}
+
+.page-header h1 {
+  margin: 0 auto 2rem auto;
+}
+
+.main-content {
+  h1, h2, h3, h4, h5, h6 {
+    color: #222;
+  }
+}
