@@ -812,7 +812,7 @@ racine \code{\meta{loi}}, il existe quatre fonctions différentes :
 
 Les différentes lois de probabilité disponibles dans le système R de
 base, leur racine et le nom de leurs paramètres sont rassemblés au
-\autoref{tab:rng:lois}. Des packages fournissent des fonctions
+\autoref{tab:rng:lois}. Des paquetages fournissent des fonctions
 pour d'autres lois dont, entre autres, \pkg{actuar} \citep{actuar} et
 \pkg{SuppDists} \citep{Rpackage:SuppDists}.
 
