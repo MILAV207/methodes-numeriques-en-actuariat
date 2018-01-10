@@ -1,0 +1,72 @@
+\input{../share/preamble}
+
+  %%% Titre de la partie et image de couverture
+  \parttitle{I.\ Simulation stochastique}
+  \hypersetup{pdftitle = {\thetitle\ - \theparttitle}}
+  \newcommand{\imagefile}{Chamaeleo-jacksonii}
+
+  \includeonly{}
+
+\begin{document}
+
+\frontmatter
+
+\pagestyle{empty}
+
+\input{../share/couverture-avant}
+\null\cleardoublepage           % cf. section 2.2 textpos.pdf
+
+\include{notices}
+\clearpage
+
+\pagestyle{companion}
+
+\include{introduction}
+\cleartorecto
+
+\tableofcontents*
+
+%% Vignette tirée de xkcd.com
+\cleartoverso
+\thispagestyle{empty}
+\begin{vplace}[0.45]
+  \centering
+  \setkeys{Gin}{width=\textwidth}
+  \begin{minipage}{400pt}
+    \includegraphics{xkcd.png} \\
+    \footnotesize\sffamily%
+    Tiré de \href{http://xkcd.com/221/}{XKCD.com}
+  \end{minipage}
+  \setkeys{Gin}{width=0.8\textwidth}
+\end{vplace}
+\cleardoublepage
+
+\mainmatter
+
+\include{generation}
+\include{simulation}
+\include{montecarlo}
+
+\appendix
+\include{planification}
+\include{rappels_transformations}
+\include{solutions}
+
+\bibliography{r,math,stat,informatique,vg}
+
+\pagestyle{empty}
+
+\cleartoverso
+\input{../share/colophon}
+
+\cleartoverso
+\input{../share/couverture-arriere}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: t
+%%% coding: utf-8
+%%% End:

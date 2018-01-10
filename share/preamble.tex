@@ -2,21 +2,31 @@
   \usepackage{natbib,url}
   \usepackage{babel}
   \usepackage[autolanguage]{numprint}
-  \usepackage{actuarialangle,amsmath,amsthm}
+  \usepackage{amsmath,amsthm}
   \usepackage[noae]{Sweave}
+  \usepackage{graphicx}
+  \usepackage{actuarialangle}          % \angl et al.
   \usepackage{framed}                  % env. snugshade*, oframed
   \usepackage{paralist}
-  \usepackage[shortlabels]{enumitem}
-  \usepackage{textpos}
-  \usepackage{graphicx}
+  \usepackage[shortlabels]{enumitem}   % configuration listes
+  \usepackage[absolute]{textpos}       % éléments des pages de titre
   \usepackage{manfnt}                  % \mantriangleright (puce)
   \usepackage{metalogo}                % \XeLaTeX logo
   \usepackage{applekeys}               % touches Mac
   \usepackage{fontawesome}             % icônes \fa*
+  \usepackage{awesomebox}              % boites info, important, etc.
   \usepackage{answers}                 % exercices et solutions
   \usepackage{listings}                % code informatique
-  \usepackage{pdfpages}                % couvertures
-  \usepackage{xr}
+  \usepackage{xr}                      % références entre parties
+
+  %%% =======================================================
+  %%%  Informations de publication (sauf titre de la partie)
+  %%% =======================================================
+  \title{Méthodes numériques en actuariat}
+  \author{Vincent Goulet}
+  \renewcommand{\year}{2018}
+  \renewcommand{\month}{01}
+  \newcommand{\ghurl}{https://github.com/vigou3/methodes-numeriques-en-actuariat/}
 
   %%% ===================
   %%%  Style du document
@@ -42,11 +52,13 @@
   \definecolor{citation}{rgb}{0,0.5,0}           % citations
   \definecolor{codebg}{named}{LightYellow1}      % fond code R
   \definecolor{prob}{named}{orange}              % encadrés «problème»
+  \definecolor{rouge}{rgb}{0.85,0,0.07} % rouge bandeau identitaire
+  \definecolor{or}{rgb}{1,0.8,0}        % or bandeau identitaire
 
   %% Hyperliens
   \usepackage{hyperref}
   \hypersetup{%
-    pdfauthor={Vincent Goulet},
+    pdfauthor = {Vincent Goulet},
     colorlinks = {true},
     linktocpage = {true},
     urlcolor = {url},
@@ -301,23 +313,37 @@
   \newcommand{\code}[1]{\texttt{#1}}
   \newcommand{\pkg}[1]{\textbf{#1}}
 
+  %% Hyperlien avec symbole de lien externe juste après; second
+  %% argument peut être vide pour afficher l'url comme lien
+  %% [https://tex.stackexchange.com/q/53068/24355 pour procédure de
+  %% test du second paramètre vide]
+  \newcommand{\link}[2]{%
+    \def\param{#2}%
+    \ifx\param\empty
+      \href{#1}{\nolinkurl{#1}~\raisebox{-0.1ex}{\smaller\faExternalLink}}%
+    \else
+      \href{#1}{#2~\raisebox{-0.1ex}{\smaller\faExternalLink}}%
+    \fi
+  }
+
   %% Indications de capsule vidéo
   \newcommand{\capsule}[2]{\href{#1}{#2}\marginpar{%
       \href{#1}{\raisebox{-0.5em}[0em][0em]{\HUGE\faYoutubePlay}}}}
 
-  %% «Boutons» de la page de notices
-  \newcommand{\downloadbutton}{%
-    \setlength{\fboxrule}{1pt}%
-    \framebox[40mm][l]{%
-      \rule[-5pt]{0mm}{16pt}%
-      \makebox[7mm]{\raisebox{-2.5pt}{\LARGE\faDownload}}\;%
-      {\sffamily Télécharger}}}
-  \newcommand{\browsebutton}{%
-    \setlength{\fboxrule}{1pt}%
-    \framebox[40mm][l]{%
-      \rule[-5pt]{0mm}{16pt}%
-      \makebox[7mm]{\raisebox{-3pt}{\LARGE\faExternalLink}}\;%
-      {\sffamily Accéder au dépôt}}}
+  %% Boite pour le nom du fichier de script correspondant au début des
+  %% sections d'exemples.
+  \newcommand{\scriptfile}[1]{%
+    \begingroup
+    \noindent
+    \mbox{%
+      \makebox[3mm][l]{\raisebox{-0.5pt}{\small\faChevronCircleDown}}\;%
+      \smaller[1] {\sffamily Fichier d'accompagnement} {\ttfamily #1}}
+    \endgroup}
+
+  %% Lien vers GitHub dans la page de notices
+  \newcommand{\viewsource}[1]{%
+    \href{#1}{%
+      Voir sur GitHub \raisebox{-1pt}{\footnotesize\faGithub}}}
 
   %% Raccourcis usuels vg
   \newcommand{\pt}{{\scriptscriptstyle \Sigma}}
@@ -351,6 +377,14 @@
   %% Style de la bibliographie
   \bibliographystyle{francais}
 
+  %% Longueurs pour la composition des pages couvertures avant et
+  %% arrière.
+  \newlength{\banderougewidth} \newlength{\banderougeheight}
+  \newlength{\bandeorwidth}    \newlength{\bandeorheight}
+  \newlength{\imageheight}
+  \newlength{\logoheight}
+  \newlength{\gapwidth}
+
   %% Aide pour la césure
   \hyphenation{%
     con-gru-en-tiels
@@ -363,24 +397,3 @@
     nom-bre
     puis-que
   }
-
-  %%% ======================================
-  %%%  Page titre (sauf titre de la partie)
-  %%% ======================================
-  \renewcommand{\year}{2016}
-  \title{%
-    \bfseries\fontsize{42}{33}\selectfont {\fullcaps ACT 2002} \\
-    \mdseries\fontsize{32}{33}\selectfont Méthodes numériques \\
-                                          en actuariat}
-  \author{%
-    \bfseries\fontsize{16}{20}\selectfont Vincent Goulet \\
-    \mdseries\fontsize{14}{18}\selectfont Professeur titulaire \textbar\
-                                          École d'actuariat \textbar\
-                                          Université Laval \\
-                                          \vspace*{10mm}
-    \mdseries\fontsize{14}{18}\selectfont Avec la collaboration de \\
-    \bfseries\fontsize{16}{20}\selectfont Laurent Caron}
-  \date{%
-    \mdseries\fontsize{14}{18}\selectfont Notes de cours \textbar\
-                                          Exercices \textemdash\
-                                          édition \year}

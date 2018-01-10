@@ -1,0 +1,103 @@
+%%%
+%%% Page de titre
+%%%
+
+\begingroup
+\TPGrid{3}{36}
+\textblockorigin{0mm}{0mm}
+\setlength{\parindent}{0mm}
+\setlength{\imageheight}{29\TPVertModule}
+\setlength{\banderougewidth}{2\TPHorizModule}
+\setlength{\banderougeheight}{\TPVertModule}
+\setlength{\bandeorwidth}{\TPHorizModule}
+\setlength{\bandeorheight}{\banderougeheight}
+\setlength{\logoheight}{2.5\TPVertModule}
+\setlength{\gapwidth}{1.5pt}
+\addtolength{\bandeorwidth}{-\gapwidth}
+\addtolength{\imageheight}{-\gapwidth}
+\setlength{\fboxrule}{3pt}
+\setlength{\fboxsep}{0pt}
+
+\def\titlefmt{%
+  \sffamily\bfseries\fontsize{42}{42}\selectfont\thetitle}
+\def\parttitlefmt{%
+  \sffamily\mdseries\fontsize{30}{30}\selectfont\theparttitle}
+\def\authorfmt{%
+  \sffamily\bfseries\fontsize{25}{25}\selectfont\theauthor}
+\def\affiliation{%
+  \sffamily\mdseries\fontsize{22}{22}\selectfont
+  Professeur titulaire \\
+  École d'actuariat, Université Laval \\[12mm]
+  Avec la collaboration de \\
+  \bfseries\fontsize{25}{30}\selectfont
+  Laurent Caron}
+\def\edition{%
+  \sffamily\mdseries\fontsize{22}{22}\selectfont
+  Édition {\fullcaps\year}.\month}
+
+%% bandeau identitaire
+\begin{textblock*}{\paperwidth}[0,1](0mm,30\TPVertModule)
+  \textcolor{rouge}{\rule{\banderougewidth}{\banderougeheight}}% % bande rouge
+  \rule{\gapwidth}{0pt}%                                         % filet
+  \textcolor{or}{\rule{\bandeorwidth}{\bandeorheight}}           % bande or
+\end{textblock*}
+
+%% logo UL
+\begin{textblock*}{\TPHorizModule}(2\TPHorizModule,31\TPVertModule)
+  \rule{\gapwidth}{0pt}%                                         % filet
+  \includegraphics[height=\logoheight,%
+                   keepaspectratio=true]{../share/ul_p}
+\end{textblock*}
+
+%% image de fond
+\begin{textblock*}{\paperwidth}(0mm,0mm)
+  \includegraphics[width=\paperwidth,%
+                   keepaspectratio=true]{\imagefile}
+\end{textblock*}
+
+%% titre
+\begin{textblock*}{2\TPHorizModule}(0.35\TPHorizModule,4\TPVertModule)
+  \textcolor{white}{\titlefmt}
+\end{textblock*}
+
+%% titre de partie
+\begin{textblock*}{2\TPHorizModule}(0.35\TPHorizModule,8\TPVertModule)
+  \textcolor{white}{\parttitlefmt}
+\end{textblock*}
+
+%% auteur
+\begin{textblock*}{2\TPHorizModule}(0.35\TPHorizModule,10.5\TPVertModule)
+  \textcolor{white}{\authorfmt}
+\end{textblock*}
+
+\null\cleardoublepage
+
+%%%
+%%% Page frontispice
+%%%
+
+%% titre
+\begin{textblock*}{2\TPHorizModule}(0.35\TPHorizModule,4\TPVertModule)
+  \titlefmt
+\end{textblock*}
+
+%% titre de partie
+\begin{textblock*}{2\TPHorizModule}(0.35\TPHorizModule,8\TPVertModule)
+  \parttitlefmt
+\end{textblock*}
+
+%% auteur
+\begin{textblock*}{2\TPHorizModule}(0.35\TPHorizModule,10.5\TPVertModule)
+  \authorfmt
+\end{textblock*}
+
+%% affiliation
+\begin{textblock*}{2\TPHorizModule}(0.35\TPHorizModule,12\TPVertModule)
+  \affiliation
+\end{textblock*}
+
+%% édition
+\begin{textblock*}{1.7\TPHorizModule}(0.35\TPHorizModule,30\TPVertModule)
+  \edition
+\end{textblock*}
+\endgroup
