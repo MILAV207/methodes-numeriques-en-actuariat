@@ -8,8 +8,8 @@
 %%% International de Creative Commons.
 %%% http://creativecommons.org/licenses/by-sa/4.0/
 
-\chapter[Planification d'une simulation en R]{%
-  Planification d'une simulation \\ en R}
+\chapter[Planification d'une simulation avec R]{%
+  Planification d'une simulation \\ avec R}
 \index{simulation!planification|(}
 \label{planification} %|
 
