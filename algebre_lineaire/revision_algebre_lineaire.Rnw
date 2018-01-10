@@ -1684,7 +1684,6 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
   revue les fonctions d'algèbre linéaire offertes dans R.}%
 
 
-
 \section{Code informatique}
 \label{sec:revision:code}
 
@@ -1693,7 +1692,6 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \scriptfile{\scriptfilename}
 \lstinputlisting[firstline=13]{\scriptfilename}
 
-\vfill
 
 \section{Exercices}
 \label{chap:revision:exercices}

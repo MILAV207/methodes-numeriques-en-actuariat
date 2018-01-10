@@ -1412,7 +1412,6 @@ uniroot(f, c(1, 31))$root
 \scriptfile{\scriptfilename}
 \lstinputlisting[firstline=13]{\scriptfilename}
 
-\medskip
 
 \section{Exercices}
 \label{sec:resolution:exercices}

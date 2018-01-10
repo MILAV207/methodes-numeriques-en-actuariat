@@ -1366,14 +1366,11 @@ voir \cite{Ripley:Rnews:2005a}.
 \section{Code informatique}
 \label{sec:ordinateurs:code}
 
-%\catcode`\_=12
 \def\scriptfilename{arithmetique\string_ordinateurs.R}
-%\catcode`\_=8
 
 \scriptfile{\scriptfilename}
 \lstinputlisting[firstline=13]{\scriptfilename}
 
-\vfill
 
 \section{Exercices}
 \label{sec:ordinateurs:exercices}
