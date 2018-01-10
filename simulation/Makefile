@@ -19,8 +19,7 @@
 ## https://github.com/vigou3/methodes-numeriques-en-actuariat
 
 ## Principaux fichiers
-#MASTER = methodes-numeriques-en-actuariat_partie-1.pdf
-MASTER = methodes_numeriques-partie_2.pdf
+MASTER = methodes-numeriques-en-actuariat_partie-1.pdf
 SCRIPTS = \
 	generation.R \
 	simulation.R \
@@ -32,14 +31,16 @@ PARTNAME = simulation
 # Le document maître dépend de tous les fichiers .tex et des fichiers
 # .R mentionnés
 RNWFILES = $(wildcard *.Rnw)
-TEXFILES = ../share/preamble.tex \
-	couverture-avant.tex \
+TEXFILES = \
+	../share/preamble.tex \
+	../share/couverture-avant.tex \
 	notices.tex \
+	../share/licence.tex \
 	introduction.tex \
 	rappels_transformations.tex \
 	solutions.tex \
-	colophon.tex \
-	couverture-arriere.tex
+	../share/colophon.tex \
+	../share/couverture-arriere.tex
 
 # Outils de travail
 SWEAVE = R CMD SWEAVE --encoding="utf-8"
