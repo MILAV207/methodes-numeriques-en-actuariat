@@ -1,6 +1,10 @@
 \chapter{Génération de nombres aléatoires uniformes}
 \label{chap:generation}
 
+<<echo=FALSE>>=
+options(width = 52)
+@
+
 \begin{objectifs}
 \item Identifier des applications actuarielles de la simulation
   stochastique.
@@ -326,10 +330,8 @@ de définir
   générateur congruentiel sur la qualité des nombres pseudo-aléatoires
   produits.
 
-  \begin{gotoR}
-    Exécuter le code informatique R de la
-    \autoref{sec:generation:code} correspondant à cet exemple.
-  \end{gotoR}
+  \gotorbox{Exécuter le code informatique R de la
+    \autoref{sec:generation:code} correspondant à cet exemple.}%
   \qed
 \end{exemple}
 
@@ -341,10 +343,8 @@ de définir
   reprend les mêmes idées en trois dimensions avec un générateur
   longtemps considéré standard.
 
-  \begin{gotoR}
-    Exécuter le code informatique R de la
-    \autoref{sec:generation:code} correspondant à cet exemple.
-  \end{gotoR}
+  \gotorbox{Exécuter le code informatique R de la
+    \autoref{sec:generation:code} correspondant à cet exemple.}%
   \qed
 \end{exemple}
 
@@ -366,7 +366,7 @@ aléatoire dans l'intervalle $(0, 1)$ est \code{ALEA()} (dans la
 version française) ou \code{RAND()} (dans la version anglaise).
 
 L'historique de Microsoft n'est pas reluisant lorsqu'il s'agit de mise
-en {\oe}uvre de générateurs de nombres aléatoires pour Excel. Au fil
+en œuvre de générateurs de nombres aléatoires pour Excel. Au fil
 des ans, plusieurs articles scientifiques ont démontré les lacunes de
 la fonction \code{RAND()}.
 
@@ -378,7 +378,7 @@ générateur Whichmann--Hill est $10^{13}$, mais omettait de tenir
 compte de littérature scientifique démontrant qu'elle est plutôt de $6,95 \times
 10^{12} \approx 2^{43}$, une période désormais considérée trop courte.
 
-De plus, la mise en {\oe}uvre du générateur Whichmann--Hill dans Excel
+De plus, la mise en œuvre du générateur Whichmann--Hill dans Excel
 2003 avait le fâcheux défaut de pouvoir générer des nombres négatifs.
 Ce défaut a plus tard été corrigé par un \emph{Service Pack} 1 de
 Office 2003 ainsi que dans la version 2007.
@@ -497,17 +497,233 @@ mean(replicate(1E5,
   0,30556$ pour juger l'expérience concluante.
 \end{prob-solution}
 
+
 \section{Code informatique}
 \label{sec:generation:code}
 
-\lstinputlisting[firstline=3]{generation.R}
+\def\scriptfilename{generation.R}
 
-\vfill
+\scriptfile{\scriptfilename}
+\lstinputlisting[firstline=13]{\scriptfilename}
 
-\input{exercices-generation}
+
+\section{Exercices}
+\label{sec:generation:exercices}
+
+\Opensolutionfile{solutions}[solutions-generation]
+
+\begin{Filesave}{solutions}
+\section*{Chapitre \ref*{chap:generation}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:generation}}
+
+\end{Filesave}
+
+L'\autoref{ex:generation:rgl} requiert d'installer le package R
+\code{rgl}, disponible dans CRAN%
+  \footnote{\url{https://cran.r-project.org}}. %
+Tel qu'expliqué à l'annexe~B des notes de cours de la partie~I, on
+installe le package dans R avec la commande
+<<echo=TRUE, eval=FALSE>>=
+install.packages("rgl")
+@
+Pour utiliser les fonctions du package, il
+faut ensuite charger le package en mémoire avec
+<<echo=TRUE, eval=FALSE>>=
+library(rgl)
+@
+
+\osxbox{L'utilisation de \code{rgl} sous macOS, requiert
+  l'application \code{X11.app}, qui n'est plus livrée avec le système
+  depuis la version 10.8 (Mountain Lion). Le projet XQuartz fournit un
+  serveur et des bibliothèques client X11 compatibles avec les
+  versions de macOS 10.6 et suivantes. Il suffit de télécharger
+  l'application depuis \link{http://xquartz.macosforge.org/}.}
+
+
+\begin{exercice}
+  Calculer cinq nombres pseudo-aléatoires avec chacun des générateurs
+  congruentiels ci-dessous. Dans tous les cas, $m = 64$. Choisir
+  l'amorce.
+  \begin{enumerate}
+  \item $a = 29$, $c = 17$
+  \item $a = 9$, $c = 1$
+  \item $a = 13$, $c = 0$
+  \item $a = 11$, $c = 0$
+  \end{enumerate}
+  \begin{sol}
+    Dans tous les cas, le générateur de nombres aléatoires est
+    \begin{align*}
+      x_{i}
+      &= (ax_{i-1}+c) \bmod m \\
+      &= (ax_{i-1}+c) -
+      \left\lfloor
+        \frac{ax_{i-1}+c}{m}
+      \right\rfloor m
+    \end{align*}
+    où $m = 64$ et $x_{0} = 19$. Les suites ont été générées avec la
+    fonction \code{rand} de la \autoref{fig:generation:rand}.
+    \begin{figure}
+      \centering
+      \begin{framed}
+\begin{lstlisting}
+rand <- function(n, a, c, m, seed)
+{
+    x <- numeric(n + 1)
+    x[1] <- seed
+    for (i in seq(n))
+        x[i + 1] <- (a * x[i] + c) %% m
+    x[-1]
+}
+\end{lstlisting}
+      \end{framed}
+      \caption{Code de la fonction \code{rand}}
+      \label{fig:generation:rand}
+    \end{figure}
+<<echo=FALSE>>=
+rand <- function(n, a, c, m, seed)
+{
+    x <- numeric(n + 1)
+    x[1] <- seed
+    for (i in seq(n))
+        x[i + 1] <- (a * x[i] + c) %% m
+    x[-1]
+}
+@
+    \begin{enumerate}
+    \item
+<<echo=TRUE>>=
+rand(n = 5, a = 29, c = 17, m = 64, seed = 19)
+@
+    \item
+<<echo=TRUE>>=
+rand(n = 5, a = 9, c = 1, m = 64, seed = 19)
+@
+    \item
+<<echo=TRUE>>=
+rand(n = 5, a = 13, c = 0, m = 64, seed = 19)
+@
+    \item
+<<echo=TRUE>>=
+rand(n = 5, a = 11, c = 0, m = 64, seed = 19)
+@
+    \end{enumerate}
+  \end{sol}
+\end{exercice}
+
+
+\begin{exercice}
+  \begin{enumerate}
+  \item Composer une fonction R faisant la mise en œuvre du générateur
+    congruentiel multiplicatif avec $m = 2^{13} - 1$ et $a = 17$.
+    Générer $500$ nombres pseudo-aléatoire, puis faire un graphique des
+    paires $(x_i, x_{i+1})$. Sur combien de lignes les points sont-ils
+    alignés?
+  \item Répéter la partie a) avec $a = 85$.
+  \end{enumerate}
+  \begin{sol}
+    \begin{enumerate}
+    \item On utilise de nouveau la fonction \code{rand} de la
+      \autoref{fig:generation:rand}. Le graphique de la
+      \autoref{fig:generation:a=17} a été créé avec les commandes
+<<echo=TRUE, eval=FALSE>>=
+x <- rand(n = 500, a = 17, c = 0, m = 2^13 - 1,
+          seed = 19)
+plot(x[-length(x)], x[-1], xlab = expression(x[i]),
+     ylab = expression(x[i + 1]), pch = 19)
+@
+      On compte 17 lignes dans le graphique.
+      \begin{figure}
+        \centering
+<<echo=FALSE,fig=TRUE>>=
+x <- rand(n = 500, a = 17, c = 0, m = 2^13 - 1, seed = 19)
+plot(head(x, -1), x[-1],
+     xlab = expression(x[i]), ylab = expression(x[i + 1]),
+     pch = 19)
+@
+        \caption{Paires de valeurs du générateur congruentiel
+          multiplicatif avec $m = 2^{31} - 1$ et $a = 17$}
+        \label{fig:generation:a=17}
+      \end{figure}
+    \item Similaire à la partie a), sauf que les nombres sont générés
+      avec
+<<echo=TRUE, eval=FALSE>>=
+x <- rand(n = 500, a = 85, c = 0, m = 2^13 - 1,
+          seed = 19)
+@
+      Ce générateur semble préférable à celui en a) puisque les
+      points sont plus uniformément disposés sur le graphique (voir
+      \autoref{fig:generation:a=85}).
+      \begin{figure}[btp]
+        \centering
+<<echo=FALSE,fig=TRUE>>=
+x <- rand(n = 500, a = 85, c = 0, m = 2^13 - 1, seed = 19)
+plot(x[-length(x)], x[-1],
+     xlab = expression(x[i]), ylab = expression(x[i + 1]), pch = 19)
+@
+        \caption{Paires de valeurs du générateur congruentiel
+          multiplicatif avec $m = 2^{31} - 1$ et $a = 85$}
+        \label{fig:generation:a=85}
+      \end{figure}
+    \end{enumerate}
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  \label{ex:generation:rgl}
+  Le générateur RANDU, qui a longtemps été le plus populaire
+  générateur de nombres pseudo-aléatoires, est défini ainsi:
+  \begin{equation*}
+    x_i = \nombre{65539} x_{i - 1} \bmod 2^{31}.
+  \end{equation*}
+  Les nombres aléatoires obtenus avec ce générateur présentent une
+  excellente structure aléatoire en une et en deux dimensions. On peut
+  toutefois démontrer mathématiquement qu'en trois dimensions, les
+  triplets $(x_i, x_{i+1}, x_{i+2})$ se retrouvent sur quinze plans ou
+  moins, rendant ainsi assez prévisible la valeur de $x_{i+2}$ étant
+  donné les deux autres valeurs. On se contente de constater cet état
+  de fait graphiquement.
+  \begin{enumerate}
+  \item Générer une suite $\{x_i\}$ de longueur $\nombre{20002}$ avec le
+    générateur RANDU et poser $u_i = 2^{-31} x_i$. Pour tous les
+    triplets $(u_i, u_{i+1}, u_{i+2})$, sélectionner les cas où $0,5
+    \leq u_{i + 1} \leq 0,51$ et faire un graphique de $u_{i+2}$ en
+    fonction de $u_i$. Commenter le graphique obtenu.
+  \item Générer une suite $\{x_i\}$ de longueur $\nombre{1002}$ avec le
+    générateur RANDU. À l'aide de R, placer les triplets $(u_i,
+    u_{i+1}, u_{i+2})$ dans un graphique en trois dimensions avec la
+    fonction \code{plot3d} du package \code{rgl}, puis faire pivoter
+    le graphique pour voir les quinze plans sur lesquels se trouvent
+    répartis les points.
+  \end{enumerate}
+  \begin{sol}
+    \begin{enumerate}
+    \item On obtient environ 200 points alignés sur 10 lignes.
+<<echo=TRUE, eval=FALSE>>=
+u <- rand(n = 20002, a = 65539, c = 0, m = 2^31,
+          seed = 19)/2^31
+mat <- matrix(c(u[1:20000], u[2:20001], u[3:20002]),
+              ncol = 3)
+mat <- mat[(0.5 <= mat[,2]) & (mat[,2] <= 0.51),
+           c(1, 3)]
+plot(mat, xlab = expression(u[i]),
+     ylab = expression(u[i + 2]))
+@
+    \item
+<<echo=TRUE, eval=FALSE>>=
+library(rgl)
+u <- rand(n = 1002, a = 65539, c = 0, m = 2^31,
+          seed = 19)/2^31
+plot3d(u[1:1000], u[2:1001], u[3:1002])
+@
+    \end{enumerate}
+  \end{sol}
+\end{exercice}
+
+\Closesolutionfile{solutions}
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "methodes_numeriques-partie_2"
+%%% TeX-engine: xetex
+%%% TeX-master: "methodes-numeriques-en-actuariat_partie-1"
 %%% coding: utf-8
 %%% End:

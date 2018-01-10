@@ -1,6 +1,10 @@
 \chapter{Intégration Monte Carlo}
 \label{chap:montecarlo}
 
+<<echo=FALSE>>=
+options(width = 52)
+@
+
 \begin{objectifs}
 \item Définir le principe du calcul de la valeur d'une intégrale
   définie à l'aide de nombres aléatoires.
@@ -290,10 +294,8 @@ plot(x, f(x), main = "n = 10 000",
       l'intégration Monte Carlo}
     \label{fig:montecarlo:2d}
   \end{figure}
-  \begin{gotoR}
-    Le code R pour effectuer les calculs et les graphiques ci-dessus
-    est fourni à la \autoref{sec:montecarlo:code}.
-  \end{gotoR}
+  \gotorbox{Le code R pour effectuer les calculs et les graphiques
+    ci-dessus est fourni à la \autoref{sec:montecarlo:code}.}%
   \qed
 \end{exemple}
 
@@ -375,10 +377,8 @@ points(trans3d(u, v, f(u, v), pm = res),
       Monte Carlo}
     \label{fig:montecarlo:3d}
   \end{figure}
-  \begin{gotoR}
-    Le code R pour effectuer les calculs et les graphiques ci-dessus
-    est fourni à la \autoref{sec:montecarlo:code}.
-  \end{gotoR}
+  \gotorbox{Le code R pour effectuer les calculs et les graphiques
+    ci-dessus est fourni à la \autoref{sec:montecarlo:code}.}%
   \enlargethispage{5mm}
   \qed
 \end{exemple}
@@ -416,13 +416,177 @@ u <- runif(1E5)
 \section{Code informatique}
 \label{sec:montecarlo:code}
 
-\lstinputlisting[firstline=3]{montecarlo.R}
+\def\scriptfilename{montecarlo.R}
 
-\vfill
+\scriptfile{\scriptfilename}
+\lstinputlisting[firstline=13]{\scriptfilename}
 
-\input{exercices-montecarlo}
+
+\section{Exercices}
+\label{sec:montecarlo:exercices}
+
+\Opensolutionfile{reponses}[reponses-montecarlo]
+\Opensolutionfile{solutions}[solutions-montecarlo]
+
+\begin{Filesave}{reponses}
+\bigskip
+\section*{Réponses}
+
+\end{Filesave}
+
+\begin{Filesave}{solutions}
+\section*{Chapitre \ref*{chap:montecarlo}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:montecarlo}}
+
+\end{Filesave}
+
+\begin{exercice}
+  Évaluer l'intégrale
+  \begin{displaymath}
+    \int_0^1 \ln(5x + 4)\, dx
+  \end{displaymath}
+  exactement ainsi qu'à l'aide de l'intégration Monte Carlo. Comparer
+  les réponses.
+  \begin{rep}
+    Valeur exacte: $1,845969$
+  \end{rep}
+  \begin{sol}
+    On a
+    \begin{align*}
+      \theta
+      &= \int_0^1 \ln(5u + 4)\, dx \\
+      &= \esp{\ln(5U + 4)},
+    \end{align*}
+    où $U \sim U(0, 1)$, ou encore simplement
+    \begin{displaymath}
+      \theta = \esp{\ln(X)},
+    \end{displaymath}
+    où $X \sim U(4, 9)$. Une approximation de $\theta$ est
+    \begin{displaymath}
+      \hat{\theta} = \frac{1}{n} \sum_{i = 1}^n \ln(x_i),
+    \end{displaymath}
+    où $x_1, \dots, x_n$ est un échantillon aléatoire d'une
+    distribution $U(4, 9)$. Une évaluation avec R donne
+<<echo=TRUE>>=
+mean(log(runif(1e6, 4, 9)))
+@
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  Évaluer l'intégrale
+  \begin{displaymath}
+    \int_0^1 \int_0^1 e^{2xy} \ln(3x + y^2)\, dx dy
+  \end{displaymath}
+  à l'aide de l'intégration Monte Carlo. Comparer la réponse obtenue
+  avec la vraie valeur, $1,203758$, obtenue à l'aide de Maple.
+  \begin{sol}
+    On pose
+    \begin{align*}
+      \theta
+      &= \int_0^1 \int_0^1 e^{2xy} \ln(3x + y^2)\, dx dy \\
+      &= \esp{e^{2XY} \ln(3X + Y^2)},
+    \end{align*}
+    où $X \sim U(0, 1)$, $Y \sim U(0, 1)$ et $X$ et $Y$ sont
+    indépendantes. Ainsi, leur densité conjointe est uniforme sur $(0,
+    1) \times (0, 1)$. Une approximation de $\theta$ est
+    \begin{displaymath}
+      \hat{\theta} = \frac{1}{n} \sum_{i = 1}^n
+      e^{2 x_i y_i} \ln(3x_i + y_i^2)
+    \end{displaymath}
+    où $x_1, \dots, x_n$ et $y_1, \dots, y_n$ sont deux échantillons
+    aléatoires indépendants d'une distribution $U(0, 1)$. Une
+    évaluation avec R donne
+<<echo=TRUE>>=
+x <- runif(1e6)
+y <- runif(1e6)
+mean(exp(2 * x * y) * log(3 * x + y^2))
+@
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  Soit l'intégrale
+  \begin{displaymath}
+    \theta = \int_0^\infty x^2 \sin (\pi x) e^{-x/2}\, dx.
+  \end{displaymath}
+  \begin{enumerate}
+  \item Évaluer cette intégrale par Monte Carlo en effectuant un
+    changement de variable.
+  \item Évaluer cette intégrale par Monte Carlo par échantillonnage
+    direct d'une loi de probabilité appropriée.
+  \end{enumerate}
+  \begin{rep}
+    Valeur exacte: $-0,055292$
+  \end{rep}
+  \begin{sol}
+    \begin{enumerate}
+    \item Soit le changement de variable $u = e^{-x/2} \Leftrightarrow
+      x = - \ln u^2$, d'où $-2 du = e^{-x/2} dx$. On a donc
+      \begin{align*}
+        \theta
+        &= \int_0^1 2 (- \ln u^2)^2 \sin (- \pi \ln u^2)\, du \\
+        &= 2 \esp{(- \ln U^2)^2 \sin (- \pi \ln U^2)},
+      \end{align*}
+      où $U \sim U(0, 1)$. Une estimation de $\theta$ est
+      \begin{displaymath}
+        \hat{\theta} = \frac{2}{n} \sum_{i = 1}^n
+        (- \ln u_i^2)^2 \sin (- \pi \ln u_i^2),
+      \end{displaymath}
+      où $u_1, \dots, u_n$ est un échantillon aléatoire d'une
+      distribution $U(0, 1)$. Une évaluation avec R donne
+<<echo=TRUE>>=
+u <- runif(1e6)
+2 * mean((-log(u^2))^2 * sin(pi * (-log(u^2))))
+@
+    \item On remarque que la fonction à intégrer contient, à une
+      constante près, la fonction de densité de probabilité d'une loi
+      Gamma$(3, 1/2)$. Ainsi,
+      \begin{align*}
+        \theta
+        &= 16 \int_0^\infty \sin (\pi x) \frac{(1/2)^3}{\Gamma(3)}\,
+        x^2 e^{-x/2}\, dx \\
+        &= 16 \esp{\sin (\pi X)},
+      \end{align*}
+      où $X \sim \text{Gamma}(3, 1/2)$. Une estimation de $\theta$ est
+      donc
+      \begin{displaymath}
+        \hat{\theta} = \frac{16}{n} \sum_{i = 1}^n \sin(\pi x_i)
+      \end{displaymath}
+      où $x_1, \dots, x_n$ est un échantillon aléatoire d'une
+      Gamma$(3, 1/2)$. Une évaluation avec R donne
+<<echo=TRUE>>=
+16 * mean(sin(pi * rgamma(1e6, 3, 0.5)))
+@
+    \end{enumerate}
+  \end{sol}
+\end{exercice}
+
+\begin{exercice}
+  Soit $X_1, \dots, X_{25}$ un échantillon aléatoire de taille $25$
+  d'une distribution $N(0, 1)$ et soit $X_{(1)} \leq \dots \leq
+  X_{(25)}$ les statistiques d'ordre de cet échantillon, c'est-à-dire
+  les données de l'échantillon triées en ordre croissant. Estimer
+  $\esp{X_{(5)}}$ par intégration Monte Carlo. Comparer la réponse
+  obtenue avec la vraie espérance, $-0,90501$.
+  \begin{sol}
+    On peut faire l'estimation en R simplement avec les expressions
+    suivantes:
+<<echo=TRUE>>=
+x <- replicate(10000, rnorm(25))
+mean(apply(x, 2, function(x) sort(x)[5]))
+@
+  \end{sol}
+\end{exercice}
+
+\Closesolutionfile{reponses}
+\Closesolutionfile{solutions}
+
+\input{reponses-montecarlo}
 
 %%% Local Variables:
-%%% TeX-master: "methodes_numeriques-partie_2"
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: "methodes-numeriques-en-actuariat_partie-1"
 %%% coding: utf-8
 %%% End:
