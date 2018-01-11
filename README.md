@@ -1,6 +1,6 @@
 <!-- Emacs: -*- coding: utf-8; eval: (auto-fill-mode -1); eval: (visual-line-mode t) -*- -->
 
-# Méthodes numériques en actuariat
+# Méthodes numériques en actuariat avec R
 
 Ce projet regroupe les notes, le code informatique et les exercices
 utilisés dans le cours [ACT-2002 Méthodes numériques en actuariat](https://www.ulaval.ca/les-etudes/cours/repertoire/detailsCours/act-2002-methodes-numeriques-en-actuariat.html)

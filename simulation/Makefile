@@ -1,5 +1,5 @@
 ### -*-Makefile-*- pour préparer la partie "Simulation stochastique"
-###                de "Méthodes numériques en actuariat"
+###                de "Méthodes numériques en actuariat avec R"
 ##
 ## Copyright (C) 2018 Vincent Goulet
 ##
@@ -15,7 +15,8 @@
 ##
 ## Auteur: Vincent Goulet
 ##
-## Ce fichier fait partie du projet "Méthodes numériques en actuariat"
+## Ce fichier fait partie du projet
+## "Méthodes numériques en actuariat avec R"
 ## https://github.com/vigou3/methodes-numeriques-en-actuariat
 
 ## Nom de la partie

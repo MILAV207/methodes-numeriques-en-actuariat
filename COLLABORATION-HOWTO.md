@@ -1,10 +1,10 @@
 <!-- Emacs: -*- coding: utf-8; eval: (auto-fill-mode -1); eval: (visual-line-mode t) -*- -->
 
-# Collaborer au projet *Méthodes numériques en actuariat*
+# Collaborer au projet *Méthodes numériques en actuariat avec R*
 
 > Seuls les étudiants de l'Université Laval inscrits au cours ACT-2002 disposent des droits en écriture requis pour effectuer la procédure décrite ci-dessous.
 
-La version de développement du projet [Méthodes numériques en actuariat](https://vigou3.github.io/methodes-numeriques-en-actuariat) est hébergée dans un [dépôt Git public](https://projets.fsg.ulaval.ca/git/scm/vg/methodes-numeriques-en-actuariat-develop) de la Faculté des sciences et de génie de l'Université Laval.
+La version de développement du projet [Méthodes numériques en actuariat avec R](https://vigou3.github.io/methodes-numeriques-en-actuariat) est hébergée dans un [dépôt Git public](https://projets.fsg.ulaval.ca/git/scm/vg/methodes-numeriques-en-actuariat-develop) de la Faculté des sciences et de génie de l'Université Laval.
 
 Le dépôt utilise l'interface [Atlassian BitBucket Server](https://www.atlassian.com/software/bitbucket/server).
 

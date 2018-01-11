@@ -2,8 +2,9 @@
 ##
 ## Copyright (C) 2018 Vincent Goulet
 ##
-## Ce fichier fait partie du projet «Méthodes numériques en actuariat»
-## http://github.com/vigou3/methodes-numeriques-en-actuariat
+## Ce fichier fait partie du projet
+## "Méthodes numériques en actuariat avec R"
+## https://github.com/vigou3/methodes-numeriques-en-actuariat
 ##
 ## Cette création est mise à disposition selon le contrat
 ## Attribution-Partage dans les mêmes conditions 4.0
