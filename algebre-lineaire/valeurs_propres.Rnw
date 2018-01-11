@@ -263,7 +263,7 @@ pour $\mat{x} \neq \mat{0}$. Par conséquent, $\lambda$ est une valeur
 propre de $\mat{A}$ si, et seulement si, il existe une solution autre
 que la solution triviale à ce système d'équations homogène.
 
-Or, par le \autoref{thm:revision:unification}, il existe une
+Or, par le \autoref{thm:notions:unification}, il existe une
 solution de $(\lambda \mat{I} - \mat{A}) \mat{x} = \mat{0}$ autre que
 la solution triviale si, et seulement si, $\det(\lambda \mat{I} -
 \mat{A}) = 0$. Par conséquent:
@@ -420,7 +420,7 @@ matrice carrée.
 Du théorème précédent, il découle que si une valeur propre d'une
 matrice est nulle, alors son déterminant est nul et la matrice est
 singulière. Cette observation nous permet d'ajouter un énoncé au
-\autoref{thm:revision:unification}.
+\autoref{thm:notions:unification}.
 
 \begin{thm}
   \label{thm:valeurspropres:unification}

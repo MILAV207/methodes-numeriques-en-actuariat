@@ -9,7 +9,7 @@
 %%% http://creativecommons.org/licenses/by-sa/4.0/
 
 \chapter{Notions fondamentales d’algrèbre linéaire}
-\label{chap:revision}
+\label{chap:notions}
 
 \begin{objectifs}
 \item Utiliser les principaux opérateurs de l'arithmétique
@@ -32,7 +32,7 @@ linéaire normalement étudiés au collège: matrice, déterminant,
 inverse, vecteur, espace vectoriel et relations avec les systèmes
 d'équations linéaires. Nous tâchons d'insister sur l'établissement de
 liens entre les différentes notions passées en revue. À ce titre, le
-\autoref{thm:revision:unification} en fin de chapitre est
+\autoref{thm:notions:unification} en fin de chapitre est
 particulièrement important puisqu'il unifie un grand nombre de
 résultats.
 
@@ -46,11 +46,11 @@ toujours des références de choix.
 Le langage R contient à peu près tous les outils nécessaires pour la
 manipulation et le traitement des vecteurs et matrices; voir
 \citet[chapitre~7]{Goulet:programmer-avec-r:2017}. Nous offrons une
-révision dans le code informatique de la \autoref{sec:revision:code}.
+révision dans le code informatique de la \autoref{sec:notions:code}.
 
 
 \section{Matrices}
-\label{sec:revision:matrices}
+\label{sec:notions:matrices}
 
 Une matrice est un tableau rectangulaire de nombres. Les matrices
 seront généralement représentées par des lettres majuscules et leurs
@@ -186,7 +186,7 @@ et leurs éléments sont numérotés par un seul indice:
 
 
 \section{Arithmétique matricielle}
-\label{sec:revision:arithmetique}
+\label{sec:notions:arithmetique}
 
 Cette section récapitule l'essentiel des règles d'arithmétique
 matricielle. On gardera à l'esprit que ces règles sont parfois fort
@@ -277,7 +277,7 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
 \end{exemple}
 
 \begin{thm}[Propriétés de l'arithmétique matricielle]
-  \label{thm:revision:arithmetique}
+  \label{thm:notions:arithmetique}
   Soit $\mat{A}$, $\mat{B}$ et $\mat{C}$ des matrices de dimensions
   telles que les opérations ci-dessous sont définies, et soit $a$ et
   $b$, des constantes.
@@ -321,7 +321,7 @@ $\mat{B}_{p \times n}$ deux matrices. Alors le produit $\mat{A}
     \end{bmatrix}.
   \end{equation*}
   Il est laissé en exercice de vérifier les propriétés du
-  \autoref{thm:revision:arithmetique}. On remarquera que $\mat{AB}$
+  \autoref{thm:notions:arithmetique}. On remarquera que $\mat{AB}$
   est défini, mais pas $\mat{BA}$, ce qui vérifie la propriété 3, mais
   empêche de faire les opérations des propriétés 6 et 8. On remarquera
   de plus que $\mat{BC} \neq \mat{CB}$. \qed
@@ -339,7 +339,7 @@ nombre $1$ en arithmétique usuelle. Ainsi,
 De même, la matrice zéro joue un rôle similaire à celui du $0$ en
 arithmétique.
 \begin{thm}[Propriétés de la matrice zéro]
-  \label{thm:revision:zero}
+  \label{thm:notions:zero}
   En supposant que les matrices sont de dimensions appropriées pour
   que les opérations soient définies, les propriétés ci-dessous sont
   valides en arithmétique matricielle.
@@ -413,7 +413,7 @@ généralement notée $\mat{A}^T$ ou $\mat{A}^\prime$:
 \end{equation*}
 
 \begin{thm}[Propriétés de la transposée]
-  \label{thm:revision:transposee}
+  \label{thm:notions:transposee}
   Soit $\mat{A}$, $\mat{B}$ et $\mat{C}$ des matrices de dimensions
   telles que les opérations ci-dessous sont définies, et soit $k$ une
   constante.
@@ -454,7 +454,7 @@ généralement notée $\mat{A}^T$ ou $\mat{A}^\prime$:
 
 
 \section{Lien avec les systèmes d'équations linéaires}
-\label{sec:revision:syseq}
+\label{sec:notions:syseq}
 
 L'application de loin la plus fréquente des matrices est la
 représentation et la résolution de systèmes d'équations linéaires.
@@ -485,7 +485,7 @@ avec les définitions évidentes pour $\mat{A}$, $\mat{x}$ et $\mat{b}$.
 
 Tout système d'équations linéaires comporte ou bien une seule
 solution, ou bien aucune solution, ou bien une infinité de solutions.
-La \autoref{fig:revision:solutions} illustre ces trois possibilités
+La \autoref{fig:notions:solutions} illustre ces trois possibilités
 pour un système à deux équations et deux inconnues, de même que pour
 un système à trois équations et trois inconnues.
 
@@ -548,7 +548,7 @@ curve(g, xlim = c(0, 5), add = TRUE, col = "red", lwd = 4)
     deux et trois variables: (a) une seule solution; (b) aucune
     solution; (c) infinité de solutions. La ou les solutions sont
     illustrées par un point ou une droite en noir, lorsque possible.}
-  \label{fig:revision:solutions}
+  \label{fig:notions:solutions}
 \end{figure}
 
 
@@ -586,7 +586,7 @@ naturellement en opérations sur les lignes de la matrice augmentée:
 Ces opérations sont appelées \emph{opérations élémentaires sur les lignes}.
 
 \begin{exemple}
-  \label{ex:revision:gaussienne}
+  \label{ex:notions:gaussienne}
   Soit le système d'équations
   \begin{align*}
      x +  y + 2z &= 9 \\
@@ -718,7 +718,7 @@ Ces opérations sont appelées \emph{opérations élémentaires sur les lignes}.
 \subsection{Élimination gaussienne}
 
 La procédure de la matrice augmentée utilisée pour résoudre le système
-d'équations de l'\autoref{ex:revision:gaussienne} s'apparente à
+d'équations de l'\autoref{ex:notions:gaussienne} s'apparente à
 l'\emph{élimination gaussienne}. Plus précisément, l'élimination
 gaussienne consiste à appliquer des opérations élémentaires à la
 matrice augmentée correspondant à un système d'équations linéaires
@@ -911,7 +911,7 @@ principale propriété est formalisée dans le théorème suivant.
 \end{thm}
 
 \begin{exemple}
-  On exprime la solution de l'\autoref{ex:revision:gaussienne} à
+  On exprime la solution de l'\autoref{ex:notions:gaussienne} à
   l'aide de matrices élémentaires. À chaque opération sur les lignes
   de la matrice augmentée correspond une matrice élémentaire.
   \begin{enumerate}
@@ -988,7 +988,7 @@ infinité de solutions.
 
 
 \section{Lien avec les espaces vectoriels}
-\label{sec:revision:vecteurs}
+\label{sec:notions:vecteurs}
 
 L'algèbre vectorielle sera peu étudiée dans ce cours, mais il est
 néanmoins utile de mentionner brièvement la relation entre les
@@ -1200,7 +1200,7 @@ la solution triviale.
 
 
 \section{Inverse d'une matrice}
-\label{sec:revision:inverse}
+\label{sec:notions:inverse}
 
 En arithmétique usuelle, l'inverse d'un nombre $x$ est le nombre $y$
 tel que $x y = 1$. Par habitude, nous écrivons simplement $y = 1/x$ ou
@@ -1249,7 +1249,7 @@ inverse de $\mat{B}$.
 \end{exemple}
 
 \begin{thm}
-  \label{thm:revision:inverse}
+  \label{thm:notions:inverse}
   Soit $\mat{A}$ et $\mat{B}$ des matrices inversibles de mêmes
   dimensions. Alors on a les résultats suivants.
   \begin{enumerate}
@@ -1270,8 +1270,8 @@ inverse de $\mat{B}$.
   \end{align*}
   Pour le second résultat, il faut démontrer que $(\mat{A}^{-1})^T
   \mat{A}^T = \mat{A}^T (\mat{A}^{-1})^T = \mat{I}$. Or, par le
-  résultat 4 du \autoref{thm:revision:transposee}
-  (\autopageref{thm:revision:transposee}),
+  résultat 4 du \autoref{thm:notions:transposee}
+  (\autopageref{thm:notions:transposee}),
   \begin{gather*}
     (\mat{A}^{-1})^T \mat{A}^T =
     (\mat{A} \mat{A}^{-1})^T =
@@ -1288,7 +1288,7 @@ On a également le résultat suivant, utile lorsque l'on travaille avec
 les matrices élémentaires.
 
 \begin{thm}
-  \label{thm:revision:matrices_elementaires}
+  \label{thm:notions:matrices_elementaires}
   Toute matrice élémentaire est inversible et son inverse est aussi
   une matrice élémentaire.
 \end{thm}
@@ -1298,7 +1298,7 @@ les matrices élémentaires.
 
 La manière la plus usuelle de calculer l'inverse d'une matrice repose
 sur l'utilisation du déterminant, qui sera présenté à la
-\autoref{sec:revision:determinant}. D'ici là, on peut également
+\autoref{sec:notions:determinant}. D'ici là, on peut également
 calculer l'inverse d'une matrice par une méthode similaire à
 l'élimination de Gauss--Jordan.
 
@@ -1308,7 +1308,7 @@ $\mat{E}_1, \dots, \mat{E}_k$ tel que
 \begin{equation*}
   \mat{E}_k \cdots \mat{E}_1 \mat{A} = \mat{I}.
 \end{equation*}
-(Ce fait sera confirmé dans le \autoref{thm:revision:unification}.)
+(Ce fait sera confirmé dans le \autoref{thm:notions:unification}.)
 Par conséquent,
 \begin{equation*}
   \mat{A}^{-1} = \mat{E}_k \cdots \mat{E}_1 \mat{I},
@@ -1440,7 +1440,7 @@ systèmes d'équations linéaires de la forme $\mat{Ax} = \mat{b}$
 peuvent être résolus avec l'inverse de $\mat{A}$, lorsqu'elle existe.
 
 \begin{thm}
-  \label{thm:revision:sol.inverse}
+  \label{thm:notions:sol.inverse}
   Si la matrice $\mat{A}$ est inversible, alors le système d'équations
   linéaires $\mat{Ax} = \mat{b}$ a une solution unique et celle-ci est
   donnée par
@@ -1458,7 +1458,7 @@ d'équations.
 
 
 \section{Déterminant}
-\label{sec:revision:determinant}
+\label{sec:notions:determinant}
 
 La fonction déterminant, notée $\det(\cdot)$, associe un nombre réel à
 une matrice carrée $\mat{A}$.
@@ -1470,7 +1470,7 @@ que son inverse. La justification de ce second résultat viendra plus
 loin.
 
 \begin{thm}
-  \label{thm:revision:det.2x2}
+  \label{thm:notions:det.2x2}
   Soit $\mat{A} = \bigl( \begin{smallmatrix} a&b \\ c&d
   \end{smallmatrix} \bigr)$. Alors
   \begin{align*}
@@ -1495,7 +1495,7 @@ colonne $j$ de la matrice $\mat{A}$. De plus, le \emph{cofacteur de
   l'élément $a_{ij}$} est $C_{ij} = (-1)^{i + j} M_{ij}$.
 
 \begin{exemple}
-  \label{ex:revision:cofacteur}
+  \label{ex:notions:cofacteur}
   Soit
   \begin{equation*}
     \mat{A} =
@@ -1530,7 +1530,7 @@ les éléments d'une ligne ou d'une colonne quelconque de la matrice et
 les cofacteurs de cette ligne ou colonne.
 
 \begin{thm}
-  \label{thm:revision:determinant}
+  \label{thm:notions:determinant}
   Soit $\mat{A}$ une matrice carrée $n \times n$. Alors, pour tout $1
   \leq i \leq n$ et $1 \leq j \leq n$,
   \begin{align*}
@@ -1545,7 +1545,7 @@ les cofacteurs de cette ligne ou colonne.
 \end{thm}
 
 \begin{exemple}
-  On calcule le déterminant de la matrice de l'\autoref{ex:revision:cofacteur}.  En faisant le calcul à partir de la
+  On calcule le déterminant de la matrice de l'\autoref{ex:notions:cofacteur}.  En faisant le calcul à partir de la
   première ligne, on a
   \begin{align*}
     \det(\mat{A})
@@ -1574,7 +1574,7 @@ les cofacteurs de cette ligne ou colonne.
 
 \subsection{Propriétés du déterminant}
 
-Du \autoref{thm:revision:determinant}, il est clair que si une
+Du \autoref{thm:notions:determinant}, il est clair que si une
 matrice contient une ligne ou une colonne complète de zéros, alors son
 déterminant est nul.
 
@@ -1589,7 +1589,7 @@ Le théorème suivant énonce quelques autres propriétés de la fonction
 déterminant.
 
 \begin{thm}
-  \label{thm:revision:prop.determinant}
+  \label{thm:notions:prop.determinant}
   Soit $\mat{A}$ une matrice $n \times n$ inversible.
   \begin{enumerate}
   \item $\det(\mat{A}^T) = \det(\mat{A})$
@@ -1615,7 +1615,7 @@ de $\mat{A}$ et est notée $\mathrm{adj}(\mat{A})$.
 
 \begin{exemple}
   Il est laissé en exercice de vérifier que la matrice adjointe de la
-  matrice de l'\autoref{ex:revision:cofacteur} est
+  matrice de l'\autoref{ex:notions:cofacteur} est
   \begin{equation*}
     \begin{bmatrix}
        16 & -24 &  26 \\
@@ -1627,7 +1627,7 @@ de $\mat{A}$ et est notée $\mathrm{adj}(\mat{A})$.
 \end{exemple}
 
 \begin{thm}
-  \label{thm:revision:inverse.adjointe}
+  \label{thm:notions:inverse.adjointe}
   Si $\mat{A}$ est une matrice inversible, alors
   \begin{equation*}
     \mat{A}^{-1} = \frac{1}{\det(\mat{A})}\, \mathrm{adj}(\mat{A}).
@@ -1637,7 +1637,7 @@ de $\mat{A}$ et est notée $\mathrm{adj}(\mat{A})$.
 
 
 \section{Rang}
-\label{sec:revision:rang}
+\label{sec:notions:rang}
 
 Le \emph{rang} d'une matrice $\mat{A}_{m \times n}$ correspond au
 nombre de lignes ou de colonnes linéairement indépendantes dans cette
@@ -1651,14 +1651,14 @@ complet.
 
 
 \section{Unification des résultats}
-\label{sec:revision:unification}
+\label{sec:notions:unification}
 
 Le théorème suivant unifie un grand nombre de résultats et de concepts
 présentés dans les sections précédentes. En ce sens, il fait le
 sommaire des plus importants résultats à connaître en algèbre linéaire.
 
 \begin{thm}
-  \label{thm:revision:unification}
+  \label{thm:notions:unification}
   Soit $\mat{A}$ une matrice $n \times n$. Les énoncés suivants
   sont équivalents.
   \begin{enumerate}[widest=10]
@@ -1680,12 +1680,12 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
   \end{enumerate}
 \end{thm}
 
-\gotorbox{Le code informatique de la \autoref{sec:revision:code} passe en
+\gotorbox{Le code informatique de la \autoref{sec:notions:code} passe en
   revue les fonctions d'algèbre linéaire offertes dans R.}%
 
 
 \section{Code informatique}
-\label{sec:revision:code}
+\label{sec:notions:code}
 
 \def\scriptfilename{notions\string_fondamentales.R}
 
@@ -1694,10 +1694,10 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 
 
 \section{Exercices}
-\label{chap:revision:exercices}
+\label{chap:notions:exercices}
 
-\Opensolutionfile{reponses}[reponses-revision_algebre_lineaire]
-\Opensolutionfile{solutions}[solutions-revision_algebre_lineaire]
+\Opensolutionfile{reponses}[reponses-notions_fondamentales]
+\Opensolutionfile{solutions}[solutions-notions_fondamentales]
 
 \begin{Filesave}{reponses}
 \bigskip
@@ -1706,8 +1706,8 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \end{Filesave}
 
 \begin{Filesave}{solutions}
-\section*{Chapitre \ref*{chap:revision}}
-\addcontentsline{toc}{section}{Chapitre \ref*{chap:revision}}
+\section*{Chapitre \ref*{chap:notions}}
+\addcontentsline{toc}{section}{Chapitre \ref*{chap:notions}}
 
 \end{Filesave}
 
@@ -1808,7 +1808,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:revision:reduction}
+  \label{ex:notions:reduction}
   Résoudre chacun des systèmes d'équations suivants par
   l'élimination gaussienne et l'élimination de Gauss--Jordan.
   \begin{enumerate}
@@ -2006,7 +2006,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
   \begin{sol}
     La procédure de réduction des matrices augmentées sous forme
     échelonnée est similaire à celle utilisée dans les solutions de
-    l'\autoref{ex:revision:reduction}. On ne donne, ici que les
+    l'\autoref{ex:notions:reduction}. On ne donne, ici que les
     résultats de cette procédure.
     \begin{enumerate}
     \item La matrice échelonnée est
@@ -2648,7 +2648,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:revision:inverse_diagonale}
+  \label{ex:notions:inverse_diagonale}
   Soit la matrice
   \begin{displaymath}
     \mat{A} =
@@ -2755,7 +2755,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \end{exercice}
 
 \begin{exercice}
-  \label{ex:revision:inverse_par_op_elementaires}
+  \label{ex:notions:inverse_par_op_elementaires}
   Utiliser la méthode des opérations élémentaires sur les lignes pour
   trouver l'inverse des matrices suivantes, si elle existe. Le cas
   échéant, vérifier votre réponse par multiplication de la matrice et
@@ -3151,7 +3151,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
   \end{multicols}
   \begin{sol}
     \begin{enumerate}
-    \item Tel que démontré à l'\autoref{ex:revision:inverse_diagonale},
+    \item Tel que démontré à l'\autoref{ex:notions:inverse_diagonale},
       l'inverse est
       \begin{displaymath}
         \begin{bmatrix}
@@ -3162,7 +3162,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
         \end{bmatrix}.
       \end{displaymath}
     \item Pour obtenir l'inverse de cette matrice par la méthode
-      utilisée à l'\autoref{ex:revision:inverse_par_op_elementaires},
+      utilisée à l'\autoref{ex:notions:inverse_par_op_elementaires},
       il suffit d'échanger les lignes de bas en haut, puis de diviser
       celles-ci par $k_4$, $k_3$, $k_2$ et $k_1$, respectivement. On
       trouve alors que l'inverse est
@@ -3175,7 +3175,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
         \end{bmatrix}.
       \end{displaymath}
       \pagebreak[3]
-    \item On utilise la méthode de l'\autoref{ex:revision:inverse_par_op_elementaires}.
+    \item On utilise la méthode de l'\autoref{ex:notions:inverse_par_op_elementaires}.
       \setlength{\ocolumnsep}{\columnsep}
       \setlength{\columnsep}{-120pt}
       \begin{multicols}{2}
@@ -3711,7 +3711,7 @@ sommaire des plus importants résultats à connaître en algèbre linéaire.
 \Closesolutionfile{reponses}
 \Closesolutionfile{solutions}
 
-\input{reponses-revision_algebre_lineaire}
+\input{reponses-notions_fondamentales}
 
 %%% Local Variables:
 %%% mode: latex
