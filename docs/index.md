@@ -1,12 +1,12 @@
 ---
-title: Méthodes numériques en actuariat
+title: Méthodes numériques en actuariat avec R
 tagline: "Trois sujets, un fil conducteur: le calcul numérique."
 description: "Notes, exemples et exercices de simulation stochastique, d'analyse numérique et d'algèbre linéaire"
 ---
 
 ## Présentation
 
-*Méthodes numériques en actuariat* regroupe les notes, le code
+*Méthodes numériques en actuariat avec R* regroupe les notes, le code
 informatique et les exercices utilisés dans [un
 cours](https://www.ulaval.ca/les-etudes/cours/repertoire/detailsCours/act-2002-methodes-numeriques-en-actuariat.html)
 à l'[École d'actuariat](https://www.act.ulaval.ca) de l'[Université
