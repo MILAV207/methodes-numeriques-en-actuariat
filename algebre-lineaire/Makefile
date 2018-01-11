@@ -38,7 +38,7 @@ TEXFILES = \
 	../share/colophon.tex \
 	../share/couverture-arriere.tex
 SCRIPTS = \
-	revision_algebre_lineaire.R \
+	notions_fondamentales.R \
 	valeurs_propres.R
 
 # Outils de travail
