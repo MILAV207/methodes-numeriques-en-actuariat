@@ -13,20 +13,18 @@ a {
   color: #007edf;
 }
 
-// .btn {
-//   color: rgba(0, 0, 0, 0.8);
-//   background-color: rgba(255, 255, 255, 0.6);
-//   border-color: rgba(0, 0, 0, 0.8);
-//   border-width: 2px;
-//   border-radius: 0rem;
+.btn {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(0, 0, 0, 0.8);
   
-//   &:hover {
-//     color: rgba(0, 0, 0, 0.9);
-//     text-decoration: none;
-//     background-color: rgba(255, 255, 255, 0.75);
-//     border-color: rgba(0, 0, 0, 0.9);
-//   }
-// }
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(0, 0, 0, 0.9);
+  }
+}
 
 .page-header {
   color: #fff;
@@ -38,10 +36,6 @@ a {
   -o-background-size: cover;
   background-size: cover;
   background-position: center;
-}
-
-.page-header h1 {
-  margin: 0 auto 2rem auto;
 }
 
 .main-content {
