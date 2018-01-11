@@ -1,7 +1,7 @@
 ---
 title: Méthodes numériques en actuariat
-tagline: Trois sujets, un fil conducteur: le calcul numérique.
-description: Notes, exemples et exercices de simulation stochastique, d'analyse numérique et d'algèbre linéaire
+tagline: "Trois sujets, un fil conducteur: le calcul numérique."
+description: "Notes, exemples et exercices de simulation stochastique, d'analyse numérique et d'algèbre linéaire"
 ---
 
 ## Présentation
