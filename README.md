@@ -2,7 +2,10 @@
 
 # Méthodes numériques en actuariat
 
-Ce dépôt contient le code source des documents de référence du cours ACT-2002 Méthodes numériques en actuariat dispensé par l'[https://www.act.ulaval.ca/](École d'actuariat) de l'[https://ulaval.ca/](Université Laval).
+Ce projet regroupe les notes, le code informatique et les exercices
+utilisés dans le cours [ACT-2002 Méthodes numériques en actuariat](https://www.ulaval.ca/les-etudes/cours/repertoire/detailsCours/act-2002-methodes-numeriques-en-actuariat.html)
+à l'[École d'actuariat](https://www.act.ulaval.ca) de l'[Université
+Laval](https://ulaval.ca).
 
 Le projet compte trois documents de référence:
 
