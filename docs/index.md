@@ -43,7 +43,7 @@ inférence statistique, en finance ou en théorie du risque.
 
 ## Auteur
 
-Vincent Goulet, professeur titulaire, [École d'actuariat](https://www.act.ulaval.ca), [Université Laval](https://ulaval.ca)
+Vincent Goulet, professeur titulaire, [École d'actuariat](https://www.act.ulaval.ca), [Université Laval](https://ulaval.ca) avec la collaboration de Laurent Caron.
 
 ## Édition
 
